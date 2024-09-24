@@ -1,5 +1,6 @@
 package commands;
 
+import author.AuthorList;
 import ui.Ui;
 
 import static constants.Command.BYE_COMMAND;
@@ -10,7 +11,7 @@ public class ByeCommand extends Command {
     }
 
     @Override
-    public void execute(Ui ui) {
+    public void execute(Ui ui, AuthorList authorList) {
         ui.sayGoodbye();
         setExit(true);
     }

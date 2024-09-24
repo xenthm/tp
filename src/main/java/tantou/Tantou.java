@@ -1,33 +1,36 @@
 package tantou;
 
-import author.Author;
+import author.AuthorList;
 import commands.Command;
+import exceptions.TantouException;
 import parser.Parser;
 import ui.Ui;
-
-import java.util.ArrayList;
 
 public class Tantou {
     private Ui ui;
     private Parser parser;
     private boolean isExit;
-    private ArrayList<Author> authors;
+    private AuthorList authorList;
 
     public Tantou() {
         this.ui = new Ui();
         this.parser = new Parser();
         this.isExit = false;
-        authors = new ArrayList<>();
+        this.authorList = new AuthorList();
     }
 
     public void run() {
         ui.greetUser();
 
         while (!isExit) {
-            String userInput = ui.getUserInput();
-            Command userCommand = parser.getUserCommand(userInput);
-            userCommand.execute(ui);
-            isExit = userCommand.isExit();
+            try {
+                String userInput = ui.getUserInput();
+                Command userCommand = parser.getUserCommand(userInput);
+                userCommand.execute(ui, authorList);
+                isExit = userCommand.isExit();
+            } catch (TantouException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 }

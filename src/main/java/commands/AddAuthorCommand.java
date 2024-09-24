@@ -1,22 +1,36 @@
 package commands;
 
-import org.apache.commons.cli.ParseException;
+import author.Author;
+import author.AuthorList;
+import exceptions.TantouException;
 import ui.Ui;
 
-import static constants.Regex.SPACE_REGEX;
+import static constants.Command.ADD_COMMAND;
 
-public class AddAuthorCommand extends AddCommand {
+public class AddAuthorCommand extends Command {
+    private String userInput;
+
     public AddAuthorCommand(String userInput) {
-        super(userInput);
+        super(ADD_COMMAND);
+        this.userInput = userInput;
     }
 
     @Override
-    public void execute(Ui ui) {
-        try {
-            String authorName = parser.getAuthorName(userInput.split(SPACE_REGEX));
-            System.out.println(authorName);
-        } catch (ParseException e) {
-            System.out.println("no author provided!");
+    public void execute(Ui ui, AuthorList authorList) throws TantouException {
+        String authorName = parser.getAuthorName(userInput);
+
+        if (authorName.isEmpty()) {
+            throw new TantouException("No author provided!");
         }
+
+        Author incomingAuthor = new Author(authorName);
+
+        if (!authorList.hasAuthor(incomingAuthor)) {
+            authorList.addAuthor(incomingAuthor);
+            System.out.printf("Successfully added author: %s\n", incomingAuthor.getAuthorName());
+            return;
+        }
+
+        throw new TantouException("Author exists!");
     }
 }

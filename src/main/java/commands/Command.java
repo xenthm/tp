@@ -1,12 +1,20 @@
 package commands;
 
+import author.AuthorList;
+import exceptions.TantouException;
 import parser.Parser;
 import ui.Ui;
 
 public abstract class Command {
-    private String command;
     protected Parser parser;
+    private String command;
     private boolean isExit;
+
+    public Command(String command) {
+        this.command = command;
+        this.parser = new Parser();
+        this.isExit = false;
+    }
 
     public String getCommand() {
         return command;
@@ -32,11 +40,5 @@ public abstract class Command {
         isExit = exit;
     }
 
-    public Command(String command) {
-        this.command = command;
-        this.parser = new Parser();
-        this.isExit = false;
-    }
-
-    public abstract void execute(Ui ui);
+    public abstract void execute(Ui ui, AuthorList authorList) throws TantouException;
 }

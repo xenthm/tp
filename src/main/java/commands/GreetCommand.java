@@ -1,5 +1,6 @@
 package commands;
 
+import author.AuthorList;
 import ui.Ui;
 
 public class GreetCommand extends Command {
@@ -8,7 +9,7 @@ public class GreetCommand extends Command {
     }
 
     @Override
-    public void execute(Ui ui) {
+    public void execute(Ui ui, AuthorList authorList) {
         ui.greetUser();
     }
 }
