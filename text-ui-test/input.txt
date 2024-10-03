@@ -1,2 +1,3 @@
 add -a "Kubo Tite" -m "Bleach"
+add -a "Oda Eiichiro"
 bye
