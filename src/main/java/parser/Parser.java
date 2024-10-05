@@ -4,6 +4,8 @@ import commands.AddAuthorCommand;
 import commands.AddMangaCommand;
 import commands.ByeCommand;
 import commands.Command;
+import commands.DeleteAuthorCommand;
+import commands.DeleteMangaCommand;
 import exceptions.TantouException;
 
 import org.apache.commons.cli.CommandLine;
@@ -15,6 +17,7 @@ import org.apache.commons.cli.ParseException;
 import static constants.Command.ADD_COMMAND;
 import static constants.Command.BYE_COMMAND;
 import static constants.Command.COMMAND_INDEX;
+import static constants.Command.DELETE_COMMAND;
 import static constants.Regex.SPACE_REGEX;
 
 public class Parser {
@@ -36,13 +39,19 @@ public class Parser {
         case BYE_COMMAND:
             return new ByeCommand();
         case ADD_COMMAND:
-            if (isValidAddMangaCommand(userInput)) {
+            if (isValidMangaCommand(userInput)) {
                 return new AddMangaCommand(userInput);
-            } else if (isValidAddAuthorCommand(userInput)) {
+            } else if (isValidAuthorCommand(userInput)) {
                 return new AddAuthorCommand(userInput);
             }
-
             throw new TantouException("Invalid add command provided!");
+        case DELETE_COMMAND:
+            if (isValidMangaCommand(userInput)) {
+                return new DeleteMangaCommand(userInput);
+            } else if (isValidAuthorCommand(userInput)) {
+                return new DeleteAuthorCommand(userInput);
+            }
+            throw new TantouException("Invalid delete command provided!");
         default:
             throw new TantouException("Invalid command provided!");
         }
@@ -71,7 +80,7 @@ public class Parser {
         }
     }
 
-    public boolean isValidAddAuthorCommand(String userInput) throws TantouException {
+    public boolean isValidAuthorCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, userInput.split(SPACE_REGEX));
             return command.hasOption("a") && !command.getOptionValue("a").isEmpty();
@@ -80,7 +89,7 @@ public class Parser {
         }
     }
 
-    public boolean isValidAddMangaCommand(String userInput) throws TantouException {
+    public boolean isValidMangaCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
             return command.hasOption("a") && command.hasOption("m");
@@ -88,4 +97,5 @@ public class Parser {
             throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
         }
     }
+
 }

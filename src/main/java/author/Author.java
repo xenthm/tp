@@ -34,6 +34,10 @@ public class Author {
         mangaList.add(manga);
     }
 
+    public void deleteManga(Manga manga) {
+        mangaList.remove(manga);
+    }
+
     @Override
     public boolean equals(Object o) {
         // Check if they are the same object in memory
