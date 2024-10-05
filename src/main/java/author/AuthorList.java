@@ -36,4 +36,10 @@ public class AuthorList {
     public void addAuthor(Author author) {
         authorList.add(author);
     }
+    public void deleteAuthor(Author author) {
+        authorList.remove(author);
+    }
+    public ArrayList<Author> getAuthorList() {
+        return authorList;
+    }
 }

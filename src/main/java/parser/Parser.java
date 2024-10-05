@@ -4,6 +4,7 @@ import commands.AddAuthorCommand;
 import commands.AddMangaCommand;
 import commands.ByeCommand;
 import commands.Command;
+import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
 import exceptions.TantouException;
 
@@ -48,6 +49,9 @@ public class Parser {
             if (isValidMangaCommand(userInput)) {
                 return new DeleteMangaCommand(userInput);
             } else if (isValidAuthorCommand(userInput)) {
+                return new DeleteAuthorCommand(userInput);
+            }
+            throw new TantouException("Invalid delete command provided!");
         default:
             throw new TantouException("Invalid command provided!");
         }
@@ -76,7 +80,6 @@ public class Parser {
         }
     }
 
-    public boolean isValidAddAuthorCommand(String userInput) throws TantouException {
     public boolean isValidAuthorCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, userInput.split(SPACE_REGEX));
@@ -94,4 +97,5 @@ public class Parser {
             throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
         }
     }
+
 }
