@@ -1,6 +1,10 @@
 package parser;
 
-import commands.*;
+import commands.Command;
+import commands.AddAuthorCommand;
+import commands.AddMangaCommand;
+import commands.ByeCommand;
+import commands.ViewAuthorsCommand;
 import exceptions.TantouException;
 
 import org.apache.commons.cli.CommandLine;
