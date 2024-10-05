@@ -36,4 +36,15 @@ public class AuthorList {
     public void addAuthor(Author author) {
         authorList.add(author);
     }
+
+    public int size() {
+        return authorList.size();
+    }
+
+    public void print() {
+        System.out.println("Here are the sla-I mean authors under you! Total: " + authorList.size());
+        for (int i = 0; i < authorList.size(); i++) {
+            System.out.println((i + 1) + ". " + authorList.get(i).getAuthorName());
+        }
+    }
 }

@@ -1,9 +1,6 @@
 package parser;
 
-import commands.AddAuthorCommand;
-import commands.AddMangaCommand;
-import commands.ByeCommand;
-import commands.Command;
+import commands.*;
 import exceptions.TantouException;
 
 import org.apache.commons.cli.CommandLine;
@@ -14,6 +11,7 @@ import org.apache.commons.cli.ParseException;
 
 import static constants.Command.ADD_COMMAND;
 import static constants.Command.BYE_COMMAND;
+import static constants.Command.VIEW_COMMAND;
 import static constants.Command.COMMAND_INDEX;
 import static constants.Regex.SPACE_REGEX;
 
@@ -43,6 +41,8 @@ public class Parser {
             }
 
             throw new TantouException("Invalid add command provided!");
+        case VIEW_COMMAND:
+            return new ViewAuthorsCommand();
         default:
             throw new TantouException("Invalid command provided!");
         }
