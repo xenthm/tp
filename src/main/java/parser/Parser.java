@@ -4,6 +4,7 @@ import commands.AddAuthorCommand;
 import commands.AddMangaCommand;
 import commands.ByeCommand;
 import commands.Command;
+import commands.DeleteMangaCommand;
 import exceptions.TantouException;
 
 import org.apache.commons.cli.CommandLine;
@@ -15,6 +16,7 @@ import org.apache.commons.cli.ParseException;
 import static constants.Command.ADD_COMMAND;
 import static constants.Command.BYE_COMMAND;
 import static constants.Command.COMMAND_INDEX;
+import static constants.Command.DELETE_COMMAND;
 import static constants.Regex.SPACE_REGEX;
 
 public class Parser {
@@ -38,14 +40,14 @@ public class Parser {
         case ADD_COMMAND:
             if (isValidMangaCommand(userInput)) {
                 return new AddMangaCommand(userInput);
-            } else if (isValidAddAuthorCommand(userInput)) {
             } else if (isValidAuthorCommand(userInput)) {
                 return new AddAuthorCommand(userInput);
             }
-
-            if (isValidMangaCommand(userInput)) {
-            } else if (isValidAuthorCommand(userInput)) {
             throw new TantouException("Invalid add command provided!");
+        case DELETE_COMMAND:
+            if (isValidMangaCommand(userInput)) {
+                return new DeleteMangaCommand(userInput);
+            } else if (isValidAuthorCommand(userInput)) {
         default:
             throw new TantouException("Invalid command provided!");
         }
