@@ -36,12 +36,13 @@ public class Parser {
         case BYE_COMMAND:
             return new ByeCommand();
         case ADD_COMMAND:
-            if (isValidAddMangaCommand(userInput)) {
+            if (isValidMangaCommand(userInput)) {
                 return new AddMangaCommand(userInput);
             } else if (isValidAddAuthorCommand(userInput)) {
                 return new AddAuthorCommand(userInput);
             }
 
+            if (isValidMangaCommand(userInput)) {
             throw new TantouException("Invalid add command provided!");
         default:
             throw new TantouException("Invalid command provided!");
@@ -80,7 +81,7 @@ public class Parser {
         }
     }
 
-    public boolean isValidAddMangaCommand(String userInput) throws TantouException {
+    public boolean isValidMangaCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
             return command.hasOption("a") && command.hasOption("m");
