@@ -53,7 +53,7 @@ public class Parser {
         return userInput.split(" (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
     }
 
-    public String getAuthorName(String userInput) throws TantouException {
+    public String getAuthorNameFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
             return command.getOptionValue("a");
@@ -62,7 +62,7 @@ public class Parser {
         }
     }
 
-    public String getMangaName(String userInput) throws TantouException {
+    public String getMangaNameFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
             return command.getOptionValue("m");
