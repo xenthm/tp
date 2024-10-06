@@ -140,15 +140,39 @@ public class Parser {
         for (int i = 0; i < list.size(); i++) {
             for (String [] option : OPTIONS_ARRAY) {
                 String optionWithDash = "-" + option[SHORT_OPTION_INDEX];
-                if (optionWithDash.equals(list.get(i))) {
-                    // Check if the next element is a quoted string
-                    if (i + 1 >= list.size() || !list.get(i + 1).startsWith("\"") || !list.get(i + 1).endsWith("\"")) {
-                        throw new TantouException("Arguments must be in quotes, e.g., -a \"Kubo Tite\"");
-                    }
-                }
+                validateArgument(list, optionWithDash, i);
             }
         }
     }
+
+    /**
+     * Validates that the argument following an option is a quoted string.
+     *
+     * @param list the command-line arguments
+     * @param optionIndex the index of the option being validated
+     * @throws TantouException if the argument is not enclosed in quotes
+     */
+    public void validateArgument(ArrayList<String> list, String optionWithDash, int optionIndex)
+            throws TantouException {
+        if (optionWithDash.equals(list.get(optionIndex))) {
+            // Check if the next element is a quoted string
+            if (optionIndex + 1 >= list.size() || !isQuotedString(list.get(optionIndex + 1))) {
+                throw new TantouException("Arguments must be in quotes, e.g., -a \"Kubo Tite\"");
+            }
+        }
+    }
+
+    /**
+     * Checks if a given string is enclosed in quotes.
+     *
+     * @param argument the string to check
+     * @return true if the string starts and ends with a quote, false otherwise
+     */
+    public boolean isQuotedString(String argument) {
+        return argument.startsWith("\"") && argument.endsWith("\"");
+    }
+
+
 
     public String getAuthorName(String userInput) throws TantouException {
         try {
