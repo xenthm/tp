@@ -16,7 +16,6 @@ import org.apache.commons.cli.ParseException;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static constants.Command.ADD_COMMAND;
 import static constants.Command.BYE_COMMAND;
