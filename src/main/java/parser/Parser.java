@@ -7,6 +7,7 @@ import commands.ByeCommand;
 import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
+import commands.ViewMangasCommand;
 import exceptions.TantouException;
 
 import org.apache.commons.cli.CommandLine;
@@ -77,7 +78,13 @@ public class Parser {
             }
             throw new TantouException("Invalid add command provided!");
         case VIEW_COMMAND:
-            return new ViewAuthorsCommand();
+            if (isValidViewAuthorsCommand(userInput)) {
+                return new ViewAuthorsCommand();
+            }
+            if (isValidViewMangaCommand(userInput)) {
+                return new ViewMangasCommand(userInput);
+            }
+            throw new TantouException("Invalid view command provided!");
         case DELETE_COMMAND:
             if (isValidMangaCommand(userInput)) {
                 return new DeleteMangaCommand(userInput);
@@ -101,8 +108,7 @@ public class Parser {
      *
      * @param userInput a String representing the user input containing command-line arguments. It may include options
      *                  and arguments in quoted format.
-     * @return an array of strings representing the parsed user input, with each option and argument as separate
-     * entries.
+     * @return array of strings representing the parsed user input, with each option and argument as separate entries.
      * @throws TantouException if any option's argument is not enclosed in quotes or if the input format is invalid.
      */
     public String[] getUserInputAsList(String userInput) throws TantouException {
@@ -206,4 +212,17 @@ public class Parser {
         }
     }
 
+    private boolean isValidViewMangaCommand(String userInput) throws TantouException {
+        try {
+            command = ownParser.parse(options, getUserInputAsList(userInput));
+            return command.hasOption(constants.Options.AUTHOR_OPTION);
+        } catch (ParseException e) {
+            throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
+        }
+    }
+
+    private boolean isValidViewAuthorsCommand(String userInput) throws TantouException {
+        // A valid view authors command should NOT have constants.Options.AUTHOR_OPTION in it
+        return !isValidViewMangaCommand(userInput);
+    }
 }
