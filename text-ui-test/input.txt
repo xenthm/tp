@@ -1,3 +1,18 @@
 add -a "Kubo Tite" -m "Bleach"
 add -a "Oda Eiichiro"
+add -a Gege Akutami
+add -a "Gege Akutami" -m Jujutsu Kaisen
+add -a "Gege Akutami" -m "Jujutsu Kaisen"
+add -a
+add -a ""
+add -a -m
+add -a "" -m
+add -a "" -m ""
+add -a "Coolio" -m "Gangsta's Paradise"
+delete -a Coolio -m "Gangsta's Paradise"
+delete -a "Coolio" -m "Gangsta's Paradise"
+delete -a "Coolio" -m "Gangsta's Paradise"
+delete -a "Coolio"
+delete -a "Coolio"
+delete "Coolio"
 bye
