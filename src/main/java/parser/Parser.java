@@ -1,11 +1,12 @@
 package parser;
 
+import commands.Command;
 import commands.AddAuthorCommand;
 import commands.AddMangaCommand;
 import commands.ByeCommand;
-import commands.Command;
 import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
+import commands.ViewAuthorsCommand;
 import exceptions.TantouException;
 
 import org.apache.commons.cli.CommandLine;
@@ -19,6 +20,7 @@ import java.util.regex.Matcher;
 
 import static constants.Command.ADD_COMMAND;
 import static constants.Command.BYE_COMMAND;
+import static constants.Command.VIEW_COMMAND;
 import static constants.Command.COMMAND_INDEX;
 import static constants.Command.DELETE_COMMAND;
 import static constants.Options.LONG_OPTION_INDEX;
@@ -76,6 +78,8 @@ public class Parser {
                 return new AddAuthorCommand(userInput);
             }
             throw new TantouException("Invalid add command provided!");
+        case VIEW_COMMAND:
+            return new ViewAuthorsCommand();
         case DELETE_COMMAND:
             if (isValidMangaCommand(userInput)) {
                 return new DeleteMangaCommand(userInput);
@@ -174,7 +178,7 @@ public class Parser {
 
 
 
-    public String getAuthorName(String userInput) throws TantouException {
+    public String getAuthorNameFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
             return command.getOptionValue("a");
@@ -183,7 +187,7 @@ public class Parser {
         }
     }
 
-    public String getMangaName(String userInput) throws TantouException {
+    public String getMangaNameFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
             return command.getOptionValue("m");
