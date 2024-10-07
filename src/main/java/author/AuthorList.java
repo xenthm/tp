@@ -13,11 +13,15 @@ public class AuthorList {
         return authorList.contains(author);
     }
 
+    public boolean hasAuthor(String authorName) {
+        return hasAuthor(new Author(authorName));
+    }
+
     /**
      * Searches for existing author in {@code authorList} based on incoming author's
      * name
      * and returns {@code Author} instance in {@code authorList}
-     * 
+     *
      * @param author The incoming author to search for based on name
      * @return {@code Author} instance in {@code authorList}, {@code null} if no
      *         such author
@@ -30,6 +34,15 @@ public class AuthorList {
             }
         }
 
+        return null;
+    }
+
+    public Author getAuthor(String authorName) {
+        for (Author value : authorList) {
+            if (value.getAuthorName().equals(authorName)) {
+                return value;
+            }
+        }
         return null;
     }
 
