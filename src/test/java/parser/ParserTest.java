@@ -2,6 +2,7 @@ package parser;
 
 import commands.Command;
 import commands.ViewAuthorsCommand;
+import commands.ViewMangasCommand;
 import exceptions.TantouException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,8 +19,13 @@ public class ParserTest {
     }
 
     @Test
-    public void getUserCommand_view_parsedCorrectly() {
+    public void getUserCommand_viewAuthors_parsedCorrectly() {
         parseInputAssertCommandType("view", ViewAuthorsCommand.class);
+    }
+
+    @Test
+    public void getUserCommand_viewMangas_parsedCorrectly() {
+        parseInputAssertCommandType("view -a \"test\"", ViewMangasCommand.class);
     }
 
     private void parseInputAssertCommandType(String input, Class<? extends Command> expectedClass) {

@@ -12,7 +12,7 @@ public class AuthorListTest {
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 
     @Test
-    public void print_twoAuthors() {
+    public void printAuthorList_twoAuthors() {
         System.setOut(new PrintStream(outputStreamCaptor));
         try {
             AuthorList authorList = new AuthorList();
