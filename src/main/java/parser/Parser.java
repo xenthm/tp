@@ -41,14 +41,12 @@ public class Parser {
     }
 
     /**
-     * Initializes command-line options by adding each option defined in
-     * the {@link constants.Options#OPTIONS_ARRAY} to the options list.
+     * Initializes command-line options by adding each option defined in the {@link constants.Options#OPTIONS_ARRAY} to
+     * the options list.
      *
      * <p>This method iterates over the options defined in the
-     * {@link constants.Options#OPTIONS_ARRAY} and adds each option to the
-     * internal options collection. Each option is configured with
-     * its short name, long name, and description, and is marked as
-     * requiring an argument.</p>
+     * {@link constants.Options#OPTIONS_ARRAY} and adds each option to the internal options collection. Each option is
+     * configured with its short name, long name, and description, and is marked as requiring an argument.</p>
      *
      * @see constants.Options#OPTIONS_ARRAY
      * @see #options
@@ -93,23 +91,19 @@ public class Parser {
     }
 
     /**
-     * Parses the user input string into an array of strings, capturing
-     * quoted strings and individual words, while validating the argument
-     * format.
+     * Parses the user input string into an array of strings, capturing quoted strings and individual words, while
+     * validating the argument format.
      *
      * <p>This method uses a regular expression to extract quoted strings
-     * (including the quotes) and unquoted words from the provided user input.
-     * It then calls {@link #validateArguments(ArrayList)} to ensure that
-     * all options have their corresponding arguments in quotes. If any
-     * argument is incorrectly formatted, a {@link TantouException} is thrown.</p>
+     * (including the quotes) and unquoted words from the provided user input. It then calls
+     * {@link #validateArguments(ArrayList)} to ensure that all options have their corresponding arguments in quotes. If
+     * any argument is incorrectly formatted, a {@link TantouException} is thrown.</p>
      *
-     * @param userInput a String representing the user input containing
-     *                  command-line arguments. It may include options
+     * @param userInput a String representing the user input containing command-line arguments. It may include options
      *                  and arguments in quoted format.
-     * @return an array of strings representing the parsed user input,
-     *         with each option and argument as separate entries.
-     * @throws TantouException if any option's argument is not enclosed in quotes
-     *                         or if the input format is invalid.
+     * @return an array of strings representing the parsed user input, with each option and argument as separate
+     * entries.
+     * @throws TantouException if any option's argument is not enclosed in quotes or if the input format is invalid.
      */
     public String[] getUserInputAsList(String userInput) throws TantouException {
         Matcher matcher = USER_COMMAND_REGEX.matcher(userInput);
@@ -126,23 +120,21 @@ public class Parser {
     }
 
     /**
-     * Validates the arguments provided in the list to ensure that
-     * all options have their corresponding arguments enclosed in quotes.
+     * Validates the arguments provided in the list to ensure that all options have their corresponding arguments
+     * enclosed in quotes.
      *
      * <p>This method iterates through the list of arguments and checks each
-     * option against the predefined options in the {@link constants.Options#OPTIONS_ARRAY}.
-     * If an option is found, it verifies that the next element in the list is a
-     * quoted string. If the argument is not quoted, a {@link TantouException}
-     * is thrown with a descriptive message.</p>
+     * option against the predefined options in the {@link constants.Options#OPTIONS_ARRAY}. If an option is found, it
+     * verifies that the next element in the list is a quoted string. If the argument is not quoted, a
+     * {@link TantouException} is thrown with a descriptive message.</p>
      *
-     * @param list an ArrayList of Strings representing the command-line arguments
-     *             provided by the user. Each option must have its argument in
-     *             quotes (e.g., "-a \"Kubo Tite\"").
+     * @param list an ArrayList of Strings representing the command-line arguments provided by the user. Each option
+     *             must have its argument in quotes (e.g., "-a \"Kubo Tite\"").
      * @throws TantouException if any option's argument is not enclosed in quotes.
      */
     public void validateArguments(ArrayList<String> list) throws TantouException {
         for (int i = 0; i < list.size(); i++) {
-            for (String [] option : OPTIONS_ARRAY) {
+            for (String[] option : OPTIONS_ARRAY) {
                 String optionWithDash = "-" + option[SHORT_OPTION_INDEX];
                 validateArgument(list, optionWithDash, i);
             }
@@ -152,7 +144,7 @@ public class Parser {
     /**
      * Validates that the argument following an option is a quoted string.
      *
-     * @param list the command-line arguments
+     * @param list        the command-line arguments
      * @param optionIndex the index of the option being validated
      * @throws TantouException if the argument is not enclosed in quotes
      */
@@ -177,11 +169,10 @@ public class Parser {
     }
 
 
-
     public String getAuthorNameFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
-            return command.getOptionValue("a");
+            return command.getOptionValue(constants.Options.AUTHOR_OPTION);
         } catch (ParseException e) {
             throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
         }
@@ -190,7 +181,7 @@ public class Parser {
     public String getMangaNameFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
-            return command.getOptionValue("m");
+            return command.getOptionValue(constants.Options.MANGA_OPTION);
         } catch (ParseException e) {
             throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
         }
@@ -199,7 +190,7 @@ public class Parser {
     public boolean isValidAuthorCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
-            return command.hasOption("a");
+            return command.hasOption(constants.Options.AUTHOR_OPTION);
         } catch (ParseException e) {
             throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
         }
@@ -208,7 +199,8 @@ public class Parser {
     public boolean isValidMangaCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
-            return command.hasOption("a") && command.hasOption("m");
+            return command.hasOption(constants.Options.AUTHOR_OPTION)
+                    && command.hasOption(constants.Options.MANGA_OPTION);
         } catch (ParseException e) {
             throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
         }
