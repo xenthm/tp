@@ -18,8 +18,8 @@ public class AddMangaCommand extends Command {
 
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
-        String authorName = parser.getAuthorName(userInput);
-        String mangaName = parser.getMangaName(userInput);
+        String authorName = parser.getAuthorNameFromInput(userInput);
+        String mangaName = parser.getMangaNameFromInput(userInput);
 
         if (authorName.isEmpty() || mangaName.isEmpty()) {
             throw new TantouException("No author or manga provided!");

@@ -1,17 +1,17 @@
 package author;
 
 import manga.Manga;
+import manga.MangaList;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Author {
     private String authorName;
-    private ArrayList<Manga> mangaList;
+    private MangaList mangaList;
 
     public Author(String authorName) {
         this.authorName = authorName;
-        this.mangaList = new ArrayList<>();
+        this.mangaList = new MangaList();
     }
 
     public String getAuthorName() {
@@ -22,7 +22,7 @@ public class Author {
         this.authorName = authorName;
     }
 
-    public ArrayList<Manga> getMangaList() {
+    public MangaList getMangaList() {
         return mangaList;
     }
 
@@ -32,6 +32,10 @@ public class Author {
 
     public void addManga(Manga manga) {
         mangaList.add(manga);
+    }
+
+    public void deleteManga(Manga manga) {
+        mangaList.remove(manga);
     }
 
     @Override
@@ -57,5 +61,9 @@ public class Author {
     @Override
     public int hashCode() {
         return Objects.hash(authorName);
+    }
+
+    public void printMangaList() {
+        mangaList.print();
     }
 }

@@ -17,7 +17,7 @@ public class AddAuthorCommand extends Command {
 
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
-        String authorName = parser.getAuthorName(userInput);
+        String authorName = parser.getAuthorNameFromInput(userInput);
 
         if (authorName.isEmpty()) {
             throw new TantouException("No author provided!");
