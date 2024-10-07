@@ -1,6 +1,7 @@
 package parser;
 
 import commands.Command;
+import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
 import exceptions.TantouException;
@@ -26,6 +27,11 @@ public class ParserTest {
     @Test
     public void getUserCommand_viewMangas_parsedCorrectly() {
         parseInputAssertCommandType("view -a \"test\"", ViewMangasCommand.class);
+    }
+
+    @Test
+    public void getUserCommand_deleteManga_parsedCorrectly() {
+        parseInputAssertCommandType("delete -a \"test\" -m \"test\"", DeleteMangaCommand.class);
     }
 
     private void parseInputAssertCommandType(String input, Class<? extends Command> expectedClass) {
