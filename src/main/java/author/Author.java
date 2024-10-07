@@ -62,4 +62,8 @@ public class Author {
     public int hashCode() {
         return Objects.hash(authorName);
     }
+
+    public void printMangaList() {
+        mangaList.print();
+    }
 }
