@@ -1,5 +1,6 @@
 package parser;
 
+import commands.AddAuthorCommand;
 import commands.Command;
 import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
@@ -38,6 +39,11 @@ public class ParserTest {
     @Test
     public void getUserCommand_deleteManga_parsedCorrectly() {
         parseInputAssertCommandType("delete -a \"test\" -m \"test\"", DeleteMangaCommand.class);
+    }
+
+    @Test
+    public void getUserCommand_addAuthor_parsedCorrectly() {
+        parseInputAssertCommandType("add -a \"Kubo Tite\"", AddAuthorCommand.class);
     }
 
     private void parseInputAssertCommandType(String input, Class<? extends Command> expectedClass) {
