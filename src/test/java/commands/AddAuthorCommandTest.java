@@ -2,7 +2,6 @@ package commands;
 
 import java.io.PrintStream;
 
-import author.Author;
 import author.AuthorList;
 import exceptions.TantouException;
 import org.junit.jupiter.api.BeforeEach;
