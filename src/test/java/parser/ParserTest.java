@@ -47,6 +47,7 @@ public class ParserTest {
         parseInputAssertCommandType("add -a \"Kubo Tite\"", AddAuthorCommand.class);
     }
 
+    @Test
     public void getUserCommand_addManga_parsedCorrectly() {
         parseInputAssertCommandType("add -a \"Kubo Tite\" -m \"Bleach\"", AddMangaCommand.class);
     }
