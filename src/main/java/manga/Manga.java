@@ -31,7 +31,9 @@ public class Manga {
         this.deadline = deadline;
     }
 
-    public void deleteDeadline() { this.deadline = "None"; }
+    public void deleteDeadline() {
+        this.deadline = "None";
+    }
 
     @Override
     public boolean equals(Object o) {
