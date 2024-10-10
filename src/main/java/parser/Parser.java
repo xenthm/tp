@@ -1,6 +1,15 @@
 package parser;
 
-import commands.*;
+import commands.Command;
+import commands.AddAuthorCommand;
+import commands.AddMangaCommand;
+import commands.ByeCommand;
+import commands.DeleteAuthorCommand;
+import commands.DeleteMangaCommand;
+import commands.ViewAuthorsCommand;
+import commands.ViewMangasCommand;
+import commands.AddDeadlineCommand;
+import commands.DeleteDeadlineCommand;
 import exceptions.TantouException;
 
 import org.apache.commons.cli.CommandLine;
@@ -12,7 +21,13 @@ import org.apache.commons.cli.ParseException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
-import static constants.Command.*;
+import static constants.Command.ADD_COMMAND;
+import static constants.Command.BYE_COMMAND;
+import static constants.Command.VIEW_COMMAND;
+import static constants.Command.COMMAND_INDEX;
+import static constants.Command.DELETE_COMMAND;
+import static constants.Command.DEADLINE_COMMAND;
+import static constants.Command.DELETE_DEADLINE_COMMAND;
 import static constants.Options.LONG_OPTION_INDEX;
 import static constants.Options.OPTIONS_ARRAY;
 import static constants.Options.OPTION_DESC_INDEX;

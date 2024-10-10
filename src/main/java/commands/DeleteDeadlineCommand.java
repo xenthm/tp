@@ -2,7 +2,6 @@ package commands;
 
 import author.Author;
 import exceptions.TantouException;
-import manga.Manga;
 import ui.Ui;
 import author.AuthorList;
 
@@ -46,8 +45,8 @@ public class DeleteDeadlineCommand extends Command {
                             mangaName);
                     break;
                 case "N":
-                   System.out.println("Ok, the deadline was not removed.");
-                   break;
+                    System.out.println("Ok, the deadline was not removed.");
+                    break;
                 default:
                     System.out.println("Invalid input.");
                     break;

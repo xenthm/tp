@@ -1,7 +1,5 @@
 package manga;
 
-import exceptions.TantouException;
-
 import java.util.ArrayList;
 
 public class MangaList extends ArrayList<Manga> {

@@ -1,6 +1,5 @@
 package author;
 
-import exceptions.TantouException;
 import manga.Manga;
 import manga.MangaList;
 
