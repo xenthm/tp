@@ -25,7 +25,7 @@ public class AddAuthorCommandTest {
     }
 
     @Test
-    public void addOneAuthor() {
+    public void AddAuthorCommand_addSingleAuthor_authorCountOne() {
         try {
             commandUnderTest = new AddAuthorCommand("add -a \"Kubo Tite\"");
             commandUnderTest.execute(ui, authorList);
@@ -39,7 +39,7 @@ public class AddAuthorCommandTest {
     }
 
     @Test
-    public void addDuplicateAuthor() {
+    public void AddAuthorCommand_addDuplicateAuthor_authorExistsExceptionThrown() {
         try {
             commandUnderTest = new AddAuthorCommand("add -a \"Kubo Tite\"");
             commandUnderTest.execute(ui, authorList);

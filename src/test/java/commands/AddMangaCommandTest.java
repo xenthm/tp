@@ -25,7 +25,7 @@ public class AddMangaCommandTest {
     }
 
     @Test
-    public void addOneManga() {
+    public void AddMangaCommand_addOneManga_authorCountOneMangaNameMatch() {
         try {
             commandUnderTest = new AddMangaCommand("add -a \"Kubo Tite\" -m \"Bleach\"");
             commandUnderTest.execute(ui, authorList);
@@ -39,7 +39,7 @@ public class AddMangaCommandTest {
     }
 
     @Test
-    public void addDuplicateManga() {
+    public void AddMangaCommand_addDuplicateManga_mangaExistsExceptionThrown() {
         try {
             commandUnderTest = new AddMangaCommand("add -a \"Kubo Tite\" -m \"Bleach\"");
             commandUnderTest.execute(ui, authorList);
