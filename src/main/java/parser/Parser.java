@@ -86,6 +86,11 @@ public class Parser {
                 return new AddDeadlineCommand(userInput);
             }
             throw new TantouException("Invalid deadline command provided!");
+        case DELETE_DEADLINE_COMMAND:
+            if (isValidDeleteDeadlineCommand(userInput)) {
+                return new DeleteDeadlineCommand(userInput);
+            }
+            throw new TantouException("Invalid delete deadline command provided!");
         default:
             throw new TantouException("Invalid command provided!");
         }
@@ -234,6 +239,16 @@ public class Parser {
             command = ownParser.parse(options, getUserInputAsList(userInput));
             return command.hasOption(constants.Options.DEADLINE_DATE_OPTION)
                     && command.hasOption(constants.Options.AUTHOR_OPTION)
+                    && command.hasOption(constants.Options.MANGA_OPTION);
+        } catch (ParseException e) {
+            throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
+        }
+    }
+
+    private boolean isValidDeleteDeadlineCommand(String userInput) throws TantouException {
+        try {
+            command = ownParser.parse(options, getUserInputAsList(userInput));
+            return command.hasOption(constants.Options.AUTHOR_OPTION)
                     && command.hasOption(constants.Options.MANGA_OPTION);
         } catch (ParseException e) {
             throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));

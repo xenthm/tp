@@ -6,6 +6,7 @@ public class Command {
     public static final String VIEW_COMMAND = "view";
     public static final String DELETE_COMMAND = "delete";
     public static final String DEADLINE_COMMAND = "deadline";
+    public static final String DELETE_DEADLINE_COMMAND = "deleteDeadline";
 
     public static final int COMMAND_INDEX = 0;
 }

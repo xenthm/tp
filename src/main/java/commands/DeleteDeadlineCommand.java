@@ -6,12 +6,14 @@ import manga.Manga;
 import ui.Ui;
 import author.AuthorList;
 
+import java.util.Scanner;
+
 import static constants.Command.DEADLINE_COMMAND;
 
-public class AddDeadlineCommand extends Command {
+public class DeleteDeadlineCommand extends Command {
     private String userInput;
 
-    public AddDeadlineCommand(String userInput) {
+    public DeleteDeadlineCommand(String userInput) {
         super(DEADLINE_COMMAND);
         this.userInput = userInput;
     }
@@ -20,24 +22,36 @@ public class AddDeadlineCommand extends Command {
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
         String authorName = parser.getAuthorNameFromInput(userInput);
         String mangaName = parser.getMangaNameFromInput(userInput);
-        String deadline = parser.getDeadlineDateFromInput(userInput);
 
-        if (deadline.isEmpty() || mangaName.isEmpty() || authorName.isEmpty()) {
-            throw new TantouException("No deadline date, author, or manga provided!");
+        if (authorName.isEmpty() || mangaName.isEmpty()) {
+            throw new TantouException("No author or manga provided!");
         }
 
         Author incomingAuthor = new Author(authorName);
-        Manga incomingManga = new Manga(mangaName, incomingAuthor);
 
         // If author exists, find the manga
         if (authorList.hasAuthor(authorName)) {
             // Obtain the same Author object in authorList
             Author existingAuthor = authorList.getAuthor(incomingAuthor);
             // If manga exists, add the deadline
-            if (existingAuthor.hasManga(incomingManga)) {
-                existingAuthor.getManga(incomingManga.getMangaName()).addDeadline(deadline);
-                System.out.printf("Deadline %s added successfully to manga %s\n",
-                        deadline, incomingManga.getMangaName());
+            if (existingAuthor.getManga(mangaName) != null) {
+                // Confirm with the user
+                Scanner in = new Scanner(System.in);
+                System.out.println("Confirm removal of deadline on "
+                        + existingAuthor.getManga(mangaName).getDeadline() + "? [Y/N]");
+                switch (in.next()) {
+                case "Y":
+                    existingAuthor.getManga(mangaName).deleteDeadline();
+                    System.out.printf("Deadline successfully deleted from manga %s\n",
+                            mangaName);
+                    break;
+                case "N":
+                   System.out.println("Ok, the deadline was not removed.");
+                   break;
+                default:
+                    System.out.println("Invalid input.");
+                    break;
+                }
                 return;
             }
 
