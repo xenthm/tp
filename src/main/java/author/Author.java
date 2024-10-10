@@ -1,5 +1,6 @@
 package author;
 
+import exceptions.TantouException;
 import manga.Manga;
 import manga.MangaList;
 
@@ -36,6 +37,15 @@ public class Author {
 
     public void deleteManga(Manga manga) {
         mangaList.remove(manga);
+    }
+
+    public Manga getManga(String name) {
+        for (Manga manga : mangaList) {
+            if (manga.getMangaName().equals(name)) {
+                return manga;
+            }
+        }
+        return null;
     }
 
     @Override

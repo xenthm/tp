@@ -7,10 +7,12 @@ import java.util.Objects;
 public class Manga {
     private String mangaName;
     private Author author;
+    private String deadline;
 
     public Manga(String mangaName, Author author) {
         this.mangaName = mangaName;
         this.author = author;
+        this.deadline = "None";
     }
 
     public String getMangaName() {
@@ -19,6 +21,14 @@ public class Manga {
 
     public Author getAuthor() {
         return author;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void addDeadline(String deadline) {
+        this.deadline = deadline;
     }
 
     @Override
@@ -33,11 +43,12 @@ public class Manga {
 
         Manga manga = (Manga) o;
 
-        return mangaName.equals(manga.getMangaName()) && author.equals(manga.getAuthor());
+        return mangaName.equals(manga.getMangaName()) && author.equals(manga.getAuthor())
+                && deadline.equals(manga.getDeadline());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mangaName, author);
+        return Objects.hash(mangaName, author, deadline);
     }
 }
