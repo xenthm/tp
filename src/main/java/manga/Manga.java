@@ -47,8 +47,7 @@ public class Manga {
 
         Manga manga = (Manga) o;
 
-        return mangaName.equals(manga.getMangaName()) && author.equals(manga.getAuthor())
-                && deadline.equals(manga.getDeadline());
+        return mangaName.equals(manga.getMangaName()) && author.equals(manga.getAuthor());
     }
 
     @Override
