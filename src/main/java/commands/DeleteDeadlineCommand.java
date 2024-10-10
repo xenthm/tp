@@ -34,23 +34,9 @@ public class DeleteDeadlineCommand extends Command {
             Author existingAuthor = authorList.getAuthor(incomingAuthor);
             // If manga exists, add the deadline
             if (existingAuthor.getManga(mangaName) != null) {
-                // Confirm with the user
-                Scanner in = new Scanner(System.in);
-                System.out.println("Confirm removal of deadline on "
-                        + existingAuthor.getManga(mangaName).getDeadline() + "? [Y/N]");
-                switch (in.next()) {
-                case "Y":
-                    existingAuthor.getManga(mangaName).deleteDeadline();
-                    System.out.printf("Deadline successfully deleted from manga %s\n",
-                            mangaName);
-                    break;
-                case "N":
-                    System.out.println("Ok, the deadline was not removed.");
-                    break;
-                default:
-                    System.out.println("Invalid input.");
-                    break;
-                }
+                existingAuthor.getManga(mangaName).deleteDeadline();
+                System.out.printf("Deadline successfully deleted from manga %s\n",
+                        mangaName);
                 return;
             }
 
