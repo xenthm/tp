@@ -74,7 +74,7 @@ public class Parser {
             return new ByeCommand();
         case ADD_COMMAND:
             if (isValidDeadlineCommand(userInput)) {
-                 return new AddDeadlineCommand(userInput);
+                return new AddDeadlineCommand(userInput);
             } else if (isValidMangaCommand(userInput)) {
                 return new AddMangaCommand(userInput);
             } else if (isValidAuthorCommand(userInput)) {

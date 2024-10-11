@@ -21,7 +21,8 @@ public class AuthorTest {
             author.addManga(new Manga("manga2", author));
             assertEquals(2, author.getMangaList().size());
             author.printMangaList();
-            assertEquals("1. manga1" + System.lineSeparator() + "2. manga2" + System.lineSeparator(),
+            assertEquals("1. manga1 | Deadline: None" + System.lineSeparator()
+                            + "2. manga2 | Deadline: None" + System.lineSeparator(),
                     outputStreamCaptor.toString());
         } finally {
             System.setOut(standardOut);
