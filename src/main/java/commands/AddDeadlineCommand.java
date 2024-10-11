@@ -6,13 +6,13 @@ import manga.Manga;
 import ui.Ui;
 import author.AuthorList;
 
-import static constants.Command.DEADLINE_COMMAND;
+import static constants.Command.ADD_COMMAND;
 
 public class AddDeadlineCommand extends Command {
     private String userInput;
 
     public AddDeadlineCommand(String userInput) {
-        super(DEADLINE_COMMAND);
+        super(ADD_COMMAND);
         this.userInput = userInput;
     }
 
@@ -29,23 +29,18 @@ public class AddDeadlineCommand extends Command {
         Author incomingAuthor = new Author(authorName);
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
 
-        // If author exists, find the manga
-        if (authorList.hasAuthor(authorName)) {
-            // Obtain the same Author object in authorList
-            Author existingAuthor = authorList.getAuthor(incomingAuthor);
-            // If manga exists, add the deadline
-            if (existingAuthor.hasManga(incomingManga)) {
-                existingAuthor.getManga(incomingManga.getMangaName()).addDeadline(deadline);
-                System.out.printf("Deadline %s added successfully to manga %s\n",
-                        deadline, incomingManga.getMangaName());
-                return;
-            }
-
-            // Exception thrown if the manga doesn't exist
-            throw new TantouException("Manga doesn't exist!");
+        // If author doesn't exist, create them
+        if (!authorList.hasAuthor(authorName)) {
+            authorList.addAuthor(incomingAuthor);
         }
 
-        // Exception thrown if the author doesn't exist
-        throw new TantouException("Author doesn't exist!");
+        Author existingAuthor = authorList.getAuthor(incomingAuthor);
+        // If manga doesn't exist, create it and add the deadline
+        if (!existingAuthor.hasManga(incomingManga)) {
+            existingAuthor.addManga(incomingManga);
+        }
+        existingAuthor.getManga(incomingManga.getMangaName()).addDeadline(deadline);
+        System.out.printf("Deadline %s added successfully to manga %s\n",
+                deadline, incomingManga.getMangaName());
     }
 }

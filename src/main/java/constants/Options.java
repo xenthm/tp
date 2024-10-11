@@ -9,8 +9,8 @@ public class Options {
     public static final String MANGA_LONG_OPTION = "manga";
     public static final String MANGA_OPTION_DESC = "Manga name";
 
-    public static final String DEADLINE_DATE_OPTION = "b";
-    public static final String DEADLINE_LONG_OPTION = "by";
+    public static final String DEADLINE_DATE_OPTION = "d";
+    public static final String DEADLINE_LONG_OPTION = "deadline";
     public static final String DEADLINE_OPTION_DESC = "Deadline date";
 
     public static final String[][] OPTIONS_ARRAY = {

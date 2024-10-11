@@ -5,15 +5,13 @@ import exceptions.TantouException;
 import ui.Ui;
 import author.AuthorList;
 
-import java.util.Scanner;
-
-import static constants.Command.DEADLINE_COMMAND;
+import static constants.Command.DELETE_COMMAND;
 
 public class DeleteDeadlineCommand extends Command {
     private String userInput;
 
     public DeleteDeadlineCommand(String userInput) {
-        super(DEADLINE_COMMAND);
+        super(DELETE_COMMAND);
         this.userInput = userInput;
     }
 
