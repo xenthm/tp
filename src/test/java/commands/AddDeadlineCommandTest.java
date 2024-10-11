@@ -8,7 +8,8 @@ import ui.Ui;
 
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class AddDeadlineCommandTest {
     private final PrintStream standardOut = System.out;
