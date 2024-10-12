@@ -8,6 +8,8 @@ import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
+import commands.AddDeadlineCommand;
+import commands.DeleteDeadlineCommand;
 import exceptions.TantouException;
 
 import org.apache.commons.cli.CommandLine;
@@ -71,7 +73,9 @@ public class Parser {
         case BYE_COMMAND:
             return new ByeCommand();
         case ADD_COMMAND:
-            if (isValidMangaCommand(userInput)) {
+            if (isValidDeadlineCommand(userInput)) {
+                return new AddDeadlineCommand(userInput);
+            } else if (isValidMangaCommand(userInput)) {
                 return new AddMangaCommand(userInput);
             } else if (isValidAuthorCommand(userInput)) {
                 return new AddAuthorCommand(userInput);
@@ -86,7 +90,9 @@ public class Parser {
             }
             throw new TantouException("Invalid view command provided!");
         case DELETE_COMMAND:
-            if (isValidMangaCommand(userInput)) {
+            if (isValidDeadlineCommand(userInput)) {
+                return new DeleteDeadlineCommand(userInput);
+            } else if (isValidMangaCommand(userInput)) {
                 return new DeleteMangaCommand(userInput);
             } else if (isValidAuthorCommand(userInput)) {
                 return new DeleteAuthorCommand(userInput);
@@ -193,6 +199,15 @@ public class Parser {
         }
     }
 
+    public String getDeadlineDateFromInput(String userInput) throws TantouException {
+        try {
+            command = ownParser.parse(options, getUserInputAsList(userInput));
+            return command.getOptionValue(constants.Options.DEADLINE_DATE_OPTION);
+        } catch (ParseException e) {
+            throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
+        }
+    }
+
     public boolean isValidAuthorCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
@@ -225,4 +240,16 @@ public class Parser {
         // A valid view authors command should NOT have constants.Options.AUTHOR_OPTION in it
         return !isValidViewMangaCommand(userInput);
     }
+
+    private boolean isValidDeadlineCommand(String userInput) throws TantouException {
+        try {
+            command = ownParser.parse(options, getUserInputAsList(userInput));
+            return command.hasOption(constants.Options.DEADLINE_DATE_OPTION)
+                    && command.hasOption(constants.Options.AUTHOR_OPTION)
+                    && command.hasOption(constants.Options.MANGA_OPTION);
+        } catch (ParseException e) {
+            throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
+        }
+    }
+
 }
