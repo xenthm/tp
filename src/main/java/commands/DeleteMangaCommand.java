@@ -5,13 +5,15 @@ import author.AuthorList;
 import exceptions.TantouException;
 import manga.Manga;
 import ui.Ui;
-import java.util.logging.*;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static constants.Command.DELETE_COMMAND;
 
 public class DeleteMangaCommand extends Command {
+    private static final Logger logger = Logger.getLogger(DeleteMangaCommand.class.getName());
     private String userInput;
-    private static Logger logger = Logger.getLogger(DeleteMangaCommand.class.getName());
 
     public DeleteMangaCommand(String userInput) {
         super(DELETE_COMMAND);
@@ -31,7 +33,7 @@ public class DeleteMangaCommand extends Command {
             logger.log(Level.SEVERE, "Author name or manga name is empty");
             throw new TantouException("No author or manga provided!");
         }
-        assert (!authorName.isEmpty() && !mangaName.isEmpty()) == true: "Author or manga name is empty";
+        assert (!authorName.isEmpty() && !mangaName.isEmpty()) : "Author or manga name is empty";
         logger.log(Level.INFO, "Deleting manga... " + mangaName + " from " + authorName);
 
         Author attachedAuthor = new Author(authorName);
