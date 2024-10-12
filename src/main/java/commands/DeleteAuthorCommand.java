@@ -26,6 +26,7 @@ public class DeleteAuthorCommand extends Command {
         if (authorName.isEmpty()) {
             throw new TantouException("No author provided!");
         }
+        assert !authorName.isEmpty(): "Author name is empty";
 
         Author deletingAuthor = new Author(authorName);
 
@@ -35,6 +36,7 @@ public class DeleteAuthorCommand extends Command {
             System.out.printf("Successfully deleted author: %s\n", deletingAuthor.getAuthorName());
             return;
         }
+        assert !authorList.hasAuthor(deletingAuthor): "Author not found";
 
         throw new TantouException("Author does not exist!");
     }

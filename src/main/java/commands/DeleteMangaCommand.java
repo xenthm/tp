@@ -28,6 +28,7 @@ public class DeleteMangaCommand extends Command {
         if (authorName.isEmpty() || mangaName.isEmpty()) {
             throw new TantouException("No author or manga provided!");
         }
+        assert (!authorName.isEmpty() && !mangaName.isEmpty()) == true: "Author or manga name is empty";
 
         Author attachedAuthor = new Author(authorName);
         Manga deletingManga = new Manga(mangaName, attachedAuthor);
@@ -40,6 +41,7 @@ public class DeleteMangaCommand extends Command {
                         deletingManga.getMangaName(), existingAuthor.getAuthorName());
                 return;
             }
+            assert !existingAuthor.hasManga(deletingManga): "No manga found";
 
             throw new TantouException("Manga does not exist!");
         }
