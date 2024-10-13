@@ -31,7 +31,7 @@ public class DeleteAuthorCommand extends Command {
 
         if (authorList.hasAuthor(deletingAuthor)) {
             authorList.deleteAuthor(deletingAuthor);
-            System.out.print("Bye bye~");
+            System.out.println("Bye bye~");
             System.out.printf("Successfully deleted author: %s\n", deletingAuthor.getAuthorName());
             return;
         }
