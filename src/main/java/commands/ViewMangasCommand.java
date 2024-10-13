@@ -17,6 +17,9 @@ public class ViewMangasCommand extends Command {
 
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
+        assert ui != null : "Ui must not be null";
+        assert authorList != null : "authorList must not be null";
+
         if (authorList.size() == 0) {
             System.out.println("You have no authors under you! Maybe you are the one slacking...");
             return;

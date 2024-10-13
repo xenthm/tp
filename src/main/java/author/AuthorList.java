@@ -10,6 +10,7 @@ public class AuthorList {
     }
 
     public boolean hasAuthor(Author author) {
+        assert author != null : "author must not be null";
         return authorList.contains(author);
     }
 
@@ -28,6 +29,7 @@ public class AuthorList {
      *         can be found
      */
     public Author getAuthor(Author author) {
+        assert author != null : "author must not be null";
         for (Author a : authorList) {
             if (a.equals(author)) {
                 return a;
@@ -38,19 +40,21 @@ public class AuthorList {
     }
 
     public Author getAuthor(String authorName) {
-        for (Author value : authorList) {
-            if (value.getAuthorName().equals(authorName)) {
-                return value;
+        for (Author a : authorList) {
+            if (a.getAuthorName().equals(authorName)) {
+                return a;
             }
         }
         return null;
     }
 
     public void addAuthor(Author author) {
+        assert author != null : "author must not be null";
         authorList.add(author);
     }
 
     public void deleteAuthor(Author author) {
+        assert author != null : "author must not be null";
         authorList.remove(author);
     }
 
@@ -63,6 +67,8 @@ public class AuthorList {
     }
 
     public void print() {
+        assert size() >= 0 : "authorList.size() must be non-negative";
+
         System.out.println("Here are the sla-I mean authors under you! Total: " + authorList.size());
         for (int i = 0; i < authorList.size(); i++) {
             System.out.println((i + 1) + ". " + authorList.get(i).getAuthorName());
