@@ -28,9 +28,9 @@ public class AuthorList {
      *         can be found
      */
     public Author getAuthor(Author author) {
-        for (Author value : authorList) {
-            if (value.equals(author)) {
-                return value;
+        for (Author a : authorList) {
+            if (a.equals(author)) {
+                return a;
             }
         }
 

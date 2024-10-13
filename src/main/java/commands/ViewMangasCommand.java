@@ -25,11 +25,11 @@ public class ViewMangasCommand extends Command {
         if (authorName.isEmpty()) {
             throw new TantouException("No author provided!");
         }
-        if (!authorList.hasAuthor(authorName)) {
+        Author author = authorList.getAuthor(authorName);
+        if (author == null) {
             System.out.println("Author does not exist!");
             return;
         }
-        Author author = authorList.getAuthor(authorName);
         if (author.getMangaList().isEmpty()) {
             System.out.println(authorName + " has no mangas... You know what has to be done.");
             return;
