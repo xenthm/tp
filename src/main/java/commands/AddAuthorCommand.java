@@ -42,6 +42,10 @@ public class AddAuthorCommand extends Command {
             return;
         }
 
+        // The existing author must have the same name for the duplicate to be recognized
+        assert authorList.getAuthor(incomingAuthor).getAuthorName()
+                .equals(incomingAuthor.getAuthorName()) : "Different author recognized as equal!";
+
         logger.info("Author already exists");
         throw new TantouException("Author exists!");
     }
