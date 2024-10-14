@@ -7,12 +7,11 @@ import manga.Manga;
 import ui.Ui;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static constants.Command.DELETE_COMMAND;
 
 public class DeleteMangaCommand extends Command {
-    private static final Logger logger = Logger.getLogger(DeleteMangaCommand.class.getName());
+    // private static final Logger logger = Logger.getLogger(DeleteMangaCommand.class.getName());
     private String userInput;
 
     public DeleteMangaCommand(String userInput) {
