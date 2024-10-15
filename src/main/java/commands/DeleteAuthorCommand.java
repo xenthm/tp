@@ -6,12 +6,11 @@ import exceptions.TantouException;
 import ui.Ui;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static constants.Command.DELETE_COMMAND;
 
 public class DeleteAuthorCommand extends Command {
-    private static final Logger logger = Logger.getLogger(DeleteAuthorCommand.class.getName());
+    // private static final Logger logger = Logger.getLogger(DeleteAuthorCommand.class.getName());
     private String userInput;
 
     public DeleteAuthorCommand(String userInput) {

@@ -177,7 +177,7 @@ public class Parser {
      * @return true if the string starts and ends with a quote, false otherwise
      */
     public boolean isQuotedString(String argument) {
-        return argument.startsWith("\"") && argument.endsWith("\"");
+        return argument.startsWith("\"") && argument.endsWith("\"") && argument.length() >= 2;
     }
 
 

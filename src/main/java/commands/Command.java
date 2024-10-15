@@ -5,15 +5,20 @@ import exceptions.TantouException;
 import parser.Parser;
 import ui.Ui;
 
+import java.util.logging.Logger;
+
 public abstract class Command {
     protected Parser parser;
+    protected Logger logger;
     private String command;
     private boolean isExit;
+
 
     public Command(String command) {
         this.command = command;
         this.parser = new Parser();
         this.isExit = false;
+        this.logger = Logger.getLogger(command);
     }
 
     public String getCommand() {
