@@ -22,18 +22,22 @@ public class ViewMangasCommand extends Command {
 
         if (authorList.size() == 0) {
             System.out.println("You have no authors under you! Maybe you are the one slacking...");
+            logger.info("authorList is empty");
             return;
         }
         String authorName = parser.getAuthorNameFromInput(userInput);
         if (authorName.isEmpty()) {
+            logger.warning("Author argument is empty");
             throw new TantouException("No author provided!");
         }
         Author author = authorList.getAuthor(authorName);
         if (author == null) {
+            logger.warning("Author does not exist in authorList");
             System.out.println("Author does not exist!");
             return;
         }
         if (author.getMangaList().isEmpty()) {
+            logger.info(authorName + " has no associated mangas");
             System.out.println(authorName + " has no mangas... You know what has to be done.");
             return;
         }

@@ -17,6 +17,7 @@ public class ViewAuthorsCommand extends Command {
 
         if (authorList.size() == 0) {
             System.out.println("You have no authors under you! Maybe you are the one slacking...");
+            logger.info("authorList is empty");
             return;
         }
         authorList.print();
