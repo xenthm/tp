@@ -17,20 +17,27 @@ public class ViewMangasCommand extends Command {
 
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
+        assert ui != null : "Ui must not be null";
+        assert authorList != null : "authorList must not be null";
+
         if (authorList.size() == 0) {
             System.out.println("You have no authors under you! Maybe you are the one slacking...");
+            logger.info("authorList is empty");
             return;
         }
         String authorName = parser.getAuthorNameFromInput(userInput);
         if (authorName.isEmpty()) {
+            logger.warning("Author argument is empty");
             throw new TantouException("No author provided!");
         }
-        if (!authorList.hasAuthor(authorName)) {
+        Author author = authorList.getAuthor(authorName);
+        if (author == null) {
+            logger.warning("Author does not exist in authorList");
             System.out.println("Author does not exist!");
             return;
         }
-        Author author = authorList.getAuthor(authorName);
         if (author.getMangaList().isEmpty()) {
+            logger.info(authorName + " has no associated mangas");
             System.out.println(authorName + " has no mangas... You know what has to be done.");
             return;
         }
