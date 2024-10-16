@@ -52,6 +52,6 @@ public class Manga {
 
     @Override
     public int hashCode() {
-        return Objects.hash(mangaName, author, deadline);
+        return Objects.hash(mangaName, author);
     }
 }
