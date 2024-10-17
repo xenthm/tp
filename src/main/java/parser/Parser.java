@@ -8,7 +8,6 @@ import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
-import commands.AddDeadlineCommand;
 import commands.DeleteDeadlineCommand;
 import exceptions.TantouException;
 
@@ -21,8 +20,8 @@ import org.apache.commons.cli.ParseException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
-import static constants.Command.ADD_COMMAND;
 import static constants.Command.BYE_COMMAND;
+import static constants.Command.CATALOG_COMMAND;
 import static constants.Command.VIEW_COMMAND;
 import static constants.Command.COMMAND_INDEX;
 import static constants.Command.DELETE_COMMAND;
@@ -74,15 +73,8 @@ public class Parser {
         switch (inputList[COMMAND_INDEX]) {
         case BYE_COMMAND:
             return new ByeCommand();
-        case ADD_COMMAND:
-            if (isValidDeadlineCommand(userInput)) {
-                return new AddDeadlineCommand(userInput);
-            } else if (isValidMangaCommand(userInput)) {
-                return new AddMangaCommand(userInput);
-            } else if (isValidAuthorCommand(userInput)) {
-                return new AddAuthorCommand(userInput);
-            }
-            throw new TantouException("Invalid add command provided!");
+        case CATALOG_COMMAND:
+            return processCatalogCommand(userInput);
         case VIEW_COMMAND:
             if (isValidViewAuthorsCommand(userInput)) {
                 return new ViewAuthorsCommand();
@@ -211,6 +203,43 @@ public class Parser {
         } catch (ParseException e) {
             throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
         }
+    }
+
+    public Command processCatalogCommand(String userInput) throws TantouException {
+        if (isDeleteCommand(userInput)) {
+            return processDeleteAuthorMangaCommand(userInput);
+        }
+
+        return processAddAuthorMangaCommand(userInput);
+    }
+
+    public boolean isDeleteCommand(String userInput) throws TantouException {
+        try {
+            command = ownParser.parse(options, getUserInputAsList(userInput));
+            return command.hasOption(constants.Options.DELETE_OPTION);
+        } catch (ParseException e) {
+            throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
+        }
+    }
+
+    public Command processAddAuthorMangaCommand(String userInput) throws TantouException {
+        if (isValidMangaCommand(userInput)) {
+            return new AddMangaCommand(userInput);
+        } else if (isValidAuthorCommand(userInput)) {
+            return new AddAuthorCommand(userInput);
+        }
+
+        throw new TantouException("Invalid catalog command provided!");
+    }
+
+    public Command processDeleteAuthorMangaCommand(String userInput) throws TantouException {
+        if (isValidMangaCommand(userInput)) {
+            return new DeleteMangaCommand(userInput);
+        } else if (isValidAuthorCommand(userInput)) {
+            return new DeleteAuthorCommand(userInput);
+        }
+
+        throw new TantouException("Invalid delete command provided!");
     }
 
     public boolean isValidAuthorCommand(String userInput) throws TantouException {
