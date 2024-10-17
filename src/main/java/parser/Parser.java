@@ -29,6 +29,8 @@ import static constants.Command.DELETE_COMMAND;
 import static constants.Options.LONG_OPTION_INDEX;
 import static constants.Options.OPTIONS_ARRAY;
 import static constants.Options.OPTION_DESC_INDEX;
+import static constants.Options.REQUIRE_ARGS_INDEX;
+import static constants.Options.REQUIRE_ARGS_TRUE;
 import static constants.Options.SHORT_OPTION_INDEX;
 import static constants.Regex.USER_COMMAND_REGEX;
 
@@ -57,7 +59,7 @@ public class Parser {
     public void initializeOptions() {
         for (String[] option : OPTIONS_ARRAY) {
             this.options.addOption(option[SHORT_OPTION_INDEX], option[LONG_OPTION_INDEX],
-                    true, option[OPTION_DESC_INDEX]);
+                    option[REQUIRE_ARGS_INDEX].equals(REQUIRE_ARGS_TRUE), option[OPTION_DESC_INDEX]);
         }
     }
 
