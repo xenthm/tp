@@ -149,8 +149,11 @@ public class Parser {
     public void validateArguments(ArrayList<String> list) throws TantouException {
         for (int i = 0; i < list.size(); i++) {
             for (String[] option : OPTIONS_ARRAY) {
-                String optionWithDash = "-" + option[SHORT_OPTION_INDEX];
-                validateArgument(list, optionWithDash, i);
+                // Validate that the argument is in quotations only if the option requires it
+                if (option[REQUIRE_ARGS_INDEX].equals(REQUIRE_ARGS_TRUE)) {
+                    String optionWithDash = "-" + option[SHORT_OPTION_INDEX];
+                    validateArgument(list, optionWithDash, i);
+                }
             }
         }
     }
