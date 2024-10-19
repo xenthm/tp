@@ -19,6 +19,10 @@ public class Tantou {
         this.authorList = new AuthorList();
     }
 
+    public void setAuthorList(AuthorList authorList) {
+        this.authorList = authorList;
+    }
+
     public void run() {
         ui.greetUser();
 

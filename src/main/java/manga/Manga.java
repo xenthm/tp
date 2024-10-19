@@ -15,12 +15,22 @@ public class Manga {
         this.deadline = "None";
     }
 
+    public Manga(String mangaName, Author author, String deadline) {
+        this.mangaName = mangaName;
+        this.author = author;
+        this.deadline = deadline;
+    }
+
     public String getMangaName() {
         return mangaName;
     }
 
     public Author getAuthor() {
         return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     public String getDeadline() {
