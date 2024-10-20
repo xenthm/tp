@@ -2,6 +2,7 @@ package manga;
 
 import java.util.ArrayList;
 
+//@@author xenthm
 public class MangaList extends ArrayList<Manga> {
     public void print() {
         assert size() >= 0 : "MangaList.size() must be non-negative";

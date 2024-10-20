@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+//@@author xenthm
 public class AuthorListTest {
     private final PrintStream standardOut = System.out;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();

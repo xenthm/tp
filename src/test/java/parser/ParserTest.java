@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
+//@@author xenthm
 public class ParserTest {
     private Parser parser;
 
@@ -30,6 +31,7 @@ public class ParserTest {
         parseInputAssertCommandType("bye", ByeCommand.class);
     }
 
+    //@@author xenthm
     @Test
     public void getUserCommand_viewAuthors_parsedCorrectly() {
         parseInputAssertCommandType("view", ViewAuthorsCommand.class);
@@ -40,6 +42,7 @@ public class ParserTest {
         parseInputAssertCommandType("view -a \"test\"", ViewMangasCommand.class);
     }
 
+    //@@author sarahchow03
     @Test
     public void getUserCommand_deleteAuthor_parsedCorrectly() {
         parseInputAssertCommandType("catalog -d -a \"test\"", DeleteAuthorCommand.class);
@@ -62,6 +65,7 @@ public class ParserTest {
         parseInputAssertCommandType("catalog -a \"test\" -m \"test\"", AddMangaCommand.class);
     }
 
+    //@@author xenthm
     private void parseInputAssertCommandType(String input, Class<? extends Command> expectedClass) {
         try {
             Command actual = parser.getUserCommand(input);
