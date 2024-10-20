@@ -24,7 +24,7 @@ class DeleteAuthorCommandTest {
         authorList = new AuthorList();
         ui = new Ui();
         Author author = new Author("test1");
-        authorList.addAuthor(author);
+        authorList.add(author);
     }
 
     @Test

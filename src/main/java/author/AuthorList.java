@@ -9,7 +9,13 @@ public class AuthorList extends ArrayList<Author> {
     }
 
     public boolean hasAuthor(String authorName) {
-        return hasAuthor(new Author(authorName));
+        assert !authorName.isEmpty() : "author name must not be empty";
+        for (Author author : this) {
+            if (author.getAuthorName().equals(authorName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -34,26 +40,13 @@ public class AuthorList extends ArrayList<Author> {
     }
 
     public Author getAuthor(String authorName) {
+        assert !authorName.isEmpty() : "author name must not be empty";
         for (Author a : this) {
             if (a.getAuthorName().equals(authorName)) {
                 return a;
             }
         }
         return null;
-    }
-
-    public void addAuthor(Author author) {
-        assert author != null : "author must not be null";
-        add(author);
-    }
-
-    public void deleteAuthor(Author author) {
-        assert author != null : "author must not be null";
-        remove(author);
-    }
-
-    public ArrayList<Author> getAuthorList() {
-        return this;
     }
 
     public void print() {

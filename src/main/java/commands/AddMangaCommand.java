@@ -54,7 +54,7 @@ public class AddMangaCommand extends Command {
         }
 
         // Otherwise create new Author and add Manga to it
-        authorList.addAuthor(incomingAuthor);
+        authorList.add(incomingAuthor);
         incomingAuthor.addManga(incomingManga);
         assert authorList.getAuthor(incomingAuthor).hasManga(incomingManga) : "Failed to add author and manga";
         System.out.printf("Manga %s added successfully to author %s\n", incomingManga.getMangaName(),

@@ -38,7 +38,7 @@ public class AddDeadlineCommand extends Command {
         // If author doesn't exist, create them
         if (!authorList.hasAuthor(authorName)) {
             logger.log(Level.INFO, "Author not found, creating new author " + authorName);
-            authorList.addAuthor(incomingAuthor);
+            authorList.add(incomingAuthor);
         }
         assert authorList.hasAuthor(incomingAuthor) : "Author is missing";
         Author existingAuthor = authorList.getAuthor(incomingAuthor);

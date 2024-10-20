@@ -16,8 +16,8 @@ public class AuthorListTest {
         System.setOut(new PrintStream(outputStreamCaptor));
         try {
             AuthorList authorList = new AuthorList();
-            authorList.addAuthor(new Author("test1"));
-            authorList.addAuthor(new Author("test2"));
+            authorList.add(new Author("test1"));
+            authorList.add(new Author("test2"));
             assertEquals(2, authorList.size());
             authorList.print();
             assertEquals("Here are the sla-I mean authors under you! Total: 2" + System.lineSeparator() +
