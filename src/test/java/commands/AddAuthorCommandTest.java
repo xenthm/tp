@@ -56,4 +56,20 @@ public class AddAuthorCommandTest {
             System.setOut(standardOut);
         }
     }
+
+    @Test
+    public void addAuthorCommand_emptyAuthorName_noAuthorProvidedExceptionThrown() {
+        try {
+            // Simulate no author provided
+            commandUnderTest = new AddAuthorCommand("catalog -a \"\"");
+            // A TantouException should be thrown as no author is provided
+            Exception exception = assertThrows(TantouException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+
+            assertEquals("No author provided!", exception.getMessage());
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
 }

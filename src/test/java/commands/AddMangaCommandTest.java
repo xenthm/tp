@@ -54,4 +54,53 @@ public class AddMangaCommandTest {
             System.setOut(standardOut);
         }
     }
+
+    @Test
+    public void addMangaCommand_addMangaToExistingAuthor_mangaAddedSuccess() {
+        try {
+            Command addAuthor = new AddAuthorCommand("catalog -a \"Kubo Tite\"");
+            addAuthor.execute(ui, authorList);
+            commandUnderTest = new AddMangaCommand("catalog -a \"Kubo Tite\" -m \"Bleach\"");
+            commandUnderTest.execute(ui, authorList);
+
+            assertEquals(1, authorList.size());
+            assertEquals("Bleach", authorList.getAuthor("Kubo Tite").getMangaList().get(0).getMangaName());
+        } catch (TantouException e) {
+            fail();
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void addMangaCommand_emptyAuthorName_noAuthorOrMangaProvidedExceptionThrown() {
+        try {
+            // Simulate no author provided
+            commandUnderTest = new AddMangaCommand("catalog -a \"\" -m \"Bleach\"");
+            // A TantouException should be thrown as no author is provided
+            Exception exception = assertThrows(TantouException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+
+            assertEquals("No author or manga provided!", exception.getMessage());
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void addMangaCommand_emptyMangaName_noAuthorOrMangaProvidedExceptionThrown() {
+        try {
+            // Simulate no author provided
+            commandUnderTest = new AddMangaCommand("catalog -a \"Kubo Tite\" -m \"\"");
+            // A TantouException should be thrown as no author is provided
+            Exception exception = assertThrows(TantouException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+
+            assertEquals("No author or manga provided!", exception.getMessage());
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
 }
