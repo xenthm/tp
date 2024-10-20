@@ -206,7 +206,7 @@ public class Parser {
     public String getDeadlineDateFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
-            return command.getOptionValue(constants.Options.DEADLINE_DATE_OPTION);
+            return command.getOptionValue(constants.Options.BY_DATE_OPTION);
         } catch (ParseException e) {
             throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
         }
@@ -338,7 +338,7 @@ public class Parser {
     private boolean isValidDeadlineCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
-            return command.hasOption(constants.Options.DEADLINE_DATE_OPTION)
+            return command.hasOption(constants.Options.BY_DATE_OPTION)
                     && command.hasOption(constants.Options.AUTHOR_OPTION)
                     && command.hasOption(constants.Options.MANGA_OPTION);
         } catch (ParseException e) {

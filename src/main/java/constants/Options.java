@@ -9,9 +9,9 @@ public class Options {
     public static final String MANGA_LONG_OPTION = "manga";
     public static final String MANGA_OPTION_DESC = "Manga name";
 
-    public static final String DEADLINE_DATE_OPTION = "b";
-    public static final String DEADLINE_LONG_OPTION = "deadline";
-    public static final String DEADLINE_OPTION_DESC = "Deadline date";
+    public static final String BY_DATE_OPTION = "b";
+    public static final String BY_DATE_LONG_OPTION = "by";
+    public static final String BY_DATE_DESC = "Deadline due date";
 
     public static final String DELETE_OPTION = "d";
     public static final String DELETE_LONG_OPTION = "delete";
@@ -23,7 +23,7 @@ public class Options {
     public static final String[][] OPTIONS_ARRAY = {
             {AUTHOR_OPTION, REQUIRE_ARGS_TRUE, AUTHOR_LONG_OPTION, AUTHOR_OPTION_DESC},
             {MANGA_OPTION, REQUIRE_ARGS_TRUE, MANGA_LONG_OPTION, MANGA_OPTION_DESC},
-            {DEADLINE_DATE_OPTION, REQUIRE_ARGS_TRUE, DEADLINE_LONG_OPTION, DEADLINE_OPTION_DESC},
+            {BY_DATE_OPTION, REQUIRE_ARGS_TRUE, BY_DATE_LONG_OPTION, BY_DATE_DESC},
             {DELETE_OPTION, REQUIRE_ARGS_FALSE, DELETE_LONG_OPTION, DELETE_OPTION_DESC}
     };
 
