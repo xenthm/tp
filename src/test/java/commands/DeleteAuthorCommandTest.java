@@ -59,5 +59,19 @@ class DeleteAuthorCommandTest {
         }
     }
 
+    @Test
+    public void deleteAuthorCommand_emptyAuthorName_noAuthorProvidedExceptionThrown() {
+        try {
+            // Simulate no author provided
+            commandUnderTest = new DeleteAuthorCommand("catalog -d -a \"\"");
+            // A TantouException should be thrown as no author is provided
+            Exception exception = assertThrows(TantouException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
 
+            assertEquals("No author provided!", exception.getMessage());
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
 }
