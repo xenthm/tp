@@ -13,6 +13,7 @@ public class Tantou {
     private boolean isExit;
     private AuthorList authorList;
 
+    //@@author averageandyyy
     public Tantou() {
         this.ui = new Ui();
         this.parser = new Parser();
@@ -20,16 +21,20 @@ public class Tantou {
         this.authorList = new AuthorList();
     }
 
+    //@@author xenthm
     public void setAuthorList(AuthorList authorList) {
         this.authorList = authorList;
     }
 
+    //@@author averageandyyy
     public void run() {
+        //@@author xenthm
         AuthorList existingList = Storage.getInstance().readAuthorListFromDataFile();
         if (existingList != null) {
             setAuthorList(existingList);
         }
-
+        
+        //@@author averageandyyy
         ui.greetUser();
 
         while (!isExit) {

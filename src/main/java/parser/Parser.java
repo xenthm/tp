@@ -8,7 +8,6 @@ import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
-import commands.AddDeadlineCommand;
 import commands.DeleteDeadlineCommand;
 import exceptions.TantouException;
 
@@ -21,14 +20,16 @@ import org.apache.commons.cli.ParseException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
-import static constants.Command.ADD_COMMAND;
 import static constants.Command.BYE_COMMAND;
+import static constants.Command.CATALOG_COMMAND;
 import static constants.Command.VIEW_COMMAND;
 import static constants.Command.COMMAND_INDEX;
 import static constants.Command.DELETE_COMMAND;
 import static constants.Options.LONG_OPTION_INDEX;
 import static constants.Options.OPTIONS_ARRAY;
 import static constants.Options.OPTION_DESC_INDEX;
+import static constants.Options.REQUIRE_ARGS_INDEX;
+import static constants.Options.REQUIRE_ARGS_TRUE;
 import static constants.Options.SHORT_OPTION_INDEX;
 import static constants.Regex.USER_COMMAND_REGEX;
 
@@ -43,6 +44,7 @@ public class Parser {
         initializeOptions();
     }
 
+    //@@author averageandyyy
     /**
      * Initializes command-line options by adding each option defined in the {@link constants.Options#OPTIONS_ARRAY} to
      * the options list.
@@ -57,7 +59,7 @@ public class Parser {
     public void initializeOptions() {
         for (String[] option : OPTIONS_ARRAY) {
             this.options.addOption(option[SHORT_OPTION_INDEX], option[LONG_OPTION_INDEX],
-                    true, option[OPTION_DESC_INDEX]);
+                    option[REQUIRE_ARGS_INDEX].equals(REQUIRE_ARGS_TRUE), option[OPTION_DESC_INDEX]);
         }
     }
 
@@ -72,15 +74,9 @@ public class Parser {
         switch (inputList[COMMAND_INDEX]) {
         case BYE_COMMAND:
             return new ByeCommand();
-        case ADD_COMMAND:
-            if (isValidDeadlineCommand(userInput)) {
-                return new AddDeadlineCommand(userInput);
-            } else if (isValidMangaCommand(userInput)) {
-                return new AddMangaCommand(userInput);
-            } else if (isValidAuthorCommand(userInput)) {
-                return new AddAuthorCommand(userInput);
-            }
-            throw new TantouException("Invalid add command provided!");
+        case CATALOG_COMMAND:
+            // Returns either a Add or Delete command, which will either be Author or Manga related
+            return processCatalogCommand(userInput);
         case VIEW_COMMAND:
             if (isValidViewAuthorsCommand(userInput)) {
                 return new ViewAuthorsCommand();
@@ -103,6 +99,7 @@ public class Parser {
         }
     }
 
+    //@@author averageandyyy
     /**
      * Parses the user input string into an array of strings, capturing quoted strings and individual words, while
      * validating the argument format.
@@ -131,6 +128,7 @@ public class Parser {
         return list.toArray(new String[0]);
     }
 
+    //@@author averageandyyy
     /**
      * Validates the arguments provided in the list to ensure that all options have their corresponding arguments
      * enclosed in quotes.
@@ -147,12 +145,16 @@ public class Parser {
     public void validateArguments(ArrayList<String> list) throws TantouException {
         for (int i = 0; i < list.size(); i++) {
             for (String[] option : OPTIONS_ARRAY) {
-                String optionWithDash = "-" + option[SHORT_OPTION_INDEX];
-                validateArgument(list, optionWithDash, i);
+                // Validate that the argument is in quotations only if the option requires it
+                if (option[REQUIRE_ARGS_INDEX].equals(REQUIRE_ARGS_TRUE)) {
+                    String optionWithDash = "-" + option[SHORT_OPTION_INDEX];
+                    validateArgument(list, optionWithDash, i);
+                }
             }
         }
     }
 
+    //@@author averageandyyy
     /**
      * Validates that the argument following an option is a quoted string.
      *
@@ -170,6 +172,7 @@ public class Parser {
         }
     }
 
+    //@@author averageandyyy
     /**
      * Checks if a given string is enclosed in quotes.
      *
@@ -180,7 +183,7 @@ public class Parser {
         return argument.startsWith("\"") && argument.endsWith("\"") && argument.length() >= 2;
     }
 
-
+    //@@author averageandyyy
     public String getAuthorNameFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
@@ -190,6 +193,7 @@ public class Parser {
         }
     }
 
+    //@@author averageandyyy
     public String getMangaNameFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
@@ -202,12 +206,101 @@ public class Parser {
     public String getDeadlineDateFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
-            return command.getOptionValue(constants.Options.DEADLINE_DATE_OPTION);
+            return command.getOptionValue(constants.Options.BY_DATE_OPTION);
         } catch (ParseException e) {
             throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
         }
     }
 
+    //@@author averageandyyy
+    /**
+     * Processes the catalog command based on the user input.
+     * Determines whether the command is an Add or Delete operation based on the presence of the delete flag (`-d`).
+     * Further categorizes the command as either related to an Author or Manga and
+     * returns the appropriate command object.
+     *
+     * If the `-d` flag is present, it will return a `DeleteAuthorCommand` or `DeleteMangaCommand` based on
+     * the content of the user input.
+     * Otherwise, it returns an `AddAuthorCommand` or `AddMangaCommand`.
+     *
+     * @param userInput the raw input provided by the user to be parsed into a command
+     * @return a Command object representing the parsed operation (either Add or Delete, for Author or Manga)
+     * @throws TantouException if the user input is invalid for either Add or Delete operations
+     */
+    public Command processCatalogCommand(String userInput) throws TantouException {
+        if (isDeleteCommand(userInput)) {
+            return processDeleteAuthorMangaCommand(userInput);
+        }
+
+        return processAddAuthorMangaCommand(userInput);
+    }
+
+    //@@author averageandyyy
+    /**
+     * Checks for the presence of the -d flag
+     *
+     * @param userInput the text input provided by the user
+     * @return true if the -d flag is present, false otherwise
+     * @throws TantouException if the user input is invalid at the validation or parsing stage
+     */
+    public boolean isDeleteCommand(String userInput) throws TantouException {
+        try {
+            command = ownParser.parse(options, getUserInputAsList(userInput));
+            return command.hasOption(constants.Options.DELETE_OPTION);
+        } catch (ParseException e) {
+            throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
+        }
+    }
+
+    //@@author averageandyyy
+    /**
+     * Processes the user input to create an Add command for either a Manga or Author.
+     * Determines whether the input corresponds to a valid Manga or Author command
+     * and returns the appropriate Add command object.
+     *
+     * If the input is valid for a Manga command, it returns an `AddMangaCommand`.
+     * If the input is valid for an Author command, it returns an `AddAuthorCommand`.
+     *
+     * @param userInput the raw input string provided by the user,
+     *                  which should specify an Add operation for either Manga or Author
+     * @return a Command object representing the Add operation for Manga or Author
+     * @throws TantouException if the user input is invalid for both Manga and Author Add commands
+     */
+    public Command processAddAuthorMangaCommand(String userInput) throws TantouException {
+        if (isValidMangaCommand(userInput)) {
+            return new AddMangaCommand(userInput);
+        } else if (isValidAuthorCommand(userInput)) {
+            return new AddAuthorCommand(userInput);
+        }
+
+        throw new TantouException("Invalid catalog command provided!");
+    }
+
+    //@@author averageandyyy
+    /**
+     * Processes the user input to create an Delete command for either a Manga or Author.
+     * Determines whether the input corresponds to a valid Manga or Author command
+     * and returns the appropriate Delete command object.
+     *
+     * If the input is valid for a Manga command, it returns an `DeleteMangaCommand`.
+     * If the input is valid for an Author command, it returns an `DeleteAuthorCommand`.
+     *
+     * @param userInput the raw input string provided by the user,
+     *                  which should specify an Add operation for either Manga or Author
+     * @return a Command object representing the Add operation for Manga or Author
+     * @throws TantouException if the user input is invalid for both Manga and Author Add commands
+     */
+    public Command processDeleteAuthorMangaCommand(String userInput) throws TantouException {
+        if (isValidMangaCommand(userInput)) {
+            return new DeleteMangaCommand(userInput);
+        } else if (isValidAuthorCommand(userInput)) {
+            return new DeleteAuthorCommand(userInput);
+        }
+
+        throw new TantouException("Invalid delete command provided!");
+    }
+
+    //@@author averageandyyy
     public boolean isValidAuthorCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
@@ -217,6 +310,7 @@ public class Parser {
         }
     }
 
+    //@@author averageandyyy
     public boolean isValidMangaCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
@@ -244,7 +338,7 @@ public class Parser {
     private boolean isValidDeadlineCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
-            return command.hasOption(constants.Options.DEADLINE_DATE_OPTION)
+            return command.hasOption(constants.Options.BY_DATE_OPTION)
                     && command.hasOption(constants.Options.AUTHOR_OPTION)
                     && command.hasOption(constants.Options.MANGA_OPTION);
         } catch (ParseException e) {

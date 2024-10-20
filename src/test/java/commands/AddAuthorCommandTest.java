@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
+//@@author averageandyyy
 public class AddAuthorCommandTest {
     private final PrintStream standardOut = System.out;
     private AuthorList authorList;
@@ -27,7 +28,7 @@ public class AddAuthorCommandTest {
     @Test
     public void addAuthorCommand_addSingleAuthor_authorCountOne() {
         try {
-            commandUnderTest = new AddAuthorCommand("add -a \"Kubo Tite\"");
+            commandUnderTest = new AddAuthorCommand("catalog -a \"Kubo Tite\"");
             commandUnderTest.execute(ui, authorList);
             assertEquals(1, authorList.size());
         } catch (TantouException e) {
@@ -41,7 +42,7 @@ public class AddAuthorCommandTest {
     @Test
     public void addAuthorCommand_addDuplicateAuthor_authorExistsExceptionThrown() {
         try {
-            commandUnderTest = new AddAuthorCommand("add -a \"Kubo Tite\"");
+            commandUnderTest = new AddAuthorCommand("catalog -a \"Kubo Tite\"");
             commandUnderTest.execute(ui, authorList);
             // A TantouException should be thrown when a duplicate author tries to be added
             Exception exception = assertThrows(TantouException.class, () -> {
@@ -52,6 +53,22 @@ public class AddAuthorCommandTest {
         } catch (TantouException e) {
             // The code should not fail at this point
             fail();
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void addAuthorCommand_emptyAuthorName_noAuthorProvidedExceptionThrown() {
+        try {
+            // Simulate no author provided
+            commandUnderTest = new AddAuthorCommand("catalog -a \"\"");
+            // A TantouException should be thrown as no author is provided
+            Exception exception = assertThrows(TantouException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+
+            assertEquals("No author provided!", exception.getMessage());
         } finally {
             System.setOut(standardOut);
         }

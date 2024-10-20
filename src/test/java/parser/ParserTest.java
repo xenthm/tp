@@ -2,6 +2,7 @@ package parser;
 
 import commands.AddAuthorCommand;
 import commands.AddMangaCommand;
+import commands.ByeCommand;
 import commands.Command;
 import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ParserTest {
@@ -20,6 +22,12 @@ public class ParserTest {
     @BeforeEach
     public void setUp() {
         parser = new Parser();
+    }
+
+    //@@author averageandyyy
+    @Test
+    public void getUserCommand_byeTantou_parsedCorrectly() {
+        parseInputAssertCommandType("bye", ByeCommand.class);
     }
 
     @Test
@@ -34,22 +42,24 @@ public class ParserTest {
 
     @Test
     public void getUserCommand_deleteAuthor_parsedCorrectly() {
-        parseInputAssertCommandType("delete -a \"test\"", DeleteAuthorCommand.class);
+        parseInputAssertCommandType("catalog -d -a \"test\"", DeleteAuthorCommand.class);
     }
 
     @Test
     public void getUserCommand_deleteManga_parsedCorrectly() {
-        parseInputAssertCommandType("delete -a \"test\" -m \"test\"", DeleteMangaCommand.class);
+        parseInputAssertCommandType("catalog -d -a \"test\" -m \"test\"", DeleteMangaCommand.class);
     }
 
+    //@@author averageandyyy
     @Test
     public void getUserCommand_addAuthor_parsedCorrectly() {
-        parseInputAssertCommandType("add -a \"test\"", AddAuthorCommand.class);
+        parseInputAssertCommandType("catalog -a \"test\"", AddAuthorCommand.class);
     }
 
+    //@@author averageandyyy
     @Test
     public void getUserCommand_addManga_parsedCorrectly() {
-        parseInputAssertCommandType("add -a \"test\" -m \"test\"", AddMangaCommand.class);
+        parseInputAssertCommandType("catalog -a \"test\" -m \"test\"", AddMangaCommand.class);
     }
 
     private void parseInputAssertCommandType(String input, Class<? extends Command> expectedClass) {
@@ -60,5 +70,47 @@ public class ParserTest {
             // Should not reach here as the input should be valid for testing
             fail();
         }
+    }
+
+    //@@author averageandyyy
+    @Test
+    public void getAuthorNameFromInput_validName_nameMatch() {
+        try {
+            String authorName = parser.getAuthorNameFromInput("-a \"Kubo Tite\"");
+            assertEquals(authorName, "Kubo Tite");
+        } catch (TantouException e) {
+            // The code should not fail at this point
+            fail();
+        }
+    }
+
+    //@@author averageandyyy
+    @Test
+    public void getAuthorNameFromInput_invalidOption_parseExceptionThrown() {
+        // Simulate a ParseException with an invalid option that leads to a TantouException
+        assertThrows(TantouException.class, () -> {
+            parser.getAuthorNameFromInput("-x \"\"");
+        });
+    }
+
+    //@@author averageandyyy
+    @Test
+    public void getMangaNameFromInput_validName_nameMatch() {
+        try {
+            String authorName = parser.getMangaNameFromInput("-m \"Bleach\"");
+            assertEquals(authorName, "Bleach");
+        } catch (TantouException e) {
+            // The code should not fail at this point
+            fail();
+        }
+    }
+
+    //@@author averageandyyy
+    @Test
+    public void getMangaNameFromInput_invalidOption_parseExceptionThrown() {
+        // Simulate a ParseException with an invalid option that leads to a TantouException
+        assertThrows(TantouException.class, () -> {
+            parser.getMangaNameFromInput("-x \"\"");
+        });
     }
 }

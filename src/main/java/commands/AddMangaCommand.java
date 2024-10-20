@@ -7,13 +7,14 @@ import manga.Manga;
 import storage.Storage;
 import ui.Ui;
 
-import static constants.Command.ADD_COMMAND;
+import static constants.Command.CATALOG_COMMAND;
 
+//@@author averageandyyy
 public class AddMangaCommand extends Command {
     private String userInput;
 
     public AddMangaCommand(String userInput) {
-        super(ADD_COMMAND);
+        super(CATALOG_COMMAND);
         this.userInput = userInput;
     }
 

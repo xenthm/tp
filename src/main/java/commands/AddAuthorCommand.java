@@ -6,14 +6,14 @@ import exceptions.TantouException;
 import storage.Storage;
 import ui.Ui;
 
+import static constants.Command.CATALOG_COMMAND;
 
-import static constants.Command.ADD_COMMAND;
-
+//@@author averageandyyy
 public class AddAuthorCommand extends Command {
     private String userInput;
 
     public AddAuthorCommand(String userInput) {
-        super(ADD_COMMAND);
+        super(CATALOG_COMMAND);
         this.userInput = userInput;
     }
 

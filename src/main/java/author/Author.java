@@ -54,6 +54,7 @@ public class Author {
         return null;
     }
 
+    //@@author averageandyyy
     @Override
     public boolean equals(Object o) {
         // Check if they are the same object in memory
@@ -73,7 +74,7 @@ public class Author {
         return authorName.equals(otherAuthor.getAuthorName());
     }
 
-    // Ensures that only Authors with the same name
+    //@@author averageandyyy
     @Override
     public int hashCode() {
         return Objects.hash(authorName);
