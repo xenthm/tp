@@ -2,6 +2,7 @@ package parser;
 
 import commands.AddAuthorCommand;
 import commands.AddMangaCommand;
+import commands.ByeCommand;
 import commands.Command;
 import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ParserTest {
@@ -20,6 +22,11 @@ public class ParserTest {
     @BeforeEach
     public void setUp() {
         parser = new Parser();
+    }
+
+    @Test
+    public void getUserCommand_byeTantou_parsedCorrectly() {
+        parseInputAssertCommandType("bye", ByeCommand.class);
     }
 
     @Test
@@ -60,5 +67,43 @@ public class ParserTest {
             // Should not reach here as the input should be valid for testing
             fail();
         }
+    }
+
+    @Test
+    public void getAuthorNameFromInput_validName_nameMatch() {
+        try {
+            String authorName = parser.getAuthorNameFromInput("-a \"Kubo Tite\"");
+            assertEquals(authorName, "Kubo Tite");
+        } catch (TantouException e) {
+            // The code should not fail at this point
+            fail();
+        }
+    }
+
+    @Test
+    public void getAuthorNameFromInput_invalidOption_parseExceptionThrown() {
+        // Simulate a ParseException with an invalid option that leads to a TantouException
+        assertThrows(TantouException.class, () -> {
+            parser.getAuthorNameFromInput("-x \"\"");
+        });
+    }
+
+    @Test
+    public void getMangaNameFromInput_validName_nameMatch() {
+        try {
+            String authorName = parser.getMangaNameFromInput("-m \"Bleach\"");
+            assertEquals(authorName, "Bleach");
+        } catch (TantouException e) {
+            // The code should not fail at this point
+            fail();
+        }
+    }
+
+    @Test
+    public void getMangaNameFromInput_invalidOption_parseExceptionThrown() {
+        // Simulate a ParseException with an invalid option that leads to a TantouException
+        assertThrows(TantouException.class, () -> {
+            parser.getMangaNameFromInput("-x \"\"");
+        });
     }
 }
