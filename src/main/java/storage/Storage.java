@@ -33,6 +33,8 @@ public class Storage {
 
     private Storage() {
         logger = Logger.getLogger(this.getClass().getName());
+
+        assert DATA_PATH.endsWith(".json") : "data file should be of type .json";
         dataFile = new File(DATA_PATH);
 
         gson = new GsonBuilder()
@@ -69,6 +71,7 @@ public class Storage {
     }
 
     public AuthorList readAuthorListFromDataFile() {
+        assert dataFile != null : "dataFile cannot be null";
         try (FileReader reader = new FileReader(dataFile)) {
             Type authorListType = (new TypeToken<AuthorList>() {}).getType();
             return gson.fromJson(reader, authorListType);
@@ -79,6 +82,7 @@ public class Storage {
     }
 
     public void saveAuthorListToDataFile(AuthorList authorList) {
+        assert authorList != null : "authorList cannot be null";
         setupDataFile();
         try (FileWriter writer = new FileWriter("data/catalog.json")) {
             gson.toJson(authorList, writer);

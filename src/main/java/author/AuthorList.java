@@ -50,7 +50,7 @@ public class AuthorList extends ArrayList<Author> {
     }
 
     public void print() {
-        assert size() >= 0 : "authorList.size() must be non-negative";
+        assert size() >= 0 : "AuthorList.size() must be non-negative";
 
         System.out.println("Here are the sla-I mean authors under you! Total: " + size());
         for (int i = 0; i < size(); i++) {
