@@ -1,12 +1,15 @@
 package author;
 
+import com.google.gson.annotations.Expose;
 import manga.Manga;
 import manga.MangaList;
 
 import java.util.Objects;
 
 public class Author {
+    @Expose
     private String authorName;
+    @Expose
     private MangaList mangaList;
 
     public Author(String authorName) {
@@ -27,18 +30,22 @@ public class Author {
     }
 
     public boolean hasManga(Manga manga) {
+        assert manga != null : "manga must not be null";
         return mangaList.contains(manga);
     }
 
     public void addManga(Manga manga) {
+        assert manga != null : "manga must not be null";
         mangaList.add(manga);
     }
 
     public void deleteManga(Manga manga) {
+        assert manga != null : "manga must not be null";
         mangaList.remove(manga);
     }
 
     public Manga getManga(String name) {
+        assert !name.isEmpty() : "manga name must not be empty";
         for (Manga manga : mangaList) {
             if (manga.getMangaName().equals(name)) {
                 return manga;

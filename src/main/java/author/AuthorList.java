@@ -2,20 +2,20 @@ package author;
 
 import java.util.ArrayList;
 
-public class AuthorList {
-    private ArrayList<Author> authorList;
-
-    public AuthorList() {
-        this.authorList = new ArrayList<>();
-    }
-
+public class AuthorList extends ArrayList<Author> {
     public boolean hasAuthor(Author author) {
         assert author != null : "author must not be null";
-        return authorList.contains(author);
+        return contains(author);
     }
 
     public boolean hasAuthor(String authorName) {
-        return hasAuthor(new Author(authorName));
+        assert !authorName.isEmpty() : "author name must not be empty";
+        for (Author author : this) {
+            if (author.getAuthorName().equals(authorName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -30,7 +30,7 @@ public class AuthorList {
      */
     public Author getAuthor(Author author) {
         assert author != null : "author must not be null";
-        for (Author a : authorList) {
+        for (Author a : this) {
             if (a.equals(author)) {
                 return a;
             }
@@ -40,7 +40,8 @@ public class AuthorList {
     }
 
     public Author getAuthor(String authorName) {
-        for (Author a : authorList) {
+        assert !authorName.isEmpty() : "author name must not be empty";
+        for (Author a : this) {
             if (a.getAuthorName().equals(authorName)) {
                 return a;
             }
@@ -48,30 +49,12 @@ public class AuthorList {
         return null;
     }
 
-    public void addAuthor(Author author) {
-        assert author != null : "author must not be null";
-        authorList.add(author);
-    }
-
-    public void deleteAuthor(Author author) {
-        assert author != null : "author must not be null";
-        authorList.remove(author);
-    }
-
-    public ArrayList<Author> getAuthorList() {
-        return authorList;
-    }
-
-    public int size() {
-        return authorList.size();
-    }
-
     public void print() {
-        assert size() >= 0 : "authorList.size() must be non-negative";
+        assert size() >= 0 : "AuthorList.size() must be non-negative";
 
-        System.out.println("Here are the sla-I mean authors under you! Total: " + authorList.size());
-        for (int i = 0; i < authorList.size(); i++) {
-            System.out.println((i + 1) + ". " + authorList.get(i).getAuthorName());
+        System.out.println("Here are the sla-I mean authors under you! Total: " + size());
+        for (int i = 0; i < size(); i++) {
+            System.out.println((i + 1) + ". " + this.get(i).getAuthorName());
         }
     }
 }

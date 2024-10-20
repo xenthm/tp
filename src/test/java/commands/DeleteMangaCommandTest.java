@@ -27,7 +27,7 @@ class DeleteMangaCommandTest {
         ui = new Ui();
         author = new Author("test1");
         Manga manga = new Manga("test1", author);
-        authorList.addAuthor(author);
+        authorList.add(author);
         author.addManga(manga);
     }
 

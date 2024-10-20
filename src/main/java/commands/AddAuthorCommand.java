@@ -3,6 +3,7 @@ package commands;
 import author.Author;
 import author.AuthorList;
 import exceptions.TantouException;
+import storage.Storage;
 import ui.Ui;
 
 
@@ -31,7 +32,7 @@ public class AddAuthorCommand extends Command {
         Author incomingAuthor = new Author(authorName);
 
         if (!authorList.hasAuthor(incomingAuthor)) {
-            authorList.addAuthor(incomingAuthor);
+            authorList.add(incomingAuthor);
             System.out.printf("Successfully added author: %s\n", incomingAuthor.getAuthorName());
 
             // Assert that the addition was successfully executed
@@ -39,6 +40,7 @@ public class AddAuthorCommand extends Command {
             assert authorList.getAuthor(incomingAuthor).getAuthorName()
                     .equals(incomingAuthor.getAuthorName()) : "Author was not added";
 
+            Storage.getInstance().saveAuthorListToDataFile(authorList);
             return;
         }
 
