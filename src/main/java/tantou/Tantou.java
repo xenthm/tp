@@ -4,6 +4,7 @@ import author.AuthorList;
 import commands.Command;
 import exceptions.TantouException;
 import parser.Parser;
+import storage.Storage;
 import ui.Ui;
 
 public class Tantou {
@@ -24,6 +25,11 @@ public class Tantou {
     }
 
     public void run() {
+        AuthorList existingList = Storage.getInstance().readAuthorListFromDataFile();
+        if (existingList != null) {
+            setAuthorList(existingList);
+        }
+
         ui.greetUser();
 
         while (!isExit) {
