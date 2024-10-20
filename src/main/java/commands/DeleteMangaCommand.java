@@ -4,6 +4,7 @@ import author.Author;
 import author.AuthorList;
 import exceptions.TantouException;
 import manga.Manga;
+import storage.Storage;
 import ui.Ui;
 
 import java.util.logging.Level;
@@ -45,6 +46,8 @@ public class DeleteMangaCommand extends Command {
                 System.out.printf("Manga %s successfully deleted from author %s\n",
                         deletingManga.getMangaName(), existingAuthor.getAuthorName());
                 logger.log(Level.INFO, "Successfully deleted manga: " + deletingManga.getMangaName());
+
+                Storage.getInstance().saveAuthorListToDataFile(authorList);
                 return;
             }
             assert !existingAuthor.hasManga(deletingManga): "No manga found";

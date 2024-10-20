@@ -1,12 +1,15 @@
 package manga;
 
 import author.Author;
+import com.google.gson.annotations.Expose;
 
 import java.util.Objects;
 
 public class Manga {
+    @Expose
     private String mangaName;
     private Author author;
+    @Expose
     private String deadline;
 
     public Manga(String mangaName, Author author) {
@@ -15,12 +18,22 @@ public class Manga {
         this.deadline = "None";
     }
 
+    public Manga(String mangaName, Author author, String deadline) {
+        this.mangaName = mangaName;
+        this.author = author;
+        this.deadline = deadline;
+    }
+
     public String getMangaName() {
         return mangaName;
     }
 
     public Author getAuthor() {
         return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     public String getDeadline() {

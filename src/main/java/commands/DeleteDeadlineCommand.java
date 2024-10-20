@@ -2,6 +2,7 @@ package commands;
 
 import author.Author;
 import exceptions.TantouException;
+import storage.Storage;
 import ui.Ui;
 import author.AuthorList;
 
@@ -45,6 +46,8 @@ public class DeleteDeadlineCommand extends Command {
                 logger.log(Level.INFO, "Successfully deleted deadline from " + mangaName);
                 System.out.printf("Deadline successfully deleted from manga %s\n",
                         mangaName);
+
+                Storage.getInstance().saveAuthorListToDataFile(authorList);
                 return;
             }
 

@@ -4,6 +4,7 @@ import author.Author;
 import author.AuthorList;
 import exceptions.TantouException;
 import manga.Manga;
+import storage.Storage;
 import ui.Ui;
 
 import static constants.Command.CATALOG_COMMAND;
@@ -45,6 +46,7 @@ public class AddMangaCommand extends Command {
                 // Assert that the manga was successfully added
                 assert authorList.getAuthor(incomingAuthor).hasManga(incomingManga) : "Failed to add manga";
 
+                Storage.getInstance().saveAuthorListToDataFile(authorList);
                 return;
             }
 
@@ -55,7 +57,7 @@ public class AddMangaCommand extends Command {
         }
 
         // Otherwise create new Author and add Manga to it
-        authorList.addAuthor(incomingAuthor);
+        authorList.add(incomingAuthor);
         incomingAuthor.addManga(incomingManga);
         assert authorList.getAuthor(incomingAuthor).hasManga(incomingManga) : "Failed to add author and manga";
         System.out.printf("Manga %s added successfully to author %s\n", incomingManga.getMangaName(),
