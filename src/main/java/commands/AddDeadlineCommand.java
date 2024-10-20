@@ -3,6 +3,7 @@ package commands;
 import author.Author;
 import exceptions.TantouException;
 import manga.Manga;
+import storage.Storage;
 import ui.Ui;
 import author.AuthorList;
 
@@ -57,5 +58,7 @@ public class AddDeadlineCommand extends Command {
         logger.log(Level.INFO, "Deadline added to manga " + mangaName);
         System.out.printf("Deadline %s added successfully to manga %s\n",
                 deadline, incomingManga.getMangaName());
+
+        Storage.getInstance().saveAuthorListToDataFile(authorList);
     }
 }

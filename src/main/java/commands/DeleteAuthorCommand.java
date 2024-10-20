@@ -3,6 +3,7 @@ package commands;
 import author.Author;
 import author.AuthorList;
 import exceptions.TantouException;
+import storage.Storage;
 import ui.Ui;
 
 import java.util.logging.Level;
@@ -40,6 +41,8 @@ public class DeleteAuthorCommand extends Command {
             System.out.println("Bye bye~");
             System.out.printf("Successfully deleted author: %s\n", deletingAuthor.getAuthorName());
             logger.log(Level.INFO, "Successfully deleted author: " + deletingAuthor.getAuthorName());
+
+            Storage.getInstance().saveAuthorListToDataFile(authorList);
             return;
         }
         assert !authorList.hasAuthor(deletingAuthor): "Author not found";
