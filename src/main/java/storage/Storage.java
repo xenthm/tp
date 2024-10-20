@@ -35,16 +35,17 @@ public class Storage {
     private Storage() {
         assert DATA_PATH.endsWith(".json") : "data file path should be of type .json";
         logger = Logger.getLogger(this.getClass().getName());
+        setupDataFile();
         gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .setPrettyPrinting()
                 .registerTypeAdapter(Author.class, new AuthorDeserializer())
                 .create();
-        dataFile = new File(DATA_PATH);
-        setupDataFile();
     }
 
     private void setupDataFile() {
+        dataFile = new File(DATA_PATH);
+        logger.info("Data file path initialized to: " + dataFile.getAbsolutePath());
         try {
             // check with short-circuiting if path has a parent directory,
             // then if the directories were created with mkdirs()
@@ -72,11 +73,13 @@ public class Storage {
 
     public void setDataFile(File dataFile) {
         Storage.dataFile = dataFile;
+        logger.info("Data file path changed to: " + dataFile.getAbsolutePath());
     }
 
     public static Storage getInstance() {
         if (storage == null) {
             storage = new Storage();
+            logger.info("Singleton Storage first initialized");
         }
         return storage;
     }
@@ -85,7 +88,9 @@ public class Storage {
         assert dataFile != null : "dataFile cannot be null";
         try (FileReader reader = new FileReader(dataFile)) {
             Type authorListType = (new TypeToken<AuthorList>() {}).getType();
-            return gson.fromJson(reader, authorListType);
+            AuthorList authorList = gson.fromJson(reader, authorListType);
+            logger.info("Data restored");
+            return authorList;
         } catch (IOException e) {
             logger.warning("Problems reading file, data was not restored!" + e.getMessage());
         }
@@ -96,6 +101,7 @@ public class Storage {
         assert authorList != null : "authorList cannot be null";
         try (FileWriter writer = new FileWriter(dataFile)) {
             gson.toJson(authorList, writer);
+            logger.info("Data saved");
         } catch (IOException e) {
             logger.warning("Problems saving file, data will not be saved!" + e.getMessage());
         }
