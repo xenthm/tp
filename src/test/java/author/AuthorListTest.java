@@ -16,9 +16,9 @@ public class AuthorListTest {
 
     private final Author author2 = new Author("author2");
 
-    private final AuthorList AUTHORLIST_WITH_NO_AUTHORS = new AuthorList();
+    private final AuthorList authorlistWithNoAuthors = new AuthorList();
 
-    private final AuthorList AUTHORLIST_WITH_THREE_AUTHORS = new AuthorList() {
+    private final AuthorList authorlistWithThreeAuthors = new AuthorList() {
         // instance initializer for anonymous subclass of AuthorList
         {
             add(new Author("author1"));
@@ -29,40 +29,40 @@ public class AuthorListTest {
 
     @Test
     public void hasAuthor_withString_falseIfNotFound() {
-        assertFalse(AUTHORLIST_WITH_THREE_AUTHORS.hasAuthor("authorThatDoesntExist"));
+        assertFalse(authorlistWithThreeAuthors.hasAuthor("authorThatDoesntExist"));
     }
 
     @Test
     public void hasAuthor_withString_trueIfFound() {
-        assertTrue(AUTHORLIST_WITH_THREE_AUTHORS.hasAuthor("author2"));
+        assertTrue(authorlistWithThreeAuthors.hasAuthor("author2"));
     }
 
     @Test
     public void getAuthor_withAuthor_returnsNullIfNotFound() {
-        assertNull(AUTHORLIST_WITH_THREE_AUTHORS.getAuthor(new Author("authorThatDoesntExist")));
+        assertNull(authorlistWithThreeAuthors.getAuthor(new Author("authorThatDoesntExist")));
     }
 
     @Test
     public void getAuthor_withAuthor_returnsAuthorIfFound() {
-        assertEquals(new Author("author2"), AUTHORLIST_WITH_THREE_AUTHORS.getAuthor(author2));
+        assertEquals(new Author("author2"), authorlistWithThreeAuthors.getAuthor(author2));
     }
 
     @Test
     public void getAuthor_withString_returnsNullIfNotFound() {
-        assertNull(AUTHORLIST_WITH_THREE_AUTHORS.getAuthor("authorThatDoesntExist"));
+        assertNull(authorlistWithThreeAuthors.getAuthor("authorThatDoesntExist"));
     }
 
     @Test
     public void getAuthor_withString_returnsAuthorIfFound() {
-        assertEquals(author2, AUTHORLIST_WITH_THREE_AUTHORS.getAuthor("author2"));
+        assertEquals(author2, authorlistWithThreeAuthors.getAuthor("author2"));
     }
 
     @Test
     public void printAuthorList_noAuthors() {
         System.setOut(new PrintStream(outputStreamCaptor));
         try {
-            assertEquals(0, AUTHORLIST_WITH_NO_AUTHORS.size());
-            AUTHORLIST_WITH_NO_AUTHORS.print();
+            assertEquals(0, authorlistWithNoAuthors.size());
+            authorlistWithNoAuthors.print();
             assertEquals("Here are the sla-I mean authors under you! Total: 0" + System.lineSeparator(),
                     outputStreamCaptor.toString());
         } finally {
@@ -74,8 +74,8 @@ public class AuthorListTest {
     public void printAuthorList_threeAuthors() {
         System.setOut(new PrintStream(outputStreamCaptor));
         try {
-            assertEquals(3, AUTHORLIST_WITH_THREE_AUTHORS.size());
-            AUTHORLIST_WITH_THREE_AUTHORS.print();
+            assertEquals(3, authorlistWithThreeAuthors.size());
+            authorlistWithThreeAuthors.print();
             assertEquals("Here are the sla-I mean authors under you! Total: 3" + System.lineSeparator() +
                             "1. author1" + System.lineSeparator() +
                             "2. author2" + System.lineSeparator() +
