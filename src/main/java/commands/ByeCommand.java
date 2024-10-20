@@ -15,6 +15,6 @@ public class ByeCommand extends Command {
     public void execute(Ui ui, AuthorList authorList) {
         ui.sayGoodbye();
         setExit(true);
-        Storage.getInstance().saveDataFile(authorList);
+        Storage.getInstance().saveAuthorListToDataFile(authorList);
     }
 }

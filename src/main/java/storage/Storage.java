@@ -3,6 +3,8 @@ package storage;
 import author.Author;
 import author.AuthorList;
 
+import manga.Manga;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -19,7 +21,6 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
-import manga.Manga;
 
 // singleton
 public class Storage {
@@ -33,7 +34,7 @@ public class Storage {
     private Storage() {
         logger = Logger.getLogger(this.getClass().getName());
         dataFile = new File(DATA_PATH);
-        checkDataFile();
+
         gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .setPrettyPrinting()
@@ -49,25 +50,27 @@ public class Storage {
         return storage;
     }
 
-    private void checkDataFile() {
+    private void setupDataFile() {
         try {
+            // check with short-circuiting if path has a parent directory,
+            // then if the directories were created with mkdirs()
             if (dataFile.getParentFile() != null && dataFile.getParentFile().mkdirs()) {
-                logger.info("Directories Created");
+                logger.info("Directories for data file created");
             }
 
+            // check if data file was created
             if (dataFile.createNewFile()) {
-                logger.info("File Created");
+                logger.info("Data file created");
             }
         } catch (IOException | SecurityException e) {
             // TODO: need to handle app operation when data cannot be saved!
-            logger.warning("Problems with data file, data will not be saved!" + e.getMessage());
+            logger.warning("Problems setting up data file, data will not be saved!" + e.getMessage());
         }
     }
 
-    public AuthorList readDataFile() {
+    public AuthorList readAuthorListFromDataFile() {
         try (FileReader reader = new FileReader(dataFile)) {
-            Type authorListType = new TypeToken<AuthorList>() {
-            }.getType();
+            Type authorListType = (new TypeToken<AuthorList>() {}).getType();
             return gson.fromJson(reader, authorListType);
         } catch (IOException e) {
             logger.warning("Problems reading file, data was not restored!" + e.getMessage());
@@ -75,7 +78,8 @@ public class Storage {
         return null;
     }
 
-    public void saveDataFile(AuthorList authorList) {
+    public void saveAuthorListToDataFile(AuthorList authorList) {
+        setupDataFile();
         try (FileWriter writer = new FileWriter("data/catalog.json")) {
             gson.toJson(authorList, writer);
         } catch (IOException e) {
