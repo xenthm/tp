@@ -79,8 +79,10 @@ class StorageTest {
         STORAGE_TEST_INSTANCE
                 .getGson()
                 .toJson(AUTHOR_LIST_TEST, stringWriter);
-        String actualJson = stringWriter.toString();
-        String expectedJson = new String(Files.readAllBytes(Paths.get(testDataFile)));
+        String actualJson = stringWriter.toString()
+                .replaceAll("\\r\\n", "\n");
+        String expectedJson = new String(Files.readAllBytes(Paths.get(testDataFile)))
+                .replaceAll("\\r\\n", "\n");
         assertEquals(expectedJson, actualJson);
     }
 }
