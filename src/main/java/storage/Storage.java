@@ -22,6 +22,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
+//@@author xenthm
 // singleton
 public class Storage {
     public static final String DATA_PATH = "data/catalog.json";
@@ -32,24 +33,15 @@ public class Storage {
     private static Gson gson;
 
     private Storage() {
+        assert DATA_PATH.endsWith(".json") : "data file path should be of type .json";
         logger = Logger.getLogger(this.getClass().getName());
-
-        assert DATA_PATH.endsWith(".json") : "data file should be of type .json";
-        dataFile = new File(DATA_PATH);
-
         gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .setPrettyPrinting()
                 .registerTypeAdapter(Author.class, new AuthorDeserializer())
                 .create();
-    }
-
-    // for singleton
-    public static Storage getInstance() {
-        if (storage == null) {
-            storage = new Storage();
-        }
-        return storage;
+        dataFile = new File(DATA_PATH);
+        setupDataFile();
     }
 
     private void setupDataFile() {
@@ -70,6 +62,25 @@ public class Storage {
         }
     }
 
+    public Gson getGson() {
+        return gson;
+    }
+
+    public File getDataFile() {
+        return dataFile;
+    }
+
+    public void setDataFile(File dataFile) {
+        Storage.dataFile = dataFile;
+    }
+
+    public static Storage getInstance() {
+        if (storage == null) {
+            storage = new Storage();
+        }
+        return storage;
+    }
+
     public AuthorList readAuthorListFromDataFile() {
         assert dataFile != null : "dataFile cannot be null";
         try (FileReader reader = new FileReader(dataFile)) {
@@ -83,8 +94,7 @@ public class Storage {
 
     public void saveAuthorListToDataFile(AuthorList authorList) {
         assert authorList != null : "authorList cannot be null";
-        setupDataFile();
-        try (FileWriter writer = new FileWriter("data/catalog.json")) {
+        try (FileWriter writer = new FileWriter(dataFile)) {
             gson.toJson(authorList, writer);
         } catch (IOException e) {
             logger.warning("Problems saving file, data will not be saved!" + e.getMessage());
