@@ -5,6 +5,7 @@ import ui.Ui;
 
 import static constants.Command.BYE_COMMAND;
 
+//@@author averageandyyy
 public class ByeCommand extends Command {
     public ByeCommand() {
         super(BYE_COMMAND);

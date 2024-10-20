@@ -24,6 +24,7 @@ public class ParserTest {
         parser = new Parser();
     }
 
+    //@@author averageandyyy
     @Test
     public void getUserCommand_byeTantou_parsedCorrectly() {
         parseInputAssertCommandType("bye", ByeCommand.class);
@@ -49,11 +50,13 @@ public class ParserTest {
         parseInputAssertCommandType("catalog -d -a \"test\" -m \"test\"", DeleteMangaCommand.class);
     }
 
+    //@@author averageandyyy
     @Test
     public void getUserCommand_addAuthor_parsedCorrectly() {
         parseInputAssertCommandType("catalog -a \"test\"", AddAuthorCommand.class);
     }
 
+    //@@author averageandyyy
     @Test
     public void getUserCommand_addManga_parsedCorrectly() {
         parseInputAssertCommandType("catalog -a \"test\" -m \"test\"", AddMangaCommand.class);
@@ -69,6 +72,7 @@ public class ParserTest {
         }
     }
 
+    //@@author averageandyyy
     @Test
     public void getAuthorNameFromInput_validName_nameMatch() {
         try {
@@ -80,6 +84,7 @@ public class ParserTest {
         }
     }
 
+    //@@author averageandyyy
     @Test
     public void getAuthorNameFromInput_invalidOption_parseExceptionThrown() {
         // Simulate a ParseException with an invalid option that leads to a TantouException
@@ -88,6 +93,7 @@ public class ParserTest {
         });
     }
 
+    //@@author averageandyyy
     @Test
     public void getMangaNameFromInput_validName_nameMatch() {
         try {
@@ -99,6 +105,7 @@ public class ParserTest {
         }
     }
 
+    //@@author averageandyyy
     @Test
     public void getMangaNameFromInput_invalidOption_parseExceptionThrown() {
         // Simulate a ParseException with an invalid option that leads to a TantouException

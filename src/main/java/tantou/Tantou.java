@@ -12,6 +12,7 @@ public class Tantou {
     private boolean isExit;
     private AuthorList authorList;
 
+    //@@author averageandyyy
     public Tantou() {
         this.ui = new Ui();
         this.parser = new Parser();
@@ -19,6 +20,7 @@ public class Tantou {
         this.authorList = new AuthorList();
     }
 
+    //@@author averageandyyy
     public void run() {
         ui.greetUser();
 

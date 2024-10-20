@@ -64,6 +64,7 @@ class DeleteMangaCommandTest {
         }
     }
 
+    //@@author averageandyyy
     @Test
     public void deleteMangaCommand_deleteFromNonExistingAuthor_mangaDoesNotExistsExceptionThrown() {
         try {
@@ -84,6 +85,7 @@ class DeleteMangaCommandTest {
         }
     }
 
+    //@@author averageandyyy
     @Test
     public void deleteMangaCommand_emptyAuthorName_noAuthorOrMangaProvidedExceptionThrown() {
         try {
@@ -100,6 +102,7 @@ class DeleteMangaCommandTest {
         }
     }
 
+    //@@author averageandyyy
     @Test
     public void deleteMangaCommand_emptyMangaName_noAuthorOrMangaProvidedExceptionThrown() {
         try {

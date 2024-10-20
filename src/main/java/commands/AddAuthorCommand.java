@@ -7,7 +7,7 @@ import ui.Ui;
 
 import static constants.Command.CATALOG_COMMAND;
 
-
+//@@author averageandyyy
 public class AddAuthorCommand extends Command {
     private String userInput;
 

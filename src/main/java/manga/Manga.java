@@ -35,6 +35,7 @@ public class Manga {
         this.deadline = "None";
     }
 
+    //@@author averageandyyy
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -50,6 +51,7 @@ public class Manga {
         return mangaName.equals(manga.getMangaName()) && author.equals(manga.getAuthor());
     }
 
+    //@@author averageandyyy
     @Override
     public int hashCode() {
         return Objects.hash(mangaName, author);

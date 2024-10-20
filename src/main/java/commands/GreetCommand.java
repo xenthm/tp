@@ -3,6 +3,7 @@ package commands;
 import author.AuthorList;
 import ui.Ui;
 
+//@@author averageandyyy
 public class GreetCommand extends Command {
     public GreetCommand() {
         super("hi");

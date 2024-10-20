@@ -44,6 +44,7 @@ public class Parser {
         initializeOptions();
     }
 
+    //@@author averageandyyy
     /**
      * Initializes command-line options by adding each option defined in the {@link constants.Options#OPTIONS_ARRAY} to
      * the options list.
@@ -98,6 +99,7 @@ public class Parser {
         }
     }
 
+    //@@author averageandyyy
     /**
      * Parses the user input string into an array of strings, capturing quoted strings and individual words, while
      * validating the argument format.
@@ -126,6 +128,7 @@ public class Parser {
         return list.toArray(new String[0]);
     }
 
+    //@@author averageandyyy
     /**
      * Validates the arguments provided in the list to ensure that all options have their corresponding arguments
      * enclosed in quotes.
@@ -151,6 +154,7 @@ public class Parser {
         }
     }
 
+    //@@author averageandyyy
     /**
      * Validates that the argument following an option is a quoted string.
      *
@@ -168,6 +172,7 @@ public class Parser {
         }
     }
 
+    //@@author averageandyyy
     /**
      * Checks if a given string is enclosed in quotes.
      *
@@ -178,7 +183,7 @@ public class Parser {
         return argument.startsWith("\"") && argument.endsWith("\"") && argument.length() >= 2;
     }
 
-
+    //@@author averageandyyy
     public String getAuthorNameFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
@@ -188,6 +193,7 @@ public class Parser {
         }
     }
 
+    //@@author averageandyyy
     public String getMangaNameFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
@@ -206,6 +212,7 @@ public class Parser {
         }
     }
 
+    //@@author averageandyyy
     /**
      * Processes the catalog command based on the user input.
      * Determines whether the command is an Add or Delete operation based on the presence of the delete flag (`-d`).
@@ -228,6 +235,7 @@ public class Parser {
         return processAddAuthorMangaCommand(userInput);
     }
 
+    //@@author averageandyyy
     /**
      * Checks for the presence of the -d flag
      *
@@ -244,6 +252,7 @@ public class Parser {
         }
     }
 
+    //@@author averageandyyy
     /**
      * Processes the user input to create an Add command for either a Manga or Author.
      * Determines whether the input corresponds to a valid Manga or Author command
@@ -267,6 +276,7 @@ public class Parser {
         throw new TantouException("Invalid catalog command provided!");
     }
 
+    //@@author averageandyyy
     /**
      * Processes the user input to create an Delete command for either a Manga or Author.
      * Determines whether the input corresponds to a valid Manga or Author command
@@ -290,6 +300,7 @@ public class Parser {
         throw new TantouException("Invalid delete command provided!");
     }
 
+    //@@author averageandyyy
     public boolean isValidAuthorCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
@@ -299,6 +310,7 @@ public class Parser {
         }
     }
 
+    //@@author averageandyyy
     public boolean isValidMangaCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));

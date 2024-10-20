@@ -59,6 +59,7 @@ class DeleteAuthorCommandTest {
         }
     }
 
+    //@@author averageandyyy
     @Test
     public void deleteAuthorCommand_emptyAuthorName_noAuthorProvidedExceptionThrown() {
         try {
