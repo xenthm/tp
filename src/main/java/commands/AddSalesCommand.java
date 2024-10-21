@@ -33,13 +33,12 @@ public class AddSalesCommand extends Command{
             throw new TantouException("Unit price cannot be less than 0!");
         }
 
-        Sale salesData = new Sale(quantitySold, unitPrice);
-
-        if (salesData.isEmpty() || mangaName.isEmpty() || authorName.isEmpty()) {
+        if (mangaName.isEmpty() || authorName.isEmpty()) {
             logger.warning("No sales data, author, or manga provided.");
-            throw new TantouException("No sales data, author, or manga provided!");
+            throw new TantouException("No author, or manga provided!");
         }
 
+        Sale salesData = new Sale(quantitySold, unitPrice);
         Author incomingAuthor = new Author(authorName);
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
 
