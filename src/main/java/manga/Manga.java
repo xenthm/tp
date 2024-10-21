@@ -20,18 +20,14 @@ public class Manga {
         this.deadline = "None";
     }
 
+    //@@author xenthm
     public Manga(String mangaName, Author author, String deadline) {
         this.mangaName = mangaName;
         this.author = author;
         this.deadline = deadline;
     }
 
-    public Manga(String mangaName, Author author, Sale salesData) {
-        this.mangaName = mangaName;
-        this.author = author;
-        this.salesData = salesData;
-    }
-
+    //@@author
     public String getMangaName() {
         return mangaName;
     }
@@ -76,7 +72,6 @@ public class Manga {
         return mangaName.equals(manga.getMangaName()) && author.equals(manga.getAuthor());
     }
 
-    //@@author averageandyyy
     @Override
     public int hashCode() {
         return Objects.hash(mangaName, author);

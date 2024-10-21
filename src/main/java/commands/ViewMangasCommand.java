@@ -7,6 +7,7 @@ import ui.Ui;
 
 import static constants.Command.VIEW_COMMAND;
 
+//@@author xenthm
 public class ViewMangasCommand extends Command {
     private String userInput;
 

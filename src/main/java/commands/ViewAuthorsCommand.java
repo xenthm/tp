@@ -5,6 +5,7 @@ import ui.Ui;
 
 import static constants.Command.VIEW_COMMAND;
 
+//@@author xenthm
 public class ViewAuthorsCommand extends Command {
     public ViewAuthorsCommand() {
         super(VIEW_COMMAND);

@@ -79,6 +79,7 @@ public class Parser {
         case CATALOG_COMMAND:
             // Returns either a Add or Delete command, which will either be Author or Manga related
             return processCatalogCommand(userInput);
+        //@@author xenthm
         case VIEW_COMMAND:
             if (isValidViewAuthorsCommand(userInput)) {
                 return new ViewAuthorsCommand();
@@ -87,6 +88,7 @@ public class Parser {
                 return new ViewMangasCommand(userInput);
             }
             throw new TantouException("Invalid view command provided!");
+        //@@author sarahchow03
         case DELETE_COMMAND:
             if (isValidDeadlineCommand(userInput)) {
                 return new DeleteDeadlineCommand(userInput);
@@ -355,6 +357,7 @@ public class Parser {
         }
     }
 
+    //@@author xenthm
     private boolean isValidViewMangaCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
@@ -369,6 +372,7 @@ public class Parser {
         return !isValidViewMangaCommand(userInput);
     }
 
+    //@@author iaso1774
     private boolean isValidDeadlineCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
