@@ -53,6 +53,11 @@ public class Manga {
     }
 
     //@@author sarahchow03
+
+    public Sale getSalesData() {
+        return salesData;
+    }
+
     public void addSalesData(Sale salesData) {
         this.salesData = salesData;
     }
