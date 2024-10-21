@@ -209,6 +209,7 @@ public class Parser {
         }
     }
 
+    //@@author
     public String getDeadlineDateFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
@@ -218,6 +219,7 @@ public class Parser {
         }
     }
 
+    //@@author sarahchow03
     public int getQuantitySoldFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
@@ -229,6 +231,7 @@ public class Parser {
         }
     }
 
+    //@@author sarahchow03
     public double getUnitPriceFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
@@ -328,6 +331,7 @@ public class Parser {
         throw new TantouException("Invalid delete command provided!");
     }
 
+    //@@author sarahchow03
     public Command processAddSalesCommand(String userInput) throws TantouException {
         if (isValidSalesCommand(userInput)) {
             return new AddSalesCommand(userInput);
@@ -384,6 +388,7 @@ public class Parser {
         }
     }
 
+    //@@author sarahchow03
     private boolean isValidSalesCommand(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));

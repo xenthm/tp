@@ -1,5 +1,6 @@
 package sales;
 
+//@@author sarahchow03
 public class Sale {
     private int quantitySold = 0;
     private double unitPrice = 0.0;

@@ -52,6 +52,7 @@ public class Manga {
         this.deadline = "None";
     }
 
+    //@@author sarahchow03
     public void addSalesData(Sale salesData) {
         this.salesData = salesData;
     }

@@ -9,7 +9,7 @@ import ui.Ui;
 
 import static constants.Command.SALES_COMMAND;
 
-
+//@@author sarahchow03
 public class AddSalesCommand extends Command{
     private String userInput;
 
