@@ -49,8 +49,8 @@ public class AddSalesCommand extends Command {
         }
 
         if (mangaName.isEmpty() || authorName.isEmpty()) {
-            logger.warning("No sales data, author, or manga provided.");
-            throw new TantouException("No author, or manga provided!");
+            logger.warning("No author or manga provided.");
+            throw new TantouException("No author or manga provided!");
         }
 
         Sale salesData = new Sale(quantitySold, unitPrice);
