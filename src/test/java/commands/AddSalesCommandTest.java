@@ -11,7 +11,9 @@ import ui.Ui;
 
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 //@@author sarahchow03
 class AddSalesCommandTest {
@@ -42,8 +44,7 @@ class AddSalesCommandTest {
             assertEquals(10.90, sale.getUnitPrice());
         } catch (TantouException e) {
             fail();
-        }
-        finally {
+        } finally {
             System.setOut(standardOut);
         }
     }
@@ -51,7 +52,9 @@ class AddSalesCommandTest {
     @Test
     public void execute_negativeQuantity_cannotBeLessThanZeroExceptionThrown() {
         try {
-            commandUnderTest = new AddSalesCommand("sales -a \"test author\" -m \"test manga\" -p \"10.90\" -q \"-20\"");
+            commandUnderTest = new AddSalesCommand(
+                    "sales -a \"test author\" -m \"test manga\" -p \"10.90\" -q \"-20\""
+            );
             Exception exception = assertThrows(TantouException.class, () -> {
                 commandUnderTest.execute(ui, authorList);
             });
@@ -65,7 +68,9 @@ class AddSalesCommandTest {
     @Test
     public void execute_negativeUnitPrice_cannotBeLessThanZeroExceptionThrown() {
         try {
-            commandUnderTest = new AddSalesCommand("sales -a \"test author\" -m \"test manga\" -p \"-10.90\" -q \"20\"");
+            commandUnderTest = new AddSalesCommand(
+                    "sales -a \"test author\" -m \"test manga\" -p \"-10.90\" -q \"20\""
+            );
             Exception exception = assertThrows(TantouException.class, () -> {
                 commandUnderTest.execute(ui, authorList);
             });
@@ -75,8 +80,6 @@ class AddSalesCommandTest {
             System.setOut(standardOut);
         }
     }
-
-
 
 
 }
