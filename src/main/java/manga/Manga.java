@@ -2,6 +2,7 @@ package manga;
 
 import author.Author;
 import com.google.gson.annotations.Expose;
+import sales.Sale;
 
 import java.util.Objects;
 
@@ -11,6 +12,7 @@ public class Manga {
     private Author author;
     @Expose
     private String deadline;
+    private Sale salesData;
 
     public Manga(String mangaName, Author author) {
         this.mangaName = mangaName;
@@ -22,6 +24,12 @@ public class Manga {
         this.mangaName = mangaName;
         this.author = author;
         this.deadline = deadline;
+    }
+
+    public Manga(String mangaName, Author author, Sale salesData) {
+        this.mangaName = mangaName;
+        this.author = author;
+        this.salesData = salesData;
     }
 
     public String getMangaName() {
@@ -46,6 +54,10 @@ public class Manga {
 
     public void deleteDeadline() {
         this.deadline = "None";
+    }
+
+    public void addSalesData(Sale salesData) {
+        this.salesData = salesData;
     }
 
     //@@author averageandyyy
