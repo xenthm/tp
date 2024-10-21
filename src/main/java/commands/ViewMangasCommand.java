@@ -9,7 +9,7 @@ import static constants.Command.VIEW_COMMAND;
 
 //@@author xenthm
 /**
- * Represents the <code>view</code> command. Handles its execution.
+ * Represents the <code>view</code> command with the <code>-a</code> option. Handles its execution.
  */
 public class ViewMangasCommand extends Command {
     private String userInput;

@@ -121,8 +121,7 @@ public class Storage {
             The weird syntax in the following line is required because of type erasure. It allows us to capture the
             generic type information at runtime before it gets erased.
              */
-            Type authorListType = (new TypeToken<AuthorList>() {
-            }).getType();
+            Type authorListType = (new TypeToken<AuthorList>() {}).getType();
             AuthorList authorList = gson.fromJson(reader, authorListType);
             logger.info("Data restored");
             return authorList;
