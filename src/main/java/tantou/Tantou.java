@@ -26,12 +26,20 @@ public class Tantou {
         this.authorList = authorList;
     }
 
-    public void run() {
+    /**
+     * Restores <code>authorList</code> from data file in the <code>Storage</code> singleton if available. If not, it
+     * remains as a newly initialized one.
+     */
+    private void restoreDataIfAvailable() {
         AuthorList existingList = Storage.getInstance().readAuthorListFromDataFile();
         if (existingList != null) {
             setAuthorList(existingList);
         }
-        
+    }
+
+    public void run() {
+        restoreDataIfAvailable();
+
         //@@author averageandyyy
         ui.greetUser();
 

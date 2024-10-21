@@ -6,6 +6,9 @@ import ui.Ui;
 import static constants.Command.VIEW_COMMAND;
 
 //@@author xenthm
+/**
+ * Represents the <code>view</code> command. Handles its execution.
+ */
 public class ViewAuthorsCommand extends Command {
     public ViewAuthorsCommand() {
         super(VIEW_COMMAND);
@@ -16,7 +19,7 @@ public class ViewAuthorsCommand extends Command {
         assert ui != null : "Ui must not be null";
         assert authorList != null : "authorList must not be null";
 
-        if (authorList.size() == 0) {
+        if (authorList.isEmpty()) {
             System.out.println("You have no authors under you! Maybe you are the one slacking...");
             logger.info("authorList is empty");
             return;
