@@ -1,14 +1,13 @@
 package storage;
 
 import author.Author;
-import manga.Manga;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import manga.Manga;
 
 import java.lang.reflect.Type;
 
@@ -29,3 +28,4 @@ class AuthorDeserializer implements JsonDeserializer<Author> {
         return author;
     }
 }
+

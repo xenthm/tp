@@ -30,7 +30,7 @@ public class Storage {
         dataFile = new File(DATA_PATH);
         logger.info("Data file path initialized to: " + dataFile.getAbsolutePath());
         gson = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
+                .setExclusionStrategies(new ExcludeInSerializationAnnotationExclusionStrategy())
                 .setPrettyPrinting()
                 .registerTypeAdapter(Author.class, new AuthorDeserializer())
                 .create();
