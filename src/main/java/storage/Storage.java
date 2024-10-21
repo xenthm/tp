@@ -98,7 +98,7 @@ public class Storage {
      * Main method for initializing and referring to the <code>Storage</code> singleton.
      *
      * @return new <code>Storage</code> object if not already initialized, existing <code>Storage</code> object if
-     * already initialized
+     *         already initialized
      */
     public static Storage getInstance() {
         if (storage == null) {
@@ -112,7 +112,7 @@ public class Storage {
      * Deserializes the <code>JSON</code> contents of <code>dataFile</code> with <code>Gson</code>.
      *
      * @return <code>AuthorList</code> obtained from <code>.json</code> data storage file. If an
-     * <code>IOException</code> was encountered, return <code>null</code> instead.
+     *         <code>IOException</code> was encountered, return <code>null</code> instead.
      */
     public AuthorList readAuthorListFromDataFile() {
         assert dataFile != null : "dataFile cannot be null";
