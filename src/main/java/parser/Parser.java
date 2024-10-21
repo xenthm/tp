@@ -1,14 +1,15 @@
 package parser;
 
-import commands.Command;
 import commands.AddAuthorCommand;
 import commands.AddMangaCommand;
+import commands.AddSalesCommand;
 import commands.ByeCommand;
+import commands.Command;
 import commands.DeleteAuthorCommand;
+import commands.DeleteDeadlineCommand;
 import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
-import commands.DeleteDeadlineCommand;
 import exceptions.TantouException;
 
 import org.apache.commons.cli.CommandLine;
@@ -25,6 +26,7 @@ import static constants.Command.CATALOG_COMMAND;
 import static constants.Command.VIEW_COMMAND;
 import static constants.Command.COMMAND_INDEX;
 import static constants.Command.DELETE_COMMAND;
+import static constants.Command.SALES_COMMAND;
 import static constants.Options.LONG_OPTION_INDEX;
 import static constants.Options.OPTIONS_ARRAY;
 import static constants.Options.OPTION_DESC_INDEX;
@@ -94,6 +96,8 @@ public class Parser {
                 return new DeleteAuthorCommand(userInput);
             }
             throw new TantouException("Invalid delete command provided!");
+        case SALES_COMMAND:
+            return processAddSalesCommand(userInput);
         default:
             throw new TantouException("Invalid command provided!");
         }
@@ -212,6 +216,28 @@ public class Parser {
         }
     }
 
+    public int getQuantitySoldFromInput(String userInput) throws TantouException {
+        try {
+            command = ownParser.parse(options, getUserInputAsList(userInput));
+            return Integer.parseInt(command.getOptionValue(constants.Options.QUANTITY_OPTION));
+        } catch (ParseException e) {
+            throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
+        } catch (NumberFormatException e) {
+            throw new TantouException(String.format("Please enter a integer value for quantity sold!"));
+        }
+    }
+
+    public double getUnitPriceFromInput(String userInput) throws TantouException {
+        try {
+            command = ownParser.parse(options, getUserInputAsList(userInput));
+            return Double.parseDouble(command.getOptionValue(constants.Options.PRICE_OPTION));
+        } catch (ParseException e) {
+            throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
+        } catch (NumberFormatException e) {
+            throw new TantouException(String.format("Please enter a double value for unit price!"));
+        }
+    }
+
     //@@author averageandyyy
     /**
      * Processes the catalog command based on the user input.
@@ -300,6 +326,14 @@ public class Parser {
         throw new TantouException("Invalid delete command provided!");
     }
 
+    public Command processAddSalesCommand(String userInput) throws TantouException {
+        if (isValidSalesCommand(userInput)) {
+            return new AddSalesCommand(userInput);
+        }
+        throw new TantouException("Invalid sales command provided!"
+                + " You need to provide the author, manga, quantity sold, and unit price.");
+    }
+
     //@@author averageandyyy
     public boolean isValidAuthorCommand(String userInput) throws TantouException {
         try {
@@ -339,6 +373,18 @@ public class Parser {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
             return command.hasOption(constants.Options.BY_DATE_OPTION)
+                    && command.hasOption(constants.Options.AUTHOR_OPTION)
+                    && command.hasOption(constants.Options.MANGA_OPTION);
+        } catch (ParseException e) {
+            throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
+        }
+    }
+
+    private boolean isValidSalesCommand(String userInput) throws TantouException {
+        try {
+            command = ownParser.parse(options, getUserInputAsList(userInput));
+            return command.hasOption(constants.Options.QUANTITY_OPTION)
+                    && command.hasOption(constants.Options.PRICE_OPTION)
                     && command.hasOption(constants.Options.AUTHOR_OPTION)
                     && command.hasOption(constants.Options.MANGA_OPTION);
         } catch (ParseException e) {
