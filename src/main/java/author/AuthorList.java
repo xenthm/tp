@@ -8,6 +8,7 @@ public class AuthorList extends ArrayList<Author> {
         return contains(author);
     }
 
+    //@@author xenthm
     public boolean hasAuthor(String authorName) {
         assert !authorName.isEmpty() : "author name must not be empty";
         for (Author author : this) {
@@ -18,6 +19,7 @@ public class AuthorList extends ArrayList<Author> {
         return false;
     }
 
+    //@@author averageandyyy
     /**
      * Searches for existing author in {@code authorList} based on incoming author's
      * name
@@ -39,6 +41,7 @@ public class AuthorList extends ArrayList<Author> {
         return null;
     }
 
+    //@@author xenthm
     public Author getAuthor(String authorName) {
         assert !authorName.isEmpty() : "author name must not be empty";
         for (Author a : this) {

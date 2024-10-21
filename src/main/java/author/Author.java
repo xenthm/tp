@@ -80,6 +80,7 @@ public class Author {
         return Objects.hash(authorName);
     }
 
+    //@@author xenthm
     public void printMangaList() {
         mangaList.print();
     }

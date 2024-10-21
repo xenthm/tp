@@ -26,9 +26,7 @@ public class Tantou {
         this.authorList = authorList;
     }
 
-    //@@author averageandyyy
     public void run() {
-        //@@author xenthm
         AuthorList existingList = Storage.getInstance().readAuthorListFromDataFile();
         if (existingList != null) {
             setAuthorList(existingList);
