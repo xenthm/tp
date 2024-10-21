@@ -51,29 +51,6 @@ public class Storage {
                 .create();
     }
 
-    /**
-     * Sets up <code>dataFile</code> for future <code>FileReader</code> and <code>FileWriter</code> use.
-     */
-    private void setupDataFile() {
-        dataFile = new File(DATA_PATH);
-        logger.info("Data file path initialized to: " + dataFile.getAbsolutePath());
-        try {
-            // check with short-circuiting if path has a parent directory,
-            // then if the directories were created with mkdirs()
-            if (dataFile.getParentFile() != null && dataFile.getParentFile().mkdirs()) {
-                logger.info("Directories for data file created");
-            }
-
-            // check if data file was created
-            if (dataFile.createNewFile()) {
-                logger.info("Data file created");
-            }
-        } catch (IOException | SecurityException e) {
-            // TODO: need to handle app operation when data cannot be saved!
-            logger.warning("Problems setting up data file, data will not be saved!" + e.getMessage());
-        }
-    }
-
     public Gson getGson() {
         return gson;
     }
