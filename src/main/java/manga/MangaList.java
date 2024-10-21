@@ -3,7 +3,13 @@ package manga;
 import java.util.ArrayList;
 
 //@@author xenthm
+/**
+ * Represents a list of <code>Manga</code>. Extends {@code ArrayList<Manga>}
+ */
 public class MangaList extends ArrayList<Manga> {
+    /**
+     * Prints the entire <code>MangaList</code> with the associated <code>deadline</code> after formatting.
+     */
     public void print() {
         assert size() >= 0 : "MangaList.size() must be non-negative";
 
