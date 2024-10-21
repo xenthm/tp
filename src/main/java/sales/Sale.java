@@ -1,8 +1,23 @@
 package sales;
 
 //@@author sarahchow03
-public class Sale {
 
+/**
+ * The Sale class represents a sales data for a manga,
+ * including the quantity sold, the unit price, and the total revenue generated.
+ */
+public class Sale {
+    private int quantitySold;
+    private double unitPrice;
+    private double totalRevenue;
+
+    /**
+     * Constructs a new Sale object with the specified quantity sold and unit price.
+     * The total revenue is automatically calculated upon creation.
+     *
+     * @param quantitySold the number of mangas sold
+     * @param unitPrice the price per manga sold
+     */
     public Sale(int quantitySold, double unitPrice) {
         this.quantitySold = quantitySold;
         this.unitPrice = unitPrice;

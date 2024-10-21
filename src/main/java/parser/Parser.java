@@ -332,6 +332,16 @@ public class Parser {
     }
 
     //@@author sarahchow03
+    /**
+     * Processes the user input to create a Sales command for either an Author.
+     *
+     * If the input is a valid sales command, it returns an `DeleteMangaCommand`.
+     *
+     * @param userInput the raw input string provided by the user,
+     *                  which should include the author, manga, quantity sold, and unit price.
+     * @return a Command object that adds the sales data for the specified manga.
+     * @throws TantouException if the user input is missing a parameter.
+     */
     public Command processAddSalesCommand(String userInput) throws TantouException {
         if (isValidSalesCommand(userInput)) {
             return new AddSalesCommand(userInput);
