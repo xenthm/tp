@@ -8,6 +8,9 @@ import ui.Ui;
 import static constants.Command.VIEW_COMMAND;
 
 //@@author xenthm
+/**
+ * Represents the <code>view</code> command. Handles its execution.
+ */
 public class ViewMangasCommand extends Command {
     private String userInput;
 
