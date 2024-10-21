@@ -11,6 +11,12 @@ import manga.Manga;
 
 import java.lang.reflect.Type;
 
+/**
+ * This package private class defines a custom <code>Gson</code> serializer for the <code>Author</code> class because
+ * the native one cannot handle the circular reference (bidirectional navigability) between an <code>Author</code>
+ * and their <code>Manga</code>. Specifically, it manually sets the <code>author</code> of each <code>Manga</code>
+ * instance that is deserialized.
+ */
 class AuthorDeserializer implements JsonDeserializer<Author> {
     @Override
     public Author deserialize(JsonElement json, Type typeOfAuthor, JsonDeserializationContext context)
