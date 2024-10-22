@@ -10,6 +10,7 @@ import java.util.logging.Level;
 
 import static constants.Command.DELETE_COMMAND;
 
+//@@author sarahchow03
 public class DeleteAuthorCommand extends Command {
     // private static final Logger logger = Logger.getLogger(DeleteAuthorCommand.class.getName());
     private String userInput;

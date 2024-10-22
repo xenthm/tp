@@ -11,6 +11,7 @@ import java.util.logging.Level;
 
 import static constants.Command.DELETE_COMMAND;
 
+//@@author sarahchow03
 public class DeleteMangaCommand extends Command {
     // private static final Logger logger = Logger.getLogger(DeleteMangaCommand.class.getName());
     private String userInput;
