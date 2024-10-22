@@ -235,7 +235,7 @@ public class Parser {
         } catch (ParseException e) {
             throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
         } catch (NumberFormatException e) {
-            throw new TantouException(String.format("Please enter a integer value for quantity sold!"));
+            throw new TantouException(String.format("Please enter a whole number for quantity sold!"));
         }
     }
 
@@ -255,7 +255,7 @@ public class Parser {
         } catch (ParseException e) {
             throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
         } catch (NumberFormatException e) {
-            throw new TantouException(String.format("Please enter a double value for unit price!"));
+            throw new TantouException(String.format("Please enter a number for unit price!"));
         }
     }
 
