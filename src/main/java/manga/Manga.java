@@ -1,16 +1,15 @@
 package manga;
 
 import author.Author;
-import com.google.gson.annotations.Expose;
+import storage.ExcludeInSerialization;
 import sales.Sale;
 
 import java.util.Objects;
 
 public class Manga {
-    @Expose
     private String mangaName;
+    @ExcludeInSerialization
     private Author author;
-    @Expose
     private String deadline;
     private Sale salesData;
 
