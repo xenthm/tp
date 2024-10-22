@@ -145,7 +145,7 @@ public class Storage {
     public void saveAuthorListToDataFile(AuthorList authorList) {
         assert authorList != null : "authorList cannot be null";
         boolean hasIssuesWithDataFile = createFileIfNeeded();
-        if (hasIssuesWithDataFile) {
+        if (!hasIssuesWithDataFile) {
             try (FileWriter writer = new FileWriter(dataFile)) {
                 gson.toJson(authorList, writer);
                 logger.info("Data saved");
