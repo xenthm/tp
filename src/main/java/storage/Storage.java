@@ -94,11 +94,16 @@ public class Storage {
             Type authorListType = (new TypeToken<AuthorList>() {}).getType();
             AuthorList authorList = gson.fromJson(reader, authorListType);
             logger.info("Data restored");
+            System.out.println("Successfully restored data!");
             return authorList;
         } catch (IOException e) {
             logger.warning("Problems accessing file, data was not restored!" + e.getMessage());
+            System.out.println("Problems accessing file, data was not restored! Continuing with an empty list...");
         } catch (JsonParseException e) {
             logger.warning("Problems parsing JSON from file, data was not restored!" + e.getMessage());
+            System.out.println(
+                    "Problems parsing JSON from file, data was not restored! Continuing with an empty list..."
+            );
         }
         return null;
     }
@@ -106,8 +111,10 @@ public class Storage {
     /**
      * Checks if the data storage file <code>dataFile</code> can be found at its specified location. If not, creates
      * the corresponding directories and file, logging the process.
+     *
+     * @return <code>true</code> if there were issues creating the data file, <code>false</code> otherwise
      */
-    private void createFileIfNeeded() {
+    private boolean createFileIfNeeded() {
         assert dataFile != null : "dataFile cannot be null";
         try {
             // check with short-circuiting if path has a parent directory,
@@ -120,8 +127,12 @@ public class Storage {
             if (dataFile.createNewFile()) {
                 logger.info("Data file not found; created it");
             }
+
+            return false;
         } catch (IOException | SecurityException e) {
             logger.warning("Problems creating data file, data will not be saved!" + e.getMessage());
+            System.out.println("Problems creating data file, data will not be saved!");
+            return true;
         }
     }
 
@@ -133,12 +144,15 @@ public class Storage {
      */
     public void saveAuthorListToDataFile(AuthorList authorList) {
         assert authorList != null : "authorList cannot be null";
-        createFileIfNeeded();
-        try (FileWriter writer = new FileWriter(dataFile)) {
-            gson.toJson(authorList, writer);
-            logger.info("Data saved");
-        } catch (IOException e) {
-            logger.warning("Problems saving file, data will not be saved!" + e.getMessage());
+        boolean hasIssuesWithDataFile = createFileIfNeeded();
+        if (hasIssuesWithDataFile) {
+            try (FileWriter writer = new FileWriter(dataFile)) {
+                gson.toJson(authorList, writer);
+                logger.info("Data saved");
+            } catch (IOException e) {
+                logger.warning("Problems saving file, data will not be saved!" + e.getMessage());
+                System.out.println("Problems saving file, data will not be saved!");
+            }
         }
     }
 }
