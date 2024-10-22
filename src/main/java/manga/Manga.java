@@ -1,14 +1,14 @@
 package manga;
 
 import author.Author;
-import storage.ExcludeInSerializationAnnotation;
+import storage.ExcludeInSerialization;
 import sales.Sale;
 
 import java.util.Objects;
 
 public class Manga {
     private String mangaName;
-    @ExcludeInSerializationAnnotation
+    @ExcludeInSerialization
     private Author author;
     private String deadline;
     private Sale salesData;

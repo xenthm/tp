@@ -8,10 +8,10 @@ import com.google.gson.FieldAttributes;
  */
 class ExcludeInSerializationAnnotationExclusionStrategy implements ExclusionStrategy {
     public boolean shouldSkipClass(Class<?> clazz) {
-        return clazz.getAnnotation(ExcludeInSerializationAnnotation.class) != null;
+        return clazz.getAnnotation(ExcludeInSerialization.class) != null;
     }
 
     public boolean shouldSkipField(FieldAttributes fieldAttributes) {
-        return fieldAttributes.getAnnotation(ExcludeInSerializationAnnotation.class) != null;
+        return fieldAttributes.getAnnotation(ExcludeInSerialization.class) != null;
     }
 }
