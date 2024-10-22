@@ -2,6 +2,7 @@ package manga;
 
 import author.Author;
 import storage.ExcludeInSerializationAnnotation;
+import sales.Sale;
 
 import java.util.Objects;
 
@@ -10,6 +11,7 @@ public class Manga {
     @ExcludeInSerializationAnnotation
     private Author author;
     private String deadline;
+    private Sale salesData;
 
     public Manga(String mangaName, Author author) {
         this.mangaName = mangaName;
@@ -47,6 +49,16 @@ public class Manga {
 
     public void deleteDeadline() {
         this.deadline = "None";
+    }
+
+    //@@author sarahchow03
+
+    public Sale getSalesData() {
+        return salesData;
+    }
+
+    public void addSalesData(Sale salesData) {
+        this.salesData = salesData;
     }
 
     //@@author averageandyyy
