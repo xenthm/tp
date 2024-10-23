@@ -10,18 +10,35 @@ import java.util.logging.Level;
 
 import static constants.Command.DELETE_COMMAND;
 
+//@@author sarahchow03
+/**
+ * Represents a command to delete an author from the authorList.
+ * It checks for the existence of the author in the list before deletion.
+ * If the author is not found, an exception is thrown.
+ *
+ * This class extends the Command class and overrides the execute method to handle the delete operation.
+ */
 public class DeleteAuthorCommand extends Command {
     // private static final Logger logger = Logger.getLogger(DeleteAuthorCommand.class.getName());
     private String[] userInputList;
 
+    /**
+     * Constructs a DeleteAuthorCommand with the given user input.
+     *
+     * @param userInputList The user's input list containing the author that is to be deleted.
+     */
     public DeleteAuthorCommand(String[] userInputList) {
         super(DELETE_COMMAND);
         this.userInputList = userInputList;
     }
 
     /**
-     * Conducts several checks on the userInput and authorList before deleting the author from the list.
-     * If any of the checks fail, a TantouException is thrown.
+     * Executes the delete command by conducting several checks on the user input and author list.
+     * If the checks are successful, the specified author is deleted from the list.
+     *
+     * @param ui         The Ui object that handles user interface interactions.
+     * @param authorList The list of authors from which the author will be deleted from.
+     * @throws TantouException If the author does not exist or if the input is invalid.
      */
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {

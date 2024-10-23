@@ -11,18 +11,36 @@ import java.util.logging.Level;
 
 import static constants.Command.DELETE_COMMAND;
 
+//@@author sarahchow03
+/**
+ * Represents a command to delete a manga from an author's mangaList.
+ * It checks for the existence of the author and manga in the list before deletion.
+ * If the author or manga is not found, an exception is thrown.
+ *
+ * This class extends the Command class and overrides the execute method to handle the delete operation.
+ */
 public class DeleteMangaCommand extends Command {
     // private static final Logger logger = Logger.getLogger(DeleteMangaCommand.class.getName());
     private String[] userInputList;
 
+
+    /**
+     * Constructs a DeleteMangaCommand with the given user input.
+     *
+     * @param userInputList The user's input list which consists of the author and manga.
+     */
     public DeleteMangaCommand(String[] userInputList) {
         super(DELETE_COMMAND);
         this.userInputList = userInputList;
     }
 
     /**
-     * Conducts several checks on the userInput and authorList before deleting the manga from the list.
-     * If any of the checks fail, a TantouException is thrown.
+     * Executes the delete command by conducting several checks on the user input and author list.
+     * If the checks are successful, the specified manga is deleted from the author's list.
+     *
+     * @param ui          The Ui object that handles user interface interactions.
+     * @param authorList  The list of authors containing the list of existing authors in the catalog.
+     * @throws TantouException If the author or manga does not exist, or if the input is invalid.
      */
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
