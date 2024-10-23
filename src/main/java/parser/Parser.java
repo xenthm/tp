@@ -220,6 +220,14 @@ public class Parser {
     }
 
     //@@author sarahchow03
+    /**
+     * Parses the user input to extract the quantity sold.
+     * It checks the format of the input and returns the quantity as an integer.
+     *
+     * @param userInput The user's input string containing the quantity sold information.
+     * @return The quantity sold as an integer.
+     * @throws TantouException If the input format is incorrect, or if the quantity is not a valid integer.
+     */
     public int getQuantitySoldFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
@@ -227,11 +235,19 @@ public class Parser {
         } catch (ParseException e) {
             throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
         } catch (NumberFormatException e) {
-            throw new TantouException(String.format("Please enter a integer value for quantity sold!"));
+            throw new TantouException(String.format("Please enter a whole number for quantity sold!"));
         }
     }
 
     //@@author sarahchow03
+    /**
+     * Parses the user input to extract the unit price of the item.
+     * It checks the format of the input and returns the unit price as a double.
+     *
+     * @param userInput The user's input string containing the unit price information.
+     * @return The unit price as a double.
+     * @throws TantouException If the input format is incorrect, or if the price is not a valid double.
+     */
     public double getUnitPriceFromInput(String userInput) throws TantouException {
         try {
             command = ownParser.parse(options, getUserInputAsList(userInput));
@@ -239,7 +255,7 @@ public class Parser {
         } catch (ParseException e) {
             throw new TantouException(String.format("Something went wrong when parsing: %s", e.getMessage()));
         } catch (NumberFormatException e) {
-            throw new TantouException(String.format("Please enter a double value for unit price!"));
+            throw new TantouException(String.format("Please enter a number for unit price!"));
         }
     }
 
