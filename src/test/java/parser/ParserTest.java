@@ -80,7 +80,8 @@ public class ParserTest {
     @Test
     public void getAuthorNameFromInput_validName_nameMatch() {
         try {
-            String authorName = parser.getAuthorNameFromInput("-a \"Kubo Tite\"");
+            String[] userInputList = {"catalog", "-a", "Kubo Tite"};
+            String authorName = parser.getAuthorNameFromInput(userInputList);
             assertEquals(authorName, "Kubo Tite");
         } catch (TantouException e) {
             // The code should not fail at this point
@@ -92,8 +93,9 @@ public class ParserTest {
     @Test
     public void getAuthorNameFromInput_invalidOption_parseExceptionThrown() {
         // Simulate a ParseException with an invalid option that leads to a TantouException
+        String[] userInputList = {"-x", ""};
         assertThrows(TantouException.class, () -> {
-            parser.getAuthorNameFromInput("-x \"\"");
+            parser.getAuthorNameFromInput(userInputList);
         });
     }
 
@@ -101,7 +103,8 @@ public class ParserTest {
     @Test
     public void getMangaNameFromInput_validName_nameMatch() {
         try {
-            String authorName = parser.getMangaNameFromInput("-m \"Bleach\"");
+            String[] userInputList = {"-m", "Bleach"};
+            String authorName = parser.getMangaNameFromInput(userInputList);
             assertEquals(authorName, "Bleach");
         } catch (TantouException e) {
             // The code should not fail at this point
@@ -113,8 +116,9 @@ public class ParserTest {
     @Test
     public void getMangaNameFromInput_invalidOption_parseExceptionThrown() {
         // Simulate a ParseException with an invalid option that leads to a TantouException
+        String[] userInputList = {"-x", ""};
         assertThrows(TantouException.class, () -> {
-            parser.getMangaNameFromInput("-x \"\"");
+            parser.getMangaNameFromInput(userInputList);
         });
     }
 }

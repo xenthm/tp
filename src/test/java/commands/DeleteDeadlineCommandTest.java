@@ -28,11 +28,10 @@ public class DeleteDeadlineCommandTest {
     @Test
     public void deleteDeadlineCommand_deleteSingleDeadline_deadlineMatchAuthorCountOne() {
         try {
-            commandUnderTest = new AddDeadlineCommand("add -a \"Gege Akutami\" " +
-                    "-m \"Jujutsu Kaisen\" -b \"September 29\"");
+            String[] userInputList = {"catalog", "-a", "Gege Akutami", "-m", "Jujutsu Kaisen", "-b", "September 29"};
+            commandUnderTest = new AddDeadlineCommand(userInputList);
             commandUnderTest.execute(ui, authorList);
-            secondCommandUnderTest = new DeleteDeadlineCommand("delete -a \"Gege Akutami\"" +
-                    " -m \"Jujutsu Kaisen\" -b \"September 29\"");
+            secondCommandUnderTest = new DeleteDeadlineCommand(userInputList);
             secondCommandUnderTest.execute(ui, authorList);
             assertEquals(1, authorList.size());
             assertEquals("None", authorList.getAuthor("Gege Akutami")
@@ -48,11 +47,11 @@ public class DeleteDeadlineCommandTest {
     @Test
     public void deleteDeadlineCommand_authorDoesntExist_missingInfoExceptionThrown() {
         try {
-            commandUnderTest = new AddDeadlineCommand("add -a \"Gege Akutami\" " +
-                    "-m \"Jujutsu Kaisen\" -b \"September 29\"");
+            String[] userInputList = {"catalog", "-a", "Gege Akutami", "-m", "Jujutsu Kaisen", "-b", "September 29"};
+            commandUnderTest = new AddDeadlineCommand(userInputList);
             commandUnderTest.execute(ui, authorList);
-            secondCommandUnderTest = new DeleteDeadlineCommand("delete -a \"Oda\"" +
-                    " -m \"One Piece\" -b \"September 29\"");
+            String[] secondInputList = {"catalog", "-a", "Oda", "-m", "Jujutsu Kaisen", "-b", "September 29"};
+            secondCommandUnderTest = new DeleteDeadlineCommand(secondInputList);
             // A TantouException should be thrown when a duplicate author tries to be added
             Exception exception = assertThrows(TantouException.class, () -> {
                 secondCommandUnderTest.execute(ui, authorList);

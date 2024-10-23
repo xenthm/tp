@@ -17,11 +17,11 @@ import static constants.Command.SALES_COMMAND;
  * and adds sales data (quantity sold and unit price) to the specified manga.
  */
 public class AddSalesCommand extends Command {
-    private String userInput;
+    private String[] userInputList;
 
-    public AddSalesCommand(String userInput) {
+    public AddSalesCommand(String[] userInputList) {
         super(SALES_COMMAND);
-        this.userInput = userInput;
+        this.userInputList = userInputList;
     }
 
     /**
@@ -35,10 +35,10 @@ public class AddSalesCommand extends Command {
      */
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
-        String authorName = parser.getAuthorNameFromInput(userInput);
-        String mangaName = parser.getMangaNameFromInput(userInput);
-        int quantitySold = parser.getQuantitySoldFromInput(userInput);
-        double unitPrice = parser.getUnitPriceFromInput(userInput);
+        String authorName = parser.getAuthorNameFromInput(userInputList);
+        String mangaName = parser.getMangaNameFromInput(userInputList);
+        int quantitySold = parser.getQuantitySoldFromInput(userInputList);
+        double unitPrice = parser.getUnitPriceFromInput(userInputList);
 
         if (quantitySold < 0) {
             throw new TantouException("Quantity sold cannot be less than 0!");

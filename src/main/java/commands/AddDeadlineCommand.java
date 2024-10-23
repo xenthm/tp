@@ -12,21 +12,21 @@ import java.util.logging.Level;
 import static constants.Command.ADD_COMMAND;
 
 public class AddDeadlineCommand extends Command {
-    private String userInput;
+    private String[] userInputList;
 
-    public AddDeadlineCommand(String userInput) {
+    public AddDeadlineCommand(String[] userInputList) {
         super(ADD_COMMAND);
-        this.userInput = userInput;
+        this.userInputList = userInputList;
     }
 
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
         // Empty user input should have been caught at the Parser level
-        assert !(userInput.isEmpty()) : "No user input provided";
+        assert !(userInputList.length == 0) : "No user input provided";
 
-        String authorName = parser.getAuthorNameFromInput(userInput);
-        String mangaName = parser.getMangaNameFromInput(userInput);
-        String deadline = parser.getDeadlineDateFromInput(userInput);
+        String authorName = parser.getAuthorNameFromInput(userInputList);
+        String mangaName = parser.getMangaNameFromInput(userInputList);
+        String deadline = parser.getDeadlineDateFromInput(userInputList);
 
         if (deadline.isEmpty() || mangaName.isEmpty() || authorName.isEmpty()) {
             logger.warning("No deadline, author, or manga provided.");

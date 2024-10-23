@@ -12,11 +12,11 @@ import static constants.Command.VIEW_COMMAND;
  * Represents the <code>view</code> command with the <code>-a</code> option. Handles its execution.
  */
 public class ViewMangasCommand extends Command {
-    private String userInput;
+    private String[] userInputList;
 
-    public ViewMangasCommand(String userInput) {
+    public ViewMangasCommand(String[] userInputList) {
         super(VIEW_COMMAND);
-        this.userInput = userInput;
+        this.userInputList = userInputList;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ViewMangasCommand extends Command {
             logger.info("authorList is empty");
             return;
         }
-        String authorName = parser.getAuthorNameFromInput(userInput);
+        String authorName = parser.getAuthorNameFromInput(userInputList);
         if (authorName.isEmpty()) {
             logger.warning("Author argument is empty");
             throw new TantouException("No author provided!");

@@ -26,8 +26,8 @@ public class AddDeadlineCommandTest {
     @Test
     public void addDeadlineCommand_addSingleDeadline_deadlineMatchAuthorCountOne() {
         try {
-            commandUnderTest = new AddDeadlineCommand("add -a \"Gege Akutami\" " +
-                    "-m \"Jujutsu Kaisen\" -b \"September 29\"");
+            String[] userInputList = {"catalog", "-a", "Gege Akutami", "-m", "Jujutsu Kaisen", "-b", "September 29"};
+            commandUnderTest = new AddDeadlineCommand(userInputList);
             commandUnderTest.execute(ui, authorList);
             assertEquals(1, authorList.size());
             assertEquals("September 29", authorList.getAuthor("Gege Akutami")

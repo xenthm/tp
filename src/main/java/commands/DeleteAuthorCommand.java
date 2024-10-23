@@ -12,11 +12,11 @@ import static constants.Command.DELETE_COMMAND;
 
 public class DeleteAuthorCommand extends Command {
     // private static final Logger logger = Logger.getLogger(DeleteAuthorCommand.class.getName());
-    private String userInput;
+    private String[] userInputList;
 
-    public DeleteAuthorCommand(String userInput) {
+    public DeleteAuthorCommand(String[] userInputList) {
         super(DELETE_COMMAND);
-        this.userInput = userInput;
+        this.userInputList = userInputList;
     }
 
     /**
@@ -25,7 +25,7 @@ public class DeleteAuthorCommand extends Command {
      */
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
-        String authorName = parser.getAuthorNameFromInput(userInput);
+        String authorName = parser.getAuthorNameFromInput(userInputList);
 
         if (authorName.isEmpty()) {
             logger.log(Level.SEVERE, "Author name cannot be empty");

@@ -11,20 +11,20 @@ import java.util.logging.Level;
 import static constants.Command.DELETE_COMMAND;
 
 public class DeleteDeadlineCommand extends Command {
-    private String userInput;
+    private String[] userInputList;
 
-    public DeleteDeadlineCommand(String userInput) {
+    public DeleteDeadlineCommand(String[] userInputList) {
         super(DELETE_COMMAND);
-        this.userInput = userInput;
+        this.userInputList = userInputList;
     }
 
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
         // Empty user input should have been caught at the Parser level
-        assert !(userInput.isEmpty()) : "No user input provided";
+        assert !(userInputList.length == 0) : "No user input provided";
 
-        String authorName = parser.getAuthorNameFromInput(userInput);
-        String mangaName = parser.getMangaNameFromInput(userInput);
+        String authorName = parser.getAuthorNameFromInput(userInputList);
+        String mangaName = parser.getMangaNameFromInput(userInputList);
 
         if (authorName.isEmpty() || mangaName.isEmpty()) {
             logger.warning("No author, or manga provided.");

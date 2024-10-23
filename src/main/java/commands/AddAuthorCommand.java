@@ -10,19 +10,19 @@ import static constants.Command.CATALOG_COMMAND;
 
 //@@author averageandyyy
 public class AddAuthorCommand extends Command {
-    private String userInput;
+    private String[] userInputList;
 
-    public AddAuthorCommand(String userInput) {
+    public AddAuthorCommand(String[] userInputList) {
         super(CATALOG_COMMAND);
-        this.userInput = userInput;
+        this.userInputList = userInputList;
     }
 
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
         // Empty user input should have been caught at the Parser level
-        assert !(userInput.isEmpty()) : "No user input provided";
+        assert !(userInputList.length == 0) : "No user input provided";
 
-        String authorName = parser.getAuthorNameFromInput(userInput);
+        String authorName = parser.getAuthorNameFromInput(userInputList);
 
         if (authorName.isEmpty()) {
             logger.warning("No author provided!");

@@ -28,7 +28,8 @@ public class AddMangaCommandTest {
     @Test
     public void addMangaCommand_addOneManga_authorCountOneMangaNameMatch() {
         try {
-            commandUnderTest = new AddMangaCommand("catalog -a \"Kubo Tite\" -m \"Bleach\"");
+            String[] userInputList = {"catalog", "-a", "Kubo Tite", "-m", "Bleach"};
+            commandUnderTest = new AddMangaCommand(userInputList);
             commandUnderTest.execute(ui, authorList);
             assertEquals(1, authorList.size());
             assertEquals("Bleach", authorList.getAuthor("Kubo Tite").getMangaList().get(0).getMangaName());
@@ -42,7 +43,8 @@ public class AddMangaCommandTest {
     @Test
     public void addMangaCommand_addDuplicateManga_mangaExistsExceptionThrown() {
         try {
-            commandUnderTest = new AddMangaCommand("catalog -a \"Kubo Tite\" -m \"Bleach\"");
+            String[] userInputList = {"catalog", "-a", "Kubo Tite", "-m", "Bleach"};
+            commandUnderTest = new AddMangaCommand(userInputList);
             commandUnderTest.execute(ui, authorList);
             Exception exception = assertThrows(TantouException.class, () -> {
                 commandUnderTest.execute(ui, authorList);
@@ -59,9 +61,11 @@ public class AddMangaCommandTest {
     @Test
     public void addMangaCommand_addMangaToExistingAuthor_mangaAddedSuccess() {
         try {
-            Command addAuthor = new AddAuthorCommand("catalog -a \"Kubo Tite\"");
+            String[] authorInputList = {"catalog", "-a", "Kubo Tite"};
+            Command addAuthor = new AddAuthorCommand(authorInputList);
             addAuthor.execute(ui, authorList);
-            commandUnderTest = new AddMangaCommand("catalog -a \"Kubo Tite\" -m \"Bleach\"");
+            String[] mangaInputList = {"catalog", "-a", "Kubo Tite", "-m", "Bleach"};
+            commandUnderTest = new AddMangaCommand(mangaInputList);
             commandUnderTest.execute(ui, authorList);
 
             assertEquals(1, authorList.size());
@@ -77,7 +81,8 @@ public class AddMangaCommandTest {
     public void addMangaCommand_emptyAuthorName_noAuthorOrMangaProvidedExceptionThrown() {
         try {
             // Simulate no author provided
-            commandUnderTest = new AddMangaCommand("catalog -a \"\" -m \"Bleach\"");
+            String[] userInputList = {"catalog", "-a", "", "-m", "Bleach"};
+            commandUnderTest = new AddMangaCommand(userInputList);
             // A TantouException should be thrown as no author is provided
             Exception exception = assertThrows(TantouException.class, () -> {
                 commandUnderTest.execute(ui, authorList);
@@ -93,7 +98,8 @@ public class AddMangaCommandTest {
     public void addMangaCommand_emptyMangaName_noAuthorOrMangaProvidedExceptionThrown() {
         try {
             // Simulate no author provided
-            commandUnderTest = new AddMangaCommand("catalog -a \"Kubo Tite\" -m \"\"");
+            String[] userInputList = {"catalog", "-a", "Kubo Tite", "-m", ""};
+            commandUnderTest = new AddMangaCommand(userInputList);
             // A TantouException should be thrown as no author is provided
             Exception exception = assertThrows(TantouException.class, () -> {
                 commandUnderTest.execute(ui, authorList);
