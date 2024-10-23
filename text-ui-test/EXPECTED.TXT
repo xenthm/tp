@@ -5,10 +5,10 @@ Successfully added author: Oda Eiichiro
 Arguments must be in quotes, e.g., -a "Kubo Tite"
 Arguments must be in quotes, e.g., -a "Kubo Tite"
 Manga Jujutsu Kaisen added successfully to author Gege Akutami
-Arguments must be in quotes, e.g., -a "Kubo Tite"
+Something went wrong when parsing: Missing argument for option: a
 No author provided!
-Arguments must be in quotes, e.g., -a "Kubo Tite"
-Arguments must be in quotes, e.g., -a "Kubo Tite"
+Something went wrong when parsing: Missing argument for option: a
+Something went wrong when parsing: Missing argument for option: m
 No author or manga provided!
 Manga Gangsta's Paradise added successfully to author Coolio
 Arguments must be in quotes, e.g., -a "Kubo Tite"
