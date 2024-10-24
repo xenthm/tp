@@ -31,8 +31,8 @@ class DeleteAuthorCommandTest {
     @Test
     public void deleteAuthorCommand_deleteSingleAuthor_authorCountZero() {
         try {
-            String[] userInputList = {"catalog", "-d", "-a", "test1"};
-            commandUnderTest = new DeleteAuthorCommand(userInputList);
+            String authorName = "test1";
+            commandUnderTest = new DeleteAuthorCommand(authorName);
             commandUnderTest.execute(ui, authorList);
             assertEquals(0, authorList.size());
         } catch (TantouException e) {
@@ -46,8 +46,8 @@ class DeleteAuthorCommandTest {
     @Test
     public void deleteAuthorCommand_deleteNonExistingAuthor_authorDoesNotExistsExceptionThrown() {
         try {
-            String[] userInputList = {"catalog", "-d", "-a", "test1"};
-            commandUnderTest = new DeleteAuthorCommand(userInputList);
+            String authorName = "test1";
+            commandUnderTest = new DeleteAuthorCommand(authorName);
             commandUnderTest.execute(ui, authorList);
             // A TantouException should be thrown when an author that does not exist is deleted
             Exception exception = assertThrows(TantouException.class, () -> commandUnderTest.execute(ui, authorList));
@@ -67,8 +67,9 @@ class DeleteAuthorCommandTest {
     public void deleteAuthorCommand_emptyAuthorName_noAuthorProvidedExceptionThrown() {
         try {
             // Simulate no author provided
-            String[] userInputList = {"catalog", "-d", "-a", ""};
-            commandUnderTest = new DeleteAuthorCommand(userInputList);
+            // Empty arguments should have been caught at the Parser level
+            String authorName = "";
+            commandUnderTest = new DeleteAuthorCommand(authorName);
             // A TantouException should be thrown as no author is provided
             Exception exception = assertThrows(TantouException.class, () -> {
                 commandUnderTest.execute(ui, authorList);

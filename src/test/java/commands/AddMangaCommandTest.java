@@ -28,7 +28,7 @@ public class AddMangaCommandTest {
     @Test
     public void addMangaCommand_addOneManga_authorCountOneMangaNameMatch() {
         try {
-            String[] userInputList = {"catalog", "-a", "Kubo Tite", "-m", "Bleach"};
+            String[] userInputList = {"Kubo Tite", "Bleach"};
             commandUnderTest = new AddMangaCommand(userInputList);
             commandUnderTest.execute(ui, authorList);
             assertEquals(1, authorList.size());
@@ -43,7 +43,7 @@ public class AddMangaCommandTest {
     @Test
     public void addMangaCommand_addDuplicateManga_mangaExistsExceptionThrown() {
         try {
-            String[] userInputList = {"catalog", "-a", "Kubo Tite", "-m", "Bleach"};
+            String[] userInputList = {"Kubo Tite", "Bleach"};
             commandUnderTest = new AddMangaCommand(userInputList);
             commandUnderTest.execute(ui, authorList);
             Exception exception = assertThrows(TantouException.class, () -> {
@@ -61,10 +61,10 @@ public class AddMangaCommandTest {
     @Test
     public void addMangaCommand_addMangaToExistingAuthor_mangaAddedSuccess() {
         try {
-            String[] authorInputList = {"catalog", "-a", "Kubo Tite"};
-            Command addAuthor = new AddAuthorCommand(authorInputList);
+            String authorName = "Kubo Tite";
+            Command addAuthor = new AddAuthorCommand(authorName);
             addAuthor.execute(ui, authorList);
-            String[] mangaInputList = {"catalog", "-a", "Kubo Tite", "-m", "Bleach"};
+            String[] mangaInputList = {"Kubo Tite", "Bleach"};
             commandUnderTest = new AddMangaCommand(mangaInputList);
             commandUnderTest.execute(ui, authorList);
 
@@ -81,7 +81,8 @@ public class AddMangaCommandTest {
     public void addMangaCommand_emptyAuthorName_noAuthorOrMangaProvidedExceptionThrown() {
         try {
             // Simulate no author provided
-            String[] userInputList = {"catalog", "-a", "", "-m", "Bleach"};
+            // Missing arguments should have been caught at the Parser level
+            String[] userInputList = {"", "Bleach"};
             commandUnderTest = new AddMangaCommand(userInputList);
             // A TantouException should be thrown as no author is provided
             Exception exception = assertThrows(TantouException.class, () -> {
@@ -98,7 +99,7 @@ public class AddMangaCommandTest {
     public void addMangaCommand_emptyMangaName_noAuthorOrMangaProvidedExceptionThrown() {
         try {
             // Simulate no author provided
-            String[] userInputList = {"catalog", "-a", "Kubo Tite", "-m", ""};
+            String[] userInputList = {"Kubo Tite", ""};
             commandUnderTest = new AddMangaCommand(userInputList);
             // A TantouException should be thrown as no author is provided
             Exception exception = assertThrows(TantouException.class, () -> {

@@ -89,8 +89,7 @@ public class Parser {
     //@@author averageandyyy
     public String getAuthorNameFromInput(String userInput) throws TantouException {
         if (!userInput.contains(AUTHOR_OPTION_REGEX)) {
-            throw new TantouException("You have likely provided an empty author name! Please provide" +
-                    "an author name!");
+            throw new TantouException("You have not provided an author argument!");
         }
         return userInput.replace(AUTHOR_OPTION_REGEX, EMPTY_REGEX).trim();
     }

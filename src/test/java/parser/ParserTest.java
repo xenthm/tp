@@ -9,7 +9,6 @@ import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
 import exceptions.TantouException;
-import org.apache.commons.cli.CommandLine;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -81,8 +80,9 @@ public class ParserTest {
     @Test
     public void getAuthorNameFromInput_validName_nameMatch() {
         try {
-            String[] userInputList = {"catalog", "-a", "Kubo Tite"};
-            String authorName = parser.getAuthorNameFromInput(userInputList);
+            // At this point, the string would have had the catalog prefix removed
+            String processedUserInput = " -a Kubo Tite";
+            String authorName = parser.getAuthorNameFromInput(processedUserInput);
             assertEquals(authorName, "Kubo Tite");
         } catch (TantouException e) {
             // The code should not fail at this point
@@ -91,35 +91,37 @@ public class ParserTest {
     }
 
     //@@author averageandyyy
-    @Test
-    public void getAuthorNameFromInput_invalidOption_parseExceptionThrown() {
-        // Simulate a ParseException with an invalid option that leads to a TantouException
-        String[] userInputList = {"-x", ""};
-        assertThrows(TantouException.class, () -> {
-            parser.getAuthorNameFromInput(userInputList);
-        });
-    }
+//    @Test
+//    public void getAuthorNameFromInput_invalidOption_parseExceptionThrown() {
+//        // Simulate a ParseException with an invalid option that leads to a TantouException
+//        String[] userInputList = {"-x", ""};
+//        assertThrows(TantouException.class, () -> {
+//            parser.getAuthorNameFromInput(userInputList);
+//        });
+//    }
+    // No longer using Default Parser
 
-    //@@author averageandyyy
-    @Test
-    public void getMangaNameFromInput_validName_nameMatch() {
-        try {
-            String[] userInputList = {"-m", "Bleach"};
-            String authorName = parser.getMangaNameFromInput(userInputList);
-            assertEquals(authorName, "Bleach");
-        } catch (TantouException e) {
-            // The code should not fail at this point
-            fail();
-        }
-    }
+    // Function not in use
+//    //@@author averageandyyy
+//    @Test
+//    public void getMangaNameFromInput_validName_nameMatch() {
+//        try {
+//            String[] userInputList = {"-m", "Bleach"};
+//            String authorName = parser.getMangaNameFromInput(userInputList);
+//            assertEquals(authorName, "Bleach");
+//        } catch (TantouException e) {
+//            // The code should not fail at this point
+//            fail();
+//        }
+//    }
 
-    //@@author averageandyyy
-    @Test
-    public void getMangaNameFromInput_invalidOption_parseExceptionThrown() {
-        // Simulate a ParseException with an invalid option that leads to a TantouException
-        String[] userInputList = {"-x", ""};
-        assertThrows(TantouException.class, () -> {
-            parser.getMangaNameFromInput(userInputList);
-        });
-    }
+//    //@@author averageandyyy
+//    @Test
+//    public void getMangaNameFromInput_invalidOption_parseExceptionThrown() {
+//        // Simulate a ParseException with an invalid option that leads to a TantouException
+//        String[] userInputList = {"-x", ""};
+//        assertThrows(TantouException.class, () -> {
+//            parser.getMangaNameFromInput(userInputList);
+//        });
+//    }
 }
