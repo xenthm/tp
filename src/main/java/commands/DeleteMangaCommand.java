@@ -21,7 +21,8 @@ import static constants.Command.DELETE_COMMAND;
  */
 public class DeleteMangaCommand extends Command {
     // private static final Logger logger = Logger.getLogger(DeleteMangaCommand.class.getName());
-    private String[] userInputList;
+    private String authorName;
+    private String mangaName;
 
 
     /**
@@ -31,7 +32,8 @@ public class DeleteMangaCommand extends Command {
      */
     public DeleteMangaCommand(String[] userInputList) {
         super(DELETE_COMMAND);
-        this.userInputList = userInputList;
+        this.authorName = userInputList[0];
+        this.mangaName = userInputList[1];
     }
 
     /**
@@ -44,9 +46,6 @@ public class DeleteMangaCommand extends Command {
      */
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
-        String authorName = parser.getAuthorNameFromInput(userInputList);
-        String mangaName = parser.getMangaNameFromInput(userInputList);
-
         if (authorName.isEmpty() || mangaName.isEmpty()) {
             logger.log(Level.SEVERE, "Author name or manga name is empty");
             throw new TantouException("No author or manga provided!");
