@@ -284,7 +284,7 @@ public class Parser {
     }
 
     public String removeSalesPrefix(String userInput) {
-        return userInput.replace(SALES_COMMAND, EMPTY_REGEX).trim();
+        return userInput.replace(SALES_COMMAND, EMPTY_REGEX);
     }
 
     //@@author averageandyyy
@@ -433,10 +433,11 @@ public class Parser {
     public boolean areSalesFlagsInOrder(String userInput) throws TantouException {
         int indexOfAuthor = userInput.indexOf(AUTHOR_OPTION_REGEX);
         int indexOfManga = userInput.indexOf(MANGA_OPTION);
-        int indexOfPrice = userInput.indexOf(PRICE_OPTION_REGEX);
         int indexOfQuantity = userInput.indexOf(QUANTITY_OPTION_REGEX);
+        int indexOfPrice = userInput.indexOf(PRICE_OPTION_REGEX);
 
-        if (!(indexOfAuthor < indexOfManga && indexOfManga < indexOfPrice && indexOfPrice < indexOfQuantity)) {
+
+        if (!(indexOfAuthor < indexOfManga && indexOfManga < indexOfPrice && indexOfQuantity < indexOfPrice)) {
             // To be refined
             throw new TantouException("Check the order of your arguments! -a -m -p -q");
         }
@@ -447,18 +448,19 @@ public class Parser {
     //@@author averageandyyy
     public String[] getSalesArguments(String userInput) {
         int indexOfAuthor = userInput.indexOf(AUTHOR_OPTION_REGEX);
-        int indexOfManga = userInput.indexOf(MANGA_OPTION);
-        int indexOfPrice = userInput.indexOf(PRICE_OPTION_REGEX);
+        int indexOfManga = userInput.indexOf(MANGA_OPTION_REGEX);
         int indexOfQuantity = userInput.indexOf(QUANTITY_OPTION_REGEX);
+        int indexOfPrice = userInput.indexOf(PRICE_OPTION_REGEX);
+
 
         // Should have been caught at the validation stage
         assert (indexOfAuthor != -1 && indexOfManga != -1
                 && indexOfPrice != -1 && indexOfQuantity != -1) : "Invalid sales command format";
         assert (indexOfAuthor < indexOfManga && indexOfManga < indexOfPrice
-                && indexOfPrice < indexOfQuantity) : "Invalid sales command format";
+                && indexOfQuantity < indexOfPrice) : "Invalid sales command format";
 
         String authorName = extractAuthorName(userInput, indexOfAuthor, indexOfManga);
-        String mangaName = extractMangaName(userInput, indexOfManga, indexOfPrice);
+        String mangaName = extractMangaName(userInput, indexOfManga, indexOfQuantity);
         String quantitySold = extractQuantity(userInput, indexOfQuantity, indexOfPrice);
         String unitPrice = extractPrice(userInput, indexOfPrice);
 
