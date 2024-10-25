@@ -2,8 +2,10 @@ package storage;
 
 import author.Author;
 import author.AuthorList;
-
-import manga.Manga;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.FileReader;
@@ -11,16 +13,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonParseException;
-import com.google.gson.reflect.TypeToken;
 
 //@@author xenthm
 /**
@@ -50,35 +42,13 @@ public class Storage {
     private Storage() {
         assert DATA_PATH.endsWith(".json") : "data file path should be of type .json";
         logger = Logger.getLogger(this.getClass().getName());
-        setupDataFile();
+        dataFile = new File(DATA_PATH);
+        logger.info("Data file path initialized to: " + dataFile.getAbsolutePath());
         gson = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
+                .setExclusionStrategies(new ExcludeInSerializationAnnotationExclusionStrategy())
                 .setPrettyPrinting()
                 .registerTypeAdapter(Author.class, new AuthorDeserializer())
                 .create();
-    }
-
-    /**
-     * Sets up <code>dataFile</code> for future <code>FileReader</code> and <code>FileWriter</code> use.
-     */
-    private void setupDataFile() {
-        dataFile = new File(DATA_PATH);
-        logger.info("Data file path initialized to: " + dataFile.getAbsolutePath());
-        try {
-            // check with short-circuiting if path has a parent directory,
-            // then if the directories were created with mkdirs()
-            if (dataFile.getParentFile() != null && dataFile.getParentFile().mkdirs()) {
-                logger.info("Directories for data file created");
-            }
-
-            // check if data file was created
-            if (dataFile.createNewFile()) {
-                logger.info("Data file created");
-            }
-        } catch (IOException | SecurityException e) {
-            // TODO: need to handle app operation when data cannot be saved!
-            logger.warning("Problems setting up data file, data will not be saved!" + e.getMessage());
-        }
     }
 
     public Gson getGson() {
@@ -124,11 +94,46 @@ public class Storage {
             Type authorListType = (new TypeToken<AuthorList>() {}).getType();
             AuthorList authorList = gson.fromJson(reader, authorListType);
             logger.info("Data restored");
+            System.out.println("Successfully restored data!");
             return authorList;
         } catch (IOException e) {
-            logger.warning("Problems reading file, data was not restored!" + e.getMessage());
+            logger.warning("Problems accessing file, data was not restored!" + e.getMessage());
+            System.out.println("Problems accessing file, data was not restored! Continuing with an empty list...");
+        } catch (JsonParseException e) {
+            logger.warning("Problems parsing JSON from file, data was not restored!" + e.getMessage());
+            System.out.println(
+                    "Problems parsing JSON from file, data was not restored! Continuing with an empty list..."
+            );
         }
         return null;
+    }
+
+    /**
+     * Checks if the data storage file <code>dataFile</code> can be found at its specified location. If not, creates
+     * the corresponding directories and file, logging the process.
+     *
+     * @return <code>true</code> if there were issues creating the data file, <code>false</code> otherwise
+     */
+    private boolean createFileIfNeeded() {
+        assert dataFile != null : "dataFile cannot be null";
+        try {
+            // check with short-circuiting if path has a parent directory,
+            // then if the directories were created with mkdirs()
+            if (dataFile.getParentFile() != null && dataFile.getParentFile().mkdirs()) {
+                logger.info("Directories not found; created them");
+            }
+
+            // check if data file was created
+            if (dataFile.createNewFile()) {
+                logger.info("Data file not found; created it");
+            }
+
+            return false;
+        } catch (IOException | SecurityException e) {
+            logger.warning("Problems creating data file, data will not be saved!" + e.getMessage());
+            System.out.println("Problems creating data file, data will not be saved!");
+            return true;
+        }
     }
 
     /**
@@ -139,35 +144,15 @@ public class Storage {
      */
     public void saveAuthorListToDataFile(AuthorList authorList) {
         assert authorList != null : "authorList cannot be null";
-        try (FileWriter writer = new FileWriter(dataFile)) {
-            gson.toJson(authorList, writer);
-            logger.info("Data saved");
-        } catch (IOException e) {
-            logger.warning("Problems saving file, data will not be saved!" + e.getMessage());
+        boolean hasIssuesWithDataFile = createFileIfNeeded();
+        if (!hasIssuesWithDataFile) {
+            try (FileWriter writer = new FileWriter(dataFile)) {
+                gson.toJson(authorList, writer);
+                logger.info("Data saved");
+            } catch (IOException e) {
+                logger.warning("Problems saving file, data will not be saved!" + e.getMessage());
+                System.out.println("Problems saving file, data will not be saved!");
+            }
         }
-    }
-}
-
-/**
- * This package private class defines a custom <code>Gson</code> serializer for the <code>Author</code> class because
- * the native one cannot handle the circular reference (bidirectional navigability) between an <code>Author</code>
- * and their <code>Manga</code>. Specifically, it manually sets the <code>author</code> of each <code>Manga</code>
- * instance that is deserialized.
- */
-class AuthorDeserializer implements JsonDeserializer<Author> {
-    @Override
-    public Author deserialize(JsonElement json, Type typeOfAuthor, JsonDeserializationContext context)
-            throws JsonParseException {
-        JsonObject jsonObject = json.getAsJsonObject();
-        String authorName = jsonObject.get("authorName").getAsString();
-        Author author = new Author(authorName);
-
-        JsonArray mangaArray = jsonObject.getAsJsonArray("mangaList");
-        for (JsonElement mangaElement : mangaArray) {
-            Manga manga = context.deserialize(mangaElement, Manga.class);
-            manga.setAuthor(author);    // manually sets the author
-            author.addManga(manga);
-        }
-        return author;
     }
 }
