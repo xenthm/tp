@@ -2,7 +2,6 @@ package commands;
 
 import author.AuthorList;
 import exceptions.TantouException;
-import parser.Parser;
 import ui.Ui;
 
 import java.util.logging.Logger;
