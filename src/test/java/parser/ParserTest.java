@@ -13,7 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 //@@author xenthm
@@ -89,39 +88,4 @@ public class ParserTest {
             fail();
         }
     }
-
-    //@@author averageandyyy
-//    @Test
-//    public void getAuthorNameFromInput_invalidOption_parseExceptionThrown() {
-//        // Simulate a ParseException with an invalid option that leads to a TantouException
-//        String[] userInputList = {"-x", ""};
-//        assertThrows(TantouException.class, () -> {
-//            parser.getAuthorNameFromInput(userInputList);
-//        });
-//    }
-    // No longer using Default Parser
-
-    // Function not in use
-//    //@@author averageandyyy
-//    @Test
-//    public void getMangaNameFromInput_validName_nameMatch() {
-//        try {
-//            String[] userInputList = {"-m", "Bleach"};
-//            String authorName = parser.getMangaNameFromInput(userInputList);
-//            assertEquals(authorName, "Bleach");
-//        } catch (TantouException e) {
-//            // The code should not fail at this point
-//            fail();
-//        }
-//    }
-
-//    //@@author averageandyyy
-//    @Test
-//    public void getMangaNameFromInput_invalidOption_parseExceptionThrown() {
-//        // Simulate a ParseException with an invalid option that leads to a TantouException
-//        String[] userInputList = {"-x", ""};
-//        assertThrows(TantouException.class, () -> {
-//            parser.getMangaNameFromInput(userInputList);
-//        });
-//    }
 }
