@@ -1,7 +1,7 @@
 # Developer Guide
 
 ## Acknowledgements
-Tantou's structure has been greatly inspired by the developer's respective iP listed below:
+Tantou's structure has been greatly inspired by the developer's respective iPs as listed below:
 1. [Donovan](https://github.com/xenthm/ip)
 2. [Sarah](https://github.com/sarahchow03/ip)
 3. [Ian](https://github.com/iaso1774/ip)
@@ -10,7 +10,17 @@ Tantou's structure has been greatly inspired by the developer's respective iP li
 ## Design & implementation
 
 {Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
-
+### AddAuthorCommand
+#### Overview
+The `AddAuthorCommand` is responsible for adding new `Author`s to `Tantou`. The command creates a new `Author` instance and verifies its existence. If it
+is a new and undocumented `Author`, it is then added to `Tantou`'s `AuthorList`, allowing the user to keep track
+of their manga authors. The `AuthorList` is saved via `Storage` for data persistency.
+#### Interaction
+The following diagram illustrates the interactions that take place when the
+user provides `"catalog -a Kubo Tite"` as an input.
+![add author sequence diagram](/docs/uml/addauthor.png)
+If the `Author` instance already exists, a `TantouException` is thrown, informing the user that
+they are already tracking this employee.
 
 ## Product scope
 ### Target user profile
