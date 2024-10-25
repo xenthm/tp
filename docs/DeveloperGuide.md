@@ -1,8 +1,11 @@
 # Developer Guide
 
 ## Acknowledgements
-
-{list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+Tantou's structure has been greatly inspired by the developer's respective iP listed below:
+1. [Donovan](https://github.com/xenthm/ip)
+2. [Sarah](https://github.com/sarahchow03/ip)
+3. [Ian](https://github.com/iaso1774/ip)
+4. [Andy](https://github.com/averageandyyy/ip)
 
 ## Design & implementation
 
