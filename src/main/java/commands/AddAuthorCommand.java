@@ -12,9 +12,9 @@ import static constants.Command.CATALOG_COMMAND;
 public class AddAuthorCommand extends Command {
     private String authorName;
 
-    public AddAuthorCommand(String userInput) {
+    public AddAuthorCommand(String authorName) {
         super(CATALOG_COMMAND);
-        this.authorName = userInput;
+        this.authorName = authorName;
     }
 
     @Override

@@ -7,6 +7,10 @@ import manga.Manga;
 import sales.Sale;
 import ui.Ui;
 
+import static constants.Command.AUTHOR_INDEX;
+import static constants.Command.MANGA_INDEX;
+import static constants.Command.PRICE_INDEX;
+import static constants.Command.QUANTITY_INDEX;
 import static constants.Command.SALES_COMMAND;
 
 //@@author sarahchow03
@@ -17,11 +21,11 @@ import static constants.Command.SALES_COMMAND;
  * and adds sales data (quantity sold and unit price) to the specified manga.
  */
 public class AddSalesCommand extends Command {
-    private String[] salesArguments;
+    private String[] argsAuthorMangaQtyPrice;
 
-    public AddSalesCommand(String[] salesArguments) {
+    public AddSalesCommand(String[] argsAuthorMangaQtyPrice) {
         super(SALES_COMMAND);
-        this.salesArguments = salesArguments;
+        this.argsAuthorMangaQtyPrice = argsAuthorMangaQtyPrice;
     }
 
     /**
@@ -35,10 +39,10 @@ public class AddSalesCommand extends Command {
      */
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
-        String authorName = salesArguments[0];
-        String mangaName = salesArguments[1];
-        int quantitySold = Integer.parseInt(salesArguments[2]);
-        double unitPrice = Double.parseDouble(salesArguments[3]);
+        String authorName = argsAuthorMangaQtyPrice[AUTHOR_INDEX];
+        String mangaName = argsAuthorMangaQtyPrice[MANGA_INDEX];
+        int quantitySold = Integer.parseInt(argsAuthorMangaQtyPrice[QUANTITY_INDEX]);
+        double unitPrice = Double.parseDouble(argsAuthorMangaQtyPrice[PRICE_INDEX]);
 
         if (quantitySold < 0) {
             throw new TantouException("Quantity sold cannot be less than 0!");

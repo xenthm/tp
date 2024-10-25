@@ -7,17 +7,19 @@ import manga.Manga;
 import storage.Storage;
 import ui.Ui;
 
+import static constants.Command.AUTHOR_INDEX;
 import static constants.Command.CATALOG_COMMAND;
+import static constants.Command.MANGA_INDEX;
 
 //@@author averageandyyy
 public class AddMangaCommand extends Command {
     private String authorName;
     private String mangaName;
 
-    public AddMangaCommand(String[] userInputList) {
+    public AddMangaCommand(String[] argsAuthorManga) {
         super(CATALOG_COMMAND);
-        this.authorName = userInputList[0];
-        this.mangaName = userInputList[1];
+        this.authorName = argsAuthorManga[AUTHOR_INDEX];
+        this.mangaName = argsAuthorManga[MANGA_INDEX];
     }
 
     @Override

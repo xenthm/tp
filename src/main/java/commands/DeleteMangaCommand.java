@@ -9,7 +9,9 @@ import ui.Ui;
 
 import java.util.logging.Level;
 
+import static constants.Command.AUTHOR_INDEX;
 import static constants.Command.DELETE_COMMAND;
+import static constants.Command.MANGA_INDEX;
 
 //@@author sarahchow03
 /**
@@ -30,10 +32,10 @@ public class DeleteMangaCommand extends Command {
      *
      * @param userInputList The user's input list which consists of the author and manga.
      */
-    public DeleteMangaCommand(String[] userInputList) {
+    public DeleteMangaCommand(String[] argsAuthorManga) {
         super(DELETE_COMMAND);
-        this.authorName = userInputList[0];
-        this.mangaName = userInputList[1];
+        this.authorName = argsAuthorManga[AUTHOR_INDEX];
+        this.mangaName = argsAuthorManga[MANGA_INDEX];
     }
 
     /**

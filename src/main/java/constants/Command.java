@@ -9,4 +9,9 @@ public class Command {
     public static final String SALES_COMMAND = "sales";
 
     public static final int COMMAND_INDEX = 0;
+
+    public static final int AUTHOR_INDEX = 0;
+    public static final int MANGA_INDEX = 1;
+    public static final int QUANTITY_INDEX = 2;
+    public static final int PRICE_INDEX = 3;
 }

@@ -14,9 +14,9 @@ import static constants.Command.VIEW_COMMAND;
 public class ViewMangasCommand extends Command {
     private String authorName;
 
-    public ViewMangasCommand(String userInput) {
+    public ViewMangasCommand(String authorName) {
         super(VIEW_COMMAND);
-        this.authorName = userInput;
+        this.authorName = authorName;
     }
 
     @Override
