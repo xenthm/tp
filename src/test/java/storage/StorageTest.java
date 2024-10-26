@@ -16,8 +16,9 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.fail;
 
 //@@author xenthm
 class StorageTest {
@@ -73,16 +74,24 @@ class StorageTest {
         assertEquals(AUTHOR_LIST_TEST, STORAGE_TEST_INSTANCE.readAuthorListFromDataFile());
     }
 
+    /**
+     * Tests <code>saveAuthorListToDataFile()</code> independently of the private <code>createFileIfNeeded()</code>
+     * method, by only testing <code>toJson()</code> to check if the correct fields are being serialized.
+     */
     @Test
-    void toJson_serializesCorrectly() throws IOException {
+    void toJson_serializesCorrectly() {
         StringWriter stringWriter = new StringWriter();
         STORAGE_TEST_INSTANCE
                 .getGson()
                 .toJson(AUTHOR_LIST_TEST, stringWriter);
         String actualJson = stringWriter.toString()
                 .replaceAll("\\r\\n", "\n");
-        String expectedJson = new String(Files.readAllBytes(Paths.get(testDataFile)))
-                .replaceAll("\\r\\n", "\n");
-        assertEquals(expectedJson, actualJson);
+        try {
+            String expectedJson = new String(Files.readAllBytes(Paths.get(testDataFile)))
+                    .replaceAll("\\r\\n", "\n");
+            assertEquals(expectedJson, actualJson);
+        } catch (IOException e) {
+            fail("Error reading test data file");
+        }
     }
 }
