@@ -6,13 +6,14 @@ import exceptions.TantouException;
 import ui.Ui;
 
 import static constants.Command.VIEW_COMMAND;
+import static manga.MangaList.mangaColumnsToPrint;
 
 //@@author xenthm
 /**
  * Represents the <code>view</code> command with the <code>-a</code> option. Handles its execution.
  */
 public class ViewMangasCommand extends Command {
-    private String authorName;
+    protected String authorName;
 
     public ViewMangasCommand(String authorName) {
         super(VIEW_COMMAND);
@@ -47,6 +48,6 @@ public class ViewMangasCommand extends Command {
             return;
         }
         System.out.println("Mangas authored by " + authorName + ", Total: " + author.getMangaList().size());
-        author.printMangaList();
+        Ui.printList(author.getMangaList(), mangaColumnsToPrint(true, false));
     }
 }
