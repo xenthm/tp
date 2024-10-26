@@ -2,10 +2,17 @@ package storage;
 
 import author.Author;
 import author.AuthorList;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.Strictness;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
@@ -69,7 +76,7 @@ public class Storage {
      * Main method for initializing and referring to the <code>Storage</code> singleton.
      *
      * @return new <code>Storage</code> object if not already initialized, existing <code>Storage</code> object if
-     * already initialized
+     *         already initialized
      */
     public static Storage getInstance() {
         if (storage == null) {
@@ -83,7 +90,7 @@ public class Storage {
      * Deserializes the <code>JSON</code> contents of <code>dataFile</code> with <code>Gson</code>.
      *
      * @return <code>AuthorList</code> obtained from <code>.json</code> data storage file. If an
-     * <code>IOException</code> was encountered, return <code>null</code> instead.
+     *         <code>IOException</code> was encountered, return <code>null</code> instead.
      */
     public AuthorList readAuthorListFromDataFile() {
         assert dataFile != null : "dataFile cannot be null";
