@@ -2,15 +2,10 @@ package storage;
 
 import author.Author;
 import author.AuthorList;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
@@ -25,6 +20,11 @@ public class Storage {
     // ensure that the desired output file is of type .json
     public static final String DATA_PATH = "data/catalog.json";
 
+    // The weird syntax in the following line is required because of type erasure.
+    // It allows us to capture the generic type information at runtime before it gets erased.
+    private static final Type AUTHOR_LIST_TYPE = new TypeToken<AuthorList>() {
+    }.getType();
+
     private static Logger logger;
     private static Storage storage = null;
     private static File dataFile;
@@ -34,10 +34,10 @@ public class Storage {
      * Private default constructor for the <code>Storage</code> singleton. Sets up the logger, data storage file, and
      * <code>Gson</code> object.
      * <p>
-     *      Importantly, it makes use of the <code>ExcludeInSerializationAnnotation</code> custom exclusion strategy and
-     *      <code>@ExcludeInSerialization</code> annotations within the data classes to specify which attributes to
-     *      serialize into <code>JSON</code>. This prevents infinite recursion due to the circular reference
-     *      (bidirectional navigability) between an <code>Author</code> and their <code>Manga</code>.
+     * Importantly, it makes use of the <code>ExcludeInSerializationAnnotation</code> custom exclusion strategy and
+     * <code>@ExcludeInSerialization</code> annotations within the data classes to specify which attributes to
+     * serialize into <code>JSON</code>. This prevents infinite recursion due to the circular reference (bidirectional
+     * navigability) between an <code>Author</code> and their <code>Manga</code>.
      * </p>
      */
     private Storage() {
@@ -48,7 +48,9 @@ public class Storage {
         gson = new GsonBuilder()
                 .setExclusionStrategies(new ExcludeInSerializationAnnotationExclusionStrategy())
                 .setPrettyPrinting()
+                .registerTypeAdapter(AUTHOR_LIST_TYPE, new AuthorListDeserializer())
                 .registerTypeAdapter(Author.class, new AuthorDeserializer())
+                .setStrictness(Strictness.LENIENT)
                 .create();
     }
 
@@ -88,23 +90,25 @@ public class Storage {
     public AuthorList readAuthorListFromDataFile() {
         assert dataFile != null : "dataFile cannot be null";
         try (FileReader reader = new FileReader(dataFile)) {
-            /*
-            The weird syntax in the following line is required because of type erasure. It allows us to capture the
-            generic type information at runtime before it gets erased.
-             */
-            Type authorListType = (new TypeToken<AuthorList>() {
-            }).getType();
-            AuthorList authorList = gson.fromJson(reader, authorListType);
+            AuthorList authorList = gson.fromJson(reader, AUTHOR_LIST_TYPE);
             logger.info("Data restored");
-            System.out.println("Successfully restored data!");
+            System.out.println("Data restored!");
             return authorList;
         } catch (IOException e) {
-            logger.warning("Problems accessing file, data was not restored!" + e.getMessage());
-            System.out.println("Problems accessing file, data was not restored! Continuing with an empty list...");
-        } catch (JsonParseException e) {
-            logger.warning("Problems parsing JSON from file, data was not restored!" + e.getMessage());
+            logger.warning("Problems accessing file: " + e.getMessage());
+            System.out.println("Problems accessing file, data was not restored! Continuing with an empty list.");
+        } catch (JsonSyntaxException e) {
+            logger.warning("JSON from file is malformed: " + e.getMessage());
             System.out.println(
-                    "Problems parsing JSON from file, data was not restored! Continuing with an empty list..."
+                    "JSON from file is malformed, data was not restored! Continuing with an empty list."
+            );
+            System.out.println(
+                    "If you want to try and manually fix this, CTRL-C out of the program and check catalog.json!"
+            );
+        } catch (JsonParseException e) {
+            logger.warning(e.getMessage());
+            System.out.println(
+                    "Corrupted AuthorList object. Continuing with an empty list."
             );
         }
         return null;
