@@ -9,6 +9,11 @@ import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
+import exceptions.InvalidCatalogCommandException;
+import exceptions.InvalidDeleteCommandException;
+import exceptions.MangaArgsWrongOrderException;
+import exceptions.NoAuthorProvidedException;
+import exceptions.NoMangaProvidedException;
 import exceptions.TantouException;
 
 import static constants.Command.BYE_COMMAND;
@@ -98,8 +103,7 @@ public class Parser {
     private boolean isValidDeleteCommand(String userInput) throws TantouException {
         if (userInput.contains(DELETE_OPTION_REGEX)) {
             if (!userInput.endsWith(DELETE_OPTION_REGEX)) {
-                throw new TantouException("Invalid delete command format! " +
-                        "Please place \"-d\" at the end of the command!");
+                throw new InvalidDeleteCommandException();
             }
             return true;
         }
@@ -129,7 +133,7 @@ public class Parser {
             return new AddAuthorCommand(authorName);
         }
 
-        throw new TantouException("Invalid catalog command provided!");
+        throw new InvalidCatalogCommandException();
     }
 
     //@@author averageandyyy
@@ -154,7 +158,8 @@ public class Parser {
             String authorName = getAuthorNameFromInput(userInput);
             return new DeleteAuthorCommand(authorName);
         }
-        throw new TantouException("Invalid delete command provided!");
+
+        throw new InvalidDeleteCommandException();
     }
 
     //@@author averageandyyy
@@ -173,7 +178,7 @@ public class Parser {
     private boolean hasAuthorFlagAndArgument(String userInput) throws TantouException {
         // Input contains " -a" but not " -a ", the second space is needed to indicate an incoming argument
         if (userInput.contains(SPACE_REGEX + AUTHOR_OPTION) && !userInput.contains(AUTHOR_OPTION_REGEX)) {
-            throw new TantouException("You have not provided an author argument!");
+            throw new NoAuthorProvidedException();
         }
         return userInput.contains(AUTHOR_OPTION_REGEX);
     }
@@ -182,7 +187,7 @@ public class Parser {
     private boolean hasMangaFlagAndArgument(String userInput) throws TantouException {
         // Input contains " -m" but not " -m ", the second space is needed to indicate an incoming argument
         if (userInput.contains(SPACE_REGEX + MANGA_OPTION) && !userInput.contains(MANGA_OPTION_REGEX)) {
-            throw new TantouException("You have not provided a manga argument!");
+            throw new NoMangaProvidedException();
         }
         return userInput.contains(MANGA_OPTION_REGEX);
     }
@@ -196,7 +201,7 @@ public class Parser {
         }
 
         if (indexOfAuthor > indexOfManga) {
-            throw new TantouException("Specify the author before the manga!");
+            throw new MangaArgsWrongOrderException();
         }
 
         return indexOfAuthor < indexOfManga;
@@ -222,11 +227,11 @@ public class Parser {
         String mangaName = extractMangaName(userInput, indexOfManga);
 
         if (authorName.isEmpty()) {
-            throw new TantouException("You have not provided an author argument!");
+            throw new NoAuthorProvidedException();
         }
 
         if (mangaName.isEmpty()) {
-            throw new TantouException("You have not provided a manga!");
+            throw new NoMangaProvidedException();
         }
 
         return new String[]{authorName, mangaName};
