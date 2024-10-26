@@ -10,7 +10,6 @@ import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 //@@author xenthm
-
 /**
  * Helper singleton class that deals with storage of <code>AuthorList</code> data into a <code>.json</code> file. Uses
  * the <code>Gson</code> third-party library to serialize/deserialize the <code>AuthorList</code> into
@@ -22,8 +21,7 @@ public class Storage {
 
     // The weird syntax in the following line is required because of type erasure.
     // It allows us to capture the generic type information at runtime before it gets erased.
-    private static final Type AUTHOR_LIST_TYPE = new TypeToken<AuthorList>() {
-    }.getType();
+    private static final Type AUTHOR_LIST_TYPE = new TypeToken<AuthorList>() {}.getType();
 
     private static Logger logger;
     private static Storage storage = null;
