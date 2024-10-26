@@ -15,6 +15,7 @@ import exceptions.InvalidSalesCommandException;
 import exceptions.MangaArgsWrongOrderException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.NoMangaProvidedException;
+import exceptions.SalesArgsWrongOrderException;
 import exceptions.TantouException;
 
 import static constants.Command.BYE_COMMAND;
@@ -284,8 +285,7 @@ public class Parser {
 
 
         if (!(indexOfAuthor < indexOfManga && indexOfManga < indexOfPrice && indexOfQuantity < indexOfPrice)) {
-            // To be refined
-            throw new TantouException("Check the order of your arguments! -a -m -p -q");
+            throw new SalesArgsWrongOrderException();
         }
 
         return true;
