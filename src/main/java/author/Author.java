@@ -26,6 +26,8 @@ public class Author {
         return mangaList;
     }
 
+    public void setMangaList(MangaList mangaList) { this.mangaList = mangaList; }
+
     public boolean hasManga(Manga manga) {
         assert manga != null : "manga must not be null";
         return mangaList.contains(manga);
