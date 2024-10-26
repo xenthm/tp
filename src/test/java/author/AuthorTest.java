@@ -2,10 +2,12 @@ package author;
 
 import manga.Manga;
 import org.junit.jupiter.api.Test;
+import ui.Ui;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import static manga.MangaList.mangaColumnsToPrint;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -59,7 +61,7 @@ public class AuthorTest {
         System.setOut(new PrintStream(outputStreamCaptor));
         try {
             assertEquals(3, authorWithThreeMangas.getMangaList().size());
-            authorWithThreeMangas.printMangaList();
+            Ui.printList(authorWithThreeMangas.getMangaList(), mangaColumnsToPrint(true, false));
             assertEquals("1. manga1 | Deadline: None" + System.lineSeparator()
                             + "2. manga2 | Deadline: None" + System.lineSeparator()
                             + "3. manga3 | Deadline: None" + System.lineSeparator(),
@@ -74,7 +76,7 @@ public class AuthorTest {
         System.setOut(new PrintStream(outputStreamCaptor));
         try {
             assertEquals(0, authorWithNoMangas.getMangaList().size());
-            authorWithNoMangas.printMangaList();
+            Ui.printList(authorWithNoMangas.getMangaList(), mangaColumnsToPrint(false, false));
             assertEquals("", outputStreamCaptor.toString());
         } finally {
             System.setOut(standardOut);
