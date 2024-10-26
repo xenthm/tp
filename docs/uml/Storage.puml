@@ -1,0 +1,29 @@
+@startuml
+hide circle
+
+class Storage <<singleton>> {
+    + {static} DATA_PATH: String = "catalog.json"
+    - Storage()
+    + getInstance(): Storage
+    + readAuthorListFromDataFile(): AuthorList
+    + saveAuthorListToDataFile(authorList: AuthorList): AuthorList
+}
+Storage *-- "0..1" Storage
+note bottom of Storage: Only a maximum of\none instance can exist
+
+class StorageHelper <<utility>> {
+    + {static} readFile()
+    + {static} saveFile(authorList: AuthorList)
+}
+note right: simplifies calls
+StorageHelper ..> Storage : accesses
+
+class CommandThatModifies
+note left: AddAuthorCommand,\nDeleteMangaCommand,\nAddSalesCommand, etc.
+CommandThatModifies .> StorageHelper : uses
+
+class AuthorList
+AuthorList <. Storage : read
+AuthorList <. Storage : save
+
+@enduml

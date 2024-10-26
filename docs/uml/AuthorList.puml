@@ -1,0 +1,48 @@
+@startuml
+hide circle
+
+class AuthorList {
+    + hasAuthor(author: Author): boolean
+    + hasAuthor(authorName: String): boolean
+    + getAuthor(author: Author): Author
+    + getAuthor(authorName: String): Author
+    + print(): void
+}
+
+class ArrayList
+ArrayList <|-up- AuthorList
+note on link : ArrayList<Author>
+
+class Author {
+    - authorName: String
+    + addManga(manga: Manga): void
+    + deleteManga(manga: Manga): void
+    + getManga(manga: Manga): Manga
+    + printMangaList(): void
+}
+Author "*" -up-o ArrayList : < comprises of
+note right of Author : convenience wrappers\nfor MangaList methods
+
+class Manga {
+    - mangaName: String
+    - deadline: String = "None"
+}
+Author "0..1" <-- Manga : < authored by
+
+class MangaList {
+    + print(): void
+}
+ArrayList <|-down- MangaList
+note on link : ArrayList<Manga>
+Manga "*" -up-o MangaList : < comprises of
+Author -left-> "0..1" MangaList : > has Mangas in
+
+class Sale {
+    - quantitySold: int
+    - unitPrice: double
+    - totalRevenue: double
+    + toString(): String
+}
+Manga --> "0..1" Sale
+
+@enduml
