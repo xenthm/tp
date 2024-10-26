@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 
 //@@author xenthm
 /**
- * This package private class defines a custom <code>Gson</code> serializer for the top-level <code>AuthorList</code>
+ * This package private class defines a custom <code>Gson</code> deserializer for the top-level <code>AuthorList</code>
  * class. It provides informative errors messages as feedback for users who manually edit the data file, and allows
  * for skipping of corrupted <code>Author</code> elements while allowing valid ones to still be restored.
  */
@@ -43,4 +43,3 @@ class AuthorListDeserializer implements JsonDeserializer<AuthorList> {
         return authorList;
     }
 }
-

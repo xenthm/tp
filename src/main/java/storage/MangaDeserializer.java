@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 
 //@@author xenthm
 /**
- * This package private class defines a custom <code>Gson</code> serializer for the <code>Manga</code> class. It
+ * This package private class defines a custom <code>Gson</code> deserializer for the <code>Manga</code> class. It
  * contains a reference to its <code>Author</code>. It provides informative errors messages as feedback for users who
  * manually edit the data file.
  */
