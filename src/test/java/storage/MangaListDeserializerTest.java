@@ -76,9 +76,9 @@ class MangaListDeserializerTest {
 
         assertNotNull(actualMangaList);
         Assertions.assertEquals(2, actualMangaList.size());
-        Assertions.assertEquals("manga1", actualMangaList.get(0).getMangaName());
-        Assertions.assertEquals("deadline1", actualMangaList.get(0).getDeadline());
-        Assertions.assertEquals("manga2", actualMangaList.get(1).getMangaName());
-        Assertions.assertEquals("deadline2", actualMangaList.get(1).getDeadline());
+        Assertions.assertEquals(expectedMangaList.get(0).getMangaName(), actualMangaList.get(0).getMangaName());
+        Assertions.assertEquals(expectedMangaList.get(0).getDeadline(), actualMangaList.get(0).getDeadline());
+        Assertions.assertEquals(expectedMangaList.get(1).getMangaName(), actualMangaList.get(1).getMangaName());
+        Assertions.assertEquals(expectedMangaList.get(1).getDeadline(), actualMangaList.get(1).getDeadline());
     }
 }

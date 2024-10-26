@@ -92,10 +92,14 @@ class AuthorDeserializerTest {
         assertNotNull(actualAuthor);
         assertEquals(expectedAuthor.getAuthorName(), actualAuthor.getAuthorName());
         assertNotNull(actualAuthor.getMangaList());
-        assertEquals(2, actualAuthor.getMangaList().size());
-        assertEquals("manga1", actualAuthor.getMangaList().get(0).getMangaName());
-        assertEquals("deadline1", actualAuthor.getMangaList().get(0).getDeadline());
-        assertEquals("manga2", actualAuthor.getMangaList().get(1).getMangaName());
-        assertEquals("deadline2", actualAuthor.getMangaList().get(1).getDeadline());
+        assertEquals(expectedAuthor.getMangaList().size(), actualAuthor.getMangaList().size());
+        assertEquals(expectedAuthor.getMangaList().get(0).getMangaName(),
+                actualAuthor.getMangaList().get(0).getMangaName());
+        assertEquals(expectedAuthor.getMangaList().get(0).getDeadline(),
+                actualAuthor.getMangaList().get(0).getDeadline());
+        assertEquals(expectedAuthor.getMangaList().get(1).getMangaName(),
+                actualAuthor.getMangaList().get(1).getMangaName());
+        assertEquals(expectedAuthor.getMangaList().get(1).getDeadline(),
+                actualAuthor.getMangaList().get(1).getDeadline());
     }
 }
