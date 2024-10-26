@@ -44,12 +44,12 @@ public class ParserTest {
     //@@author sarahchow03
     @Test
     public void getUserCommand_deleteAuthor_parsedCorrectly() {
-        parseInputAssertCommandType("catalog -d -a \"test\"", DeleteAuthorCommand.class);
+        parseInputAssertCommandType("catalog -a \"test\" -d", DeleteAuthorCommand.class);
     }
 
     @Test
     public void getUserCommand_deleteManga_parsedCorrectly() {
-        parseInputAssertCommandType("catalog -d -a \"test\" -m \"test\"", DeleteMangaCommand.class);
+        parseInputAssertCommandType("catalog -a \"test\" -m \"test\" -d", DeleteMangaCommand.class);
     }
 
     //@@author averageandyyy
