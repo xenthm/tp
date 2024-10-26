@@ -2,6 +2,8 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.NoAuthorProvidedException;
+import exceptions.NoMangaProvidedException;
 import exceptions.PriceTooLargeException;
 import exceptions.QuantityTooLargeException;
 import exceptions.TantouException;
@@ -66,9 +68,14 @@ public class AddSalesCommand extends Command {
             throw new TantouException("Unit price cannot be less than 0!");
         }
 
-        if (mangaName.isEmpty() || authorName.isEmpty()) {
-            logger.warning("No author or manga provided.");
-            throw new TantouException("No author or manga provided!");
+        if (authorName.isEmpty()) {
+            logger.warning("No author provided.");
+            throw new NoAuthorProvidedException();
+        }
+
+        if (mangaName.isEmpty()) {
+            logger.warning("No manga provided.");
+            throw new NoMangaProvidedException();
         }
 
         Sale salesData = new Sale(quantitySold, unitPrice);
