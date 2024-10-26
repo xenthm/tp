@@ -11,6 +11,7 @@ import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
 import exceptions.InvalidCatalogCommandException;
 import exceptions.InvalidDeleteCommandException;
+import exceptions.InvalidSalesCommandException;
 import exceptions.MangaArgsWrongOrderException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.NoMangaProvidedException;
@@ -255,8 +256,7 @@ public class Parser {
             String[] salesArguments = getSalesArguments(userInput);
             return new AddSalesCommand(salesArguments);
         }
-        throw new TantouException("Invalid sales command provided!"
-                + " You need to provide the author, manga, quantity sold, and unit price.");
+        throw new InvalidSalesCommandException();
     }
 
     //@@author averageandyyy
