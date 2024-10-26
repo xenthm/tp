@@ -3,9 +3,9 @@ package commands;
 import author.Author;
 import author.AuthorList;
 import exceptions.TantouException;
-import storage.Storage;
 import ui.Ui;
 
+import static storage.StorageHelper.saveFile;
 import static constants.Command.CATALOG_COMMAND;
 
 //@@author averageandyyy
@@ -38,7 +38,7 @@ public class AddAuthorCommand extends Command {
             assert authorList.getAuthor(incomingAuthor).getAuthorName()
                     .equals(incomingAuthor.getAuthorName()) : "Author was not added";
 
-            Storage.getInstance().saveAuthorListToDataFile(authorList);
+            saveFile(authorList);
             return;
         }
 
