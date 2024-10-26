@@ -15,6 +15,7 @@ import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 //@@author xenthm
+
 /**
  * Helper singleton class that deals with storage of <code>AuthorList</code> data into a <code>.json</code> file. Uses
  * the <code>Gson</code> third-party library to serialize/deserialize the <code>AuthorList</code> into
@@ -33,10 +34,10 @@ public class Storage {
      * Private default constructor for the <code>Storage</code> singleton. Sets up the logger, data storage file, and
      * <code>Gson</code> object.
      * <p>
-     *     Importantly, it makes use of the <code>excludeFieldsWithoutExposeAnnotation()</code> method and
-     *     <code>@Expose</code> annotations within the data classes to specify which attributes to serialize into
-     *     <code>JSON</code>. This prevents infinite recursion due to the circular reference (bidirectional
-     *     navigability) between an <code>Author</code> and their <code>Manga</code>.
+     *      Importantly, it makes use of the <code>ExcludeInSerializationAnnotation</code> custom exclusion strategy and
+     *      <code>@ExcludeInSerialization</code> annotations within the data classes to specify which attributes to
+     *      serialize into <code>JSON</code>. This prevents infinite recursion due to the circular reference
+     *      (bidirectional navigability) between an <code>Author</code> and their <code>Manga</code>.
      * </p>
      */
     private Storage() {
@@ -68,7 +69,7 @@ public class Storage {
      * Main method for initializing and referring to the <code>Storage</code> singleton.
      *
      * @return new <code>Storage</code> object if not already initialized, existing <code>Storage</code> object if
-     *         already initialized
+     * already initialized
      */
     public static Storage getInstance() {
         if (storage == null) {
@@ -82,7 +83,7 @@ public class Storage {
      * Deserializes the <code>JSON</code> contents of <code>dataFile</code> with <code>Gson</code>.
      *
      * @return <code>AuthorList</code> obtained from <code>.json</code> data storage file. If an
-     *         <code>IOException</code> was encountered, return <code>null</code> instead.
+     * <code>IOException</code> was encountered, return <code>null</code> instead.
      */
     public AuthorList readAuthorListFromDataFile() {
         assert dataFile != null : "dataFile cannot be null";
@@ -91,7 +92,8 @@ public class Storage {
             The weird syntax in the following line is required because of type erasure. It allows us to capture the
             generic type information at runtime before it gets erased.
              */
-            Type authorListType = (new TypeToken<AuthorList>() {}).getType();
+            Type authorListType = (new TypeToken<AuthorList>() {
+            }).getType();
             AuthorList authorList = gson.fromJson(reader, authorListType);
             logger.info("Data restored");
             System.out.println("Successfully restored data!");
@@ -109,8 +111,8 @@ public class Storage {
     }
 
     /**
-     * Checks if the data storage file <code>dataFile</code> can be found at its specified location. If not, creates
-     * the corresponding directories and file, logging the process.
+     * Checks if the data storage file <code>dataFile</code> can be found at its specified location. If not, creates the
+     * corresponding directories and file, logging the process.
      *
      * @return <code>true</code> if there were issues creating the data file, <code>false</code> otherwise
      */
