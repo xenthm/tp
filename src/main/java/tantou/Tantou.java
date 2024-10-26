@@ -7,6 +7,8 @@ import parser.Parser;
 import storage.Storage;
 import ui.Ui;
 
+import static storage.StorageHelper.readFile;
+
 public class Tantou {
     private Ui ui;
     private Parser parser;
@@ -31,7 +33,7 @@ public class Tantou {
      * remains as a newly initialized one.
      */
     private void restoreDataIfAvailable() {
-        AuthorList existingList = Storage.getInstance().readAuthorListFromDataFile();
+        AuthorList existingList = readFile();
         if (existingList != null) {
             setAuthorList(existingList);
         }
