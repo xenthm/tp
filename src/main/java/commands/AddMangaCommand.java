@@ -4,12 +4,12 @@ import author.Author;
 import author.AuthorList;
 import exceptions.TantouException;
 import manga.Manga;
-import storage.Storage;
 import ui.Ui;
 
 import static constants.Command.AUTHOR_INDEX;
 import static constants.Command.CATALOG_COMMAND;
 import static constants.Command.MANGA_INDEX;
+import static storage.StorageHelper.saveFile;
 
 //@@author averageandyyy
 public class AddMangaCommand extends Command {
@@ -47,7 +47,7 @@ public class AddMangaCommand extends Command {
                 // Assert that the manga was successfully added
                 assert authorList.getAuthor(incomingAuthor).hasManga(incomingManga) : "Failed to add manga";
 
-                Storage.getInstance().saveAuthorListToDataFile(authorList);
+                saveFile(authorList);
                 return;
             }
 
@@ -63,6 +63,6 @@ public class AddMangaCommand extends Command {
         assert authorList.getAuthor(incomingAuthor).hasManga(incomingManga) : "Failed to add author and manga";
         System.out.printf("Manga %s added successfully to author %s\n", incomingManga.getMangaName(),
                 incomingAuthor.getAuthorName());
-        Storage.getInstance().saveAuthorListToDataFile(authorList);
+        saveFile(authorList);
     }
 }
