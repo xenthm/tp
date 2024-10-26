@@ -21,7 +21,6 @@ class AddSalesCommandTest {
     private AuthorList authorList;
     private Ui ui;
     private Author existingAuthor;
-    private Manga existingManga;
     private AddSalesCommand commandUnderTest;
 
     @BeforeEach
@@ -29,7 +28,7 @@ class AddSalesCommandTest {
         authorList = new AuthorList();
         ui = new Ui();
         existingAuthor = new Author("test author");
-        existingManga = new Manga("test manga", existingAuthor);
+        Manga existingManga = new Manga("test manga", existingAuthor);
         existingAuthor.addManga(existingManga);
         authorList.add(existingAuthor);
     }
@@ -37,12 +36,12 @@ class AddSalesCommandTest {
     @Test
     public void execute_validInput_addSalesDataSuccessfully() {
         try {
-            String[] userInputList = {"sales", "-a", "test author", "-m", "test manga", "-p", "10.90", "-q", "20"};
+            String[] userInputList = {"test author", "test manga", "10", "11.90"};
             commandUnderTest = new AddSalesCommand(userInputList);
             commandUnderTest.execute(ui, authorList);
             Sale sale = existingAuthor.getManga("test manga").getSalesData();
-            assertEquals(20, sale.getQuantitySold());
-            assertEquals(10.90, sale.getUnitPrice());
+            assertEquals(10, sale.getQuantitySold());
+            assertEquals(11.90, sale.getUnitPrice());
         } catch (TantouException e) {
             fail();
         } finally {
@@ -53,7 +52,7 @@ class AddSalesCommandTest {
     @Test
     public void execute_negativeQuantity_cannotBeLessThanZeroExceptionThrown() {
         try {
-            String[] userInputList = {"sales", "-a", "test author", "-m", "test manga", "-p", "10.90", "-q", "-20"};
+            String[] userInputList = {"test author", "test manga", "-20", "10.90"};
             commandUnderTest = new AddSalesCommand(
                     userInputList
             );
@@ -70,7 +69,7 @@ class AddSalesCommandTest {
     @Test
     public void execute_negativeUnitPrice_cannotBeLessThanZeroExceptionThrown() {
         try {
-            String[] userInputList = {"sales", "-a", "test author", "-m", "test manga", "-p", "-10.90", "-q", "20"};
+            String[] userInputList = {"test author", "test manga", "20", "-10.90"};
             commandUnderTest = new AddSalesCommand(
                     userInputList
             );
