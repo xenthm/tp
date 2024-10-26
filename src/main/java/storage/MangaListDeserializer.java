@@ -30,13 +30,13 @@ class MangaListDeserializer implements JsonDeserializer<MangaList> {
     @Override
     public MangaList deserialize(JsonElement json, Type typeOfMangaList, JsonDeserializationContext context)
             throws JsonParseException {
-        MangaList mangaList = new MangaList();
         // Ensure mangaList is a JSON array
         if (json == null || !json.isJsonArray()) {
             throw new JsonParseException("corrupt MangaList object");
         }
         JsonArray mangaListJsonArray = json.getAsJsonArray();
 
+        MangaList mangaList = new MangaList();
         for (JsonElement mangaElement : mangaListJsonArray) {
             // Ensure manga is valid, skipping if not
             try {
