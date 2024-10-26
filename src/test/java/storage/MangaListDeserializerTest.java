@@ -8,13 +8,12 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import manga.Manga;
 import manga.MangaList;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Type;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 //@@author xenthm
 class MangaListDeserializerTest {
@@ -31,21 +30,21 @@ class MangaListDeserializerTest {
 
     @Test
     void deserialize_nullMangaListObject_throwsJsonParseException() {
-        JsonParseException exception = Assertions.assertThrows(
+        JsonParseException exception = assertThrows(
                 JsonParseException.class,
                 () -> mangaListDeserializer.deserialize(null, MANGA_LIST_TYPE, null)
         );
-        Assertions.assertEquals("corrupt MangaList object", exception.getMessage());
+        assertEquals("corrupt MangaList object", exception.getMessage());
     }
 
     @Test
     void deserialize_nonJsonArray_throwsJsonParseException() {
         JsonElement jsonElement = JsonParser.parseString("\"Not an array\"");
-        JsonParseException exception = Assertions.assertThrows(
+        JsonParseException exception = assertThrows(
                 JsonParseException.class,
                 () -> mangaListDeserializer.deserialize(jsonElement, MANGA_LIST_TYPE, null)
         );
-        Assertions.assertEquals("corrupt MangaList object", exception.getMessage());
+        assertEquals("corrupt MangaList object", exception.getMessage());
     }
 
     @Test
@@ -75,10 +74,10 @@ class MangaListDeserializerTest {
         MangaList actualMangaList = mangaListDeserializer.deserialize(mangaListJson, MANGA_LIST_TYPE, null);
 
         assertNotNull(actualMangaList);
-        Assertions.assertEquals(2, actualMangaList.size());
-        Assertions.assertEquals(expectedMangaList.get(0).getMangaName(), actualMangaList.get(0).getMangaName());
-        Assertions.assertEquals(expectedMangaList.get(0).getDeadline(), actualMangaList.get(0).getDeadline());
-        Assertions.assertEquals(expectedMangaList.get(1).getMangaName(), actualMangaList.get(1).getMangaName());
-        Assertions.assertEquals(expectedMangaList.get(1).getDeadline(), actualMangaList.get(1).getDeadline());
+        assertEquals(2, actualMangaList.size());
+        assertEquals(expectedMangaList.get(0).getMangaName(), actualMangaList.get(0).getMangaName());
+        assertEquals(expectedMangaList.get(0).getDeadline(), actualMangaList.get(0).getDeadline());
+        assertEquals(expectedMangaList.get(1).getMangaName(), actualMangaList.get(1).getMangaName());
+        assertEquals(expectedMangaList.get(1).getDeadline(), actualMangaList.get(1).getDeadline());
     }
 }

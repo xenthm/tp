@@ -20,13 +20,13 @@ class AuthorListDeserializer implements JsonDeserializer<AuthorList> {
     @Override
     public AuthorList deserialize(JsonElement json, Type typeOfAuthorList, JsonDeserializationContext context)
             throws JsonParseException {
-        AuthorList authorList = new AuthorList();
         // Ensure authorList is a JSON array
         if (json == null || !json.isJsonArray()) {
             throw new JsonParseException("corrupt AuthorList object");
         }
         JsonArray authorListJsonArray = json.getAsJsonArray();
 
+        AuthorList authorList = new AuthorList();
         for (JsonElement authorElement : authorListJsonArray) {
             // Ensure author is valid, skipping if not
             try {
