@@ -2,6 +2,10 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.NoAuthorProvidedException;
+import exceptions.NoMangaProvidedException;
+import exceptions.PriceTooLargeException;
+import exceptions.QuantityTooLargeException;
 import exceptions.TantouException;
 import manga.Manga;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,6 +82,72 @@ class AddSalesCommandTest {
             });
 
             assertEquals("Unit price cannot be less than 0!", exception.getMessage());
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void execute_noAuthorArgumentNoMangaHasQuantityPriceArgument_exceptionThrown() {
+        try {
+            String[] userInputList = {"", "", "20", "10.90"};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+
+            assertEquals("You have not provided an author argument!", exception.getMessage());
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void execute_noMangaArgumentHasAuthorQuantityPriceArgument_exceptionThrown() {
+        try {
+            String[] userInputList = {"test", "", "20", "10.90"};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(NoMangaProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+
+            assertEquals("You have not provided a manga argument!", exception.getMessage());
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void execute_quantityTooLarge_exceptionThrown() {
+        try {
+            String[] userInputList = {"test", "test", "1000000000", "10.90"};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(QuantityTooLargeException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void execute_priceTooLarge_exceptionThrown() {
+        try {
+            String[] userInputList = {"test", "test", "10", "9999999999"};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(PriceTooLargeException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+
         } finally {
             System.setOut(standardOut);
         }
