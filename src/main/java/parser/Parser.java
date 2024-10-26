@@ -162,6 +162,19 @@ public class Parser {
 
     //@@author averageandyyy
     public boolean isValidAuthorCommand(String userInput) throws TantouException {
+        return hasAuthorFlagAndArgument(userInput);
+    }
+
+    //@@author averageandyyy
+    public boolean isValidMangaCommand(String userInput) throws TantouException {
+        return hasAuthorFlagAndArgument(userInput) &&
+                hasMangaFlagAndArgument(userInput) &&
+                isAuthorBeforeManga(userInput);
+    }
+
+    //@@author averageandyyy
+    public boolean hasAuthorFlagAndArgument(String userInput) throws TantouException {
+        // Input contains " -a" but not " -a ", the second space is needed to indicate an incoming argument
         if (userInput.contains(SPACE_REGEX + AUTHOR_OPTION) && !userInput.contains(AUTHOR_OPTION_REGEX)) {
             throw new TantouException("You have not provided an author argument!");
         }
@@ -169,15 +182,12 @@ public class Parser {
     }
 
     //@@author averageandyyy
-    public boolean isValidMangaCommand(String userInput) throws TantouException {
-        return hasAuthorAndMangaFlags(userInput) && isAuthorBeforeManga(userInput);
-    }
-
-    public boolean hasAuthorAndMangaFlags(String userInput) throws TantouException {
+    public boolean hasMangaFlagAndArgument(String userInput) throws TantouException {
+        // Input contains " -m" but not " -m ", the second space is needed to indicate an incoming argument
         if (userInput.contains(SPACE_REGEX + MANGA_OPTION) && !userInput.contains(MANGA_OPTION_REGEX)) {
             throw new TantouException("You have not provided a manga argument!");
         }
-        return userInput.contains(AUTHOR_OPTION_REGEX) && userInput.contains(MANGA_OPTION_REGEX);
+        return userInput.contains(MANGA_OPTION_REGEX);
     }
 
     public boolean isAuthorBeforeManga(String userInput) throws TantouException {
