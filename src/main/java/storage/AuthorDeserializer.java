@@ -51,4 +51,3 @@ class AuthorDeserializer implements JsonDeserializer<Author> {
         return author;
     }
 }
-
