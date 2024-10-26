@@ -13,11 +13,15 @@ import static manga.MangaList.mangaColumnsToPrint;
  * Represents the <code>view</code> command with the <code>-a</code> option. Handles its execution.
  */
 public class ViewMangasCommand extends Command {
-    protected String authorName;
+    private String authorName;
+    private boolean includeDeadline;
+    private boolean includeSales;
 
-    public ViewMangasCommand(String authorName) {
+    public ViewMangasCommand(String authorName, boolean includeDeadline, boolean includeSales) {
         super(VIEW_COMMAND);
         this.authorName = authorName;
+        this.includeDeadline = includeDeadline;
+        this.includeSales = includeSales;
     }
 
     @Override
@@ -48,6 +52,7 @@ public class ViewMangasCommand extends Command {
             return;
         }
         System.out.println("Mangas authored by " + authorName + ", Total: " + author.getMangaList().size());
-        Ui.printList(author.getMangaList(), mangaColumnsToPrint(true, false));
+        
+        Ui.printList(author.getMangaList(), mangaColumnsToPrint(includeDeadline, includeSales));
     }
 }
