@@ -3,13 +3,16 @@ package constants;
 import java.util.regex.Pattern;
 
 import static constants.Options.AUTHOR_OPTION;
+import static constants.Options.BY_DATE_OPTION;
 import static constants.Options.DELETE_OPTION;
 import static constants.Options.MANGA_OPTION;
 import static constants.Options.PRICE_OPTION;
 import static constants.Options.QUANTITY_OPTION;
+import static constants.Options.SALES_OPTION;
 
 public class Regex {
     public static final String SPACE_REGEX = " ";
+    public static final String ANY_SPACE_REGEX = "\\s+";
     public static final String EMPTY_REGEX = "";
     public static final String DIVIDER_REGEX = " | ";
     public static final String AUTHOR_OPTION_REGEX = SPACE_REGEX + AUTHOR_OPTION + SPACE_REGEX;
@@ -18,7 +21,56 @@ public class Regex {
     public static final String PRICE_OPTION_REGEX = SPACE_REGEX + PRICE_OPTION + SPACE_REGEX;
     public static final String QUANTITY_OPTION_REGEX = SPACE_REGEX + QUANTITY_OPTION + SPACE_REGEX;
 
-    /** Pattern to match quoted strings or individual words */
+    /**
+     * Pattern to match quoted strings or individual words
+     */
     // public static final Pattern USER_COMMAND_REGEX = Pattern.compile("\"[^\"]*\"|\\S+");
     public static final Pattern USER_COMMAND_REGEX = Pattern.compile("\"[^\"]+\"|\\S+");
+
+    //@@author xenthm
+    /**
+     * Regex pattern to extract the author name out of a given input
+     */
+    public static final Pattern AUTHOR_NAME_EXTRACT0R_PATTERN = generateExtractorPattern(AUTHOR_OPTION, SALES_OPTION,
+            BY_DATE_OPTION);
+
+    //@@author xenthm 
+    /**
+     * This method automatically generates a valid regex pattern to use with a field (e.g. author name) extractor. The
+     * regex works by looking for the <code>includedOptionFlag</code> within the input and taking every character after
+     * that as a possibly valid part of the field of interest. If any <code>excludedOptionFlags</code> are found
+     * after the <code>includedOptionFlag</code>, the field of interest is terminated.
+     * <p>
+     * Developers should write their own logic if their <code>Command</code> only has an
+     * <code>includedOptionFlag</code> and no <code>excludedOptionFlags</code> as the parsing logic does not require
+     * this complex regex!
+     *
+     * @param includedOptionFlag  the option flag preceding a field of interest
+     * @param excludedOptionFlags at least one option flag to be excluded
+     * @return compiled regex <code>Pattern</code> to be used with a regex <code>Matcher</code>
+     */
+    private static Pattern generateExtractorPattern(String includedOptionFlag, String... excludedOptionFlags) {
+        assert excludedOptionFlags.length != 0
+                : "Must at least have one excluded option when generating extractor pattern";
+
+        StringBuilder regex = new StringBuilder();
+
+        regex.append("(?<=\\s").append(includedOptionFlag).append(")$");    // The input ends with includedOptionFlag
+        regex.append("|");                                                  // or
+        regex.append("(?<=\\s").append(includedOptionFlag).append("\\s)");  // (there exists includedOptionFlag before
+        regex.append(".*?");                                                // any number of any character
+        regex.append("(?=");                                                // and what comes after them is either:
+        {
+            regex.append("(?<=\\s)");                                       // [any of the excludedOptionFlags
+            regex.append("-[");
+            for (String s : excludedOptionFlags) {
+                regex.append(s.replace("-", EMPTY_REGEX));
+            }
+            regex.append("]");
+            regex.append("(?:\\s|$)");                                      // followed by either a space or the end]
+        }
+        regex.append("|$)");                                                // or the end of the input)
+
+        return Pattern.compile(regex.toString());
+    }
 }
