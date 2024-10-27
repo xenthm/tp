@@ -18,6 +18,9 @@ import exceptions.NoMangaProvidedException;
 import exceptions.SalesArgsWrongOrderException;
 import exceptions.TantouException;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static constants.Command.BYE_COMMAND;
 import static constants.Command.CATALOG_COMMAND;
 import static constants.Command.COMMAND_INDEX;
@@ -317,12 +320,49 @@ public class Parser {
     // View Functions
     private Command processViewCommand(String userInput) throws TantouException {
         userInput = removeViewPrefix(userInput);
-        if (isValidViewMangasCommand(userInput)) {
-            String authorName = getAuthorNameFromInput(userInput);
-            return new ViewMangasCommand(authorName);
+        String authorName = null;
+        boolean hasDeadlineFlag = false;
+        boolean hasSalesFlag = false;
+
+        Pattern authorPattern = Pattern.compile("-a\\s+((?:[^\\s-]+(?:\\s+|-))*[^\\s-]+)");
+        Matcher matcher = authorPattern.matcher(userInput);
+
+        if (matcher.find()) {
+            authorName = matcher.group(1).trim();
+            userInput = userInput.replace(matcher.group(0), "").trim();  // Remove author part from userInput
         }
 
-        return new ViewAuthorsCommand();
+        String[] tokens = userInput.trim().split("\\s+");
+
+        for (int i = 0; i < tokens.length; i++) {
+            String token = tokens[i].trim();
+
+            if (tokens[i].isBlank()) {
+                continue;
+            }
+
+            switch (token) {
+            case "-d":
+                hasDeadlineFlag = true;
+                break;
+            case "-s":
+                hasSalesFlag = true;
+                break;
+            case "-a":
+                // If control reaches here without getting caught by matcher, something invalid was entered
+                throw new NoAuthorProvidedException();
+            default:
+                throw new TantouException("Unknown argument: " + tokens[i]);
+            }
+        }
+
+        if ((hasDeadlineFlag || hasSalesFlag) && authorName == null) {
+            throw new NoAuthorProvidedException();
+        }
+        if (authorName == null) {
+            return new ViewAuthorsCommand();
+        }
+        return new ViewMangasCommand(authorName, hasDeadlineFlag, hasSalesFlag);
     }
 
     private String removeViewPrefix(String userInput) {

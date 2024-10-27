@@ -80,9 +80,4 @@ public class Author {
     public int hashCode() {
         return Objects.hash(authorName);
     }
-
-    //@@author xenthm
-    public void printMangaList() {
-        mangaList.print();
-    }
 }
