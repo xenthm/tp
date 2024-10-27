@@ -1,7 +1,7 @@
 @startuml
 
 participant Tantou
-participant Ui
+
 participant Parser
 participant "userCommand:AddSalesCommand" as userCommand
 participant Manga
@@ -10,7 +10,7 @@ create userCommand
 Parser -> userCommand : new AddSalesCommand(userInput)
 activate userCommand
 Parser <-- userCommand
-deactivate userCommand
+
 
 userCommand -> userCommand: execute(ui, authorList)
 alt Author exists
@@ -25,12 +25,14 @@ activate userCommand
         activate Manga
         Manga --> userCommand :
         deactivate Manga
-        userCommand -> Ui : display success message
+        userCommand -> userCommand: display success message
+        deactivate userCommand
     else Manga does not exist
         userCommand --> Tantou : throws TantouException "Manga does not exist!"
     end
 else Author does not exist
     userCommand --> Tantou : throws TantouException "Author does not exist!"
+    deactivate userCommand
 end
 
 @enduml
