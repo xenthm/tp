@@ -6,7 +6,6 @@ import exceptions.TantouException;
 import ui.Ui;
 
 import static constants.Command.VIEW_COMMAND;
-import static manga.MangaList.mangaColumnsToPrint;
 
 //@@author xenthm
 /**
@@ -14,14 +13,10 @@ import static manga.MangaList.mangaColumnsToPrint;
  */
 public class ViewMangasCommand extends Command {
     private String authorName;
-    private boolean includeDeadline;
-    private boolean includeSales;
 
-    public ViewMangasCommand(String authorName, boolean includeDeadline, boolean includeSales) {
+    public ViewMangasCommand(String authorName) {
         super(VIEW_COMMAND);
         this.authorName = authorName;
-        this.includeDeadline = includeDeadline;
-        this.includeSales = includeSales;
     }
 
     @Override
@@ -52,7 +47,6 @@ public class ViewMangasCommand extends Command {
             return;
         }
         System.out.println("Mangas authored by " + authorName + ", Total: " + author.getMangaList().size());
-        
-        Ui.printList(author.getMangaList(), mangaColumnsToPrint(includeDeadline, includeSales));
+        author.printMangaList();
     }
 }

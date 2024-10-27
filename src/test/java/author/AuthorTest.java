@@ -53,4 +53,31 @@ public class AuthorTest {
         assertNotSame(authorWithNoMangas, authorWithThreeMangas);
         assertNotEquals(authorWithNoMangas, authorWithThreeMangas);
     }
+
+    @Test
+    public void printMangaListFromAuthor_threeMangas() {
+        System.setOut(new PrintStream(outputStreamCaptor));
+        try {
+            assertEquals(3, authorWithThreeMangas.getMangaList().size());
+            authorWithThreeMangas.printMangaList();
+            assertEquals("1. manga1 | Deadline: None" + System.lineSeparator()
+                            + "2. manga2 | Deadline: None" + System.lineSeparator()
+                            + "3. manga3 | Deadline: None" + System.lineSeparator(),
+                    outputStreamCaptor.toString());
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void printMangaListFromAuthor_noMangas() {
+        System.setOut(new PrintStream(outputStreamCaptor));
+        try {
+            assertEquals(0, authorWithNoMangas.getMangaList().size());
+            authorWithNoMangas.printMangaList();
+            assertEquals("", outputStreamCaptor.toString());
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
 }

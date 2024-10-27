@@ -3,7 +3,6 @@ package commands;
 import author.AuthorList;
 import ui.Ui;
 
-import static author.AuthorList.authorColumnsToPrint;
 import static constants.Command.VIEW_COMMAND;
 
 //@@author xenthm
@@ -25,8 +24,6 @@ public class ViewAuthorsCommand extends Command {
             logger.info("authorList is empty");
             return;
         }
-
-        System.out.println("Here are the sla-I mean authors under you! Total: " + authorList.size());
-        Ui.printList(authorList, authorColumnsToPrint());
+        authorList.print();
     }
 }

@@ -1,7 +1,5 @@
 package author;
 
-import ui.PrintColumn;
-
 import java.util.ArrayList;
 
 public class AuthorList extends ArrayList<Author> {
@@ -65,13 +63,15 @@ public class AuthorList extends ArrayList<Author> {
         return null;
     }
 
-    //@@author xenthm
-    public static ArrayList<PrintColumn<Author>> authorColumnsToPrint() {
-        ArrayList<PrintColumn<Author>> columns = new ArrayList<>();
+    /**
+     * Prints the entire <code>AuthorList</code> after formatting.
+     */
+    public void print() {
+        assert size() >= 0 : "AuthorList.size() must be non-negative";
 
-        columns.add(new PrintColumn<>("no.", 3, null));
-        columns.add(new PrintColumn<>("Author Name", 40, Author::getAuthorName));
-
-        return columns;
+        System.out.println("Here are the sla-I mean authors under you! Total: " + size());
+        for (int i = 0; i < size(); i++) {
+            System.out.println((i + 1) + ". " + this.get(i).getAuthorName());
+        }
     }
 }

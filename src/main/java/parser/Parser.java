@@ -9,17 +9,7 @@ import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
-import exceptions.InvalidCatalogCommandException;
-import exceptions.InvalidDeleteCommandException;
-import exceptions.InvalidSalesCommandException;
-import exceptions.MangaArgsWrongOrderException;
-import exceptions.NoAuthorProvidedException;
-import exceptions.NoMangaProvidedException;
-import exceptions.SalesArgsWrongOrderException;
 import exceptions.TantouException;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static constants.Command.BYE_COMMAND;
 import static constants.Command.CATALOG_COMMAND;
@@ -39,12 +29,11 @@ import static constants.Regex.SPACE_REGEX;
 public class Parser {
     public Command getUserCommand(String userInput) throws TantouException {
         String trimmedUserInput = userInput.trim();
+        String[] inputList = getUserInputAsList(trimmedUserInput);
 
-        if (trimmedUserInput.isEmpty()) {
+        if (inputList.length == 0) {
             throw new TantouException("Hey! Say something!");
         }
-
-        String[] inputList = getUserInputAsList(trimmedUserInput);
 
         return switch (inputList[COMMAND_INDEX]) {
         case BYE_COMMAND -> new ByeCommand();
@@ -60,12 +49,13 @@ public class Parser {
     }
 
     //@@author averageandyyy
-    private String[] getUserInputAsList(String userInput) throws TantouException {
+    public String[] getUserInputAsList(String userInput) throws TantouException {
         return userInput.split(SPACE_REGEX);
     }
 
     // Catalog Functions
     //@@author averageandyyy
+
     /**
      * Processes the catalog command based on the user input.
      * Determines whether the command is an Add or Delete operation based on the presence of the delete flag (`-d`).
@@ -80,7 +70,7 @@ public class Parser {
      * @return a Command object representing the parsed operation (either Add or Delete, for Author or Manga)
      * @throws TantouException if the user input is invalid for either Add or Delete operations
      */
-    private Command processCatalogCommand(String userInput) throws TantouException {
+    public Command processCatalogCommand(String userInput) throws TantouException {
         userInput = removeCatalogPrefix(userInput);
         if (isValidDeleteCommand(userInput)) {
             userInput = removeDeleteOption(userInput);
@@ -89,15 +79,16 @@ public class Parser {
         return processAddAuthorMangaCommand(userInput);
     }
 
-    private String removeCatalogPrefix(String userInput) {
+    public String removeCatalogPrefix(String userInput) {
         return userInput.replace(CATALOG_COMMAND, EMPTY_REGEX);
     }
 
-    private String removeDeleteOption(String userInput) {
+    public String removeDeleteOption(String userInput) {
         return userInput.replace(DELETE_OPTION_REGEX, EMPTY_REGEX);
     }
 
     //@@author averageandyyy
+
     /**
      * Checks that the -d option is present and at the end of the command
      *
@@ -105,10 +96,11 @@ public class Parser {
      * @return true if the -d flag is present, false otherwise
      * @throws TantouException if the user input is invalid at the validation or parsing stage
      */
-    private boolean isValidDeleteCommand(String userInput) throws TantouException {
+    public boolean isValidDeleteCommand(String userInput) throws TantouException {
         if (userInput.contains(DELETE_OPTION_REGEX)) {
             if (!userInput.endsWith(DELETE_OPTION_REGEX)) {
-                throw new InvalidDeleteCommandException();
+                throw new TantouException("Invalid delete command format! " +
+                        "Please place \"-d\" at the end of the command!");
             }
             return true;
         }
@@ -116,6 +108,7 @@ public class Parser {
     }
 
     //@@author averageandyyy
+
     /**
      * Processes the user input to create an Add command for either a Manga or Author.
      * Determines whether the input corresponds to a valid Manga or Author command
@@ -129,7 +122,7 @@ public class Parser {
      * @return a Command object representing the Add operation for Manga or Author
      * @throws TantouException if the user input is invalid for both Manga and Author Add commands
      */
-    private Command processAddAuthorMangaCommand(String userInput) throws TantouException {
+    public Command processAddAuthorMangaCommand(String userInput) throws TantouException {
         if (isValidMangaCommand(userInput)) {
             String[] authorAndMangaNames = getAuthorAndMangaFromInput(userInput);
             return new AddMangaCommand(authorAndMangaNames);
@@ -138,10 +131,11 @@ public class Parser {
             return new AddAuthorCommand(authorName);
         }
 
-        throw new InvalidCatalogCommandException();
+        throw new TantouException("Invalid catalog command provided!");
     }
 
     //@@author averageandyyy
+
     /**
      * Processes the user input to create a Delete command for either a Manga or Author.
      * Determines whether the input corresponds to a valid Manga or Author command
@@ -155,7 +149,7 @@ public class Parser {
      * @return a Command object representing the Add operation for Manga or Author
      * @throws TantouException if the user input is invalid for both Manga and Author Add commands
      */
-    private Command processDeleteAuthorMangaCommand(String userInput) throws TantouException {
+    public Command processDeleteAuthorMangaCommand(String userInput) throws TantouException {
         if (isValidMangaCommand(userInput)) {
             String[] authorAndMangaNames = getAuthorAndMangaFromInput(userInput);
             return new DeleteMangaCommand(authorAndMangaNames);
@@ -163,41 +157,30 @@ public class Parser {
             String authorName = getAuthorNameFromInput(userInput);
             return new DeleteAuthorCommand(authorName);
         }
-
-        throw new InvalidDeleteCommandException();
+        throw new TantouException("Invalid delete command provided!");
     }
 
     //@@author averageandyyy
-    private boolean isValidAuthorCommand(String userInput) throws TantouException {
-        return hasAuthorFlagAndArgument(userInput);
-    }
-
-    //@@author averageandyyy
-    private boolean isValidMangaCommand(String userInput) throws TantouException {
-        return hasAuthorFlagAndArgument(userInput) &&
-                hasMangaFlagAndArgument(userInput) &&
-                isAuthorBeforeManga(userInput);
-    }
-
-    //@@author averageandyyy
-    private boolean hasAuthorFlagAndArgument(String userInput) throws TantouException {
-        // Input contains " -a" but not " -a ", the second space is needed to indicate an incoming argument
+    public boolean isValidAuthorCommand(String userInput) throws TantouException {
         if (userInput.contains(SPACE_REGEX + AUTHOR_OPTION) && !userInput.contains(AUTHOR_OPTION_REGEX)) {
-            throw new NoAuthorProvidedException();
+            throw new TantouException("You have not provided an author argument!");
         }
         return userInput.contains(AUTHOR_OPTION_REGEX);
     }
 
     //@@author averageandyyy
-    private boolean hasMangaFlagAndArgument(String userInput) throws TantouException {
-        // Input contains " -m" but not " -m ", the second space is needed to indicate an incoming argument
-        if (userInput.contains(SPACE_REGEX + MANGA_OPTION) && !userInput.contains(MANGA_OPTION_REGEX)) {
-            throw new NoMangaProvidedException();
-        }
-        return userInput.contains(MANGA_OPTION_REGEX);
+    public boolean isValidMangaCommand(String userInput) throws TantouException {
+        return hasAuthorAndMangaFlags(userInput) && isAuthorBeforeManga(userInput);
     }
 
-    private boolean isAuthorBeforeManga(String userInput) throws TantouException {
+    public boolean hasAuthorAndMangaFlags(String userInput) throws TantouException {
+        if (userInput.contains(SPACE_REGEX + MANGA_OPTION) && !userInput.contains(MANGA_OPTION_REGEX)) {
+            throw new TantouException("You have not provided a manga argument!");
+        }
+        return userInput.contains(AUTHOR_OPTION_REGEX) && userInput.contains(MANGA_OPTION_REGEX);
+    }
+
+    public boolean isAuthorBeforeManga(String userInput) throws TantouException {
         int indexOfAuthor = userInput.indexOf(AUTHOR_OPTION_REGEX);
         int indexOfManga = userInput.indexOf(MANGA_OPTION_REGEX);
 
@@ -206,21 +189,21 @@ public class Parser {
         }
 
         if (indexOfAuthor > indexOfManga) {
-            throw new MangaArgsWrongOrderException();
+            throw new TantouException("Specify the author before the manga!");
         }
 
         return indexOfAuthor < indexOfManga;
     }
 
     //@@author averageandyyy
-    private String getAuthorNameFromInput(String userInput) throws TantouException {
+    public String getAuthorNameFromInput(String userInput) throws TantouException {
         if (!userInput.contains(AUTHOR_OPTION_REGEX)) {
             throw new TantouException("You have not provided an author argument!");
         }
         return userInput.replace(AUTHOR_OPTION_REGEX, EMPTY_REGEX).trim();
     }
 
-    private String[] getAuthorAndMangaFromInput(String userInput) throws TantouException {
+    public String[] getAuthorAndMangaFromInput(String userInput) throws TantouException {
         int indexOfAuthor = userInput.indexOf(AUTHOR_OPTION_REGEX);
         int indexOfManga = userInput.indexOf(MANGA_OPTION_REGEX);
 
@@ -232,11 +215,11 @@ public class Parser {
         String mangaName = extractMangaName(userInput, indexOfManga);
 
         if (authorName.isEmpty()) {
-            throw new NoAuthorProvidedException();
+            throw new TantouException("You have not provided an author argument!");
         }
 
         if (mangaName.isEmpty()) {
-            throw new NoMangaProvidedException();
+            throw new TantouException("You have not provided a manga!");
         }
 
         return new String[]{authorName, mangaName};
@@ -244,6 +227,7 @@ public class Parser {
 
     // Sales Functions
     //@@author sarahchow03
+
     /**
      * Processes the user input to create a Sales command for either an Author.
      * <p>
@@ -254,17 +238,18 @@ public class Parser {
      * @return a Command object that adds the sales data for the specified manga.
      * @throws TantouException if the user input is missing a parameter.
      */
-    private Command processAddSalesCommand(String userInput) throws TantouException {
+    public Command processAddSalesCommand(String userInput) throws TantouException {
         userInput = removeSalesPrefix(userInput);
         if (isValidSalesCommand(userInput)) {
             String[] salesArguments = getSalesArguments(userInput);
             return new AddSalesCommand(salesArguments);
         }
-        throw new InvalidSalesCommandException();
+        throw new TantouException("Invalid sales command provided!"
+                + " You need to provide the author, manga, quantity sold, and unit price.");
     }
 
     //@@author averageandyyy
-    private String removeSalesPrefix(String userInput) {
+    public String removeSalesPrefix(String userInput) {
         return userInput.replace(SALES_COMMAND, EMPTY_REGEX);
     }
 
@@ -274,13 +259,13 @@ public class Parser {
     }
 
     //@@author averageandyyy
-    private boolean hasSalesFlags(String userInput) {
+    public boolean hasSalesFlags(String userInput) {
         return userInput.contains(AUTHOR_OPTION_REGEX) && userInput.contains(MANGA_OPTION_REGEX)
                 && userInput.contains(PRICE_OPTION_REGEX) && userInput.contains(QUANTITY_OPTION_REGEX);
     }
 
     //@@author averageandyyy
-    private boolean areSalesFlagsInOrder(String userInput) throws TantouException {
+    public boolean areSalesFlagsInOrder(String userInput) throws TantouException {
         int indexOfAuthor = userInput.indexOf(AUTHOR_OPTION_REGEX);
         int indexOfManga = userInput.indexOf(MANGA_OPTION);
         int indexOfQuantity = userInput.indexOf(QUANTITY_OPTION_REGEX);
@@ -288,14 +273,15 @@ public class Parser {
 
 
         if (!(indexOfAuthor < indexOfManga && indexOfManga < indexOfPrice && indexOfQuantity < indexOfPrice)) {
-            throw new SalesArgsWrongOrderException();
+            // To be refined
+            throw new TantouException("Check the order of your arguments! -a -m -p -q");
         }
 
         return true;
     }
 
     //@@author averageandyyy
-    private String[] getSalesArguments(String userInput) {
+    public String[] getSalesArguments(String userInput) {
         int indexOfAuthor = userInput.indexOf(AUTHOR_OPTION_REGEX);
         int indexOfManga = userInput.indexOf(MANGA_OPTION_REGEX);
         int indexOfQuantity = userInput.indexOf(QUANTITY_OPTION_REGEX);
@@ -318,54 +304,17 @@ public class Parser {
 
     //@@author xenthm
     // View Functions
-    private Command processViewCommand(String userInput) throws TantouException {
+    public Command processViewCommand(String userInput) throws TantouException {
         userInput = removeViewPrefix(userInput);
-        String authorName = null;
-        boolean hasDeadlineFlag = false;
-        boolean hasSalesFlag = false;
-
-        Pattern authorPattern = Pattern.compile("-a\\s+((?:[^\\s-]+(?:\\s+|-))*[^\\s-]+)");
-        Matcher matcher = authorPattern.matcher(userInput);
-
-        if (matcher.find()) {
-            authorName = matcher.group(1).trim();
-            userInput = userInput.replace(matcher.group(0), "").trim();  // Remove author part from userInput
+        if (isValidViewMangasCommand(userInput)) {
+            String authorName = getAuthorNameFromInput(userInput);
+            return new ViewMangasCommand(authorName);
         }
 
-        String[] tokens = userInput.trim().split("\\s+");
-
-        for (int i = 0; i < tokens.length; i++) {
-            String token = tokens[i].trim();
-
-            if (tokens[i].isBlank()) {
-                continue;
-            }
-
-            switch (token) {
-            case "-d":
-                hasDeadlineFlag = true;
-                break;
-            case "-s":
-                hasSalesFlag = true;
-                break;
-            case "-a":
-                // If control reaches here without getting caught by matcher, something invalid was entered
-                throw new NoAuthorProvidedException();
-            default:
-                throw new TantouException("Unknown argument: " + tokens[i]);
-            }
-        }
-
-        if ((hasDeadlineFlag || hasSalesFlag) && authorName == null) {
-            throw new NoAuthorProvidedException();
-        }
-        if (authorName == null) {
-            return new ViewAuthorsCommand();
-        }
-        return new ViewMangasCommand(authorName, hasDeadlineFlag, hasSalesFlag);
+        return new ViewAuthorsCommand();
     }
 
-    private String removeViewPrefix(String userInput) {
+    public String removeViewPrefix(String userInput) {
         return userInput.replace(VIEW_COMMAND, EMPTY_REGEX);
     }
 
@@ -376,24 +325,24 @@ public class Parser {
 
     //@@author
     // Argument extraction functions
-    private String extractAuthorName(String userInput, int indexOfAuthor, int indexOfManga) {
+    public String extractAuthorName(String userInput, int indexOfAuthor, int indexOfManga) {
         assert userInput.contains(AUTHOR_OPTION_REGEX) : "Must have author option";
         return userInput.substring(indexOfAuthor, indexOfManga).replace(AUTHOR_OPTION, EMPTY_REGEX).trim();
     }
 
-    private String extractMangaName(String userInput, int indexOfManga) {
+    public String extractMangaName(String userInput, int indexOfManga) {
         return userInput.substring(indexOfManga).replace(MANGA_OPTION_REGEX, EMPTY_REGEX).trim();
     }
 
-    private String extractMangaName(String userInput, int indexOfManga, int nextOptionIndex) {
+    public String extractMangaName(String userInput, int indexOfManga, int nextOptionIndex) {
         return userInput.substring(indexOfManga, nextOptionIndex).replace(MANGA_OPTION_REGEX, EMPTY_REGEX).trim();
     }
 
-    private String extractQuantity(String userInput, int indexOfQuantity, int nextOptionIndex) {
+    public String extractQuantity(String userInput, int indexOfQuantity, int nextOptionIndex) {
         return userInput.substring(indexOfQuantity, nextOptionIndex).replace(QUANTITY_OPTION_REGEX, EMPTY_REGEX).trim();
     }
 
-    private String extractPrice(String userInput, int indexOfPrice) {
+    public String extractPrice(String userInput, int indexOfPrice) {
         return userInput.substring(indexOfPrice).replace(PRICE_OPTION_REGEX, EMPTY_REGEX).trim();
     }
 }

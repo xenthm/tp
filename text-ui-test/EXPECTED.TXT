@@ -1,3 +1,1 @@
-Problems accessing file, data was not restored! Continuing with an empty list...
-Wake up and slave~
 See you at the next slave session~

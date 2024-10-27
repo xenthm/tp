@@ -1,51 +1,33 @@
 package manga;
 
+import author.Author;
 import org.junit.jupiter.api.Test;
-import ui.PrintColumn;
 
-import java.util.ArrayList;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //@@author xenthm
 public class MangaListTest {
-    @Test
-    public void mangaColumnsToPrint_includeNothing_containsNoExtraColumns() {
-        ArrayList<PrintColumn<Manga>> columns = MangaList.mangaColumnsToPrint(false, false);
-        assertEquals(2, columns.size());
-        assertEquals("no.", columns.get(0).getHeader());
-        assertEquals("Manga Name", columns.get(1).getHeader().trim());
-    }
+    private final PrintStream standardOut = System.out;
+    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 
     @Test
-    public void mangaColumnsToPrint_includeDeadline_containsDeadlineColumn() {
-        ArrayList<PrintColumn<Manga>> columns = MangaList.mangaColumnsToPrint(true, false);
-        assertEquals(3, columns.size());
-        assertEquals("no.", columns.get(0).getHeader());
-        assertEquals("Manga Name", columns.get(1).getHeader().trim());
-        assertEquals("Deadline", columns.get(2).getHeader().trim());
-    }
-
-    @Test
-    public void mangaColumnsToPrint_includeSales_containsSalesColumns() {
-        ArrayList<PrintColumn<Manga>> columns = MangaList.mangaColumnsToPrint(false, true);
-        assertEquals(5, columns.size());
-        assertEquals("no.", columns.get(0).getHeader());
-        assertEquals("Manga Name", columns.get(1).getHeader().trim());
-        assertEquals("Unit Price", columns.get(2).getHeader().trim());
-        assertEquals("Units Sold", columns.get(3).getHeader().trim());
-        assertEquals("Revenue", columns.get(4).getHeader().trim());
-    }
-
-    @Test
-    public void mangaColumnsToPrint_includeAll_containsAllColumns() {
-        ArrayList<PrintColumn<Manga>> columns = MangaList.mangaColumnsToPrint(true, true);
-        assertEquals(6, columns.size());
-        assertEquals("no.", columns.get(0).getHeader());
-        assertEquals("Manga Name", columns.get(1).getHeader().trim());
-        assertEquals("Deadline", columns.get(2).getHeader().trim());
-        assertEquals("Unit Price", columns.get(3).getHeader().trim());
-        assertEquals("Units Sold", columns.get(4).getHeader().trim());
-        assertEquals("Revenue", columns.get(5).getHeader().trim());
+    public void printMangaListFromMangaList_twoMangas() {
+        System.setOut(new PrintStream(outputStreamCaptor));
+        try {
+            Author placeholderAuthor = new Author("placeholderAuthor");
+            MangaList mangaList = new MangaList();
+            mangaList.add(new Manga("manga1", placeholderAuthor));
+            mangaList.add(new Manga("manga2", placeholderAuthor));
+            assertEquals(2, mangaList.size());
+            mangaList.print();
+            assertEquals("1. manga1 | Deadline: None" + System.lineSeparator()
+                            + "2. manga2 | Deadline: None" + System.lineSeparator(),
+                    outputStreamCaptor.toString());
+        } finally {
+            System.setOut(standardOut);
+        }
     }
 }
