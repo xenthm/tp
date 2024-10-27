@@ -1,5 +1,6 @@
 @startuml
 hide circle
+skinparam groupInheritance 2
 
 class AuthorList {
     + hasAuthor(author: Author): boolean
@@ -10,8 +11,10 @@ class AuthorList {
 }
 
 class ArrayList
-ArrayList <|-up- AuthorList
+ArrayList <|-- AuthorList
 note on link : ArrayList<Author>
+ArrayList <|-- MangaList
+note on link : ArrayList<Manga>
 
 class Author {
     - authorName: String
@@ -20,22 +23,21 @@ class Author {
     + getManga(manga: Manga): Manga
     + printMangaList(): void
 }
-Author "*" -up-o ArrayList : < comprises of
-note right of Author : convenience wrappers\nfor MangaList methods
+Author "*" -up-o AuthorList : < comprises of
+note bottom of Author : convenience wrappers\nfor MangaList methods
 
 class Manga {
     - mangaName: String
     - deadline: String = "None"
 }
-Author "0..1" <-- Manga : < authored by
+Author "0..1 author" <-- Manga : < authored by
+Author ..> Manga : parameter for\nconvenience methods >
 
 class MangaList {
     + print(): void
 }
-ArrayList <|-down- MangaList
-note on link : ArrayList<Manga>
 Manga "*" -up-o MangaList : < comprises of
-Author -left-> "0..1" MangaList : > has Mangas in
+Author -u-> "0..1 mangaList" MangaList : > has Mangas in
 
 class Sale {
     - quantitySold: int
@@ -43,6 +45,6 @@ class Sale {
     - totalRevenue: double
     + toString(): String
 }
-Manga --> "0..1" Sale
+Manga --> "salesData 0..1" Sale
 
 @enduml
