@@ -5,10 +5,9 @@ import java.util.Scanner;
 
 import static constants.Message.EXIT_MESSAGE;
 import static constants.Message.GREETING_MESSAGE;
+import static constants.Regex.DIVIDER_REGEX;
 
 public class Ui {
-    private static final String DIVIDER = " | ";
-
     private final Scanner in = new Scanner(System.in);
 
     public void greetUser() {
@@ -29,7 +28,7 @@ public class Ui {
         for (int i = 0; i < columns.size(); i++) {
             System.out.print(columns.get(i).getHeader());
             if (i < columns.size() - 1) {
-                System.out.print(DIVIDER);
+                System.out.print(DIVIDER_REGEX);
             }
         }
         System.out.println();
@@ -39,7 +38,7 @@ public class Ui {
                 .stream()
                 .mapToInt(PrintColumn::getWidth)
                 .sum()
-                + (columns.size() - 1) * DIVIDER.length();
+                + (columns.size() - 1) * DIVIDER_REGEX.length();
         System.out.println("-".repeat(totalWidth));
 
         // Print each entry
@@ -50,7 +49,7 @@ public class Ui {
             for (int j = 0; j < columns.size(); j++) {
                 System.out.print(columns.get(j).getValue(item));
                 if (j < columns.size() - 1) {
-                    System.out.print(DIVIDER);
+                    System.out.print(DIVIDER_REGEX);
                 }
             }
             System.out.println();
