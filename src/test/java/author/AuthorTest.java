@@ -2,12 +2,10 @@ package author;
 
 import manga.Manga;
 import org.junit.jupiter.api.Test;
-import ui.Ui;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static manga.MangaList.mangaColumnsToPrint;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
