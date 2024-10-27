@@ -8,7 +8,7 @@ import static constants.Command.VIEW_COMMAND;
 
 //@@author xenthm
 /**
- * Represents the <code>view</code> command. Handles its execution.
+ * Represents the <code>view authors</code> command. Handles its execution.
  */
 public class ViewAuthorsCommand extends Command {
     public ViewAuthorsCommand() {

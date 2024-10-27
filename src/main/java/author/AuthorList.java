@@ -4,6 +4,9 @@ import ui.PrintColumn;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a list of <code>Author</code>. Extends {@code ArrayList<Author>}
+ */
 public class AuthorList extends ArrayList<Author> {
     public boolean hasAuthor(Author author) {
         assert author != null : "author must not be null";
@@ -66,6 +69,11 @@ public class AuthorList extends ArrayList<Author> {
     }
 
     //@@author xenthm
+    /**
+     * Specifies the column print configuration for the {@code view authors} command.
+     *
+     * @return {@code ArrayList<PrintColumn<Author>>}; a list of columns to be printed
+     */
     public static ArrayList<PrintColumn<Author>> authorColumnsToPrint() {
         ArrayList<PrintColumn<Author>> columns = new ArrayList<>();
 

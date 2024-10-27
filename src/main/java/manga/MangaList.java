@@ -10,6 +10,13 @@ import java.util.ArrayList;
  * Represents a list of <code>Manga</code>. Extends {@code ArrayList<Manga>}
  */
 public class MangaList extends ArrayList<Manga> {
+    /**
+     * Specifies the column print configuration for the {@code view manga} command.
+     *
+     * @param includeDeadline specifies whether the {@code deadline} of each {@code Manga} should be printed
+     * @param includeSales specifies whether the {@code sales data} of each {@code Manga} should be printed
+     * @return {@code ArrayList<PrintColumn<Manga>>}; a list of columns to be printed
+     */
     public static ArrayList<PrintColumn<Manga>> mangaColumnsToPrint(boolean includeDeadline, boolean includeSales) {
         ArrayList<PrintColumn<Manga>> columns = new ArrayList<>();
 

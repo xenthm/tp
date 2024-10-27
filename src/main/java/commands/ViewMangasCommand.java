@@ -10,7 +10,8 @@ import static manga.MangaList.mangaColumnsToPrint;
 
 //@@author xenthm
 /**
- * Represents the <code>view</code> command with the <code>-a</code> option. Handles its execution.
+ * Represents the <code>view</code> command with the <code>-a</code> option; also known as the <code>view manga</code>
+ * command. Handles its execution.
  */
 public class ViewMangasCommand extends Command {
     private String authorName;
@@ -52,7 +53,7 @@ public class ViewMangasCommand extends Command {
             return;
         }
         System.out.println("Mangas authored by " + authorName + ", Total: " + author.getMangaList().size());
-        
+
         Ui.printList(author.getMangaList(), mangaColumnsToPrint(includeDeadline, includeSales));
     }
 }

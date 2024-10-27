@@ -23,6 +23,13 @@ public class Ui {
     }
 
     //@@author xenthm
+    /**
+     * Prints the contents of the provided list with the given column print configuration after formatting.
+     *
+     * @param arrayList the list (which must extend {@code ArrayList}) to be printed
+     * @param columns   the print configuration for the columns of data to be printed
+     * @param <T>       the type of the constituents of {@code arrayList}
+     */
     public static <T> void printList(ArrayList<T> arrayList, ArrayList<PrintColumn<T>> columns) {
         // Print the header
         for (int i = 0; i < columns.size(); i++) {
@@ -33,7 +40,7 @@ public class Ui {
         }
         System.out.println();
 
-        // Print the divider line based on total width
+        // Print the top line based on total width
         int totalWidth = columns
                 .stream()
                 .mapToInt(PrintColumn::getWidth)
