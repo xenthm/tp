@@ -1,5 +1,8 @@
 package manga;
 
+import sales.Sale;
+import ui.PrintColumn;
+
 import java.util.ArrayList;
 
 //@@author xenthm
@@ -7,14 +10,31 @@ import java.util.ArrayList;
  * Represents a list of <code>Manga</code>. Extends {@code ArrayList<Manga>}
  */
 public class MangaList extends ArrayList<Manga> {
-    /**
-     * Prints the entire <code>MangaList</code> with the associated <code>deadline</code> after formatting.
-     */
-    public void print() {
-        assert size() >= 0 : "MangaList.size() must be non-negative";
+    public static ArrayList<PrintColumn<Manga>> mangaColumnsToPrint(boolean includeDeadline, boolean includeSales) {
+        ArrayList<PrintColumn<Manga>> columns = new ArrayList<>();
 
-        for (int i = 0; i < size(); i++) {
-            System.out.println((i + 1) + ". " + get(i).getMangaName() + " | Deadline: " + get(i).getDeadline());
+        columns.add(new PrintColumn<>("no.", 3, null));
+        columns.add(new PrintColumn<>("Manga Name", 40, Manga::getMangaName));
+
+        if (includeDeadline) {
+            columns.add(new PrintColumn<>("Deadline", 15, Manga::getDeadline));
         }
+
+        if (includeSales) {
+            columns.add(new PrintColumn<>("Unit Price", 10, manga -> {
+                Sale salesData = manga.getSalesData();
+                return salesData != null ? String.valueOf(salesData.getUnitPrice()) : "N/A";
+            }));
+            columns.add(new PrintColumn<>("Units Sold", 10, manga -> {
+                Sale salesData = manga.getSalesData();
+                return salesData != null ? String.valueOf(salesData.getQuantitySold()) : "N/A";
+            }));
+            columns.add(new PrintColumn<>("Revenue", 10, manga -> {
+                Sale salesData = manga.getSalesData();
+                return salesData != null ? String.valueOf(salesData.getTotalRevenue()) : "N/A";
+            }));
+        }
+
+        return columns;
     }
 }

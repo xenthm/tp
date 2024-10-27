@@ -1,9 +1,9 @@
 package author;
 
 import org.junit.jupiter.api.Test;
+import ui.PrintColumn;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,12 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 //@@author xenthm
 public class AuthorListTest {
-    private final PrintStream standardOut = System.out;
-    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
-
     private final Author author2 = new Author("author2");
-
-    private final AuthorList authorlistWithNoAuthors = new AuthorList();
 
     private final AuthorList authorlistWithThreeAuthors = new AuthorList() {
         // instance initializer for anonymous subclass of AuthorList
@@ -59,31 +54,10 @@ public class AuthorListTest {
     }
 
     @Test
-    public void printAuthorList_noAuthors() {
-        System.setOut(new PrintStream(outputStreamCaptor));
-        try {
-            assertEquals(0, authorlistWithNoAuthors.size());
-            authorlistWithNoAuthors.print();
-            assertEquals("Here are the sla-I mean authors under you! Total: 0" + System.lineSeparator(),
-                    outputStreamCaptor.toString());
-        } finally {
-            System.setOut(standardOut);
-        }
-    }
-
-    @Test
-    public void printAuthorList_threeAuthors() {
-        System.setOut(new PrintStream(outputStreamCaptor));
-        try {
-            assertEquals(3, authorlistWithThreeAuthors.size());
-            authorlistWithThreeAuthors.print();
-            assertEquals("Here are the sla-I mean authors under you! Total: 3" + System.lineSeparator() +
-                            "1. author1" + System.lineSeparator() +
-                            "2. author2" + System.lineSeparator() +
-                            "3. author3" + System.lineSeparator(),
-                    outputStreamCaptor.toString());
-        } finally {
-            System.setOut(standardOut);
-        }
+    public void authorColumnsToPrint_containsAllColumns() {
+        ArrayList<PrintColumn<Author>> columns = AuthorList.authorColumnsToPrint();
+        assertEquals(2, columns.size());
+        assertEquals("no.", columns.get(0).getHeader());
+        assertEquals("Author Name", columns.get(1).getHeader().trim());
     }
 }

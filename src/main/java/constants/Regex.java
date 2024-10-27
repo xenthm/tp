@@ -11,6 +11,7 @@ import static constants.Options.QUANTITY_OPTION;
 public class Regex {
     public static final String SPACE_REGEX = " ";
     public static final String EMPTY_REGEX = "";
+    public static final String DIVIDER_REGEX = " | ";
     public static final String AUTHOR_OPTION_REGEX = SPACE_REGEX + AUTHOR_OPTION + SPACE_REGEX;
     public static final String DELETE_OPTION_REGEX = SPACE_REGEX + DELETE_OPTION;
     public static final String MANGA_OPTION_REGEX = SPACE_REGEX + MANGA_OPTION + SPACE_REGEX;
