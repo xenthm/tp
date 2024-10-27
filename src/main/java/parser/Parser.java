@@ -337,6 +337,10 @@ public class Parser {
         for (int i = 0; i < tokens.length; i++) {
             String token = tokens[i].trim();
 
+            if (tokens[i].isBlank()) {
+                continue;
+            }
+
             switch (token) {
             case "-d":
                 hasDeadlineFlag = true;
