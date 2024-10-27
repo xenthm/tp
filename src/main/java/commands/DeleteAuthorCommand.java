@@ -2,16 +2,12 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
-import exceptions.AuthorNameTooLongException;
-import exceptions.MangaNameTooLongException;
 import exceptions.TantouException;
 import ui.Ui;
 
 import java.util.logging.Level;
 
 import static constants.Command.DELETE_COMMAND;
-import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
-import static constants.Options.MAX_MANGA_NAME_LENGTH;
 import static storage.StorageHelper.saveFile;
 
 //@@author sarahchow03
