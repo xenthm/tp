@@ -20,10 +20,13 @@
 
 ## User Stories
 
-|Version| As a ... | I want to ... | So that I can ...|
-|--------|----------|---------------|------------------|
-|v1.0|new user|see usage instructions|refer to them when I forget how to use the application|
-|v2.0|user|find a to-do item by name|locate a to-do without having to go through the entire list|
+| Version | As a ...               | I want to ...                                  | So that I can ...                                        |
+|---------|------------------------|------------------------------------------------|----------------------------------------------------------|
+| v1.0    | editor                 | delete authors under my charge                 | discharge under-performing authors under my charge       |
+| v1.0    | editor                 | delete mangas under an author                  | discontinue a series that is unpopular with the audiences |
+| v2.0    | business-minded editor | add the quantity of copies sold for a manga    | track the manga's popularity amongst audiences           |
+| v2.0    | business-minded editor | add the unit price of each copy sold for manga | calculate the revenue earned by the series               |
+| v2.0    | editor                 | delete the quantity and unit price for a manga | reset the sales data from the manga                      |
 
 ## Non-Functional Requirements
 

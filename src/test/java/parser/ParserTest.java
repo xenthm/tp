@@ -2,6 +2,7 @@ package parser;
 
 import commands.AddAuthorCommand;
 import commands.AddMangaCommand;
+import commands.AddSalesCommand;
 import commands.ByeCommand;
 import commands.Command;
 import commands.DeleteAuthorCommand;
@@ -10,9 +11,11 @@ import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
 import exceptions.InvalidCatalogCommandException;
 import exceptions.InvalidDeleteCommandException;
+import exceptions.InvalidSalesCommandException;
 import exceptions.MangaArgsWrongOrderException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.NoMangaProvidedException;
+import exceptions.SalesArgsWrongOrderException;
 import exceptions.TantouException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -79,6 +82,12 @@ public class ParserTest {
             // Should not reach here as the input should be valid for testing
             fail();
         }
+    }
+
+    //@@author sarahchow03
+    @Test
+    public void getUserCommand_addSales_parsedCorrectly() {
+        parseInputAssertCommandType("sales -a test -m test -q 20 -p 10.90", AddSalesCommand.class);
     }
 
     //@@author averageandyyy
@@ -180,6 +189,24 @@ public class ParserTest {
     public void getUserCommand_catalogDeleteMangaBeforeAuthor_exceptionThrown() {
         String userInput = "catalog -m Bleach -a Kubo Tite -d";
         Exception exception = assertThrows(MangaArgsWrongOrderException.class, () -> {
+            parser.getUserCommand(userInput);
+        });
+    }
+
+    //@@author sarahchow03
+    // Negative cases for sales command
+    @Test
+    public void getUserCommand_salesNoFlagsProvided_exceptionThrown() {
+        String userInput = "sales";
+        Exception exception = assertThrows(InvalidSalesCommandException.class, () -> {
+            parser.getUserCommand(userInput);
+        });
+    }
+
+    @Test
+    public void getUserCommand_salesArgumentWrongOrder_exceptionThrown() {
+        String userInput = "sales -a test -m test -p 10.90 -q 11";
+        Exception exception = assertThrows(SalesArgsWrongOrderException.class, () -> {
             parser.getUserCommand(userInput);
         });
     }

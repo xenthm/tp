@@ -11,9 +11,11 @@ import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
 import exceptions.InvalidCatalogCommandException;
 import exceptions.InvalidDeleteCommandException;
+import exceptions.InvalidSalesCommandException;
 import exceptions.MangaArgsWrongOrderException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.NoMangaProvidedException;
+import exceptions.SalesArgsWrongOrderException;
 import exceptions.TantouException;
 
 import static constants.Command.BYE_COMMAND;
@@ -255,8 +257,7 @@ public class Parser {
             String[] salesArguments = getSalesArguments(userInput);
             return new AddSalesCommand(salesArguments);
         }
-        throw new TantouException("Invalid sales command provided!"
-                + " You need to provide the author, manga, quantity sold, and unit price.");
+        throw new InvalidSalesCommandException();
     }
 
     //@@author averageandyyy
@@ -284,8 +285,7 @@ public class Parser {
 
 
         if (!(indexOfAuthor < indexOfManga && indexOfManga < indexOfPrice && indexOfQuantity < indexOfPrice)) {
-            // To be refined
-            throw new TantouException("Check the order of your arguments! -a -m -p -q");
+            throw new SalesArgsWrongOrderException();
         }
 
         return true;
