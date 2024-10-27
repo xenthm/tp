@@ -8,7 +8,7 @@ class Storage <<singleton>> {
     + readAuthorListFromDataFile(): AuthorList
     + saveAuthorListToDataFile(authorList: AuthorList): AuthorList
 }
-Storage *-- "0..1" Storage
+Storage *-- "0..1 storage" Storage
 note bottom of Storage: Only a maximum of\none instance can exist
 
 class StorageHelper <<utility>> {
@@ -18,8 +18,10 @@ class StorageHelper <<utility>> {
 note right: simplifies calls
 StorageHelper ..> Storage : accesses
 
-class CommandThatModifies
-note left: AddAuthorCommand,\nDeleteMangaCommand,\nAddSalesCommand, etc.
+class CommandThatModifies {
+    + execute(ui: Ui, authorList: AuthorList): void
+}
+note bottom: AddAuthorCommand,\nDeleteMangaCommand,\nAddSalesCommand, etc.
 CommandThatModifies .> StorageHelper : uses
 
 class AuthorList

@@ -7,13 +7,12 @@ class AuthorList {
     + hasAuthor(authorName: String): boolean
     + getAuthor(author: Author): Author
     + getAuthor(authorName: String): Author
-    + print(): void
 }
 
 class ArrayList
 ArrayList <|-- AuthorList
 note on link : ArrayList<Author>
-ArrayList <|-- MangaList
+ArrayList <|--- MangaList
 note on link : ArrayList<Manga>
 
 class Author {
@@ -21,7 +20,6 @@ class Author {
     + addManga(manga: Manga): void
     + deleteManga(manga: Manga): void
     + getManga(manga: Manga): Manga
-    + printMangaList(): void
 }
 Author "*" -up-o AuthorList : < comprises of
 note bottom of Author : convenience wrappers\nfor MangaList methods
@@ -31,19 +29,18 @@ class Manga {
     - deadline: String = "None"
 }
 Author "0..1 author" <-- Manga : < authored by
-Author ..> Manga : parameter for\nconvenience methods >
+'Author ..> Manga : parameter for\nconvenience methods >
 
 class MangaList {
-    + print(): void
 }
-Manga "*" -up-o MangaList : < comprises of
-Author -u-> "0..1 mangaList" MangaList : > has Mangas in
+Manga "*" -left-o MangaList : < comprises of
+'Author -u-> "0..1 mangaList" MangaList : > has Mangas in
+MangaList "0..1 mangaList" <-- Author : < has Mangas in
 
 class Sale {
     - quantitySold: int
     - unitPrice: double
     - totalRevenue: double
-    + toString(): String
 }
 Manga --> "salesData 0..1" Sale
 
