@@ -29,12 +29,10 @@ class Manga {
     - deadline: String = "None"
 }
 Author "0..1 author" <-- Manga : < authored by
-'Author ..> Manga : parameter for\nconvenience methods >
 
 class MangaList {
 }
 Manga "*" -left-o MangaList : < comprises of
-'Author -u-> "0..1 mangaList" MangaList : > has Mangas in
 MangaList "0..1 mangaList" <-- Author : < has Mangas in
 
 class Sale {

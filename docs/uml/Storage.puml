@@ -7,6 +7,7 @@ class Storage <<singleton>> {
     + getInstance(): Storage
     + readAuthorListFromDataFile(): AuthorList
     + saveAuthorListToDataFile(authorList: AuthorList): AuthorList
+    - createFileIfNeeded(): boolean
 }
 Storage *-- "0..1 storage" Storage
 note bottom of Storage: Only a maximum of\none instance can exist
