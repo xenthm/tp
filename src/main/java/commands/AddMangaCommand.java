@@ -9,6 +9,8 @@ import ui.Ui;
 import static constants.Command.AUTHOR_INDEX;
 import static constants.Command.CATALOG_COMMAND;
 import static constants.Command.MANGA_INDEX;
+import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
+import static constants.Options.MAX_MANGA_NAME_LENGTH;
 import static storage.StorageHelper.saveFile;
 
 //@@author averageandyyy

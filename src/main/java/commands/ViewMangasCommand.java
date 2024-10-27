@@ -3,9 +3,12 @@ package commands;
 import author.Author;
 import author.AuthorList;
 import exceptions.TantouException;
+import manga.Manga;
 import ui.Ui;
 
 import static constants.Command.VIEW_COMMAND;
+import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
+import static constants.Options.MAX_MANGA_NAME_LENGTH;
 import static manga.MangaList.mangaColumnsToPrint;
 
 //@@author xenthm

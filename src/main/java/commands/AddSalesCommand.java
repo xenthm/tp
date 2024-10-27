@@ -16,6 +16,8 @@ import static constants.Command.MANGA_INDEX;
 import static constants.Command.PRICE_INDEX;
 import static constants.Command.QUANTITY_INDEX;
 import static constants.Command.SALES_COMMAND;
+import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
+import static constants.Options.MAX_MANGA_NAME_LENGTH;
 import static storage.StorageHelper.saveFile;
 
 //@@author sarahchow03

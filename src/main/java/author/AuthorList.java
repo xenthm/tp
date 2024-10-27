@@ -4,6 +4,11 @@ import ui.PrintColumn;
 
 import java.util.ArrayList;
 
+import static constants.PrintFormat.AUTHOR_NAME_COLUMN_HEADER;
+import static constants.PrintFormat.AUTHOR_NAME_COLUMN_WIDTH;
+import static constants.PrintFormat.NUMBER_COLUMN_HEADER;
+import static constants.PrintFormat.NUMBER_COLUMN_WIDTH;
+
 /**
  * Represents a list of <code>Author</code>. Extends {@code ArrayList<Author>}
  */
@@ -77,8 +82,8 @@ public class AuthorList extends ArrayList<Author> {
     public static ArrayList<PrintColumn<Author>> authorColumnsToPrint() {
         ArrayList<PrintColumn<Author>> columns = new ArrayList<>();
 
-        columns.add(new PrintColumn<>("no.", 3, null));
-        columns.add(new PrintColumn<>("Author Name", 40, Author::getAuthorName));
+        columns.add(new PrintColumn<>(NUMBER_COLUMN_HEADER, NUMBER_COLUMN_WIDTH, null));
+        columns.add(new PrintColumn<>(AUTHOR_NAME_COLUMN_HEADER, AUTHOR_NAME_COLUMN_WIDTH, Author::getAuthorName));
 
         return columns;
     }

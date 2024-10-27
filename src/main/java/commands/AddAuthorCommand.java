@@ -5,6 +5,7 @@ import author.AuthorList;
 import exceptions.TantouException;
 import ui.Ui;
 
+import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
 import static storage.StorageHelper.saveFile;
 import static constants.Command.CATALOG_COMMAND;
 

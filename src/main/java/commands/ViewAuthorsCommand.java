@@ -1,10 +1,12 @@
 package commands;
 
+import author.Author;
 import author.AuthorList;
 import ui.Ui;
 
 import static author.AuthorList.authorColumnsToPrint;
 import static constants.Command.VIEW_COMMAND;
+import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
 
 //@@author xenthm
 /**

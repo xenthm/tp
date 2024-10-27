@@ -4,10 +4,12 @@ public class Options {
     public static final String AUTHOR_OPTION = "-a";
     public static final String AUTHOR_LONG_OPTION = "author";
     public static final String AUTHOR_OPTION_DESC = "Author name";
+    public static final int MAX_AUTHOR_NAME_LENGTH = 40;
 
     public static final String MANGA_OPTION = "-m";
     public static final String MANGA_LONG_OPTION = "manga";
     public static final String MANGA_OPTION_DESC = "Manga name";
+    public static final int MAX_MANGA_NAME_LENGTH = 40;
 
     public static final String BY_DATE_OPTION = "-b";
     public static final String BY_DATE_LONG_OPTION = "by";
