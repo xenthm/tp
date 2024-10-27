@@ -2,6 +2,10 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorNameTooLongException;
+import exceptions.MangaNameTooLongException;
+import exceptions.NoAuthorProvidedException;
+import exceptions.NoMangaProvidedException;
 import exceptions.TantouException;
 import manga.Manga;
 import ui.Ui;
@@ -29,11 +33,28 @@ public class AddMangaCommand extends Command {
         // Empty user input should have been caught at the Parser level
         assert (authorName != null && mangaName != null) : "No user input provided";
 
-        if (authorName.isEmpty() || mangaName.isEmpty()) {
-            logger.warning("No author or manga provided!");
-            throw new TantouException("No author or manga provided!");
+        if (authorName.isEmpty()) {
+            logger.warning("No author provided!");
+            throw new NoAuthorProvidedException();
         }
 
+        if (mangaName.isEmpty()) {
+            logger.warning("No manga provided!");
+            throw new NoMangaProvidedException();
+        }
+
+        //@@author xenthm
+        if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
+            logger.warning("Author name " + authorName + " exceeds maximum length");
+            throw new AuthorNameTooLongException();
+        }
+
+        if (mangaName.length() > MAX_MANGA_NAME_LENGTH) {
+            logger.warning("Manga name " + mangaName + " exceeds maximum length");
+            throw new MangaNameTooLongException();
+        }
+
+        //@@author
         Author incomingAuthor = new Author(authorName);
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
 

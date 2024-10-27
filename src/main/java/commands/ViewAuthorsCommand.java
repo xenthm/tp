@@ -2,6 +2,8 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorNameTooLongException;
+import exceptions.TantouException;
 import ui.Ui;
 
 import static author.AuthorList.authorColumnsToPrint;
@@ -18,7 +20,7 @@ public class ViewAuthorsCommand extends Command {
     }
 
     @Override
-    public void execute(Ui ui, AuthorList authorList) {
+    public void execute(Ui ui, AuthorList authorList) throws TantouException {
         assert ui != null : "Ui must not be null";
         assert authorList != null : "authorList must not be null";
 
@@ -26,6 +28,13 @@ public class ViewAuthorsCommand extends Command {
             System.out.println("You have no authors under you! Maybe you are the one slacking...");
             logger.info("authorList is empty");
             return;
+        }
+
+        for (Author author : authorList) {
+            if (author.getAuthorName().length() > MAX_AUTHOR_NAME_LENGTH) {
+                logger.warning("Author name " + author.getAuthorName() + " exceeds maximum length");
+                throw new AuthorNameTooLongException();
+            }
         }
 
         System.out.println("Here are the sla-I mean authors under you! Total: " + authorList.size());

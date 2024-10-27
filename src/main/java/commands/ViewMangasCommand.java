@@ -2,6 +2,8 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorNameTooLongException;
+import exceptions.MangaNameTooLongException;
 import exceptions.TantouException;
 import manga.Manga;
 import ui.Ui;
@@ -34,6 +36,11 @@ public class ViewMangasCommand extends Command {
         assert authorList != null : "authorList must not be null";
         assert authorName != null : "An author name must be provided";
 
+        if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
+            logger.warning("Author name " + authorName + " exceeds maximum length");
+            throw new AuthorNameTooLongException();
+        }
+
         if (authorList.isEmpty()) {
             System.out.println("You have no authors under you! Maybe you are the one slacking...");
             logger.info("authorList is empty");
@@ -55,8 +62,15 @@ public class ViewMangasCommand extends Command {
             System.out.println(authorName + " has no mangas... You know what has to be done.");
             return;
         }
-        System.out.println("Mangas authored by " + authorName + ", Total: " + author.getMangaList().size());
 
+        for (Manga manga : author.getMangaList()) {
+            if (manga.getMangaName().length() > MAX_MANGA_NAME_LENGTH) {
+                logger.warning("Manga name " + manga.getMangaName() + " exceeds maximum length");
+                throw new MangaNameTooLongException();
+            }
+        }
+
+        System.out.println("Mangas authored by " + authorName + ", Total: " + author.getMangaList().size());
         Ui.printList(author.getMangaList(), mangaColumnsToPrint(includeDeadline, includeSales));
     }
 }

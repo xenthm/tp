@@ -2,6 +2,8 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorNameTooLongException;
+import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
 import ui.Ui;
 
@@ -25,12 +27,20 @@ public class AddAuthorCommand extends Command {
 
         if (authorName.isEmpty()) {
             logger.warning("No author provided!");
-            throw new TantouException("No author provided!");
+            throw new NoAuthorProvidedException();
         }
 
+        //@@author xenthm
+        if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
+            logger.warning("Author name " + authorName + " exceeds maximum length");
+            throw new AuthorNameTooLongException();
+        }
+
+        //@@author
         Author incomingAuthor = new Author(authorName);
 
         if (!authorList.hasAuthor(incomingAuthor)) {
+
             authorList.add(incomingAuthor);
             System.out.printf("Successfully added author: %s\n", incomingAuthor.getAuthorName());
 

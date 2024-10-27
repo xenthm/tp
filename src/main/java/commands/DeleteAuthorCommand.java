@@ -2,6 +2,8 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorNameTooLongException;
+import exceptions.MangaNameTooLongException;
 import exceptions.TantouException;
 import ui.Ui;
 
