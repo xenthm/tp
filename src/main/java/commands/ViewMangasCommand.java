@@ -42,8 +42,8 @@ public class ViewMangasCommand extends Command {
         }
         Author author = authorList.getAuthor(authorName);
         if (author == null) {
-            logger.warning("Author does not exist in authorList");
-            System.out.println("Author does not exist!");
+            logger.warning("Author " + authorName + " does not exist in authorList");
+            System.out.println("Author " + authorName + " does not exist!");
             return;
         }
         if (author.getMangaList().isEmpty()) {
