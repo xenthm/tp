@@ -3,12 +3,12 @@ package commands;
 import author.Author;
 import author.AuthorList;
 import exceptions.TantouException;
-import storage.Storage;
 import ui.Ui;
 
 import java.util.logging.Level;
 
 import static constants.Command.DELETE_COMMAND;
+import static storage.StorageHelper.saveFile;
 
 //@@author sarahchow03
 /**
@@ -47,6 +47,7 @@ public class DeleteAuthorCommand extends Command {
             logger.log(Level.SEVERE, "Author name cannot be empty");
             throw new TantouException("No author provided!");
         }
+
         assert !authorName.isEmpty(): "Author name is empty";
         logger.log(Level.INFO, "Deleting author... " + authorName);
 
@@ -58,7 +59,7 @@ public class DeleteAuthorCommand extends Command {
             System.out.printf("Successfully deleted author: %s\n", deletingAuthor.getAuthorName());
             logger.log(Level.INFO, "Successfully deleted author: " + deletingAuthor.getAuthorName());
 
-            Storage.getInstance().saveAuthorListToDataFile(authorList);
+            saveFile(authorList);
             return;
         }
         assert !authorList.hasAuthor(deletingAuthor): "Author not found";

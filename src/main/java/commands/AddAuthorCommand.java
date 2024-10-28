@@ -2,10 +2,13 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorNameTooLongException;
+import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
-import storage.Storage;
 import ui.Ui;
 
+import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
+import static storage.StorageHelper.saveFile;
 import static constants.Command.CATALOG_COMMAND;
 
 //@@author averageandyyy
@@ -24,12 +27,20 @@ public class AddAuthorCommand extends Command {
 
         if (authorName.isEmpty()) {
             logger.warning("No author provided!");
-            throw new TantouException("No author provided!");
+            throw new NoAuthorProvidedException();
         }
 
+        //@@author xenthm
+        if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
+            logger.warning("Author name " + authorName + " exceeds maximum length");
+            throw new AuthorNameTooLongException();
+        }
+
+        //@@author
         Author incomingAuthor = new Author(authorName);
 
         if (!authorList.hasAuthor(incomingAuthor)) {
+
             authorList.add(incomingAuthor);
             System.out.printf("Successfully added author: %s\n", incomingAuthor.getAuthorName());
 
@@ -38,7 +49,7 @@ public class AddAuthorCommand extends Command {
             assert authorList.getAuthor(incomingAuthor).getAuthorName()
                     .equals(incomingAuthor.getAuthorName()) : "Author was not added";
 
-            Storage.getInstance().saveAuthorListToDataFile(authorList);
+            saveFile(authorList);
             return;
         }
 
