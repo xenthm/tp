@@ -1,7 +1,17 @@
 package author;
 
+import ui.PrintColumn;
+
 import java.util.ArrayList;
 
+import static constants.PrintFormat.AUTHOR_NAME_COLUMN_HEADER;
+import static constants.PrintFormat.AUTHOR_NAME_COLUMN_WIDTH;
+import static constants.PrintFormat.NUMBER_COLUMN_HEADER;
+import static constants.PrintFormat.NUMBER_COLUMN_WIDTH;
+
+/**
+ * Represents a list of <code>Author</code>. Extends {@code ArrayList<Author>}
+ */
 public class AuthorList extends ArrayList<Author> {
     public boolean hasAuthor(Author author) {
         assert author != null : "author must not be null";
@@ -63,15 +73,18 @@ public class AuthorList extends ArrayList<Author> {
         return null;
     }
 
+    //@@author xenthm
     /**
-     * Prints the entire <code>AuthorList</code> after formatting.
+     * Specifies the column print configuration for the {@code view authors} command.
+     *
+     * @return {@code ArrayList<PrintColumn<Author>>}; a list of columns to be printed
      */
-    public void print() {
-        assert size() >= 0 : "AuthorList.size() must be non-negative";
+    public static ArrayList<PrintColumn<Author>> authorColumnsToPrint() {
+        ArrayList<PrintColumn<Author>> columns = new ArrayList<>();
 
-        System.out.println("Here are the sla-I mean authors under you! Total: " + size());
-        for (int i = 0; i < size(); i++) {
-            System.out.println((i + 1) + ". " + this.get(i).getAuthorName());
-        }
+        columns.add(new PrintColumn<>(NUMBER_COLUMN_HEADER, NUMBER_COLUMN_WIDTH, null));
+        columns.add(new PrintColumn<>(AUTHOR_NAME_COLUMN_HEADER, AUTHOR_NAME_COLUMN_WIDTH, Author::getAuthorName));
+
+        return columns;
     }
 }

@@ -2,6 +2,12 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorNameTooLongException;
+import exceptions.MangaNameTooLongException;
+import exceptions.NoAuthorProvidedException;
+import exceptions.NoMangaProvidedException;
+import exceptions.PriceTooLargeException;
+import exceptions.QuantityTooLargeException;
 import exceptions.TantouException;
 import manga.Manga;
 import sales.Sale;
@@ -12,6 +18,8 @@ import static constants.Command.MANGA_INDEX;
 import static constants.Command.PRICE_INDEX;
 import static constants.Command.QUANTITY_INDEX;
 import static constants.Command.SALES_COMMAND;
+import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
+import static constants.Options.MAX_MANGA_NAME_LENGTH;
 import static storage.StorageHelper.saveFile;
 
 //@@author sarahchow03
@@ -42,22 +50,51 @@ public class AddSalesCommand extends Command {
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
         String authorName = argsAuthorMangaQtyPrice[AUTHOR_INDEX];
         String mangaName = argsAuthorMangaQtyPrice[MANGA_INDEX];
-        int quantitySold = Integer.parseInt(argsAuthorMangaQtyPrice[QUANTITY_INDEX]);
-        double unitPrice = Double.parseDouble(argsAuthorMangaQtyPrice[PRICE_INDEX]);
+        int quantitySold = 0;
+        double unitPrice = Double.parseDouble(argsAuthorMangaQtyPrice[PRICE_INDEX]);;
+        try {
+            quantitySold = Integer.parseInt(argsAuthorMangaQtyPrice[QUANTITY_INDEX]);
+            if (quantitySold >= 1000000000) {
+                throw new QuantityTooLargeException();
+            }
+        } catch (NumberFormatException e) {
+            throw new QuantityTooLargeException();
+        }
 
         if (quantitySold < 0) {
             throw new TantouException("Quantity sold cannot be less than 0!");
+        }
+
+        if (unitPrice > 999999999) {
+            throw new PriceTooLargeException();
         }
 
         if (unitPrice < 0) {
             throw new TantouException("Unit price cannot be less than 0!");
         }
 
-        if (mangaName.isEmpty() || authorName.isEmpty()) {
-            logger.warning("No author or manga provided.");
-            throw new TantouException("No author or manga provided!");
+        if (authorName.isEmpty()) {
+            logger.warning("No author provided.");
+            throw new NoAuthorProvidedException();
         }
 
+        if (mangaName.isEmpty()) {
+            logger.warning("No manga provided.");
+            throw new NoMangaProvidedException();
+        }
+
+        //@@author xenthm
+        if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
+            logger.warning("Author name " + authorName + " exceeds maximum length");
+            throw new AuthorNameTooLongException();
+        }
+
+        if (mangaName.length() > MAX_MANGA_NAME_LENGTH) {
+            logger.warning("Manga name " + mangaName + " exceeds maximum length");
+            throw new MangaNameTooLongException();
+        }
+
+        //@@author
         Sale salesData = new Sale(quantitySold, unitPrice);
         Author incomingAuthor = new Author(authorName);
         Manga incomingManga = new Manga(mangaName, incomingAuthor);

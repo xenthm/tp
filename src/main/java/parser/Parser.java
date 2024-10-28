@@ -11,10 +11,15 @@ import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
 import exceptions.InvalidCatalogCommandException;
 import exceptions.InvalidDeleteCommandException;
+import exceptions.InvalidSalesCommandException;
+import exceptions.InvalidViewCommandException;
 import exceptions.MangaArgsWrongOrderException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.NoMangaProvidedException;
+import exceptions.SalesArgsWrongOrderException;
 import exceptions.TantouException;
+
+import java.util.regex.Matcher;
 
 import static constants.Command.BYE_COMMAND;
 import static constants.Command.CATALOG_COMMAND;
@@ -22,7 +27,11 @@ import static constants.Command.COMMAND_INDEX;
 import static constants.Command.SALES_COMMAND;
 import static constants.Command.VIEW_COMMAND;
 import static constants.Options.AUTHOR_OPTION;
+import static constants.Options.BY_DATE_OPTION;
 import static constants.Options.MANGA_OPTION;
+import static constants.Options.SALES_OPTION;
+import static constants.Regex.ANY_SPACE_REGEX;
+import static constants.Regex.AUTHOR_NAME_EXTRACT0R_PATTERN;
 import static constants.Regex.AUTHOR_OPTION_REGEX;
 import static constants.Regex.DELETE_OPTION_REGEX;
 import static constants.Regex.EMPTY_REGEX;
@@ -255,8 +264,7 @@ public class Parser {
             String[] salesArguments = getSalesArguments(userInput);
             return new AddSalesCommand(salesArguments);
         }
-        throw new TantouException("Invalid sales command provided!"
-                + " You need to provide the author, manga, quantity sold, and unit price.");
+        throw new InvalidSalesCommandException();
     }
 
     //@@author averageandyyy
@@ -284,8 +292,7 @@ public class Parser {
 
 
         if (!(indexOfAuthor < indexOfManga && indexOfManga < indexOfPrice && indexOfQuantity < indexOfPrice)) {
-            // To be refined
-            throw new TantouException("Check the order of your arguments! -a -m -p -q");
+            throw new SalesArgsWrongOrderException();
         }
 
         return true;
@@ -314,24 +321,69 @@ public class Parser {
     }
 
     //@@author xenthm
-    // View Functions
+    /**
+     * Processes the user input to create a <code>View</code> command to either show the list of authors, or the list
+     * of manga authored by a specific author. The latter allows for additional option flags to show more information
+     * about the manga deadlines or sales data.
+     * <p>
+     * Parsing is done with regex and <code>String</code> splitting. Allows for duplicate option flags, except for the
+     * author option flag. The regex matcher will recognise all valid text after a valid author option flag as part
+     * of the author name, including duplicate author option flags.
+     *
+     *
+     * @param userInput the input string provided by the user
+     * @return <code>ViewAuthorsCommand</code> or <code>ViewMangasCommand</code>, represents the view operation
+     * @throws NoAuthorProvidedException if the author is not specified and it is needed
+     * @throws InvalidViewCommandException if an invalid option flag is provided
+     */
     private Command processViewCommand(String userInput) throws TantouException {
         userInput = removeViewPrefix(userInput);
-        if (isValidViewMangasCommand(userInput)) {
-            String authorName = getAuthorNameFromInput(userInput);
-            return new ViewMangasCommand(authorName);
+        String authorName = null;
+        boolean hasByDateFlag = false;
+        boolean hasSalesFlag = false;
+
+        Matcher authorNameFinder = AUTHOR_NAME_EXTRACT0R_PATTERN.matcher(userInput);
+        if (authorNameFinder.find()) {
+            authorName = authorNameFinder.group(0).trim();
+            if (authorName.isEmpty()) {
+                throw new NoAuthorProvidedException();
+            }
+
+            userInput = userInput
+                    .replace(authorNameFinder.group(0), EMPTY_REGEX)    // Remove author name part from userInput
+                    .replace(AUTHOR_OPTION, EMPTY_REGEX)                // Remove AUTHOR_OPTION from userInput
+                    .trim();
         }
 
-        return new ViewAuthorsCommand();
+        String[] tokens = userInput.split(ANY_SPACE_REGEX);  // Split the remaining around any number of spaces
+        for (String token : tokens) {
+            switch (token) {
+            case BY_DATE_OPTION:
+                hasByDateFlag = true;
+                break;
+            case SALES_OPTION:
+                hasSalesFlag = true;
+                break;
+            case EMPTY_REGEX:
+                break;
+            default:
+                throw new InvalidViewCommandException(token);
+
+            }
+        }
+
+        if ((hasByDateFlag || hasSalesFlag) && authorName == null) {
+            throw new NoAuthorProvidedException();
+        }
+        if (authorName == null) {
+            return new ViewAuthorsCommand();
+        }
+        return new ViewMangasCommand(authorName, hasByDateFlag, hasSalesFlag);
     }
 
+    //@@author
     private String removeViewPrefix(String userInput) {
         return userInput.replace(VIEW_COMMAND, EMPTY_REGEX);
-    }
-
-    private boolean isValidViewMangasCommand(String userInput) {
-        // Check for the author option
-        return userInput.contains(AUTHOR_OPTION_REGEX) || userInput.contains(AUTHOR_OPTION);
     }
 
     //@@author

@@ -1,6 +1,8 @@
 package commands;
 
 import author.AuthorList;
+import exceptions.NoAuthorProvidedException;
+import exceptions.NoMangaProvidedException;
 import exceptions.TantouException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -84,12 +86,10 @@ public class AddMangaCommandTest {
             // Missing arguments should have been caught at the Parser level
             String[] userInputList = {"", "Bleach"};
             commandUnderTest = new AddMangaCommand(userInputList);
-            // A TantouException should be thrown as no author is provided
-            Exception exception = assertThrows(TantouException.class, () -> {
+            // A NoAuthorProvidedException should be thrown as no author is provided
+            assertThrows(NoAuthorProvidedException.class, () -> {
                 commandUnderTest.execute(ui, authorList);
             });
-
-            assertEquals("No author or manga provided!", exception.getMessage());
         } finally {
             System.setOut(standardOut);
         }
@@ -101,12 +101,10 @@ public class AddMangaCommandTest {
             // Simulate no author provided
             String[] userInputList = {"Kubo Tite", ""};
             commandUnderTest = new AddMangaCommand(userInputList);
-            // A TantouException should be thrown as no author is provided
-            Exception exception = assertThrows(TantouException.class, () -> {
+            // A NoMangaProvidedException should be thrown as no manga is provided
+            assertThrows(NoMangaProvidedException.class, () -> {
                 commandUnderTest.execute(ui, authorList);
             });
-
-            assertEquals("No author or manga provided!", exception.getMessage());
         } finally {
             System.setOut(standardOut);
         }
