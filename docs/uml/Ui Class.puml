@@ -1,8 +1,15 @@
 @startuml
-skinparam groupInheritance 2
+!include .PlantUML.config
+
+skinparam nodesep 10
 
 class Regex <<utility>> {
-    + {static} DIVIDER_REGEX: String = " | "
+    + {static} DIVIDER_REGEX: String
+}
+
+class Message <<utility>> {
+    + {static} GREETING_MESSAGE: String
+    + {static} EXIT_MESSAGE: String
 }
 
 class Ui {
@@ -10,15 +17,15 @@ class Ui {
     + greetUser(): void
     + sayGoodbye(): void
     + getUserInput(): String
-    + {static} printList(\n\tarrayList: ArrayList<T>,\n\tcolumns ArrayList<PrintColumn<T>>\n): void
+    + {static} printList(arrayList: ArrayList<T>, columns ArrayList<PrintColumn<T>>): void
 }
 
 class AuthorList {
-    + {static} authorColumnsToPrint()\n: ArrayList<PrintColumn<Author>>
+    + {static} authorColumnsToPrint(): ArrayList<PrintColumn<Author>>
 }
 
 class MangaList {
-    + {static} mangaColumnsToPrint(\n\tincludeDeadline: boolean,\n\tincludeSales: boolean\n): ArrayList<PrintColumn<Manga>>
+    + {static} mangaColumnsToPrint(includeDeadline: boolean, includeSales: boolean): ArrayList<PrintColumn<Manga>>
 }
 
 class Author {
@@ -53,16 +60,16 @@ class PrintColumn<T> {
 }
 
 Regex <.. Ui : uses
+Message <.. Ui : uses
 
 Ui ..> AuthorList : prints >
 Ui ..> MangaList : prints >
-Ui ..> "2..6" PrintColumn : gets print configuration\nthrough AuthorList/MangaList >
 
 MangaList o--- "*" Manga : comprises of >
-MangaList .l.> "2..6" PrintColumn: specifies print configuration >
+MangaList .l.> "2..6" PrintColumn: specifies print configuration for Ui >
 
 AuthorList o--- "*" Author : comprises of >
-AuthorList .r.> "2" PrintColumn: specifies print configuration >
+AuthorList .r.> "2" PrintColumn: specifies print configuration for Ui >
 
 Manga ---> "salesData\n0..1" Sale
 Manga -l-> "author\n0..1" Author
@@ -71,7 +78,7 @@ Manga -l-> "author\n0..1" Author
 'PrintColumn .> Author : gives valueProvider to <
 'PrintColumn ..> Sale : gives valueProvider to <
 
-note "valueProviders are methods that\nreturn the String representation of\na particular attribute of a class\nThey come from Author/Manga/Sale\n(for e.g. getMangaName(), getTotalRevenue())" as valueProviderNote
+note "valueProviders are methods that return the String representation of a particular attribute of a class. They come from Author/Manga/Sale (e.g. getMangaName(), getTotalRevenue())" as valueProviderNote
 PrintColumn .. valueProviderNote
 
 @enduml

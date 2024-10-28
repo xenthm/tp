@@ -1,5 +1,7 @@
 @startuml
-hide circle
+!include .PlantUML.config
+
+skinparam nodesep 30
 
 class Storage <<singleton>> {
     + {static} DATA_PATH: String = "catalog.json"
@@ -10,7 +12,7 @@ class Storage <<singleton>> {
     - createFileIfNeeded(): boolean
 }
 Storage *-- "0..1 storage" Storage
-note bottom of Storage: Only a maximum of\none instance can exist
+note bottom of Storage: Only a maximum of one instance can exist
 
 class StorageHelper <<utility>> {
     + {static} readFile()
@@ -22,7 +24,7 @@ StorageHelper ..> Storage : accesses
 class CommandThatModifies {
     + execute(ui: Ui, authorList: AuthorList): void
 }
-note bottom: AddAuthorCommand,\nDeleteMangaCommand,\nAddSalesCommand, etc.
+note bottom: AddAuthorCommand, DeleteMangaCommand, AddSalesCommand, etc.
 CommandThatModifies .> StorageHelper : uses
 
 class AuthorList

@@ -1,6 +1,7 @@
 @startuml
-hide circle
-skinparam groupInheritance 2
+!include .PlantUML.config
+
+skinparam nodesep 150
 
 class AuthorList {
     + hasAuthor(author: Author): boolean
@@ -9,10 +10,10 @@ class AuthorList {
     + getAuthor(authorName: String): Author
 }
 
-class ArrayList
+class ArrayList<T>
 ArrayList <|-- AuthorList
 note on link : ArrayList<Author>
-ArrayList <|--- MangaList
+ArrayList <|-- MangaList
 note on link : ArrayList<Manga>
 
 class Author {
@@ -22,7 +23,7 @@ class Author {
     + getManga(manga: Manga): Manga
 }
 Author "*" -up-o AuthorList : < comprises of
-note bottom of Author : convenience wrappers\nfor MangaList methods
+note bottom of Author : convenience wrappers for MangaList methods
 
 class Manga {
     - mangaName: String
@@ -32,8 +33,8 @@ Author "0..1 author" <-- Manga : < authored by
 
 class MangaList {
 }
-Manga "*" -left-o MangaList : < comprises of
-MangaList "0..1 mangaList" <-- Author : < has Mangas in
+MangaList o-- "*" Manga : > comprises of
+MangaList "mangaList\n0..1" <-- Author : < has Mangas in
 
 class Sale {
     - quantitySold: int
