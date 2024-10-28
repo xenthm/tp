@@ -2,14 +2,20 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorNameTooLongException;
+import exceptions.MangaNameTooLongException;
+import exceptions.NoAuthorProvidedException;
+import exceptions.NoMangaProvidedException;
 import exceptions.TantouException;
 import manga.Manga;
-import storage.Storage;
 import ui.Ui;
 
 import static constants.Command.AUTHOR_INDEX;
 import static constants.Command.CATALOG_COMMAND;
 import static constants.Command.MANGA_INDEX;
+import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
+import static constants.Options.MAX_MANGA_NAME_LENGTH;
+import static storage.StorageHelper.saveFile;
 
 //@@author averageandyyy
 public class AddMangaCommand extends Command {
@@ -27,11 +33,28 @@ public class AddMangaCommand extends Command {
         // Empty user input should have been caught at the Parser level
         assert (authorName != null && mangaName != null) : "No user input provided";
 
-        if (authorName.isEmpty() || mangaName.isEmpty()) {
-            logger.warning("No author or manga provided!");
-            throw new TantouException("No author or manga provided!");
+        if (authorName.isEmpty()) {
+            logger.warning("No author provided!");
+            throw new NoAuthorProvidedException();
         }
 
+        if (mangaName.isEmpty()) {
+            logger.warning("No manga provided!");
+            throw new NoMangaProvidedException();
+        }
+
+        //@@author xenthm
+        if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
+            logger.warning("Author name " + authorName + " exceeds maximum length");
+            throw new AuthorNameTooLongException();
+        }
+
+        if (mangaName.length() > MAX_MANGA_NAME_LENGTH) {
+            logger.warning("Manga name " + mangaName + " exceeds maximum length");
+            throw new MangaNameTooLongException();
+        }
+
+        //@@author
         Author incomingAuthor = new Author(authorName);
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
 
@@ -47,7 +70,7 @@ public class AddMangaCommand extends Command {
                 // Assert that the manga was successfully added
                 assert authorList.getAuthor(incomingAuthor).hasManga(incomingManga) : "Failed to add manga";
 
-                Storage.getInstance().saveAuthorListToDataFile(authorList);
+                saveFile(authorList);
                 return;
             }
 
@@ -63,6 +86,6 @@ public class AddMangaCommand extends Command {
         assert authorList.getAuthor(incomingAuthor).hasManga(incomingManga) : "Failed to add author and manga";
         System.out.printf("Manga %s added successfully to author %s\n", incomingManga.getMangaName(),
                 incomingAuthor.getAuthorName());
-        Storage.getInstance().saveAuthorListToDataFile(authorList);
+        saveFile(authorList);
     }
 }

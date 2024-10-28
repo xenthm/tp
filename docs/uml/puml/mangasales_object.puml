@@ -1,0 +1,15 @@
+@startuml
+object "__:Manga__" as manga {
+    mangaName = "Bleach"
+    author = "Kubo Tite"
+    deadline = "None"
+}
+
+object "__:Sale__" as sale {
+    quantitySold = 10000
+    unitPrice = 11.90
+    totalRevenue = 119000.00
+}
+
+manga -- "salesData" sale
+@enduml

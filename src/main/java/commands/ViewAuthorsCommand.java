@@ -1,13 +1,18 @@
 package commands;
 
+import author.Author;
 import author.AuthorList;
+import exceptions.AuthorNameTooLongException;
+import exceptions.TantouException;
 import ui.Ui;
 
+import static author.AuthorList.authorColumnsToPrint;
 import static constants.Command.VIEW_COMMAND;
+import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
 
 //@@author xenthm
 /**
- * Represents the <code>view</code> command. Handles its execution.
+ * Represents the <code>view authors</code> command. Handles its execution.
  */
 public class ViewAuthorsCommand extends Command {
     public ViewAuthorsCommand() {
@@ -15,7 +20,7 @@ public class ViewAuthorsCommand extends Command {
     }
 
     @Override
-    public void execute(Ui ui, AuthorList authorList) {
+    public void execute(Ui ui, AuthorList authorList) throws TantouException {
         assert ui != null : "Ui must not be null";
         assert authorList != null : "authorList must not be null";
 
@@ -24,6 +29,15 @@ public class ViewAuthorsCommand extends Command {
             logger.info("authorList is empty");
             return;
         }
-        authorList.print();
+
+        for (Author author : authorList) {
+            if (author.getAuthorName().length() > MAX_AUTHOR_NAME_LENGTH) {
+                logger.warning("Author name " + author.getAuthorName() + " exceeds maximum length");
+                throw new AuthorNameTooLongException();
+            }
+        }
+
+        System.out.println("Here are the sla-I mean authors under you! Total: " + authorList.size());
+        Ui.printList(authorList, authorColumnsToPrint());
     }
 }

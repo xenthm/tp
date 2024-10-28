@@ -26,6 +26,10 @@ public class Author {
         return mangaList;
     }
 
+    public void setMangaList(MangaList mangaList) {
+        this.mangaList = mangaList;
+    }
+
     public boolean hasManga(Manga manga) {
         assert manga != null : "manga must not be null";
         return mangaList.contains(manga);
@@ -75,10 +79,5 @@ public class Author {
     @Override
     public int hashCode() {
         return Objects.hash(authorName);
-    }
-
-    //@@author xenthm
-    public void printMangaList() {
-        mangaList.print();
     }
 }
