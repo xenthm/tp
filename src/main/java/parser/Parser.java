@@ -9,11 +9,8 @@ import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
-import exceptions.InvalidCatalogCommandException;
-import exceptions.InvalidDeleteCommandException;
 import exceptions.InvalidSalesCommandException;
 import exceptions.InvalidViewCommandException;
-import exceptions.MangaArgsWrongOrderException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.NoMangaProvidedException;
 import exceptions.SalesArgsWrongOrderException;
@@ -94,10 +91,6 @@ public class Parser {
         return userInput.replace(CATALOG_COMMAND, EMPTY_REGEX);
     }
 
-    private String removeDeleteOption(String userInput) {
-        return userInput.replace(DELETE_OPTION_REGEX, EMPTY_REGEX);
-    }
-
     //@@author averageandyyy
     /**
      * Checks that the -d option is present and at the end of the command
@@ -159,108 +152,6 @@ public class Parser {
         }
 
         return new AddMangaCommand(new String[]{authorName, mangaName});
-    }
-
-    //@@author averageandyyy
-    /**
-     * Processes the user input to create a Delete command for either a Manga or Author.
-     * Determines whether the input corresponds to a valid Manga or Author command
-     * and returns the appropriate Delete command object.
-     * <p>
-     * If the input is valid for a Manga command, it returns an `DeleteMangaCommand`.
-     * If the input is valid for an Author command, it returns an `DeleteAuthorCommand`.
-     *
-     * @param userInput the input string provided by the user,
-     *                  which should specify an Add operation for either Manga or Author
-     * @return a Command object representing the Add operation for Manga or Author
-     * @throws TantouException if the user input is invalid for both Manga and Author Add commands
-     */
-    private Command processDeleteAuthorMangaCommand(String userInput) throws TantouException {
-        if (isValidMangaCommand(userInput)) {
-            String[] authorAndMangaNames = getAuthorAndMangaFromInput(userInput);
-            return new DeleteMangaCommand(authorAndMangaNames);
-        } else if (isValidAuthorCommand(userInput)) {
-            String authorName = getAuthorNameFromInput(userInput);
-            return new DeleteAuthorCommand(authorName);
-        }
-
-        throw new InvalidDeleteCommandException();
-    }
-
-    //@@author averageandyyy
-    private boolean isValidAuthorCommand(String userInput) throws TantouException {
-        return hasAuthorFlagAndArgument(userInput);
-    }
-
-    //@@author averageandyyy
-    private boolean isValidMangaCommand(String userInput) throws TantouException {
-
-        return hasAuthorFlagAndArgument(userInput) &&
-                hasMangaFlagAndArgument(userInput) &&
-                isAuthorBeforeManga(userInput);
-    }
-
-    //@@author averageandyyy
-    private boolean hasAuthorFlagAndArgument(String userInput) throws TantouException {
-        // Input contains " -a" but not " -a ", the second space is needed to indicate an incoming argument
-        if (userInput.contains(SPACE_REGEX + AUTHOR_OPTION) && !userInput.contains(AUTHOR_OPTION_REGEX)) {
-            throw new NoAuthorProvidedException();
-        }
-        return userInput.contains(AUTHOR_OPTION_REGEX);
-    }
-
-    //@@author averageandyyy
-    private boolean hasMangaFlagAndArgument(String userInput) throws TantouException {
-        // Input contains " -m" but not " -m ", the second space is needed to indicate an incoming argument
-        if (userInput.contains(SPACE_REGEX + MANGA_OPTION) && !userInput.contains(MANGA_OPTION_REGEX)) {
-            throw new NoMangaProvidedException();
-        }
-        return userInput.contains(MANGA_OPTION_REGEX);
-    }
-
-    private boolean isAuthorBeforeManga(String userInput) throws TantouException {
-        int indexOfAuthor = userInput.indexOf(AUTHOR_OPTION_REGEX);
-        int indexOfManga = userInput.indexOf(MANGA_OPTION_REGEX);
-
-        if (indexOfAuthor == -1 || indexOfManga == -1) {
-            throw new TantouException("No author or manga option found!");
-        }
-
-        if (indexOfAuthor > indexOfManga) {
-            throw new MangaArgsWrongOrderException();
-        }
-
-        return indexOfAuthor < indexOfManga;
-    }
-
-    //@@author averageandyyy
-    private String getAuthorNameFromInput(String userInput) throws TantouException {
-        if (!userInput.contains(AUTHOR_OPTION_REGEX)) {
-            throw new TantouException("You have not provided an author argument!");
-        }
-        return userInput.replace(AUTHOR_OPTION_REGEX, EMPTY_REGEX).trim();
-    }
-
-    private String[] getAuthorAndMangaFromInput(String userInput) throws TantouException {
-        int indexOfAuthor = userInput.indexOf(AUTHOR_OPTION_REGEX);
-        int indexOfManga = userInput.indexOf(MANGA_OPTION_REGEX);
-
-        // Should have been caught at the validation stage
-        assert (indexOfAuthor != -1 && indexOfManga != -1) : "Invalid manga command format";
-        assert (indexOfAuthor < indexOfManga) : "Invalid manga command format";
-
-        String authorName = extractAuthorName(userInput, indexOfAuthor, indexOfManga);
-        String mangaName = extractMangaName(userInput, indexOfManga);
-
-        if (authorName.isEmpty()) {
-            throw new NoAuthorProvidedException();
-        }
-
-        if (mangaName.isEmpty()) {
-            throw new NoMangaProvidedException();
-        }
-
-        return new String[]{authorName, mangaName};
     }
 
     // Sales Functions

@@ -5,7 +5,6 @@ import exceptions.TantouException;
 
 import static constants.Options.AUTHOR_OPTION;
 import static constants.Regex.AUTHOR_NAME_EXTRACT0R_PATTERN;
-import static constants.Regex.EMPTY_REGEX;
 
 public class AuthorArgumentFinder extends ArgumentFinder {
     public AuthorArgumentFinder() {

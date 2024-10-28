@@ -5,7 +5,6 @@ import exceptions.TantouException;
 
 
 import static constants.Options.MANGA_OPTION;
-import static constants.Regex.EMPTY_REGEX;
 import static constants.Regex.MANGA_NAME_EXTRACTOR_PATTERN;
 
 public class MangaArgumentFinder extends ArgumentFinder {
