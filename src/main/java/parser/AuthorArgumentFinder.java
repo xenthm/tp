@@ -23,10 +23,8 @@ public class AuthorArgumentFinder extends ArgumentFinder {
                 throw new NoAuthorProvidedException();
             }
 
-            userInput = userInput
-                    .replace(matcher.group(0), EMPTY_REGEX)    // Remove author name part from userInput
-                    .replace(option, EMPTY_REGEX)                // Remove AUTHOR_OPTION from userInput
-                    .trim();
+            // Remove the argument and its matching flag
+            userInput = userInput.substring(0, matcher.start(0) - 3) + userInput.substring(matcher.end(0));
         }
 
         return new ArgumentResult(authorName, userInput);

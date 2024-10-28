@@ -131,15 +131,33 @@ public class Parser {
      * @throws TantouException if the user input is invalid for both Manga and Author Add commands
      */
     private Command processAddAuthorMangaCommand(String userInput) throws TantouException {
-        if (isValidMangaCommand(userInput)) {
-            String[] authorAndMangaNames = getAuthorAndMangaFromInput(userInput);
-            return new AddMangaCommand(authorAndMangaNames);
-        } else if (isValidAuthorCommand(userInput)) {
-            String authorName = getAuthorNameFromInput(userInput);
+        String authorName = null;
+        String mangaName = null;
+
+        AuthorArgumentFinder authorArgumentFinder = new AuthorArgumentFinder();
+        MangaArgumentFinder mangaArgumentFinder = new MangaArgumentFinder();
+
+        ArgumentResult authorResult = authorArgumentFinder.getArgumentResult(userInput);
+        authorName = authorResult.getArgument();
+        userInput = authorResult.getOutputString();
+
+        if (authorName == null || authorName.isEmpty()) {
+            throw new NoAuthorProvidedException();
+        }
+
+        ArgumentResult mangaResult = mangaArgumentFinder.getArgumentResult(userInput);
+        mangaName = mangaResult.getArgument();
+        userInput = mangaResult.getOutputString();
+
+        if (mangaName == null) {
             return new AddAuthorCommand(authorName);
         }
 
-        throw new InvalidCatalogCommandException();
+        if (mangaName.isEmpty()) {
+            throw new NoMangaProvidedException();
+        }
+
+        return new AddMangaCommand(new String[]{authorName, mangaName});
     }
 
     //@@author averageandyyy
@@ -175,6 +193,7 @@ public class Parser {
 
     //@@author averageandyyy
     private boolean isValidMangaCommand(String userInput) throws TantouException {
+
         return hasAuthorFlagAndArgument(userInput) &&
                 hasMangaFlagAndArgument(userInput) &&
                 isAuthorBeforeManga(userInput);
