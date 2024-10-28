@@ -24,14 +24,12 @@ public class Ui {
 
     //@@author xenthm
     /**
-     * Prints the contents of the provided list with the given column print configuration after formatting.
+     * Prints the header with the correct number of dividers.
      *
-     * @param arrayList the list (which must extend {@code ArrayList}) to be printed
-     * @param columns   the print configuration for the columns of data to be printed
-     * @param <T>       the type of the constituents of {@code arrayList}
+     * @param columns the print configuration for the columns of data to be printed
+     * @param <T>     the type of the constituents of the rows to be printed
      */
-    public static <T> void printList(ArrayList<T> arrayList, ArrayList<PrintColumn<T>> columns) {
-        // Print the header
+    private static <T> void printHeaders(ArrayList<PrintColumn<T>> columns) {
         for (int i = 0; i < columns.size(); i++) {
             System.out.print(columns.get(i).getHeader());
             if (i < columns.size() - 1) {
@@ -39,20 +37,34 @@ public class Ui {
             }
         }
         System.out.println();
+    }
 
-        // Print the top line based on total width
-        int totalWidth = columns
-                .stream()
-                .mapToInt(PrintColumn::getWidth)
-                .sum()
-                + (columns.size() - 1) * DIVIDER_REGEX.length();
-        System.out.println("-".repeat(totalWidth));
+    //@@author xenthm
+    /**
+     * Prints the header horizontal divider line with the correct width.
+     *
+     * @param width width of the divider line to print
+     */
+    private static void printHorizontalDivider(int width) {
+        System.out.println("-".repeat(width));
+    }
 
-        // Print each entry
+    //@@author xenthm
+    /**
+     * Prints all the requested columns of each entry in the list with the correct number of dividers.
+     *
+     * @param arrayList the list (which must extend {@code ArrayList}) to be printed
+     * @param columns   the print configuration for the columns of data to be printed
+     * @param <T>       the type of the constituents of {@code arrayList}
+     */
+    private static <T> void printEntries(ArrayList<T> arrayList, ArrayList<PrintColumn<T>> columns) {
         for (int i = 0; i < arrayList.size(); i++) {
             T item = arrayList.get(i);
-            // Display the row number and each column's value
+
+            // Print the row number
             System.out.printf("%3s", i + 1);    // Align right
+
+            // Print each column for the entry
             for (int j = 0; j < columns.size(); j++) {
                 System.out.print(columns.get(j).getValue(item));
                 if (j < columns.size() - 1) {
@@ -61,5 +73,25 @@ public class Ui {
             }
             System.out.println();
         }
+    }
+
+    //@@author xenthm
+    /**
+     * Prints the contents of the provided list with the given column print configuration after formatting.
+     *
+     * @param arrayList the list (which must extend {@code ArrayList}) to be printed
+     * @param columns   the print configuration for the columns of data to be printed
+     * @param <T>       the type of the constituents of {@code arrayList}
+     */
+    public static <T> void printList(ArrayList<T> arrayList, ArrayList<PrintColumn<T>> columns) {
+        int totalWidthOfTable = columns
+                .stream()
+                .mapToInt(PrintColumn::getWidth)                    // get width of each column
+                .sum()                                              // add them together
+                + (columns.size() - 1) * DIVIDER_REGEX.length();    // add each divider that is added
+
+        printHeaders(columns);
+        printHorizontalDivider(totalWidthOfTable);
+        printEntries(arrayList, columns);
     }
 }
