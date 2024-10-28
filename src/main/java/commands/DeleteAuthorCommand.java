@@ -25,7 +25,7 @@ public class DeleteAuthorCommand extends Command {
     /**
      * Constructs a DeleteAuthorCommand with the given user input.
      *
-     * @param userInputList The user's input list containing the author that is to be deleted.
+     * @param authorName The name of the author that is to be deleted.
      */
     public DeleteAuthorCommand(String authorName) {
         super(DELETE_COMMAND);
@@ -42,11 +42,6 @@ public class DeleteAuthorCommand extends Command {
      */
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
-
-        if (authorName.isEmpty()) {
-            logger.log(Level.SEVERE, "Author name cannot be empty");
-            throw new TantouException("No author provided!");
-        }
 
         assert !authorName.isEmpty(): "Author name is empty";
         logger.log(Level.INFO, "Deleting author... " + authorName);
