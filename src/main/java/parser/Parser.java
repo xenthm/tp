@@ -84,10 +84,10 @@ public class Parser {
     private Command processCatalogCommand(String userInput) throws TantouException {
         userInput = removeCatalogPrefix(userInput);
         if (isValidDeleteCommand(userInput)) {
-            userInput = removeDeleteOption(userInput);
-            return processDeleteAuthorMangaCommand(userInput);
+            // userInput = removeDeleteOption(userInput);
+            return processAuthorMangaCommand(userInput, true);
         }
-        return processAddAuthorMangaCommand(userInput);
+        return processAuthorMangaCommand(userInput, false);
     }
 
     private String removeCatalogPrefix(String userInput) {
@@ -107,13 +107,7 @@ public class Parser {
      * @throws TantouException if the user input is invalid at the validation or parsing stage
      */
     private boolean isValidDeleteCommand(String userInput) throws TantouException {
-        if (userInput.contains(DELETE_OPTION_REGEX)) {
-            if (!userInput.endsWith(DELETE_OPTION_REGEX)) {
-                throw new InvalidDeleteCommandException();
-            }
-            return true;
-        }
-        return false;
+        return userInput.contains(DELETE_OPTION_REGEX + SPACE_REGEX) || userInput.endsWith(DELETE_OPTION_REGEX);
     }
 
     //@@author averageandyyy
@@ -130,7 +124,7 @@ public class Parser {
      * @return a Command object representing the Add operation for Manga or Author
      * @throws TantouException if the user input is invalid for both Manga and Author Add commands
      */
-    private Command processAddAuthorMangaCommand(String userInput) throws TantouException {
+    private Command processAuthorMangaCommand(String userInput, boolean isDelete) throws TantouException {
         String authorName = null;
         String mangaName = null;
 
@@ -150,11 +144,18 @@ public class Parser {
         userInput = mangaResult.getOutputString();
 
         if (mangaName == null) {
+            if (isDelete) {
+                return new DeleteAuthorCommand(authorName);
+            }
             return new AddAuthorCommand(authorName);
         }
 
         if (mangaName.isEmpty()) {
             throw new NoMangaProvidedException();
+        }
+
+        if (isDelete) {
+            return new DeleteMangaCommand(new String[]{authorName, mangaName});
         }
 
         return new AddMangaCommand(new String[]{authorName, mangaName});
