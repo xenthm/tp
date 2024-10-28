@@ -1,15 +1,43 @@
 # Developer Guide
 
-## Acknowledgements
+# Acknowledgements
 Tantou's structure has been greatly inspired by the developer's respective iPs as listed below:
 1. [Donovan](https://github.com/xenthm/ip)
 2. [Sarah](https://github.com/sarahchow03/ip)
 3. [Ian](https://github.com/iaso1774/ip)
 4. [Andy](https://github.com/averageandyyy/ip)
 
-## Design & implementation
+# Design & implementation
 
 {Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+## Overall Architecture
+### Commands Overview
+![Command Inheritance](/docs/uml/images/Command.png)
+The current list of viable `Commands` are as follows:
+
+1. `AddAuthorCommand`
+2. `AddMangaCommand`
+3. `DeleteAuthorCommand`
+4. `DeleteMangaCommand`
+5. `ViewAuthorsCommand`
+6. `ViewMangasCommand`
+7. `GreetCommand`
+8. `ByeCommand`
+#### Command Structure
+
+All child `Command` classes must inherit from the abstract `Command` class. Each child class is required to implement the abstract `execute` method.
+
+While child classes may or may not modify the `AuthorList`, they are encouraged to utilize the `Ui` class to interact with users, such as displaying success messages.
+
+#### Guidelines for Future Developers
+
+When adding new command classes, developers must follow the same method of implementation by 
+inheriting from the abstract `Command` class. Ensure that each new command class includes 
+an implementation of the `execute` method and appropriately interacts with the `Ui` class 
+for user feedback. Additionally, developers should update the `Parser` class to gather the 
+relevant arguments from the user for their commands.
+
+## Interacting with the user
 ### AddAuthorCommand
 #### Overview
 The `AddAuthorCommand` is responsible for adding new `Author`s to `Tantou`. The command creates a new `Author` instance and verifies its existence. If it
@@ -18,7 +46,7 @@ of their manga authors. The `AuthorList` is saved via `Storage` for data persist
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite"` as an input.
-![add author sequence diagram](/docs/uml/addauthor.png)
+![add author sequence diagram](/docs/uml/images/addauthor.png)
 If the `Author` instance already exists, a `TantouException` is thrown, informing the user that
 they are already tracking this employee.
 
