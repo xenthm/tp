@@ -6,6 +6,7 @@ import static constants.Options.AUTHOR_OPTION;
 import static constants.Options.BY_DATE_OPTION;
 import static constants.Options.DELETE_OPTION;
 import static constants.Options.MANGA_OPTION;
+import static constants.Options.OPTIONS_ARRAY;
 import static constants.Options.PRICE_OPTION;
 import static constants.Options.QUANTITY_OPTION;
 import static constants.Options.SALES_OPTION;
@@ -31,8 +32,7 @@ public class Regex {
     /**
      * Regex pattern to extract the author name out of a given input
      */
-    public static final Pattern AUTHOR_NAME_EXTRACT0R_PATTERN = generateExtractorPattern(AUTHOR_OPTION, SALES_OPTION,
-            BY_DATE_OPTION);
+    public static final Pattern AUTHOR_NAME_EXTRACT0R_PATTERN = generateExtractorPattern(AUTHOR_OPTION);
 
     //@@author xenthm 
     /**
@@ -49,9 +49,10 @@ public class Regex {
      * @param excludedOptionFlags at least one option flag to be excluded
      * @return compiled regex <code>Pattern</code> to be used with a regex <code>Matcher</code>
      */
-    private static Pattern generateExtractorPattern(String includedOptionFlag, String... excludedOptionFlags) {
-        assert excludedOptionFlags.length != 0
-                : "Must at least have one excluded option when generating extractor pattern";
+    private static Pattern generateExtractorPattern(String includedOptionFlag) {
+//        assert excludedOptionFlags.length != 0
+//                : "Must at least have one excluded option when generating extractor pattern";
+        assert includedOptionFlag != null : "Must provide option of interest!";
 
         StringBuilder regex = new StringBuilder();
 
@@ -63,8 +64,10 @@ public class Regex {
         {
             regex.append("(?<=\\s)");                                       // [any of the excludedOptionFlags
             regex.append("-[");
-            for (String s : excludedOptionFlags) {
-                regex.append(s.replace("-", EMPTY_REGEX));
+            for (String option : OPTIONS_ARRAY) {
+                if (!option.equals(includedOptionFlag)) {
+                    regex.append(option.replace("-", EMPTY_REGEX));
+                }
             }
             regex.append("]");
             regex.append("(?:\\s|$)");                                      // followed by either a space or the end]
