@@ -19,8 +19,6 @@ import exceptions.NoMangaProvidedException;
 import exceptions.SalesArgsWrongOrderException;
 import exceptions.TantouException;
 
-import java.util.regex.Matcher;
-
 import static constants.Command.BYE_COMMAND;
 import static constants.Command.CATALOG_COMMAND;
 import static constants.Command.COMMAND_INDEX;
@@ -31,7 +29,6 @@ import static constants.Options.BY_DATE_OPTION;
 import static constants.Options.MANGA_OPTION;
 import static constants.Options.SALES_OPTION;
 import static constants.Regex.ANY_SPACE_REGEX;
-import static constants.Regex.AUTHOR_NAME_EXTRACT0R_PATTERN;
 import static constants.Regex.AUTHOR_OPTION_REGEX;
 import static constants.Regex.DELETE_OPTION_REGEX;
 import static constants.Regex.EMPTY_REGEX;
@@ -342,18 +339,10 @@ public class Parser {
         boolean hasByDateFlag = false;
         boolean hasSalesFlag = false;
 
-        Matcher authorNameFinder = AUTHOR_NAME_EXTRACT0R_PATTERN.matcher(userInput);
-        if (authorNameFinder.find()) {
-            authorName = authorNameFinder.group(0).trim();
-            if (authorName.isEmpty()) {
-                throw new NoAuthorProvidedException();
-            }
-
-            userInput = userInput
-                    .replace(authorNameFinder.group(0), EMPTY_REGEX)    // Remove author name part from userInput
-                    .replace(AUTHOR_OPTION, EMPTY_REGEX)                // Remove AUTHOR_OPTION from userInput
-                    .trim();
-        }
+        AuthorArgumentFinder authorArgumentFinder = new AuthorArgumentFinder();
+        ArgumentResult result = authorArgumentFinder.getArgumentResult(userInput);
+        authorName = result.getArgument();
+        userInput = result.getOutputString();
 
         String[] tokens = userInput.split(ANY_SPACE_REGEX);  // Split the remaining around any number of spaces
         for (String token : tokens) {
