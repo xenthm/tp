@@ -47,6 +47,7 @@ public class DeleteAuthorCommand extends Command {
             logger.log(Level.SEVERE, "Author name cannot be empty");
             throw new TantouException("No author provided!");
         }
+
         assert !authorName.isEmpty(): "Author name is empty";
         logger.log(Level.INFO, "Deleting author... " + authorName);
 
