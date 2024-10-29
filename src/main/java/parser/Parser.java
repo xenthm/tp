@@ -255,7 +255,8 @@ public class Parser {
         authorName = result.getArgument();
         String userInputPostAuthorExtraction = result.getOutputString();
 
-        String[] tokens = userInputPostAuthorExtraction.split(ANY_SPACE_REGEX);  // Split the remaining around any number of spaces
+        // Split the remaining around any number of spaces
+        String[] tokens = userInputPostAuthorExtraction.split(ANY_SPACE_REGEX);
         for (String token : tokens) {
             switch (token) {
             case BY_DATE_OPTION:
