@@ -6,7 +6,7 @@ skinparam nodesep 30
 class Storage <<singleton>> {
     + {static} DATA_PATH: String = "catalog.json"
     - Storage()
-    + getInstance(): Storage
+    + {static} getInstance(): Storage
     + readAuthorListFromDataFile(): AuthorList
     + saveAuthorListToDataFile(authorList: AuthorList): AuthorList
     - createFileIfNeeded(): boolean
