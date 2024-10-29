@@ -126,15 +126,15 @@ public class Parser {
 
         ArgumentResult authorResult = authorArgumentFinder.getArgumentResult(userInput);
         authorName = authorResult.getArgument();
-        userInput = authorResult.getOutputString();
+        String userInputPostAuthorExtraction = authorResult.getOutputString();
 
         if (authorName == null || authorName.isEmpty()) {
             throw new NoAuthorProvidedException();
         }
 
-        ArgumentResult mangaResult = mangaArgumentFinder.getArgumentResult(userInput);
+        ArgumentResult mangaResult = mangaArgumentFinder.getArgumentResult(userInputPostAuthorExtraction);
         mangaName = mangaResult.getArgument();
-        userInput = mangaResult.getOutputString();
+        String userInputPostMangaExtraction = mangaResult.getOutputString();
 
         if (mangaName == null) {
             if (isDelete) {
@@ -253,9 +253,9 @@ public class Parser {
         AuthorArgumentFinder authorArgumentFinder = new AuthorArgumentFinder();
         ArgumentResult result = authorArgumentFinder.getArgumentResult(userInput);
         authorName = result.getArgument();
-        userInput = result.getOutputString();
+        String userInputPostAuthorExtraction = result.getOutputString();
 
-        String[] tokens = userInput.split(ANY_SPACE_REGEX);  // Split the remaining around any number of spaces
+        String[] tokens = userInputPostAuthorExtraction.split(ANY_SPACE_REGEX);  // Split the remaining around any number of spaces
         for (String token : tokens) {
             switch (token) {
             case BY_DATE_OPTION:

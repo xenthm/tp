@@ -15,6 +15,7 @@ public class MangaArgumentFinder extends ArgumentFinder {
     @Override
     public ArgumentResult getArgumentResult(String userInput) throws TantouException {
         String mangaName = null;
+        String outputString = null;
         matcher = pattern.matcher(userInput);
 
         if (matcher.find()) {
@@ -23,9 +24,9 @@ public class MangaArgumentFinder extends ArgumentFinder {
                 throw new NoMangaProvidedException();
             }
 
-            userInput = userInput.substring(0, matcher.start(0) - 3) + userInput.substring(matcher.end(0));
+            outputString = userInput.substring(0, matcher.start(0) - 3) + userInput.substring(matcher.end(0));
         }
 
-        return new ArgumentResult(mangaName, userInput);
+        return new ArgumentResult(mangaName, outputString);
     }
 }
