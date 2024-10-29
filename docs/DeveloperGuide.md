@@ -28,6 +28,23 @@ with the input `sales -a Kubo Tite -m Bleach -q 10000 -p 11.90`.
 
 ![mangasales_object.png](uml%2Fimages%2Fmangasales_object.png)
 
+### AddScheduleCommand
+#### Overview
+AddScheduleCommand changes the deadline on a specified manga. The deadline is kept as a String attribute `deadline`. This is set to `"None"` by default when a manga is created.
+
+When using AddScheduleCommand, if the manga or author inputted don't exist, they are automatically created.
+
+### Interaction
+
+The following sequence diagram illustrates the interactions that occur when the parser creates a new `AddScheudleCommand`.
+
+![]()
+
+The following object diagram illustrates object structure after the above interaction is successfully run
+with the input `schedule -a Kubo Tite -m Bleach -b October 2 2018`.
+
+![]()
+
 ## Product scope
 ### Target user profile
 
