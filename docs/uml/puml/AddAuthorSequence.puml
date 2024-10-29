@@ -6,7 +6,8 @@ participant "parser:Parser" as parser
 participant "userCommand:AddAuthorCommand" as userCommand
 participant "authorList:AuthorList" as authorList
 participant ":Storage" as storage
-participant "author:Author" as author
+participant "incomingAuthor:Author" as author
+participant "mangaList:MangaList" as mangaList
 
 ' Simulate adding author with "catalog -a Kubo Tite"
 activate tantou
@@ -47,17 +48,22 @@ activate userCommand
 
 ' Construction of author
 create author
-userCommand -> author
+userCommand -> author: new Author(authorName)
 activate author
-author --> userCommand: author
+create mangaList
+author -> mangaList: new MangaList()
+activate mangaList
+mangaList --> author
+deactivate mangaList
+author --> userCommand: incomingAuthor
 deactivate author
 
 ' Control flow
-alt author not in authorList
+alt incomingAuthor not in authorList
 
-    userCommand -> authorList: add(author)
+    userCommand -> authorList: add(incomingAuthor)
     activate authorList
-    authorList -> ui: printAddAuthorSuccess(author)
+    authorList -> ui: printAddAuthorSuccess(incomingAuthor)
     activate ui
     ui -> User: "Successfully added author: Kubo Tite"
     ui --> authorList
@@ -71,7 +77,7 @@ alt author not in authorList
     deactivate storage
     userCommand --> tantou
 
-else author exists in authorList
+else incomingAuthor in authorList
     userCommand --> tantou: throws TantouException("Author exists!")
     tantou -> ui: showErrorMessage()
     activate ui
