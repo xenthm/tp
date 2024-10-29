@@ -1,7 +1,7 @@
 @startuml
-!include .PlantUML.config
+!include .PlantUMLClass.config
 
-skinparam nodesep 10
+skinparam nodesep 50
 
 class Regex <<utility>> {
     + {static} DIVIDER_REGEX: String
@@ -59,26 +59,26 @@ class PrintColumn<T> {
     + getValue(object: T): String
 }
 
-Regex <.. Ui : uses
-Message <.. Ui : uses
+Regex <. Ui : uses
+Message <. Ui : uses
 
 Ui ..> AuthorList : prints >
 Ui ..> MangaList : prints >
 
-MangaList o--- "*" Manga : comprises of >
+MangaList o-- "*" Manga : comprises of >
 MangaList .l.> "2..6" PrintColumn: specifies print configuration for Ui >
 
-AuthorList o--- "*" Author : comprises of >
+AuthorList o-- "*" Author : comprises of >
 AuthorList .r.> "2" PrintColumn: specifies print configuration for Ui >
 
-Manga ---> "salesData\n0..1" Sale
+Manga --> "salesData\n0..1" Sale
 Manga -l-> "author\n0..1" Author
 
 'PrintColumn .> Manga : gives valueProvider to <
 'PrintColumn .> Author : gives valueProvider to <
 'PrintColumn ..> Sale : gives valueProvider to <
 
-note "valueProviders are methods that return the String representation of a particular attribute of a class. They come from Author/Manga/Sale (e.g. getMangaName(), getTotalRevenue())" as valueProviderNote
-PrintColumn .. valueProviderNote
+note "valueProviders are methods that return the String representation of a particular attribute of a class. The are invoked in getValue(). They come from Author/Manga/Sale (e.g. getMangaName(), getTotalRevenue())" as valueProviderNote
+PrintColumn::valueProvider .d.. valueProviderNote
 
 @enduml

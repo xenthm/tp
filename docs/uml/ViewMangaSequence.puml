@@ -1,0 +1,33 @@
+@startuml
+!include .PlantUMLSequence.config
+skinparam maxMessageSize 270
+
+title <size:30>View Manga Sequence Diagram
+
+participant ":ViewMangasCommand" as cmd
+participant ":AuthorList" as al
+participant "author:Author" as a
+participant "MangaList" as ml <<class>>
+participant Ui as ui <<class>>
+participant ":PrintColumn<Manga>" as col
+
+[-> cmd : execute
+    alt invalid attributes or arguments
+        autoactivate off
+[<-- cmd : print status message
+        autoactivate on
+    else valid attributes and arguments
+        cmd -> al : getAuthor(authorName)
+        return author:Author
+        cmd -> a : getMangaList()
+        return :MangaList
+        cmd -> ml : get list of data columns to print based on flags
+            ref over ml, col : Add required columns to list
+        return columns to print
+        cmd -> ui : print list as table with the required columns
+            ref over ui, col : Print all required list and format rows
+        return
+return done printing
+    end
+
+@enduml
