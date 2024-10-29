@@ -1,5 +1,5 @@
 @startuml
-!include .PlantUMLSequence.config
+!include ../.PlantUMLSequence.config
 skinparam wrapWidth 0
 
 title <size:30>View Manga:Add Required Columns to List Sequence Diagram

@@ -1,5 +1,5 @@
 @startuml
-!include .PlantUMLClass.config
+!include ../.PlantUMLClass.config
 
 skinparam nodesep 50
 
