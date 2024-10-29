@@ -37,11 +37,11 @@ class MangaListDeserializer implements JsonDeserializer<MangaList> {
         JsonArray mangaListJsonArray = json.getAsJsonArray();
 
         MangaList mangaList = new MangaList();
-        for (JsonElement mangaElement : mangaListJsonArray) {
+        for (JsonElement mangaJsonElement : mangaListJsonArray) {
             // Ensure manga is valid, skipping if not
             try {
                 // pass Author reference
-                Manga manga = new MangaDeserializer(author).deserialize(mangaElement, Manga.class, context);
+                Manga manga = new MangaDeserializer(author).deserialize(mangaJsonElement, Manga.class, context);
                 mangaList.add(manga);
             } catch (JsonParseException e) {
                 System.out.println("Author "

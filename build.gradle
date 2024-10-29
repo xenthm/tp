@@ -43,7 +43,18 @@ checkstyle {
     toolVersion = '10.2'
 }
 
-run{
+run {
+    standardInput = System.in
+    enableAssertions = true
+}
+
+// Custom 'nolog' task
+tasks.register('nolog', JavaExec) {
+    group = 'application'
+    description = 'Run the application with logging disabled'
+    mainClass = application.mainClass.get()
+    classpath = sourceSets.main.runtimeClasspath
+    args = ["nolog"]  // Add any required arguments here
     standardInput = System.in
     enableAssertions = true
 }
