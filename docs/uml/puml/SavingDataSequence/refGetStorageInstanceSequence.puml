@@ -1,0 +1,23 @@
+@startuml
+!include ../.PlantUMLSequence.config
+
+title <size:30>Saving Data:Get Storage Instance Sequence Diagram
+
+participant Storage as stc <<class>>
+participant "storage:Storage" as st
+note over st : If Storage was already instantiated,\nits lifeline would start from here.
+participant ":Gson" as gson
+
+group sd [Get Storage Instance]
+    [-> stc : getInstance()
+    opt storage is null
+        stc -> st ** : new Storage()
+        st ++
+        st -> gson : build new Gson
+        return gson:Gson
+        return storage:Storage
+    end
+    return storage:Storage
+end
+
+@enduml

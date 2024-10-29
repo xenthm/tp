@@ -1,6 +1,5 @@
 @startuml
-!include .PlantUMLClass.config
-'https://plantuml.com/class-diagram
+!include ../.PlantUMLClass.config
 
 abstract class Command <<abstract>> {
     # logger: Logger

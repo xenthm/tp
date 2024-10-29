@@ -1,3 +1,7 @@
+/**
+ * This class utilizes Gson (version 2.11.0; https://github.com/google/gson) by Google for JSON serialization and
+ * deserialization. Gson is licensed under the Apache License 2.0.
+ */
 package storage;
 
 import author.Author;

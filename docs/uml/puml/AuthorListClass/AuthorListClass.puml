@@ -1,0 +1,46 @@
+@startuml
+!include ../.PlantUMLClass.config
+
+skinparam nodesep 150
+
+class AuthorList {
+    + hasAuthor(author: Author): boolean
+    + hasAuthor(authorName: String): boolean
+    + getAuthor(author: Author): Author
+    + getAuthor(authorName: String): Author
+}
+
+class ArrayList<T>
+ArrayList <|-- AuthorList
+note on link : ArrayList<Author>
+ArrayList <|-- MangaList
+note on link : ArrayList<Manga>
+
+class Author {
+    - authorName: String
+    + addManga(manga: Manga): void
+    + deleteManga(manga: Manga): void
+    + getManga(manga: Manga): Manga
+}
+Author "*" -up-o AuthorList : < comprises of
+note bottom of Author : convenience wrappers for MangaList methods
+
+class Manga {
+    - mangaName: String
+    - deadline: String = "None"
+}
+Author "0..1 author" <-- Manga : < authored by
+
+class MangaList {
+}
+MangaList o-- "*" Manga : > comprises of
+MangaList "mangaList\n0..1" <-- Author : < has Mangas in
+
+class Sale {
+    - quantitySold: int
+    - unitPrice: double
+    - totalRevenue: double
+}
+Manga --> "salesData 0..1" Sale
+
+@enduml

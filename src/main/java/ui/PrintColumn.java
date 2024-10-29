@@ -33,7 +33,7 @@ public class PrintColumn<T> {
     }
 
     /**
-     * Returns the formatted class attribute {@code String}..
+     * Returns the formatted class attribute {@code String}.
      */
     public String getValue(T object) {
         return valueProvider == null
