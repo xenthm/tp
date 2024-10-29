@@ -1,13 +1,20 @@
 # Developer Guide
 
 # Acknowledgements
-Tantou's structure has been greatly inspired by the developer's respective iPs as listed below:
+MangaTantou's structure has been greatly inspired by the team developers' respective iPs as listed below:
 1. [Donovan](https://github.com/xenthm/ip)
 2. [Sarah](https://github.com/sarahchow03/ip)
 3. [Ian](https://github.com/iaso1774/ip)
 4. [Andy](https://github.com/averageandyyy/ip)
 
-# Design & implementation
+The following third-party libraries were used:
+- [Gson 2.11.0](https://github.com/google/gson): A Java library for converting Java objects to JSON and vice versa, licensed under Apache License 2.0.
+
+Additionally, the following resources/websites were heavily used (they are amazing): 
+- [RegExr](https://regexr.com/): RegExr is an online tool to learn, build, & test Regular Expressions (RegEx / RegExp).
+- [Regex Vis](https://regex-vis.com/): Regex visualizer and editor. 
+- [RegEx101 ](https://regex101.com/): Regex visualizer,editor, and debugger.  
+- [Ashley's PlantUML Doc](https://plantuml-documentation.readthedocs.io/): Documentation about how to use the commands, keywords, options, and other information needed to produce diagrams with PlantUML. 
 
 {Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
 ## Overall Architecture
