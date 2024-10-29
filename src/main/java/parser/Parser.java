@@ -255,27 +255,30 @@ public class Parser {
         authorName = result.getArgument();
         String userInputPostAuthorExtraction = result.getOutputString();
 
-        // Split the remaining around any number of spaces
-        String[] tokens = userInputPostAuthorExtraction.split(ANY_SPACE_REGEX);
-        for (String token : tokens) {
-            switch (token) {
-            case BY_DATE_OPTION:
-                hasByDateFlag = true;
-                break;
-            case SALES_OPTION:
-                hasSalesFlag = true;
-                break;
-            case EMPTY_REGEX:
-                break;
-            default:
-                throw new InvalidViewCommandException(token);
+        if (userInputPostAuthorExtraction != null) {
+            // Split the remaining around any number of spaces
+            String[] tokens = userInputPostAuthorExtraction.split(ANY_SPACE_REGEX);
+            for (String token : tokens) {
+                switch (token) {
+                case BY_DATE_OPTION:
+                    hasByDateFlag = true;
+                    break;
+                case SALES_OPTION:
+                    hasSalesFlag = true;
+                    break;
+                case EMPTY_REGEX:
+                    break;
+                default:
+                    throw new InvalidViewCommandException(token);
 
+                }
+            }
+
+            if ((hasByDateFlag || hasSalesFlag) && authorName == null) {
+                throw new NoAuthorProvidedException();
             }
         }
 
-        if ((hasByDateFlag || hasSalesFlag) && authorName == null) {
-            throw new NoAuthorProvidedException();
-        }
         if (authorName == null) {
             return new ViewAuthorsCommand();
         }
