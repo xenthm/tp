@@ -180,10 +180,46 @@ is a new and undocumented `Author`, it is then added to `Tantou`'s `AuthorList`,
 of their manga authors. The `AuthorList` is saved via `Storage` for data persistency.
 #### Interaction
 The following diagram illustrates the interactions that take place when the
-user provides `catalog -a Kubo Tite` as an input.
-![add author sequence diagram](/docs/uml/images/addauthor.png)
+user provides `"catalog -a Kubo Tite"` as an input.
+![add author sequence diagram](/docs/uml/images/AddAuthorSequence.png)
 If the `Author` instance already exists, a `TantouException` is thrown, informing the user that
 they are already tracking this employee.
+
+### AddMangaCommand
+#### Overview
+The `AddMangaCommand` is responsible for adding new `Manga`s to `Author`s in `Tantou`. The command first creates a new `Author` and `Manga` instance.
+If the newly created `Author` is undocumented by `Tantou`, the `Author` is added to the `AuthorList` and the newly created `Manga` is added to
+the `Author`'s `MangaList`. If the `Author` already exists, `Tantou` will check for the existence of the newly created `Manga`. If there is an existing
+association between the `Manga` and `Author`, a `TantouException` is thrown, informing the user that they are adding an existing `Manga`. Otherwise,
+the `Manga` is similary added to the `Author`'s `MangaList` and the current state of `AuthorList` is saved via `Storage` for
+data persistency.
+#### Interaction
+The following diagram illustrates the interactions that take place when the
+user provides `"catalog -a Kubo Tite -m Bleach"` as an input.
+![add manga sequence diagram](/docs/uml/images/AddMangaSequence.png)
+
+### DeleteAuthorCommand
+#### Overview
+The `DeleteAuthorCommand` is responsible for removing `Author`s from `Tantou`. The command creates a new `Author` instance and verifies its existence. If it
+is a new and undocumented `Author`, a `TantouException` is thrown, informing the user that this `Author` does not exist and hence cannot be removed.
+Otherwise, the `Author` is removed from the `AuthorList`, which is then saved via `Storage` for data persistency.
+#### Interaction
+The following diagram illustrates the interactions that take place when the
+user provides `"catalog -a Kubo Tite -d"` as an input.
+![delete author sequence diagram](/docs/uml/images/DeleteAuthorSequence.png)
+
+### DeleteMangaCommand
+#### Overview
+The `DeleteMangaCommand` is responsible for removing `Manga`s from `Author`s in `Tantou`. The command first creates a new `Author` and `Manga` instance.
+If the newly created `Author` is undocumented by `Tantou`, a `TantouException` is thrown, informing the user that this `Author` does not exist and the `Manga` cannot be removed.
+If the `Author` instead exists, `Tantou` will check for the existence of the newly created `Manga`. If there is no existing
+association between the `Manga` and `Author`, a `TantouException` is thrown, informing the user that they are deleting a non-existing `Manga`. Otherwise,
+the `Manga` is removed from the `Author`'s `MangaList` and the current state of `AuthorList` is saved via `Storage` for
+data persistency.
+#### Interaction
+The following diagram illustrates the interactions that take place when the
+user provides `"catalog -a Kubo Tite -m Bleach -d"` as an input.
+![add manga sequence diagram](/docs/uml/images/DeleteMangaSequence.png)
 
 ### View Command
 #### Overview
