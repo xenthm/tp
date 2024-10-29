@@ -15,8 +15,8 @@ Storage *-- "0..1 storage" Storage
 note bottom of Storage: Only a maximum of one instance can exist
 
 class StorageHelper <<utility>> {
-    + {static} readFile()
-    + {static} saveFile(authorList: AuthorList)
+    + {static} readFile(): AuthorList
+    + {static} saveFile(authorList: AuthorList): void
 }
 note right: simplifies calls
 StorageHelper ..> Storage : accesses
