@@ -79,6 +79,6 @@ Manga -l-> "author\n0..1" Author
 'PrintColumn ..> Sale : gives valueProvider to <
 
 note "valueProviders are methods that return the String representation of a particular attribute of a class. The are invoked in getValue(). They come from Author/Manga/Sale (e.g. getMangaName(), getTotalRevenue())" as valueProviderNote
-PrintColumn::valueProvider .d.. valueProviderNote
+PrintColumn .d.. valueProviderNote
 
 @enduml
