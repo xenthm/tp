@@ -15,7 +15,7 @@ participant "total revenue" as rev
 note over row,rev : All classes below this note are of type <size:20>:PrintColumn<Manga>
 
 ml ++
-group sd [Add required columns to list]
+group sd Add required columns to list
     ml -> row ** : add new PrintColumn to columns
     row ++
     return
