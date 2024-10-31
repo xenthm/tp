@@ -9,7 +9,7 @@ note over col : Only those included in columns:\ndeadline, units sold, manga nam
 participant ":Manga" as m
 
 ui ++
-group sd [Print all required list and format rows]
+group sd Print all required list and format rows
     loop until each required column is done
         ui -> col : apply getWidth() to each element of the stream created from the columns
         return width:int

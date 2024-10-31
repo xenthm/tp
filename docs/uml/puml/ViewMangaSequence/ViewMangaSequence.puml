@@ -27,7 +27,7 @@ participant ":PrintColumn<Manga>" as col
         cmd -> ui : print list as table with the required columns
             ref over ui, col : Print all required list and format rows
         return
-return done printing
+return
     end
 
 @enduml
