@@ -75,16 +75,6 @@ public class AddSalesCommand extends Command {
             throw new TantouException("Unit price cannot be less than 0!");
         }
 
-        if (authorName.isEmpty()) {
-            logger.warning("No author provided.");
-            throw new NoAuthorProvidedException();
-        }
-
-        if (mangaName.isEmpty()) {
-            logger.warning("No manga provided.");
-            throw new NoMangaProvidedException();
-        }
-
         //@@author xenthm
         if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
             logger.warning("Author name " + authorName + " exceeds maximum length");
@@ -96,7 +86,7 @@ public class AddSalesCommand extends Command {
             throw new MangaNameTooLongException();
         }
 
-        //@@author
+        //@@author sarahchow03
         Sale salesData = new Sale(quantitySold, unitPrice);
         Author incomingAuthor = new Author(authorName);
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
