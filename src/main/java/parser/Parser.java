@@ -12,6 +12,7 @@ import commands.ViewMangasCommand;
 import exceptions.InvalidViewCommandException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.NoMangaProvidedException;
+import exceptions.NoPriceAndQuantityProvidedException;
 import exceptions.NoPriceProvidedException;
 import exceptions.NoQuantityProvidedException;
 import exceptions.TantouException;
@@ -23,7 +24,6 @@ import static constants.Command.SALES_COMMAND;
 import static constants.Command.VIEW_COMMAND;
 import static constants.Options.AUTHOR_OPTION;
 import static constants.Options.BY_DATE_OPTION;
-import static constants.Options.MANGA_OPTION;
 import static constants.Options.SALES_OPTION;
 import static constants.Regex.ANY_SPACE_REGEX;
 import static constants.Regex.AUTHOR_OPTION_REGEX;
@@ -208,22 +208,25 @@ public class Parser {
 
         ArgumentResult authorResult = authorArgumentFinder.getArgumentResult(userInput);
         authorName = authorResult.getArgument();
+        String userInputPostAuthorExtraction = authorResult.getOutputString();
 
         if (authorName == null || authorName.isEmpty()) {
             throw new NoAuthorProvidedException();
         }
 
-        ArgumentResult mangaResult = mangaArgumentFinder.getArgumentResult(userInput);
+        ArgumentResult mangaResult = mangaArgumentFinder.getArgumentResult(userInputPostAuthorExtraction);
         mangaName = mangaResult.getArgument();
+        String userInputPostMangaExtraction = mangaResult.getOutputString();
 
         if (mangaName == null || mangaName.isEmpty()) {
             throw new NoMangaProvidedException();
         }
 
-        ArgumentResult quantityResult = quantityArgumentFinder.getArgumentResult(userInput);
+        ArgumentResult quantityResult = quantityArgumentFinder.getArgumentResult(userInputPostMangaExtraction);
         quantity = quantityResult.getArgument();
+        String userInputPostQuantityExtraction = quantityResult.getOutputString();
 
-        ArgumentResult priceResult = priceArgumentFinder.getArgumentResult(userInput);
+        ArgumentResult priceResult = priceArgumentFinder.getArgumentResult(userInputPostQuantityExtraction);
         price = priceResult.getArgument();
 
         if ((quantity == null || quantity.isEmpty()) && (price == null || price.isEmpty())) {
