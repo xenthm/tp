@@ -188,10 +188,10 @@ public class Parser {
      * @param userInput The input string containing potential sales information.
      * @return A String array containing extracted arguments in the following order: author name, manga name, quantity,
      * and price.
-     * @throws NoAuthorProvidedException   If the author name is not found in the input.
-     * @throws NoMangaProvidedException    If the manga name is not found in the input.
-     * @throws NoQuantityProvidedException If the quantity is not found in the input.
-     * @throws NoPriceProvidedException    If the price is not found in the input.
+     * @throws NoAuthorProvidedException   If the author name or argument is not found in the input.
+     * @throws NoMangaProvidedException    If the manga name or argument is not found in the input.
+     * @throws NoQuantityProvidedException If the quantity or quantity argument is not found in the input.
+     * @throws NoPriceProvidedException    If the price or price argument is not found in the input.
      * @throws TantouException             For any other exception that may occur during processing.
      */
     private String[] getSalesArguments(String userInput) throws TantouException {
