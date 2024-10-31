@@ -223,12 +223,18 @@ public class Parser {
         ArgumentResult quantityResult = quantityArgumentFinder.getArgumentResult(userInput);
         quantity = quantityResult.getArgument();
 
+        ArgumentResult priceResult = priceArgumentFinder.getArgumentResult(userInput);
+        price = priceResult.getArgument();
+
+        if ((quantity == null || quantity.isEmpty()) && (price == null || price.isEmpty())) {
+            throw new NoPriceAndQuantityProvidedException();
+        }
+
+
         if (quantity == null || quantity.isEmpty()) {
             throw new NoQuantityProvidedException();
         }
 
-        ArgumentResult priceResult = priceArgumentFinder.getArgumentResult(userInput);
-        price = priceResult.getArgument();
 
         if (price == null || price.isEmpty()) {
             throw new NoPriceProvidedException();
