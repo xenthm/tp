@@ -1,11 +1,9 @@
 package manga;
 
-import sales.Sale;
 import ui.PrintColumn;
 
 import java.util.ArrayList;
 
-import static constants.PrintFormat.DATA_NOT_AVAILABLE;
 import static constants.PrintFormat.DEADLINE_COLUMN_HEADER;
 import static constants.PrintFormat.DEADLINE_COLUMN_WIDTH;
 import static constants.PrintFormat.MANGA_NAME_COLUMN_HEADER;
@@ -28,7 +26,7 @@ public class MangaList extends ArrayList<Manga> {
      * Specifies the column print configuration for the {@code view manga} command.
      *
      * @param includeDeadline specifies whether the {@code deadline} of each {@code Manga} should be printed
-     * @param includeSales specifies whether the {@code sales data} of each {@code Manga} should be printed
+     * @param includeSales    specifies whether the {@code sales data} of each {@code Manga} should be printed
      * @return {@code ArrayList<PrintColumn<Manga>>}; a list of columns to be printed
      */
     public static ArrayList<PrintColumn<Manga>> mangaColumnsToPrint(boolean includeDeadline, boolean includeSales) {
@@ -42,18 +40,18 @@ public class MangaList extends ArrayList<Manga> {
         }
 
         if (includeSales) {
-            columns.add(new PrintColumn<>(UNIT_PRICE_COLUMN_HEADER, UNIT_PRICE_COLUMN_WIDTH, manga -> {
-                Sale salesData = manga.getSalesData();
-                return salesData != null ? String.valueOf(salesData.getUnitPrice()) : DATA_NOT_AVAILABLE;
-            }));
-            columns.add(new PrintColumn<>(UNITS_SOLD_COLUMN_HEADER, UNITS_SOLD_COLUMN_WIDTH, manga -> {
-                Sale salesData = manga.getSalesData();
-                return salesData != null ? String.valueOf(salesData.getQuantitySold()) : DATA_NOT_AVAILABLE;
-            }));
-            columns.add(new PrintColumn<>(REVENUE_COLUMN_HEADER, REVENUE_COLUMN_WIDTH, manga -> {
-                Sale salesData = manga.getSalesData();
-                return salesData != null ? String.valueOf(salesData.getTotalRevenue()) : DATA_NOT_AVAILABLE;
-            }));
+            columns.add(new PrintColumn<>(UNIT_PRICE_COLUMN_HEADER,
+                    UNIT_PRICE_COLUMN_WIDTH,
+                    manga -> manga.getSalesData().getUnitPriceAsString())
+            );
+            columns.add(new PrintColumn<>(UNITS_SOLD_COLUMN_HEADER,
+                    UNITS_SOLD_COLUMN_WIDTH,
+                    manga -> manga.getSalesData().getQuantitySoldAsString())
+            );
+            columns.add(new PrintColumn<>(REVENUE_COLUMN_HEADER,
+                    REVENUE_COLUMN_WIDTH,
+                    manga -> manga.getSalesData().getTotalRevenueAsString())
+            );
         }
 
         return columns;
