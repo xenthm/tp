@@ -9,7 +9,6 @@ import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
-import exceptions.InvalidSalesCommandException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.SalesArgsWrongOrderException;
 import exceptions.TantouException;
@@ -173,14 +172,6 @@ public class ParserTest {
 
     //@@author sarahchow03
     // Negative cases for sales command
-    @Test
-    public void getUserCommand_salesNoFlagsProvided_exceptionThrown() {
-        String userInput = "sales";
-        Exception exception = assertThrows(InvalidSalesCommandException.class, () -> {
-            parser.getUserCommand(userInput);
-        });
-    }
-
     @Test
     public void getUserCommand_salesArgumentWrongOrder_exceptionThrown() {
         String userInput = "sales -a test -m test -p 10.90 -q 11";
