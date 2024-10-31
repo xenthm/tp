@@ -52,8 +52,7 @@ class SaleDeserializer implements JsonDeserializer<Sale> {
                         || !saleJsonObject.get("quantitySold").getAsJsonPrimitive().isNumber()) {
                     throw new JsonParseException("quantitySold is not a number");
                 }
-
-                quantitySold = saleJsonObject.get("quantitySold").getAsInt();
+                quantitySold = Integer.valueOf(saleJsonObject.get("quantitySold").getAsString());
             } catch (JsonParseException | NumberFormatException e) {
                 printErrorMessage("corrupted quantity sold");
             }
@@ -68,7 +67,7 @@ class SaleDeserializer implements JsonDeserializer<Sale> {
                     throw new JsonParseException("unitPrice is not a number");
                 }
 
-                unitPrice = saleJsonObject.get("unitPrice").getAsDouble();
+                unitPrice = Double.valueOf(saleJsonObject.get("unitPrice").getAsString());
             } catch (JsonParseException | NumberFormatException e) {
                 printErrorMessage("corrupted unit price");
             }
