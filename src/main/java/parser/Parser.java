@@ -3,6 +3,7 @@ package parser;
 import commands.AddAuthorCommand;
 import commands.AddMangaCommand;
 import commands.AddSalesCommand;
+import commands.AddDeadlineCommand;
 import commands.ByeCommand;
 import commands.Command;
 import commands.DeleteAuthorCommand;
@@ -10,8 +11,10 @@ import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
 import exceptions.InvalidSalesCommandException;
+import exceptions.InvalidScheduleCommandException;
 import exceptions.InvalidViewCommandException;
 import exceptions.NoAuthorProvidedException;
+import exceptions.NoDeadlineProvidedException;
 import exceptions.NoMangaProvidedException;
 import exceptions.SalesArgsWrongOrderException;
 import exceptions.TantouException;
@@ -20,6 +23,7 @@ import static constants.Command.BYE_COMMAND;
 import static constants.Command.CATALOG_COMMAND;
 import static constants.Command.COMMAND_INDEX;
 import static constants.Command.SALES_COMMAND;
+import static constants.Command.SCHEDULE_COMMAND;
 import static constants.Command.VIEW_COMMAND;
 import static constants.Options.AUTHOR_OPTION;
 import static constants.Options.BY_DATE_OPTION;
@@ -33,6 +37,7 @@ import static constants.Regex.MANGA_OPTION_REGEX;
 import static constants.Regex.PRICE_OPTION_REGEX;
 import static constants.Regex.QUANTITY_OPTION_REGEX;
 import static constants.Regex.SPACE_REGEX;
+import static constants.Regex.BY_DATE_OPTION_REGEX;
 
 public class Parser {
     public Command getUserCommand(String userInput) throws TantouException {
@@ -52,6 +57,8 @@ public class Parser {
                 processViewCommand(trimmedUserInput);
         case SALES_COMMAND ->
                 processAddSalesCommand(trimmedUserInput);
+        case SCHEDULE_COMMAND ->
+                processScheduleCommand(trimmedUserInput);
         default ->
                 throw new TantouException("Invalid command provided!");
         };
@@ -288,6 +295,82 @@ public class Parser {
     //@@author
     private String removeViewPrefix(String userInput) {
         return userInput.replace(VIEW_COMMAND, EMPTY_REGEX);
+    }
+
+    //@@author iaso1774
+    /**
+     * Processes the user input to change the deadline for a Manga.
+     * Determines whether the input corresponds to an existing Author and Manga.
+     * Converts the inputted date to LocalDate type if possible.
+     * <p>
+     * If the input is valid, it returns an `AddDeadlineCommand`.
+     *
+     * @param userInput the input string provided by the user,
+     *                  which should specify a Schedule operation for a specified Manga and Author
+     * @return an AddDeadlineCommand object
+     * @throws TantouException if the user input is invalid
+     */
+    private Command processScheduleCommand(String userInput) throws TantouException {
+        String authorName = null;
+        String mangaName = null;
+        String deadline = null;
+
+        AuthorArgumentFinder authorArgumentFinder = new AuthorArgumentFinder();
+        MangaArgumentFinder mangaArgumentFinder = new MangaArgumentFinder();
+
+        ArgumentResult authorResult = authorArgumentFinder.getArgumentResult(userInput);
+        authorName = authorResult.getArgument();
+        String userInputPostAuthorExtraction = authorResult.getOutputString();
+
+        if (authorName == null || authorName.isEmpty()) {
+            throw new NoAuthorProvidedException();
+        }
+
+        ArgumentResult mangaResult = mangaArgumentFinder.getArgumentResult(userInputPostAuthorExtraction);
+        mangaName = mangaResult.getArgument();
+
+        if (mangaName == null || mangaName.isEmpty()) {
+            throw new NoMangaProvidedException();
+        }
+
+        userInput = removeSchedulePrefix(userInput);
+
+        if (!isValidOrdering(userInput)) {
+            throw new InvalidScheduleCommandException();
+        }
+
+        deadline = extractDeadline(userInput);
+        if (deadline.isEmpty()) {
+            throw new NoDeadlineProvidedException();
+        }
+
+        return new AddDeadlineCommand(new String[]{authorName, mangaName, deadline});
+    }
+
+    private String removeSchedulePrefix(String userInput) {
+        return userInput.replace(SCHEDULE_COMMAND, EMPTY_REGEX);
+    }
+
+    private String extractDeadline(String userInput) {
+        int indexOfDeadline = userInput.indexOf(BY_DATE_OPTION_REGEX);
+        return userInput.substring(indexOfDeadline).replace(BY_DATE_OPTION_REGEX, EMPTY_REGEX).trim();
+    }
+
+    /**
+     * Checks that the deadline comes after the manga and author arguments.
+     * The ordering of the manga and author don't matter.
+     * <p>
+     * If the input is valid, it returns true.
+     *
+     * @param userInput the input string provided by the user,
+     *                  which should specify a Schedule operation for a specified Manga and Author
+     * @return true if the ordering is valid, false otherwise
+     */
+    private Boolean isValidOrdering(String userInput) {
+        int indexOfManga = userInput.indexOf(MANGA_OPTION_REGEX);
+        int indexOfAuthor = userInput.indexOf(AUTHOR_OPTION_REGEX);
+        int indexOfDeadline = userInput.indexOf(BY_DATE_OPTION_REGEX);
+        return indexOfDeadline > indexOfManga && indexOfDeadline > indexOfAuthor;
     }
 
     //@@author

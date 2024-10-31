@@ -16,14 +16,14 @@ public class Manga {
     public Manga(String mangaName, Author author) {
         this.mangaName = mangaName;
         this.author = author;
-        this.deadline = "None";
+        this.deadline = "none";
     }
 
     //@@author xenthm
     public Manga(String mangaName, Author author, String deadline) {
         this.mangaName = mangaName;
         this.author = author;
-        this.deadline = deadline;
+        this.deadline = "none";
     }
 
     //@@author
@@ -45,10 +45,6 @@ public class Manga {
 
     public void addDeadline(String deadline) {
         this.deadline = deadline;
-    }
-
-    public void deleteDeadline() {
-        this.deadline = "None";
     }
 
     //@@author sarahchow03

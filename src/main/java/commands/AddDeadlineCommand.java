@@ -3,30 +3,32 @@ package commands;
 import author.Author;
 import exceptions.TantouException;
 import manga.Manga;
-import storage.Storage;
 import ui.Ui;
 import author.AuthorList;
+import static storage.StorageHelper.saveFile;
 
 import java.util.logging.Level;
 
-import static constants.Command.ADD_COMMAND;
+import static constants.Command.SCHEDULE_COMMAND;
 
 public class AddDeadlineCommand extends Command {
-    private String userInput;
+    private String[] userInput;
 
-    public AddDeadlineCommand(String userInput) {
-        super(ADD_COMMAND);
+    public AddDeadlineCommand(String[] userInput) {
+        super(SCHEDULE_COMMAND);
         this.userInput = userInput;
     }
 
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
         // Empty user input should have been caught at the Parser level
-        assert !(userInput.isEmpty()) : "No user input provided";
+        assert userInput.length != 0 : "No user input provided";
+        // There should be a manga, author, and deadline provided
+        assert userInput.length == 3 : "Invalid user input provided";
 
-        String authorName = parser.getAuthorNameFromInput(userInput);
-        String mangaName = parser.getMangaNameFromInput(userInput);
-        String deadline = parser.getDeadlineDateFromInput(userInput);
+        String authorName = userInput[0];
+        String mangaName = userInput[1];
+        String deadline = userInput[2];
 
         if (deadline.isEmpty() || mangaName.isEmpty() || authorName.isEmpty()) {
             logger.warning("No deadline, author, or manga provided.");
@@ -61,6 +63,6 @@ public class AddDeadlineCommand extends Command {
         System.out.printf("Deadline %s added successfully to manga %s\n",
                 deadline, incomingManga.getMangaName());
 
-        Storage.getInstance().saveAuthorListToDataFile(authorList);
+        saveFile(authorList);
     }
 }
