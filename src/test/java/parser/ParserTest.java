@@ -9,7 +9,11 @@ import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
-import exceptions.*;
+import exceptions.NoAuthorProvidedException;
+import exceptions.NoMangaProvidedException;
+import exceptions.NoPriceProvidedException;
+import exceptions.NoQuantityProvidedException;
+import exceptions.TantouException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -187,7 +191,7 @@ public class ParserTest {
     }
 
     @Test
-    public void getSalesArgument_noQuantityArgumentHasAuthorQuantityMangaPriceArgument_exceptionThrown() {
+    public void getSalesArgument_noQuantityArgumentHasAuthorPriceMangaPriceArgument_exceptionThrown() {
         String userInput = "sales -a test -m test -p 10.90";
         Exception exception = assertThrows(NoQuantityProvidedException.class, () -> {
             parser.getUserCommand(userInput);
@@ -202,14 +206,6 @@ public class ParserTest {
             parser.getUserCommand(userInput);
         });
 
-    }
-
-    @Test
-    public void getSalesArgument_noPriceArgumentNoQuantityArgumentHasAuthorMangaArgument_exceptionThrown() {
-        String userInput = "sales -a test -m test";
-        Exception exception = assertThrows(NoPriceAndQuantityProvidedException.class, () -> {
-            parser.getUserCommand(userInput);
-        });
     }
 
 }

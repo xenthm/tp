@@ -12,7 +12,6 @@ import commands.ViewMangasCommand;
 import exceptions.InvalidViewCommandException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.NoMangaProvidedException;
-import exceptions.NoPriceAndQuantityProvidedException;
 import exceptions.NoPriceProvidedException;
 import exceptions.NoQuantityProvidedException;
 import exceptions.TantouException;
@@ -187,10 +186,9 @@ public class Parser {
      *
      * @param userInput The input string containing potential sales information.
      * @return A String array containing extracted arguments in the following order: author name, manga name, quantity,
-     * and price.
+     *         and price.
      * @throws NoAuthorProvidedException   If the author name or argument is not found in the input.
      * @throws NoMangaProvidedException    If the manga name or argument is not found in the input.
-     * @throws NoPriceAndQuantityProvidedException If the quantity and price is not fround in the input.
      * @throws NoQuantityProvidedException If the quantity or quantity argument is not found in the input.
      * @throws NoPriceProvidedException    If the price or price argument is not found in the input.
      * @throws TantouException             For any other exception that may occur during processing.
@@ -226,18 +224,13 @@ public class Parser {
         quantity = quantityResult.getArgument();
         String userInputPostQuantityExtraction = quantityResult.getOutputString();
 
-        ArgumentResult priceResult = priceArgumentFinder.getArgumentResult(userInputPostQuantityExtraction);
-        price = priceResult.getArgument();
-
-        if ((quantity == null || quantity.isEmpty()) && (price == null || price.isEmpty())) {
-            throw new NoPriceAndQuantityProvidedException();
-        }
-
 
         if (quantity == null || quantity.isEmpty()) {
             throw new NoQuantityProvidedException();
         }
 
+        ArgumentResult priceResult = priceArgumentFinder.getArgumentResult(userInputPostQuantityExtraction);
+        price = priceResult.getArgument();
 
         if (price == null || price.isEmpty()) {
             throw new NoPriceProvidedException();
