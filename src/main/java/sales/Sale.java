@@ -7,9 +7,8 @@ package sales;
  * including the quantity sold, the unit price, and the total revenue generated.
  */
 public class Sale {
-    private int quantitySold;
-    private double unitPrice;
-    private double totalRevenue;
+    private Integer quantitySold;
+    private Double unitPrice;
 
     /**
      * Constructs a new Sale object with the specified quantity sold and unit price.
@@ -18,25 +17,24 @@ public class Sale {
      * @param quantitySold the number of mangas sold
      * @param unitPrice the price per manga sold
      */
-    public Sale(int quantitySold, double unitPrice) {
+    public Sale(Integer quantitySold, Double unitPrice) {
         this.quantitySold = quantitySold;
         this.unitPrice = unitPrice;
-        this.totalRevenue = getTotalRevenue();
     }
 
-    public int getQuantitySold() {
+    public Integer getQuantitySold() {
         return quantitySold;
     }
 
-    public void setQuantitySold(int quantitySold) {
+    public void setQuantitySold(Integer quantitySold) {
         this.quantitySold = quantitySold;
     }
 
-    public double getUnitPrice() {
+    public Double getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(double unitPrice) {
+    public void setUnitPrice(Double unitPrice) {
         this.unitPrice = unitPrice;
     }
 
@@ -45,9 +43,8 @@ public class Sale {
      * of copies sold by its unit price per copy.
      * @return the total revenue as a double value
      */
-    public double getTotalRevenue() {
-        totalRevenue = quantitySold * unitPrice;
-        return totalRevenue;
+    public Double getTotalRevenue() {
+        return quantitySold * unitPrice;
     }
 
     /**
@@ -59,6 +56,6 @@ public class Sale {
     @Override
     public String toString() {
         return "[Copies sold: " + quantitySold + ", Unit price: $" + String.format("%.2f", unitPrice)
-                + ", Revenue: $" + String.format("%.2f", totalRevenue) + " ]" ;
+                + ", Revenue: $" + String.format("%.2f", getTotalRevenue()) + " ]" ;
     }
 }

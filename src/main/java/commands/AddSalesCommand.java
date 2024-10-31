@@ -4,8 +4,6 @@ import author.Author;
 import author.AuthorList;
 import exceptions.AuthorNameTooLongException;
 import exceptions.MangaNameTooLongException;
-import exceptions.NoAuthorProvidedException;
-import exceptions.NoMangaProvidedException;
 import exceptions.PriceTooLargeException;
 import exceptions.QuantityTooLargeException;
 import exceptions.TantouException;
@@ -54,8 +52,8 @@ public class AddSalesCommand extends Command {
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
         String authorName = argsAuthorMangaQtyPrice[AUTHOR_INDEX];
         String mangaName = argsAuthorMangaQtyPrice[MANGA_INDEX];
-        int quantitySold = 0;
-        double unitPrice = Double.parseDouble(argsAuthorMangaQtyPrice[PRICE_INDEX]);;
+        Integer quantitySold = null;
+        Double unitPrice = Double.parseDouble(argsAuthorMangaQtyPrice[PRICE_INDEX]);;
         try {
             quantitySold = Integer.parseInt(argsAuthorMangaQtyPrice[QUANTITY_INDEX]);
             if (quantitySold >= QUANTITY_MAX_VALUE) {
