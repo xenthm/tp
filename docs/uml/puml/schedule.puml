@@ -1,0 +1,43 @@
+@startuml
+
+participant Parser
+participant "userCommand:AddScheduleCommand" as userCommand
+participant Manga
+participant Author
+
+create userCommand
+Parser -> userCommand : new AddScheduleCommand(userInput)
+activate userCommand
+Parser <-- userCommand
+
+userCommand -> userCommand: execute(ui, authorList)
+activate userCommand
+    opt Author doesn't exist
+        userCommand -> Author : new Author()
+        activate Author
+        userCommand <-- Author
+        deactivate Author
+        userCommand -> AuthorList : add(author)
+        activate AuthorList
+        userCommand <-- AuthorList
+        deactivate AuthorList
+    end
+
+    opt Manga doesn't exist
+        userCommand -> Manga : new Manga()
+        activate Manga
+        userCommand <-- Manga
+        deactivate Manga
+        userCommand -> Author : addManga(Manga)
+        activate Author
+        userCommand <-- Author
+        deactivate Author
+    end
+    userCommand -> Manga : addDeadline(deadline)
+    activate Manga
+    userCommand <-- Manga
+    deactivate Manga
+    userCommand -> userCommand: display success message
+    deactivate userCommand
+
+@enduml

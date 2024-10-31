@@ -1,0 +1,39 @@
+@startuml
+!include ../.PlantUMLSequence.config
+skinparam maxMessageSize 270
+
+title <size:30>View Manga:Print All Required Rows Sequence Diagram
+participant Ui as ui <<class>>
+participant ":RequiredPrintColumn" as col
+note over col : Only those included in columns:\ndeadline, units sold, manga name, etc.
+participant ":Manga" as m
+
+ui ++
+group sd [Print all required list and format rows]
+    loop until each required column is done
+        ui -> col : apply getWidth() to each element of the stream created from the columns
+        return width:int
+    end
+        note over ui : calculate width of table including dividers to give totalWidthOfTable: int
+    ui -> ui : print column headers
+        loop until each required column is done
+            ui -> col : print header via getHeader()
+            return formatted header:String to be printed
+        end
+    return
+    ||20||
+    ui -> ui : print horizontal divider based on totalWidthOfTable
+    return
+    ||20||
+    ui -> ui : print entries in list
+        loop until each required column is done
+            ui -> col : print entry via getValue(...)
+                col -> m : applied valueProvider\n(getMangaName(), getDeadline(), etc.)
+                return value:String
+            return formatted value:String to be printed
+        end
+    return
+    ||10||
+end
+
+@enduml

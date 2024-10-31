@@ -1,0 +1,7 @@
+@startuml
+object "__:Manga__" as manga {
+    mangaName = "Bleach"
+    author = "Kubo Tite"
+    deadline = "October 2 2018"
+}
+@enduml
