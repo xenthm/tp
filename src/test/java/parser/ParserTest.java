@@ -204,4 +204,12 @@ public class ParserTest {
 
     }
 
+    @Test
+    public void getSalesArgument_noPriceArgumentNoQuantityArgumentHasAuthorMangaArgument_exceptionThrown() {
+        String userInput = "sales -a test -m test";
+        Exception exception = assertThrows(NoPriceAndQuantityProvidedException.class, () -> {
+            parser.getUserCommand(userInput);
+        });
+    }
+
 }

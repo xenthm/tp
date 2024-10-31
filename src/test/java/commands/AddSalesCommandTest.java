@@ -119,5 +119,40 @@ class AddSalesCommandTest {
         }
     }
 
+    @Test
+    public void execute_authorNameTooLong_exceptionThrown() {
+        try {
+            String[] userInputList = {"testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+                    "test", "10", "10.90"};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(AuthorNameTooLongException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void execute_mangaNameTooLong_exceptionThrown() {
+        try {
+            String[] userInputList = {"test",
+                    "testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+                    "10", "10.90"};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(MangaNameTooLongException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
 
 }
