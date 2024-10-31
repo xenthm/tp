@@ -190,6 +190,7 @@ public class Parser {
      * and price.
      * @throws NoAuthorProvidedException   If the author name or argument is not found in the input.
      * @throws NoMangaProvidedException    If the manga name or argument is not found in the input.
+     * @throws NoPriceAndQuantityProvidedException If the quantity and price is not fround in the input.
      * @throws NoQuantityProvidedException If the quantity or quantity argument is not found in the input.
      * @throws NoPriceProvidedException    If the price or price argument is not found in the input.
      * @throws TantouException             For any other exception that may occur during processing.
