@@ -1,6 +1,7 @@
 @startuml
 !include ../.PlantUMLSequence.config
 skinparam wrapWidth 0
+skinparam maxMessageSize 200
 
 title <size:30>View Manga:Add Required Columns to List Sequence Diagram
 
@@ -15,29 +16,29 @@ note over row,rev : All classes below this note are of type <size:20>:PrintColum
 
 ml ++
 group sd [Add required columns to list]
-    ml -> row ** : add new PrintColumn
+    ml -> row ** : add new PrintColumn to columns
     row ++
-    return added to columns
-    ml -> name ** : add new PrintColumn
+    return
+    ml -> name ** : add new PrintColumn to columns
     name ++
-    return added to columns
+    return
 
     opt deadline flag is set
-    ml -> dl ** : add new PrintColumn
+    ml -> dl ** : add new PrintColumn to columns
     dl ++
-    return added to columns
+    return
     end
 
     opt sales data flag set
-    ml -> price ** : add new PrintColumn
+    ml -> price ** : add new PrintColumn to columns
     price ++
-    return added to columns
-    ml -> qty ** : add new PrintColumn
+    return
+    ml -> qty ** : add new PrintColumn to columns
     qty ++
-    return added to columns
-    ml -> rev ** : add new PrintColumn
+    return
+    ml -> rev ** : add new PrintColumn to columns
     rev ++
-    return added to columns
+    return
     end
 end
 
