@@ -2,7 +2,7 @@ package sales;
 
 //@@author sarahchow03
 
-import static constants.PrintFormat.DATA_NOT_AVAILABLE;
+import manga.Manga;import java.util.Objects;import static constants.PrintFormat.DATA_NOT_AVAILABLE;
 
 /**
  * The Sale class represents a sales data for a manga, including the quantity sold, the unit price, and the total
@@ -92,5 +92,23 @@ public class Sale {
     public String toString() {
         return "[Copies sold: " + getQuantitySoldAsString() + ", Unit price: $" + getUnitPriceAsString()
                 + ", Revenue: $" + getTotalRevenueAsString() + "]";
+    }
+
+    //@@author xenthm
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Sale sale = (Sale) o;
+        return Objects.equals(sale.quantitySold,quantitySold) && Objects.equals(sale.unitPrice,unitPrice);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(quantitySold, unitPrice);
     }
 }
