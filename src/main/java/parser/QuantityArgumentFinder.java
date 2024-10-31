@@ -3,7 +3,6 @@ package parser;
 import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
 
-import static constants.Options.PRICE_OPTION;
 import static constants.Options.QUANTITY_OPTION;
 import static constants.Regex.QUANTITY_EXTRACTOR_PATTERN;
 

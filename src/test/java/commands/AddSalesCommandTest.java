@@ -123,7 +123,7 @@ class AddSalesCommandTest {
     public void execute_authorNameTooLong_exceptionThrown() {
         try {
             String[] userInputList = {"testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
-                    "test", "10", "10.90"};
+                                      "test", "10", "10.90"};
             commandUnderTest = new AddSalesCommand(
                     userInputList
             );
@@ -140,8 +140,8 @@ class AddSalesCommandTest {
     public void execute_mangaNameTooLong_exceptionThrown() {
         try {
             String[] userInputList = {"test",
-                    "testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
-                    "10", "10.90"};
+                                      "testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+                                      "10", "10.90"};
             commandUnderTest = new AddSalesCommand(
                     userInputList
             );
