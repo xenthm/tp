@@ -25,6 +25,7 @@ public class Manga {
         this.mangaName = mangaName;
         this.author = author;
         this.deadline = deadline;
+        this.salesData = new Sale(0, 0);
     }
 
     //@@author
