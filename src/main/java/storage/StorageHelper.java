@@ -10,4 +10,8 @@ public class StorageHelper {
     public static void saveFile(AuthorList authorList) {
         Storage.getInstance().saveAuthorListToDataFile(authorList);
     }
+
+    public static AuthorList readFile() {
+        return Storage.getInstance().readAuthorListFromDataFile();
+    }
 }

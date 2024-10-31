@@ -3,7 +3,6 @@ package commands;
 import author.Author;
 import author.AuthorList;
 import exceptions.AuthorNameTooLongException;
-import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
 import ui.Ui;
 
@@ -23,12 +22,7 @@ public class AddAuthorCommand extends Command {
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
         // Empty user input should have been caught at the Parser level
-        assert authorName != null : "No user input provided";
-
-        if (authorName.isEmpty()) {
-            logger.warning("No author provided!");
-            throw new NoAuthorProvidedException();
-        }
+        assert !authorName.isEmpty() : "No author name provided";
 
         //@@author xenthm
         if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {

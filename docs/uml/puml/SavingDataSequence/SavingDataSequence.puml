@@ -1,0 +1,42 @@
+@startuml
+!include ../.PlantUMLSequence.config
+
+title <size:30>Saving Data Sequence Diagram
+
+participant ":Tantou" as t
+participant ":CommandThatModifies" as cmd
+note over cmd : AddAuthorCommand,\nAddMangaCommand,\nDeleteMangaCommand etc.
+participant "StorageHelper" as sth <<class>>
+participant "Storage" as stc <<class>>
+participant ":Storage" as st
+/note over st : If Storage was not already instantiated,\nits lifeline would not start from here.
+participant ":Gson" as gson
+
+activate t
+autoactivate off
+[-> t : user modifies data
+autoactivate on
+
+t -> cmd : execute
+    alt invalid command
+        autoactivate off
+        t <-- cmd : :<? extends TantouException>
+        autoactivate on
+    else valid command
+        cmd -> sth : saveFile()
+            ref over sth, stc, st, gson
+                Get Storage Instance
+            end ref
+            sth -> st : saveAuthorListToDataFile(...)
+                st -> st : createFileIfNeeded()
+                return hasIssuesWithDataFile:boolean
+                opt no issues with dataFile
+                    st -> gson : write data to dataFile
+                    return successful
+                end
+            return
+        return
+    return done executing
+    end
+
+@enduml

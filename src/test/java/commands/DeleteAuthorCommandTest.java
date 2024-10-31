@@ -61,23 +61,4 @@ class DeleteAuthorCommandTest {
             System.setOut(standardOut);
         }
     }
-
-    //@@author averageandyyy
-    @Test
-    public void deleteAuthorCommand_emptyAuthorName_noAuthorProvidedExceptionThrown() {
-        try {
-            // Simulate no author provided
-            // Empty arguments should have been caught at the Parser level
-            String authorName = "";
-            commandUnderTest = new DeleteAuthorCommand(authorName);
-            // A TantouException should be thrown as no author is provided
-            Exception exception = assertThrows(TantouException.class, () -> {
-                commandUnderTest.execute(ui, authorList);
-            });
-
-            assertEquals("No author provided!", exception.getMessage());
-        } finally {
-            System.setOut(standardOut);
-        }
-    }
 }

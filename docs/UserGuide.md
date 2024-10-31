@@ -17,7 +17,60 @@ efficiency at work.
 1. Ensure that you have Java 17 or above installed.
 1. Down the latest version of `Tantou` from [here](http://link.to/duke).
 
-## Features 
+## Features
+
+### Adding Authors: `catalog -a`
+
+The `catalog -a` command allows you to add `Author`s to your catalog so that Tantou can keep track of all the manga created 
+by the authors under your management. Once an author is added, Tantou will monitor the details of the manga they have published, 
+including sales data, deadlines, and earnings, making it easy to manage multiple artists at once.
+
+Format: `catalog -a [AUTHOR_NAME]`
+
+* The `AUTHOR_NAME` must not be longer than 40 characters.
+* The `Author` to add should not already exist in the catalog.
+
+Examples of usage:
+* `catalog -a Kubo Tite`
+* `catalog -a Oda Eiichiro`
+
+
+### Adding Mangas: `catalog -a -m`
+
+The `catalog -a -m` command creates a new `Manga` before associating it with an `Author` in the catalog. By adding mangas, Tantou can keep track of each title, 
+including deadlines and sales data, allowing you to monitor all the works an author is responsible for.
+
+Format: `catalog -a [AUTHOR_NAME] -m [MANGA_NAME]`
+
+* The `AUTHOR_NAME` must not be longer than 40 characters.
+* The `MANGA_NAME` must not be longer than 40 characters.
+* The `Manga` to add should not already exist in the catalog.
+* `Tantou` will create the associated `Author` if it does not already exist within the catalog.
+* Note that two `Manga`s will be considered as different only if they have different titles and authors.
+
+Examples of usage:
+* `catalog -a Kubo Tite -m Bleach`
+* `catalog -m One Piece -a Oda Eiichiro`
+
+### Deleting Authors and Mangas: `catalog -a -d` and `catalog -a -m -d`
+
+The `catalog -a -d` and `catalog -a -m -d` commands allow you to remove authors and mangas from your catalog in `Tantou`. 
+This feature is useful for managing your catalog by removing inactive authors or discontinued manga titles.
+
+Format:
+* `catalog -a [AUTHOR_NAME] -d`
+  * deletes the `Author` and all associated `Mangas` from the catalog.
+* `catalog -a [AUTHOR_NAME] -m [MANGA_NAME] -d`
+  * only deletes the specific `Manga` associated with the `Author`, leaving the author and their other works in the catalog.
+
+
+* The `Author` or `Manga` to delete must exist within the catalog.
+
+
+Examples of usage:
+* `catalog -a Kubo Tite -d`
+* `catalog -d -a Kubo Tite -m Bleach`
+
 
 ### Add sales data to a manga: `sales`
 Adds sales data to an existing manga. Sales data consists of quantity of manga sold, the unit price per manga, and the 

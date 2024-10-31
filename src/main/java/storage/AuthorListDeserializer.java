@@ -27,10 +27,10 @@ class AuthorListDeserializer implements JsonDeserializer<AuthorList> {
         JsonArray authorListJsonArray = json.getAsJsonArray();
 
         AuthorList authorList = new AuthorList();
-        for (JsonElement authorElement : authorListJsonArray) {
+        for (JsonElement authorJsonElement : authorListJsonArray) {
             // Ensure author is valid, skipping if not
             try {
-                Author author = context.deserialize(authorElement, Author.class);
+                Author author = context.deserialize(authorJsonElement, Author.class);
                 authorList.add(author);
             } catch (JsonParseException e) {
                 System.out.println("Skipping corrupted author entry due to "

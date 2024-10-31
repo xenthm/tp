@@ -30,7 +30,7 @@ public class DeleteMangaCommand extends Command {
     /**
      * Constructs a DeleteMangaCommand with the given user input.
      *
-     * @param userInputList The user's input list which consists of the author and manga.
+     * @param argsAuthorManga The user's input list which consists of the author and manga.
      */
     public DeleteMangaCommand(String[] argsAuthorManga) {
         super(DELETE_COMMAND);
@@ -48,10 +48,6 @@ public class DeleteMangaCommand extends Command {
      */
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
-        if (authorName.isEmpty() || mangaName.isEmpty()) {
-            logger.log(Level.SEVERE, "Author name or manga name is empty");
-            throw new TantouException("No author or manga provided!");
-        }
         assert (!authorName.isEmpty() && !mangaName.isEmpty()) : "Author or manga name is empty";
         logger.log(Level.INFO, "Deleting manga... " + mangaName + " from " + authorName);
 

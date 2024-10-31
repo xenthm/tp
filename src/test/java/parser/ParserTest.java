@@ -9,12 +9,8 @@ import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
-import exceptions.InvalidCatalogCommandException;
-import exceptions.InvalidDeleteCommandException;
 import exceptions.InvalidSalesCommandException;
-import exceptions.MangaArgsWrongOrderException;
 import exceptions.NoAuthorProvidedException;
-import exceptions.NoMangaProvidedException;
 import exceptions.SalesArgsWrongOrderException;
 import exceptions.TantouException;
 import org.junit.jupiter.api.BeforeEach;
@@ -107,7 +103,7 @@ public class ParserTest {
     public void getUserCommand_catalogNoFlagsProvided_exceptionThrown() {
         // Within the processing of Parser, it will catch that no relevant arguments has been provided
         String userInput = "catalog";
-        Exception exception = assertThrows(InvalidCatalogCommandException.class, () -> {
+        Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
             parser.getUserCommand(userInput);
         });
     }
@@ -125,7 +121,7 @@ public class ParserTest {
     @Test
     public void getUserCommand_catalogNoAuthorArgumentNoMangaArgument_exceptionThrown() {
         String userInput = "catalog -a -m";
-        Exception exception = assertThrows(NoMangaProvidedException.class, () -> {
+        Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
             parser.getUserCommand(userInput);
         });
     }
@@ -143,7 +139,7 @@ public class ParserTest {
     @Test
     public void getUserCommand_catalogDeleteNoArgument_exceptionThrown() {
         String userInput = "catalog -d";
-        Exception exception = assertThrows(InvalidDeleteCommandException.class, () -> {
+        Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
             parser.getUserCommand(userInput);
         });
     }
@@ -161,34 +157,16 @@ public class ParserTest {
     @Test
     public void getUserCommand_catalogDeleteNoAuthorArgumentNoMangaArgument_exceptionThrown() {
         String userInput = "catalog -a -m -d";
-        Exception exception = assertThrows(NoMangaProvidedException.class, () -> {
+        Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
             parser.getUserCommand(userInput);
         });
     }
 
     //@@author averageandyyy
     @Test
-    public void getUserCommand_catalogDeleteInvalidPosition_exceptionThrown() {
+    public void getUserCommand_catalogDeleteRandomPosition_exceptionThrown() {
         String userInput = "catalog -a -d -m ";
-        Exception exception = assertThrows(InvalidDeleteCommandException.class, () -> {
-            parser.getUserCommand(userInput);
-        });
-    }
-
-    //@@author averageandyyy
-    @Test
-    public void getUserCommand_catalogMangaBeforeAuthor_exceptionThrown() {
-        String userInput = "catalog -m Bleach -a Kubo Tite";
-        Exception exception = assertThrows(MangaArgsWrongOrderException.class, () -> {
-            parser.getUserCommand(userInput);
-        });
-    }
-
-    //@@author averageandyyy
-    @Test
-    public void getUserCommand_catalogDeleteMangaBeforeAuthor_exceptionThrown() {
-        String userInput = "catalog -m Bleach -a Kubo Tite -d";
-        Exception exception = assertThrows(MangaArgsWrongOrderException.class, () -> {
+        Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
             parser.getUserCommand(userInput);
         });
     }
