@@ -21,13 +21,13 @@ Additionally, the following resources/websites were heavily used (they are amazi
 
 ## Overall Architecture
 ### Representing Data in MangaTantou
-![AuthorListClass.png](uml/puml/AuthorListClass/AuthorListClass.png)
+![AuthorListClass.png](uml/puml/AuthorListClass/AuthorListClass.png)<br/>
 The above UML class diagram shows the overall structure of author and manga data an editor using MangaTantou would be interested in. 
 
 > **_NOTE:_** There is circular reference (bidirectional navigability) between `Author` and `Manga` through `MangaList`. 
 
 ### Commands 
-![Command Inheritance](/docs/uml/puml/Command/Command.png)
+![Command Inheritance](/docs/uml/puml/Command/Command.png)<br/>
 The current list of viable `Commands` are as follows:
 1. `AddAuthorCommand`
 2. `AddMangaCommand`
@@ -55,7 +55,7 @@ relevant arguments from the user for their commands.
 `AuthorList` data accumulated by the user can be saved with the provided `Storage` and `StorageHelper` classes. 
 
 #### Storage Structure
-![StorageClass.png](uml/puml/StorageClass/StorageClass.png)
+![StorageClass.png](uml/puml/StorageClass/StorageClass.png)<br/>
 The above UML class diagram outlines the structure of the classes related to saving data. 
 
 The `Storage` class uses the Singleton design pattern, which means only a maximum of one `Storage` instance can exist during the program's lifespan. To access it, call the static method `Storage::getInstance`. 
@@ -71,9 +71,10 @@ When needed, call `StorageHelper::readFile` to return the deserialized `AuthorLi
 Whenever a user action that modifies the state of the `AuthorList` is performed, the corresponding overridden `Command::execute` method should call `StorageHelper.saveFile(authorList: AuthorList)` after modifying the data.     
 
 #### Storage Behaviour
-The following UML sequence diagrams outline the behaviour of the program when the user inputs a command that modifies the `AuthorList`. 
-![SavingDataSequence.png](uml/puml/SavingDataSequence/SavingDataSequence.png)
-![refGetStorageInstanceSequence.png](uml/puml/SavingDataSequence/refGetStorageInstanceSequence.png)
+The following UML sequence diagrams outline the behaviour of the program when the user inputs a command that modifies the `AuthorList`.
+<br/>
+![SavingDataSequence.png](uml/puml/SavingDataSequence/SavingDataSequence.png)<br/>
+![refGetStorageInstanceSequence.png](uml/puml/SavingDataSequence/refGetStorageInstanceSequence.png)<br/>
 
 #### Gson De/serialization
 Instead of using the default deserializers provided by `Gson`, this project defines custom ones. This enables us to perform checks on the key-value pairs in the data file every step of the way, providing detailed and relevant information in the event deserialization is not successful. The following is a code snippet showcasing the checks performed during the deserialization of data. 
@@ -159,7 +160,7 @@ This allows the user to manually edit their `catalog.json` file with peace of mi
 `AuthorList` data can be displayed with [view commands](#view-command). The `Ui` class aids in presenting readable data to the user.
 
 #### Ui Structure
-![UiClass.png](uml/puml/UiClass/UiClass.png)
+![UiClass.png](uml/puml/UiClass/UiClass.png)<br/>
 The above UML class diagram outlines the structure of the `Ui` and related classes. 
 
 The `PrintColumn<T>` class represents the table columns to be printed. It contains attributes that help with the formatting of a table column, such as width, header name, and a reference to getter methods (also known as `valueProvider`s) in the `Author` and `Manga` data classes that return `String`s. Default values for these attributes are provided in `PrintFormat.java` in the `constants` package. 
@@ -181,7 +182,7 @@ of their manga authors. The `AuthorList` is saved via `Storage` for data persist
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite"` as an input.
-![add author sequence diagram](/docs/uml/images/AddAuthorSequence.png)
+<br/>![add author sequence diagram](/docs/uml/images/AddAuthorSequence.png)<br/>
 If the `Author` instance already exists, a `TantouException` is thrown, informing the user that
 they are already tracking this employee.
 
@@ -196,7 +197,7 @@ data persistency.
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite -m Bleach"` as an input.
-![add manga sequence diagram](/docs/uml/images/AddMangaSequence.png)
+<br/>![add manga sequence diagram](/docs/uml/images/AddMangaSequence.png)<br/>
 
 ### DeleteAuthorCommand
 #### Overview
@@ -206,7 +207,7 @@ Otherwise, the `Author` is removed from the `AuthorList`, which is then saved vi
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite -d"` as an input.
-![delete author sequence diagram](/docs/uml/images/DeleteAuthorSequence.png)
+<br/>![delete author sequence diagram](/docs/uml/images/DeleteAuthorSequence.png)<br/>
 
 ### DeleteMangaCommand
 #### Overview
@@ -219,7 +220,7 @@ data persistency.
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite -m Bleach -d"` as an input.
-![add manga sequence diagram](/docs/uml/images/DeleteMangaSequence.png)
+<br/>![add manga sequence diagram](/docs/uml/images/DeleteMangaSequence.png)<br/>
 
 ### View Command
 #### Overview
@@ -240,10 +241,10 @@ no. | Manga Name                               | Deadline             | Unit Pri
 Interaction
 </h4>
 
-The following UML sequence diagrams illustrate the interactions that take place when the user provides a valid `ViewMangasCommand` command (e.g. `view -a test1 -b -s`, where `test1` is an author that already wrote some manga). 
-![ViewMangaSequence.png](uml/puml/ViewMangaSequence/ViewMangaSequence.png)
-![refGetColumnsToPrintSequence.png](uml/puml/ViewMangaSequence/refGetColumnsToPrintSequence.png)
-![refPrintRowsSequence.png](uml/puml/ViewMangaSequence/refPrintRowsSequence.png)
+The following UML sequence diagrams illustrate the interactions that take place when the user provides a valid `ViewMangasCommand` command (e.g. `view -a test1 -b -s`, where `test1` is an author that already wrote some manga).
+<br/>![ViewMangaSequence.png](uml/puml/ViewMangaSequence/ViewMangaSequence.png)<br/>
+![refGetColumnsToPrintSequence.png](uml/puml/ViewMangaSequence/refGetColumnsToPrintSequence.png)<br/>
+![refPrintRowsSequence.png](uml/puml/ViewMangaSequence/refPrintRowsSequence.png)<br/>
 `ViewAuthorsCommand` works similarly, but with only 2 required columns to print (row number and author name). 
 
 ### AddSalesCommand
@@ -252,18 +253,15 @@ The AddSalesCommand is responsible for adding sales data to a Manga. The Sale da
 
 For the AddSalesCommand to be successful, the manga that the sales data is associated with must exist. If the `sales`
 command is successful, the `Sales` data is then saved via Storage.
+<br/>![mangasales_class.png](uml/images/mangasales_class.png)<br/>
 
-![mangasales_class.png](uml/images/mangasales_class.png)
 #### Interaction
-
 The following sequence diagram illustrates the interactions that occur when the parser creates a new `AddSalesCommand`.
-
-![addsalesdata.png](uml/images/addsalesdata.png)
+<br/>![addsalesdata.png](uml/images/addsalesdata.png)<br/>
 
 The following object diagram illustrates object structure after the above interaction is successfully run
 with the input `sales -a Kubo Tite -m Bleach -q 10000 -p 11.90`.
-
-![mangasales_object.png](uml/images/mangasales_object.png)
+<br/>![mangasales_object.png](uml/images/mangasales_object.png)<br/>
 
 ### AddScheduleCommand
 #### Overview
@@ -275,12 +273,11 @@ When using AddScheduleCommand, if the manga or author inputted don't exist, they
 
 The following sequence diagram illustrates the interactions that occur when the parser creates a new `AddScheudleCommand`.
 
-![schedule.png](uml%2Fimages%2Fschedule.png)
+<br/>![schedule.png](uml/images/schedule.png)<br/>
 
 The following object diagram illustrates object structure after the above interaction is successfully run
-with the input `schedule -a Kubo Tite -m Bleach -b October 2 2018`. 
-
-![scheduleobject.png](uml%2Fimages%2Fscheduleobject.png)
+with the input `schedule -a Kubo Tite -m Bleach -b October 2 2018`.
+<br/>![scheduleobject.png](uml/images/scheduleobject.png)<br/>
 
 ## Product scope
 ### Target user profile
