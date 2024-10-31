@@ -30,6 +30,8 @@ import static storage.StorageHelper.saveFile;
  * and adds sales data (quantity sold and unit price) to the specified manga.
  */
 public class AddSalesCommand extends Command {
+    public static final int UNIT_PRICE_MAX_VALUE = 1000000000;
+    public static final int QUANTITY_MAX_VALUE = 1000000000;
     private String[] argsAuthorMangaQtyPrice;
 
     public AddSalesCommand(String[] argsAuthorMangaQtyPrice) {
@@ -54,7 +56,7 @@ public class AddSalesCommand extends Command {
         double unitPrice = Double.parseDouble(argsAuthorMangaQtyPrice[PRICE_INDEX]);;
         try {
             quantitySold = Integer.parseInt(argsAuthorMangaQtyPrice[QUANTITY_INDEX]);
-            if (quantitySold >= 1000000000) {
+            if (quantitySold >= QUANTITY_MAX_VALUE) {
                 throw new QuantityTooLargeException();
             }
         } catch (NumberFormatException e) {
@@ -65,7 +67,7 @@ public class AddSalesCommand extends Command {
             throw new TantouException("Quantity sold cannot be less than 0!");
         }
 
-        if (unitPrice > 999999999) {
+        if (unitPrice >= UNIT_PRICE_MAX_VALUE) {
             throw new PriceTooLargeException();
         }
 
