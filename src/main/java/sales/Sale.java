@@ -2,7 +2,9 @@ package sales;
 
 //@@author sarahchow03
 
-import manga.Manga;import java.util.Objects;import static constants.PrintFormat.DATA_NOT_AVAILABLE;
+import java.util.Objects;
+
+import static constants.PrintFormat.DATA_NOT_AVAILABLE;
 
 /**
  * The Sale class represents a sales data for a manga, including the quantity sold, the unit price, and the total
