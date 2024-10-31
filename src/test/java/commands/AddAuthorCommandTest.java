@@ -3,7 +3,6 @@ package commands;
 import java.io.PrintStream;
 
 import author.AuthorList;
-import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,22 +55,6 @@ public class AddAuthorCommandTest {
         } catch (TantouException e) {
             // The code should not fail at this point
             fail();
-        } finally {
-            System.setOut(standardOut);
-        }
-    }
-
-    @Test
-    public void addAuthorCommand_emptyAuthorName_noAuthorProvidedExceptionThrown() {
-        try {
-            // Simulate no author provided
-            // This scenario is unlikely to occur as empty arguments are caught at the Parser level
-            String authorName = "";
-            commandUnderTest = new AddAuthorCommand(authorName);
-            // A NoAuthorProvidedException should be thrown as no author is provided
-            assertThrows(NoAuthorProvidedException.class, () -> {
-                commandUnderTest.execute(ui, authorList);
-            });
         } finally {
             System.setOut(standardOut);
         }

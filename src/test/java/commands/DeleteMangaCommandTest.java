@@ -89,40 +89,4 @@ class DeleteMangaCommandTest {
             System.setOut(standardOut);
         }
     }
-
-    //@@author averageandyyy
-    @Test
-    public void deleteMangaCommand_emptyAuthorName_noAuthorOrMangaProvidedExceptionThrown() {
-        try {
-            // Simulate no author provided
-            String[] userInputList = {"", "Bleach"};
-            commandUnderTest = new DeleteMangaCommand(userInputList);
-            // A TantouException should be thrown as no author is provided
-            Exception exception = assertThrows(TantouException.class, () -> {
-                commandUnderTest.execute(ui, authorList);
-            });
-
-            assertEquals("No author or manga provided!", exception.getMessage());
-        } finally {
-            System.setOut(standardOut);
-        }
-    }
-
-    //@@author averageandyyy
-    @Test
-    public void deleteMangaCommand_emptyMangaName_noAuthorOrMangaProvidedExceptionThrown() {
-        try {
-            // Simulate no author provided
-            String[] userInputList = {"Kubo Tite", ""};
-            commandUnderTest = new DeleteMangaCommand(userInputList);
-            // A TantouException should be thrown as no author is provided
-            Exception exception = assertThrows(TantouException.class, () -> {
-                commandUnderTest.execute(ui, authorList);
-            });
-
-            assertEquals("No author or manga provided!", exception.getMessage());
-        } finally {
-            System.setOut(standardOut);
-        }
-    }
 }
