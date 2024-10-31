@@ -5,8 +5,6 @@ import storage.ExcludeInSerialization;
 import sales.Sale;
 
 import java.util.Objects;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
 
 public class Manga {
     private String mangaName;
