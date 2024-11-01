@@ -2,8 +2,8 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
-import exceptions.NoAuthorProvidedException;
-import exceptions.NoMangaProvidedException;
+import exceptions.AuthorNameTooLongException;
+import exceptions.MangaNameTooLongException;
 import exceptions.PriceTooLargeException;
 import exceptions.QuantityTooLargeException;
 import exceptions.TantouException;
@@ -88,40 +88,6 @@ class AddSalesCommandTest {
     }
 
     @Test
-    public void execute_noAuthorArgumentNoMangaHasQuantityPriceArgument_exceptionThrown() {
-        try {
-            String[] userInputList = {"", "", "20", "10.90"};
-            commandUnderTest = new AddSalesCommand(
-                    userInputList
-            );
-            Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
-                commandUnderTest.execute(ui, authorList);
-            });
-
-            assertEquals("You have not provided an author argument!", exception.getMessage());
-        } finally {
-            System.setOut(standardOut);
-        }
-    }
-
-    @Test
-    public void execute_noMangaArgumentHasAuthorQuantityPriceArgument_exceptionThrown() {
-        try {
-            String[] userInputList = {"test", "", "20", "10.90"};
-            commandUnderTest = new AddSalesCommand(
-                    userInputList
-            );
-            Exception exception = assertThrows(NoMangaProvidedException.class, () -> {
-                commandUnderTest.execute(ui, authorList);
-            });
-
-            assertEquals("You have not provided a manga argument!", exception.getMessage());
-        } finally {
-            System.setOut(standardOut);
-        }
-    }
-
-    @Test
     public void execute_quantityTooLarge_exceptionThrown() {
         try {
             String[] userInputList = {"test", "test", "1000000000", "10.90"};
@@ -145,6 +111,41 @@ class AddSalesCommandTest {
                     userInputList
             );
             Exception exception = assertThrows(PriceTooLargeException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void execute_authorNameTooLong_exceptionThrown() {
+        try {
+            String[] userInputList = {"testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+                                      "test", "10", "10.90"};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(AuthorNameTooLongException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void execute_mangaNameTooLong_exceptionThrown() {
+        try {
+            String[] userInputList = {"test",
+                                      "testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+                                      "10", "10.90"};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(MangaNameTooLongException.class, () -> {
                 commandUnderTest.execute(ui, authorList);
             });
 

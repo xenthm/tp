@@ -9,11 +9,11 @@ import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
-import exceptions.InvalidSalesCommandException;
 import exceptions.InvalidViewCommandException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.NoMangaProvidedException;
-import exceptions.SalesArgsWrongOrderException;
+import exceptions.NoPriceProvidedException;
+import exceptions.NoQuantityProvidedException;
 import exceptions.TantouException;
 
 import static constants.Command.BYE_COMMAND;
@@ -23,7 +23,6 @@ import static constants.Command.SALES_COMMAND;
 import static constants.Command.VIEW_COMMAND;
 import static constants.Options.AUTHOR_OPTION;
 import static constants.Options.BY_DATE_OPTION;
-import static constants.Options.MANGA_OPTION;
 import static constants.Options.SALES_OPTION;
 import static constants.Regex.ANY_SPACE_REGEX;
 import static constants.Regex.AUTHOR_OPTION_REGEX;
@@ -168,11 +167,8 @@ public class Parser {
      */
     private Command processAddSalesCommand(String userInput) throws TantouException {
         userInput = removeSalesPrefix(userInput);
-        if (isValidSalesCommand(userInput)) {
-            String[] salesArguments = getSalesArguments(userInput);
-            return new AddSalesCommand(salesArguments);
-        }
-        throw new InvalidSalesCommandException();
+        String[] salesArguments = getSalesArguments(userInput);
+        return new AddSalesCommand(salesArguments);
     }
 
     //@@author averageandyyy
@@ -181,54 +177,71 @@ public class Parser {
     }
 
     //@@author sarahchow03
-    private boolean isValidSalesCommand(String userInput) throws TantouException {
-        return hasSalesFlags(userInput) && areSalesFlagsInOrder(userInput);
-    }
 
-    //@@author averageandyyy
-    private boolean hasSalesFlags(String userInput) {
-        return userInput.contains(AUTHOR_OPTION_REGEX) && userInput.contains(MANGA_OPTION_REGEX)
-                && userInput.contains(PRICE_OPTION_REGEX) && userInput.contains(QUANTITY_OPTION_REGEX);
-    }
+    /**
+     * Parses and retrieves arguments (author name, manga name, quantity, and price) for AddSalesCommand.
+     *
+     * <p>This method utilizes argument finders to extract specific sales-related arguments from the input string.
+     * If any required argument is missing, a corresponding exception is thrown.</p>
+     *
+     * @param userInput The input string containing potential sales information.
+     * @return A String array containing extracted arguments in the following order: author name, manga name, quantity,
+     *         and price.
+     * @throws NoAuthorProvidedException   If the author name or argument is not found in the input.
+     * @throws NoMangaProvidedException    If the manga name or argument is not found in the input.
+     * @throws NoQuantityProvidedException If the quantity or quantity argument is not found in the input.
+     * @throws NoPriceProvidedException    If the price or price argument is not found in the input.
+     * @throws TantouException             For any other exception that may occur during processing.
+     */
+    private String[] getSalesArguments(String userInput) throws TantouException {
+        String authorName = null;
+        String mangaName = null;
+        String price = null;
+        String quantity = null;
 
-    //@@author averageandyyy
-    private boolean areSalesFlagsInOrder(String userInput) throws TantouException {
-        int indexOfAuthor = userInput.indexOf(AUTHOR_OPTION_REGEX);
-        int indexOfManga = userInput.indexOf(MANGA_OPTION);
-        int indexOfQuantity = userInput.indexOf(QUANTITY_OPTION_REGEX);
-        int indexOfPrice = userInput.indexOf(PRICE_OPTION_REGEX);
+        AuthorArgumentFinder authorArgumentFinder = new AuthorArgumentFinder();
+        MangaArgumentFinder mangaArgumentFinder = new MangaArgumentFinder();
+        PriceArgumentFinder priceArgumentFinder = new PriceArgumentFinder();
+        QuantityArgumentFinder quantityArgumentFinder = new QuantityArgumentFinder();
 
+        ArgumentResult authorResult = authorArgumentFinder.getArgumentResult(userInput);
+        authorName = authorResult.getArgument();
+        String userInputPostAuthorExtraction = authorResult.getOutputString();
 
-        if (!(indexOfAuthor < indexOfManga && indexOfManga < indexOfPrice && indexOfQuantity < indexOfPrice)) {
-            throw new SalesArgsWrongOrderException();
+        if (authorName == null || authorName.isEmpty()) {
+            throw new NoAuthorProvidedException();
         }
 
-        return true;
+        ArgumentResult mangaResult = mangaArgumentFinder.getArgumentResult(userInputPostAuthorExtraction);
+        mangaName = mangaResult.getArgument();
+        String userInputPostMangaExtraction = mangaResult.getOutputString();
+
+        if (mangaName == null || mangaName.isEmpty()) {
+            throw new NoMangaProvidedException();
+        }
+
+        ArgumentResult quantityResult = quantityArgumentFinder.getArgumentResult(userInputPostMangaExtraction);
+        quantity = quantityResult.getArgument();
+        String userInputPostQuantityExtraction = quantityResult.getOutputString();
+
+
+        if (quantity == null || quantity.isEmpty()) {
+            throw new NoQuantityProvidedException();
+        }
+
+        ArgumentResult priceResult = priceArgumentFinder.getArgumentResult(userInputPostQuantityExtraction);
+        price = priceResult.getArgument();
+
+        if (price == null || price.isEmpty()) {
+            throw new NoPriceProvidedException();
+        }
+
+        return new String[]{authorName, mangaName, quantity, price};
     }
 
-    //@@author averageandyyy
-    private String[] getSalesArguments(String userInput) {
-        int indexOfAuthor = userInput.indexOf(AUTHOR_OPTION_REGEX);
-        int indexOfManga = userInput.indexOf(MANGA_OPTION_REGEX);
-        int indexOfQuantity = userInput.indexOf(QUANTITY_OPTION_REGEX);
-        int indexOfPrice = userInput.indexOf(PRICE_OPTION_REGEX);
-
-
-        // Should have been caught at the validation stage
-        assert (indexOfAuthor != -1 && indexOfManga != -1
-                && indexOfPrice != -1 && indexOfQuantity != -1) : "Invalid sales command format";
-        assert (indexOfAuthor < indexOfManga && indexOfManga < indexOfPrice
-                && indexOfQuantity < indexOfPrice) : "Invalid sales command format";
-
-        String authorName = extractAuthorName(userInput, indexOfAuthor, indexOfManga);
-        String mangaName = extractMangaName(userInput, indexOfManga, indexOfQuantity);
-        String quantitySold = extractQuantity(userInput, indexOfQuantity, indexOfPrice);
-        String unitPrice = extractPrice(userInput, indexOfPrice);
-
-        return new String[]{authorName, mangaName, quantitySold, unitPrice};
-    }
 
     //@@author xenthm
+
     /**
      * Processes the user input to create a <code>View</code> command to either show the list of authors, or the list
      * of manga authored by a specific author. The latter allows for additional option flags to show more information
@@ -238,10 +251,9 @@ public class Parser {
      * author option flag. The regex matcher will recognise all valid text after a valid author option flag as part
      * of the author name, including duplicate author option flags.
      *
-     *
      * @param userInput the input string provided by the user
      * @return <code>ViewAuthorsCommand</code> or <code>ViewMangasCommand</code>, represents the view operation
-     * @throws NoAuthorProvidedException if the author is not specified and it is needed
+     * @throws NoAuthorProvidedException   if the author is not specified and it is needed
      * @throws InvalidViewCommandException if an invalid option flag is provided
      */
     private Command processViewCommand(String userInput) throws TantouException {

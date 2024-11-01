@@ -32,6 +32,18 @@ public class Regex {
      */
     public static final Pattern MANGA_NAME_EXTRACTOR_PATTERN = generateExtractorPattern(MANGA_OPTION);
 
+    //@@author sarahchow03
+    /**
+     * Regex pattern to extract price per unit out of a given input
+     */
+    public static final Pattern PRICE_EXTRACTOR_PATTERN = generateExtractorPattern(PRICE_OPTION);
+
+    //@@author sarahchow03
+    /**
+     * Regex pattern to extract the manga name out of a given input
+     */
+    public static final Pattern QUANTITY_EXTRACTOR_PATTERN = generateExtractorPattern(QUANTITY_OPTION);
+
     //@@author xenthm 
     /**
      * This method automatically generates a valid regex pattern to use with a field (e.g. author name) extractor. The

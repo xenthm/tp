@@ -79,8 +79,8 @@ total revenue. The total revenue is calculated by `Tantou`, through the multipli
 
 Format: `sales -a [AUTHOR_NAME] -m [MANGA_NAME] -q [QUANTITY_SOLD] -p [PRICE_PER_UNIT]`
 
-* The `QUANTITY_SOLD` must be a positive integer less than 1000000000.
-* The `PRICE_PER_UNIT` must be a double less than 999999999.
+* The `QUANTITY_SOLD` must be a positive Integer less than 1000000000.
+* The `PRICE_PER_UNIT` must be a Double less than 1000000000.
 
 Example of usage: 
 

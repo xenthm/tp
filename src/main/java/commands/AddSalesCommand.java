@@ -4,8 +4,6 @@ import author.Author;
 import author.AuthorList;
 import exceptions.AuthorNameTooLongException;
 import exceptions.MangaNameTooLongException;
-import exceptions.NoAuthorProvidedException;
-import exceptions.NoMangaProvidedException;
 import exceptions.PriceTooLargeException;
 import exceptions.QuantityTooLargeException;
 import exceptions.TantouException;
@@ -30,6 +28,9 @@ import static storage.StorageHelper.saveFile;
  * and adds sales data (quantity sold and unit price) to the specified manga.
  */
 public class AddSalesCommand extends Command {
+    // Maximum allowed values for unit price and quantity
+    public static final int UNIT_PRICE_MAX_VALUE = 1000000000;
+    public static final int QUANTITY_MAX_VALUE = 1000000000;
     private String[] argsAuthorMangaQtyPrice;
 
     public AddSalesCommand(String[] argsAuthorMangaQtyPrice) {
@@ -42,19 +43,20 @@ public class AddSalesCommand extends Command {
      * and manga, and adding the sales data.
      * If any validation fails, a TantouException is thrown with an appropriate error message.
      *
-     * @param ui the user interface to interact with the user
-     * @param authorList the list of authors where the manga's author is checked
-     * @throws TantouException if validation checks fail (e.g., invalid input, missing author or manga)
+     * @param ui The user interface for interaction.
+     * @param authorList The list of authors where the manga's author is checked.
+     * @throws TantouException if validation checks fail, such as invalid input, missing author or manga, or
+     *                         exceeding maximum allowed values.
      */
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
         String authorName = argsAuthorMangaQtyPrice[AUTHOR_INDEX];
         String mangaName = argsAuthorMangaQtyPrice[MANGA_INDEX];
-        int quantitySold = 0;
-        double unitPrice = Double.parseDouble(argsAuthorMangaQtyPrice[PRICE_INDEX]);;
+        Integer quantitySold = null;
+        Double unitPrice = Double.parseDouble(argsAuthorMangaQtyPrice[PRICE_INDEX]);;
         try {
             quantitySold = Integer.parseInt(argsAuthorMangaQtyPrice[QUANTITY_INDEX]);
-            if (quantitySold >= 1000000000) {
+            if (quantitySold >= QUANTITY_MAX_VALUE) {
                 throw new QuantityTooLargeException();
             }
         } catch (NumberFormatException e) {
@@ -65,22 +67,12 @@ public class AddSalesCommand extends Command {
             throw new TantouException("Quantity sold cannot be less than 0!");
         }
 
-        if (unitPrice > 999999999) {
+        if (unitPrice >= UNIT_PRICE_MAX_VALUE) {
             throw new PriceTooLargeException();
         }
 
         if (unitPrice < 0) {
             throw new TantouException("Unit price cannot be less than 0!");
-        }
-
-        if (authorName.isEmpty()) {
-            logger.warning("No author provided.");
-            throw new NoAuthorProvidedException();
-        }
-
-        if (mangaName.isEmpty()) {
-            logger.warning("No manga provided.");
-            throw new NoMangaProvidedException();
         }
 
         //@@author xenthm
@@ -94,7 +86,7 @@ public class AddSalesCommand extends Command {
             throw new MangaNameTooLongException();
         }
 
-        //@@author
+        //@@author sarahchow03
         Sale salesData = new Sale(quantitySold, unitPrice);
         Author incomingAuthor = new Author(authorName);
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
