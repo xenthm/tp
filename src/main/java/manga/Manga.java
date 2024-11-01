@@ -23,7 +23,7 @@ public class Manga {
     public Manga(String mangaName, Author author, String deadline) {
         this.mangaName = mangaName;
         this.author = author;
-        this.deadline = "none";
+        this.deadline = deadline;
     }
 
     //@@author
