@@ -8,7 +8,9 @@ import ui.Ui;
 
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 //@@author iaso1774
 public class AddDeadlineCommandTest {
@@ -71,7 +73,7 @@ public class AddDeadlineCommandTest {
     }
 
     @Test
-    public void addDeadlineCommand_authorNonexistent_AuthorNotFoundExceptionThrown() {
+    public void addDeadlineCommand_authorNonexistent_authorNotFoundExceptionThrown() {
         String[] userInputList = {"Gege Akutami", "Jujutsu Kaisen", "September 30"};
         commandUnderTest = new AddDeadlineCommand(userInputList);
         Exception exception = assertThrows(TantouException.class, () -> {
@@ -83,7 +85,7 @@ public class AddDeadlineCommandTest {
     }
 
     @Test
-    public void addDeadlineCommand_mangaNonexistent_MangaNotFoundExceptionThrown() {
+    public void addDeadlineCommand_mangaNonexistent_mangaNotFoundExceptionThrown() {
         try {
             AddAuthorCommand addAuthorCommand =
                     new AddAuthorCommand("Gege Akutami");
