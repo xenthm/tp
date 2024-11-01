@@ -97,13 +97,13 @@ public class AddSalesCommand extends Command {
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
 
         if (!authorList.hasAuthor(incomingAuthor)) {
-            throw new TantouException("Author does not exist! You have to add an author first!");
+            throw new AuthorDoesNotExistException(authorName);
         }
 
         Author existingAuthor = authorList.getAuthor(incomingAuthor);
 
         if (!existingAuthor.hasManga(incomingManga)) {
-            throw new TantouException("Manga does not exist! This manga needs to exist before adding sales data!");
+            throw new MangaDoesNotExistException(mangaName);
         }
 
         existingAuthor.getManga(incomingManga.getMangaName()).addSalesData(salesData);
