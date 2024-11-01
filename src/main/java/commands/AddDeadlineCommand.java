@@ -38,7 +38,7 @@ public class AddDeadlineCommand extends Command {
         Author incomingAuthor = new Author(authorName);
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
 
-        // If author doesn't exist, create them
+        // If author doesn't exist, throw an error
         if (!authorList.hasAuthor(authorName)) {
             logger.log(Level.INFO, "Author not found!");
             throw new TantouException("Author not found!");
@@ -46,7 +46,7 @@ public class AddDeadlineCommand extends Command {
         assert authorList.hasAuthor(incomingAuthor) : "Author is missing";
         Author existingAuthor = authorList.getAuthor(incomingAuthor);
 
-        // If manga doesn't exist, create it and add the deadline
+        // If manga doesn't exist, throw an error
         if (!existingAuthor.hasManga(incomingManga)) {
             logger.log(Level.INFO, "Manga not found!");
             throw new TantouException("Manga not found!");
