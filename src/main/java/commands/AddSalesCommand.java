@@ -2,8 +2,11 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorDoesNotExistException;
 import exceptions.AuthorNameTooLongException;
+import exceptions.MangaDoesNotExistException;
 import exceptions.MangaNameTooLongException;
+import exceptions.NumberLessThanZeroException;
 import exceptions.PriceTooLargeException;
 import exceptions.QuantityTooLargeException;
 import exceptions.TantouException;
@@ -53,18 +56,20 @@ public class AddSalesCommand extends Command {
         String authorName = argsAuthorMangaQtyPrice[AUTHOR_INDEX];
         String mangaName = argsAuthorMangaQtyPrice[MANGA_INDEX];
         Integer quantitySold = null;
-        Double unitPrice = Double.parseDouble(argsAuthorMangaQtyPrice[PRICE_INDEX]);;
+        Double unitPrice = null;
         try {
             quantitySold = Integer.parseInt(argsAuthorMangaQtyPrice[QUANTITY_INDEX]);
-            if (quantitySold >= QUANTITY_MAX_VALUE) {
-                throw new QuantityTooLargeException();
-            }
+            unitPrice = Double.parseDouble(argsAuthorMangaQtyPrice[PRICE_INDEX]);
         } catch (NumberFormatException e) {
+            throw new TantouException("Pretty sure we taught you how to format those numbers already... Seriously...");
+        }
+
+        if (quantitySold >= QUANTITY_MAX_VALUE) {
             throw new QuantityTooLargeException();
         }
 
         if (quantitySold < 0) {
-            throw new TantouException("Quantity sold cannot be less than 0!");
+            throw new NumberLessThanZeroException();
         }
 
         if (unitPrice >= UNIT_PRICE_MAX_VALUE) {
@@ -72,7 +77,7 @@ public class AddSalesCommand extends Command {
         }
 
         if (unitPrice < 0) {
-            throw new TantouException("Unit price cannot be less than 0!");
+            throw new NumberLessThanZeroException();
         }
 
         //@@author xenthm
