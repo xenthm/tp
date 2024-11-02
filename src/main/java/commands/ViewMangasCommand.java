@@ -2,8 +2,12 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorDoesNotExistException;
+import exceptions.AuthorListEmptyException;
 import exceptions.AuthorNameTooLongException;
+import exceptions.MangaListEmptyException;
 import exceptions.MangaNameTooLongException;
+import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
 import manga.Manga;
 import ui.Ui;
@@ -42,25 +46,25 @@ public class ViewMangasCommand extends Command {
         }
 
         if (authorList.isEmpty()) {
-            System.out.println("You have no authors under you! Maybe you are the one slacking...");
             logger.info("authorList is empty");
-            return;
+            throw new AuthorListEmptyException();
         }
 
         if (authorName.isEmpty()) {
             logger.warning("Author argument is empty");
-            throw new TantouException("No author provided!");
+            throw new NoAuthorProvidedException();
         }
         Author author = authorList.getAuthor(authorName);
+
         if (author == null) {
             logger.warning("Author " + authorName + " does not exist in authorList");
             System.out.println("Author " + authorName + " does not exist!");
-            return;
+            throw new AuthorDoesNotExistException(authorName);
         }
+
         if (author.getMangaList().isEmpty()) {
             logger.info(authorName + " has no associated mangas");
-            System.out.println(authorName + " has no mangas... You know what has to be done.");
-            return;
+            throw new MangaListEmptyException(authorName);
         }
 
         for (Manga manga : author.getMangaList()) {
