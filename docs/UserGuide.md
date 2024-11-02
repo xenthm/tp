@@ -3,10 +3,10 @@
 ## Introduction
 
 Overwhelmed by all your editorial tasks at the publishing company? Sick of having to manually keep track of all the work
-that your ~~slaves~~ manga artists have to do? Fret not, as `MangaTantou` is here!
+that your ~~slaves~~ manga authors have to do? Fret not, as `MangaTantou` is here!
 
-`MangaTantou` keeps tracks of the artists under your charge, showing you all mangas they have written, and their deadlines. 
-As an editor, it is also your right to know how much your ~~slaves~~ artists are earning! `MangaTantou` takes note of how
+`MangaTantou` keeps tracks of the authors under your charge in a catalog, showing you all mangas they have written, and their deadlines. 
+As an editor, it is also your right to know how much your ~~slaves~~ authors are earning! `MangaTantou` takes note of how
 many copies have been sold by each of the mangas under your charge and calculates the revenue for you, increasing your 
 efficiency at work.
 
@@ -15,25 +15,25 @@ efficiency at work.
 {Give steps to get started quickly}
 
 1. Ensure that you have Java 17 or above installed.
-1. Down the latest version of `MangaTantou` from [here](http://link.to/duke).
+2. Down the latest version of `MangaTantou` from [here](http://link.to/duke).
 
 ## Features
+
+> **_NOTE:_** Whenever you encounter `AUTHOR_NAME` or `MANGA_NAME`, remember that they must not be longer than 40 characters. 
 
 ### Adding Authors: `catalog -a`
 
 The `catalog -a` command allows you to add `Author`s to your catalog so that MangaTantou can keep track of all the manga created 
 by the authors under your management. Once an author is added, MangaTantou will monitor the details of the manga they have published, 
-including sales data, deadlines, and earnings, making it easy to manage multiple artists at once.
+including sales data, deadlines, and earnings, making it easy to manage multiple authors at once.
 
 Format: `catalog -a [AUTHOR_NAME]`
 
-* The `AUTHOR_NAME` must not be longer than 40 characters.
 * The `Author` to add should not already exist in the catalog.
 
 Examples of usage:
 * `catalog -a Kubo Tite`
 * `catalog -a Oda Eiichiro`
-
 
 ### Adding Mangas: `catalog -a -m`
 
@@ -42,8 +42,6 @@ including deadlines and sales data, allowing you to monitor all the works an aut
 
 Format: `catalog -a [AUTHOR_NAME] -m [MANGA_NAME]`
 
-* The `AUTHOR_NAME` must not be longer than 40 characters.
-* The `MANGA_NAME` must not be longer than 40 characters.
 * The `Manga` to add should not already exist in the catalog.
 * `MangaTantou` will create the associated `Author` if it does not already exist within the catalog.
 * Note that two `Manga`s will be considered as different only if they have different titles and authors.
