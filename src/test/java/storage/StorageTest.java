@@ -22,8 +22,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 //@@author xenthm
 class StorageTest {
-    private static final String TEST_DATA_FILE_NAME = "testCatalog.json";
-    private static URI testDataFile;
+    private static final String STORAGE_TEST_DATA_FILE_NAME = "storageTestCatalog.json";
+    private static URI storageTestDataFile;
     private static final Storage STORAGE_TEST_INSTANCE = Storage.getInstance();
     private static final AuthorList AUTHOR_LIST_TEST = new AuthorList();
 
@@ -45,12 +45,12 @@ class StorageTest {
 
     @BeforeAll
     public static void setup() throws URISyntaxException {
-        testDataFile = Objects.requireNonNull(
+        storageTestDataFile = Objects.requireNonNull(
                 StorageTest.class
                         .getClassLoader()
-                        .getResource(TEST_DATA_FILE_NAME)
+                        .getResource(STORAGE_TEST_DATA_FILE_NAME)
         ).toURI();
-        STORAGE_TEST_INSTANCE.setDataFile(Paths.get(testDataFile).toFile());
+        STORAGE_TEST_INSTANCE.setDataFile(Paths.get(storageTestDataFile).toFile());
         setupAuthorListTest();
     }
 
@@ -87,7 +87,7 @@ class StorageTest {
         String actualJson = stringWriter.toString()
                 .replaceAll("\\r\\n", "\n");
         try {
-            String expectedJson = new String(Files.readAllBytes(Paths.get(testDataFile)))
+            String expectedJson = new String(Files.readAllBytes(Paths.get(storageTestDataFile)))
                     .replaceAll("\\r\\n", "\n");
             assertEquals(expectedJson, actualJson);
         } catch (IOException e) {
