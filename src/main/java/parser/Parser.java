@@ -317,6 +317,7 @@ public class Parser {
 
         AuthorArgumentFinder authorArgumentFinder = new AuthorArgumentFinder();
         MangaArgumentFinder mangaArgumentFinder = new MangaArgumentFinder();
+        DeadlineArgumentFinder deadlineArgumentFinder = new DeadlineArgumentFinder();
 
         ArgumentResult authorResult = authorArgumentFinder.getArgumentResult(userInput);
         authorName = authorResult.getArgument();
@@ -333,15 +334,11 @@ public class Parser {
             throw new NoMangaProvidedException();
         }
 
-        userInput = removeSchedulePrefix(userInput);
+        ArgumentResult deadlineResult = deadlineArgumentFinder.getArgumentResult(userInputPostAuthorExtraction);
+        deadline = deadlineResult.getArgument();
 
-        if (!isValidOrdering(userInput)) {
-            throw new InvalidScheduleCommandException();
-        }
-
-        deadline = extractDeadline(userInput);
-        if (deadline.isEmpty()) {
-            throw new NoDeadlineProvidedException();
+        if (deadline == null || deadline.isEmpty()) {
+            throw new NoMangaProvidedException();
         }
 
         return new AddDeadlineCommand(new String[]{authorName, mangaName, deadline});

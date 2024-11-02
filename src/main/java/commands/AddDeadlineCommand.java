@@ -5,6 +5,10 @@ import exceptions.TantouException;
 import manga.Manga;
 import ui.Ui;
 import author.AuthorList;
+
+import static constants.Command.AUTHOR_INDEX;
+import static constants.Command.MANGA_INDEX;
+import static constants.Command.DEADLINE_INDEX;
 import static storage.StorageHelper.saveFile;
 
 import java.util.logging.Level;
@@ -26,10 +30,11 @@ public class AddDeadlineCommand extends Command {
         // There should be a manga, author, and deadline provided
         assert userInput.length == 3 : "Invalid user input provided";
 
-        String authorName = userInput[0];
-        String mangaName = userInput[1];
-        String deadline = userInput[2];
+        String authorName = userInput[AUTHOR_INDEX];
+        String mangaName = userInput[MANGA_INDEX];
+        String deadline = userInput[DEADLINE_INDEX];
 
+        // This should have already been caught at the parser level
         if (deadline.isEmpty() || mangaName.isEmpty() || authorName.isEmpty()) {
             logger.warning("No deadline, author, or manga provided.");
             throw new TantouException("No deadline date, author, or manga provided!");
