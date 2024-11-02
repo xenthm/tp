@@ -23,8 +23,8 @@ efficiency at work.
 
 ### Adding Authors: `catalog -a`
 
-The `catalog -a` command allows you to add `Author`s to your catalog so that MangaTantou can keep track of all the manga created 
-by the authors under your management. Once an author is added, MangaTantou will monitor the details of the manga they have published, 
+The `catalog -a` command allows you to add `Author`s to your catalog so that`MangaTantou`can keep track of all the manga created 
+by the authors under your management. Once an author is added,`MangaTantou`will monitor the details of the manga they have published, 
 including sales data, deadlines, and earnings, making it easy to manage multiple authors at once.
 
 Format: `catalog -a [AUTHOR_NAME]`
@@ -37,7 +37,7 @@ Examples of usage:
 
 ### Adding Mangas: `catalog -a -m`
 
-The `catalog -a -m` command creates a new `Manga` before associating it with an `Author` in the catalog. By adding mangas, MangaTantou can keep track of each title, 
+The `catalog -a -m` command creates a new `Manga` before associating it with an `Author` in the catalog. By adding mangas,`MangaTantou`can keep track of each title, 
 including deadlines and sales data, allowing you to monitor all the works an author is responsible for.
 
 Format: `catalog -a [AUTHOR_NAME] -m [MANGA_NAME]`
