@@ -4,11 +4,13 @@
     "mangaList": [
       {
         "mangaName": "manga1",
-        "deadline": "deadline1"
+        "deadline": "deadline1",
+        "salesData": {}
       },
       {
         "mangaName": "manga2",
-        "deadline": "deadline2"
+        "deadline": "deadline2",
+        "salesData": {}
       }
     ]
   },
@@ -17,11 +19,13 @@
     "mangaList": [
       {
         "mangaName": "manga3",
-        "deadline": "deadline3"
+        "deadline": "deadline3",
+        "salesData": {}
       },
       {
         "mangaName": "manga4",
-        "deadline": "deadline4"
+        "deadline": "deadline4",
+        "salesData": {}
       }
     ]
   },
@@ -30,11 +34,13 @@
     "mangaList": [
       {
         "mangaName": "manga5",
-        "deadline": "deadline5"
+        "deadline": "deadline5",
+        "salesData": {}
       },
       {
         "mangaName": "manga6",
-        "deadline": "deadline6"
+        "deadline": "deadline6",
+        "salesData": {}
       }
     ]
   }

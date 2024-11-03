@@ -7,6 +7,6 @@ public class AuthorDoesNotExistException extends TantouException {
 
     private static String generateAuthorDoesNotExistMessage(String authorName) {
         return "Author [" + authorName + "] does not exist! "
-                + "Author needs to exist in our catalog first before adding their sales data!";
+                + "Author needs to exist in our catalog first before performing this command!";
     }
 }
