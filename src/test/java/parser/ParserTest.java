@@ -9,9 +9,10 @@ import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
-import exceptions.InvalidSalesCommandException;
 import exceptions.NoAuthorProvidedException;
-import exceptions.SalesArgsWrongOrderException;
+import exceptions.NoMangaProvidedException;
+import exceptions.NoPriceProvidedException;
+import exceptions.NoQuantityProvidedException;
 import exceptions.TantouException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -174,18 +175,37 @@ public class ParserTest {
     //@@author sarahchow03
     // Negative cases for sales command
     @Test
-    public void getUserCommand_salesNoFlagsProvided_exceptionThrown() {
-        String userInput = "sales";
-        Exception exception = assertThrows(InvalidSalesCommandException.class, () -> {
+    public void getSalesArgument_noAuthorArgumentNoMangaHasQuantityPriceArgument_exceptionThrown() {
+        String userInput = "sales -p 10.90 -q 11";
+        Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
             parser.getUserCommand(userInput);
         });
     }
 
     @Test
-    public void getUserCommand_salesArgumentWrongOrder_exceptionThrown() {
-        String userInput = "sales -a test -m test -p 10.90 -q 11";
-        Exception exception = assertThrows(SalesArgsWrongOrderException.class, () -> {
+    public void getSalesArgument_noMangaArgumentHasAuthorQuantityPriceArgument_exceptionThrown() {
+        String userInput = "sales -a test -p 10.90 -q 11";
+        Exception exception = assertThrows(NoMangaProvidedException.class, () -> {
             parser.getUserCommand(userInput);
         });
     }
+
+    @Test
+    public void getSalesArgument_noQuantityArgumentHasAuthorPriceMangaPriceArgument_exceptionThrown() {
+        String userInput = "sales -a test -m test -p 10.90";
+        Exception exception = assertThrows(NoQuantityProvidedException.class, () -> {
+            parser.getUserCommand(userInput);
+        });
+
+    }
+
+    @Test
+    public void getSalesArgument_noPriceArgumentHasAuthorMangaQuantityArgument_exceptionThrown() {
+        String userInput = "sales -a test -m test -q 10";
+        Exception exception = assertThrows(NoPriceProvidedException.class, () -> {
+            parser.getUserCommand(userInput);
+        });
+
+    }
+
 }

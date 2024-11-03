@@ -5,6 +5,7 @@ import author.AuthorList;
 import manga.Manga;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
+import sales.Sale;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,12 +32,15 @@ class StorageTest {
         Author author1 = new Author("author1");
         author1.addManga(new Manga("manga1", author1, "deadline1"));
         author1.addManga(new Manga("manga2", author1, "deadline2"));
+        author1.getManga("manga1").addSalesData(new Sale(10, 5.0));
         Author author2 = new Author("author2");
         author2.addManga(new Manga("manga3", author2, "deadline3"));
         author2.addManga(new Manga("manga4", author2, "deadline4"));
+        author2.getManga("manga3").addSalesData(new Sale(314, 15.92));
         Author author3 = new Author("author3");
         author3.addManga(new Manga("manga5", author3, "deadline5"));
         author3.addManga(new Manga("manga6", author3, "deadline6"));
+        author3.getManga("manga6").addSalesData(new Sale(10000, 2.5));
 
         AUTHOR_LIST_TEST.add(author1);
         AUTHOR_LIST_TEST.add(author2);

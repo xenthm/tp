@@ -17,6 +17,7 @@ public class Manga {
         this.mangaName = mangaName;
         this.author = author;
         this.deadline = "None";
+        this.salesData = new Sale();
     }
 
     //@@author xenthm
@@ -24,6 +25,14 @@ public class Manga {
         this.mangaName = mangaName;
         this.author = author;
         this.deadline = deadline;
+        this.salesData = new Sale();
+    }
+
+    public Manga(String mangaName, Author author, String deadline, Sale salesData) {
+        this.mangaName = mangaName;
+        this.author = author;
+        this.deadline = deadline;
+        this.salesData = salesData;
     }
 
     //@@author
