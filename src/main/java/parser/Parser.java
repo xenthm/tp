@@ -214,33 +214,16 @@ public class Parser {
         authorName = authorResult.getArgument();
         String userInputPostAuthorExtraction = authorResult.getOutputString();
 
-        if (authorName == null || authorName.isEmpty()) {
-            throw new NoAuthorProvidedException();
-        }
-
         ArgumentResult mangaResult = mangaArgumentFinder.getArgumentResult(userInputPostAuthorExtraction);
         mangaName = mangaResult.getArgument();
         String userInputPostMangaExtraction = mangaResult.getOutputString();
-
-        if (mangaName == null || mangaName.isEmpty()) {
-            throw new NoMangaProvidedException();
-        }
 
         ArgumentResult quantityResult = quantityArgumentFinder.getArgumentResult(userInputPostMangaExtraction);
         quantity = quantityResult.getArgument();
         String userInputPostQuantityExtraction = quantityResult.getOutputString();
 
-
-        if (quantity == null || quantity.isEmpty()) {
-            throw new NoQuantityProvidedException();
-        }
-
         ArgumentResult priceResult = priceArgumentFinder.getArgumentResult(userInputPostQuantityExtraction);
         price = priceResult.getArgument();
-
-        if (price == null || price.isEmpty()) {
-            throw new NoPriceProvidedException();
-        }
 
         return new String[]{authorName, mangaName, quantity, price};
     }
