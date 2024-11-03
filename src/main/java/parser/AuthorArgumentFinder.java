@@ -22,7 +22,7 @@ public class AuthorArgumentFinder extends ArgumentFinder {
     @Override
     public ArgumentResult getArgumentResult(String userInput) {
         String authorName = null;
-        String outputString = null;
+        String outputString = userInput;
         matcher = pattern.matcher(userInput);
 
         if (matcher.find()) {
