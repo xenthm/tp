@@ -34,6 +34,19 @@ import static constants.Regex.QUANTITY_OPTION_REGEX;
 import static constants.Regex.SPACE_REGEX;
 
 public class Parser {
+    /**
+     * Processes a user input string and returns a specific {@link Command} object based on the
+     * detected command keyword within the input.
+     *
+     * <p>This method trims the user input, checks if it is empty, and parses it into a list of
+     * command elements. It then uses a switch expression to identify the command type
+     * and returns the appropriate {@link Command} subclass (e.g., {@link ByeCommand}).
+     * If the input is invalid or does not match any known command, it throws a {@link TantouException}.
+     *
+     * @param userInput The raw user input string containing the command keyword and any arguments.
+     * @return A specific {@link Command} object based on the command type in the user input.
+     * @throws TantouException if the user input is empty or does not match any known command.
+     */
     public Command getUserCommand(String userInput) throws TantouException {
         String trimmedUserInput = userInput.trim();
 
@@ -64,18 +77,18 @@ public class Parser {
     // Catalog Functions
     //@@author averageandyyy
     /**
-     * Processes the catalog command based on the user input.
-     * Determines whether the command is an Add or Delete operation based on the presence of the delete flag (`-d`).
-     * Further categorizes the command as either related to an Author or Manga and
-     * returns the appropriate command object.
-     * <p>
-     * If the `-d` flag is present, it will return a `DeleteAuthorCommand` or `DeleteMangaCommand` based on
-     * the content of the user input.
-     * Otherwise, it returns an `AddAuthorCommand` or `AddMangaCommand`.
+     * Processes a catalog-related command based on the user input string and returns the
+     * appropriate {@link Command} object.
      *
-     * @param userInput the input string provided by the user to be parsed into a command
-     * @return a Command object representing the parsed operation (either Add or Delete, for Author or Manga)
-     * @throws TantouException if the user input is invalid for either Add or Delete operations
+     * <p>This method removes the catalog prefix from the user input and determines if it is a
+     * deletion command. If so, it calls {@link #processAuthorMangaCommand(String, boolean)}
+     * with a flag indicating a deletion; otherwise, it processes the command as an addition
+     * or view command.
+     *
+     * @param userInput The user input string containing catalog-related command details.
+     *                  This string should include a prefix to identify it as a catalog command.
+     * @return A specific {@link Command} object that represents the parsed catalog operation.
+     * @throws TantouException if the user input is invalid or does not follow expected format.
      */
     private Command processCatalogCommand(String userInput) throws TantouException {
         userInput = removeCatalogPrefix(userInput);
@@ -92,11 +105,15 @@ public class Parser {
 
     //@@author averageandyyy
     /**
-     * Checks that the -d option is present and at the end of the command
+     * Checks if the given user input string represents a valid delete command.
      *
-     * @param userInput the text input provided by the user
-     * @return true if the -d flag is present, false otherwise
-     * @throws TantouException if the user input is invalid at the validation or parsing stage
+     * <p>This method verifies that the user input contains the delete option pattern,
+     * either as a standalone word or at the end of the string, by matching against
+     * a regular expression.
+     *
+     * @param userInput The user input string to be validated as a delete command.
+     * @return {@code true} if the input contains a valid delete option; {@code false} otherwise.
+     * @throws TantouException if the user input cannot be processed as expected.
      */
     private boolean isValidDeleteCommand(String userInput) throws TantouException {
         return userInput.contains(DELETE_OPTION_REGEX + SPACE_REGEX) || userInput.endsWith(DELETE_OPTION_REGEX);
@@ -104,17 +121,20 @@ public class Parser {
 
     //@@author averageandyyy
     /**
-     * Processes the user input to create an Add command for either a Manga or Author.
-     * Determines whether the input corresponds to a valid Manga or Author command
-     * and returns the appropriate Add command object.
-     * <p>
-     * If the input is valid for a Manga command, it returns an `AddMangaCommand`.
-     * If the input is valid for an Author command, it returns an `AddAuthorCommand`.
+     * Processes a command related to adding or deleting an author or manga, based on the
+     * provided user input and deletion flag.
      *
-     * @param userInput the input string provided by the user,
-     *                  which should specify an Add operation for either Manga or Author
-     * @return a Command object representing the Add operation for Manga or Author
-     * @throws TantouException if the user input is invalid for both Manga and Author Add commands
+     * <p>This method extracts author and manga names from the user input using
+     * {@link AuthorArgumentFinder} and {@link MangaArgumentFinder}. Based on the
+     * extracted arguments and the deletion flag, it creates and returns the appropriate
+     * {@link Command} object (e.g., {@link AddAuthorCommand}, {@link DeleteAuthorCommand}).
+     *
+     * @param userInput The user input string containing the author and/or manga details.
+     * @param isDelete A flag indicating if the command is a deletion ({@code true}) or
+     *                 an addition ({@code false}).
+     * @return A specific {@link Command} object representing the intended action, such as
+     *         adding or deleting an author or manga.
+     * @throws TantouException if the user input is invalid or the command cannot be processed.
      */
     private Command processAuthorMangaCommand(String userInput, boolean isDelete) throws TantouException {
         String authorName = null;
