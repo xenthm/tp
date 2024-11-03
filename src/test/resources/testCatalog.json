@@ -5,7 +5,10 @@
       {
         "mangaName": "manga1",
         "deadline": "deadline1",
-        "salesData": {}
+        "salesData": {
+          "quantitySold": 10,
+          "unitPrice": 5.0
+        }
       },
       {
         "mangaName": "manga2",
@@ -20,7 +23,10 @@
       {
         "mangaName": "manga3",
         "deadline": "deadline3",
-        "salesData": {}
+        "salesData": {
+          "quantitySold": 314,
+          "unitPrice": 15.92
+        }
       },
       {
         "mangaName": "manga4",
@@ -40,7 +46,10 @@
       {
         "mangaName": "manga6",
         "deadline": "deadline6",
-        "salesData": {}
+        "salesData": {
+          "quantitySold": 10000,
+          "unitPrice": 2.5
+        }
       }
     ]
   }
