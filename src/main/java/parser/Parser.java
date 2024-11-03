@@ -18,19 +18,14 @@ import exceptions.TantouException;
 
 import static constants.Command.BYE_COMMAND;
 import static constants.Command.CATALOG_COMMAND;
-import static constants.Command.COMMAND_INDEX;
 import static constants.Command.SALES_COMMAND;
 import static constants.Command.VIEW_COMMAND;
-import static constants.Options.AUTHOR_OPTION;
+import static constants.Command.COMMAND_INDEX;
 import static constants.Options.BY_DATE_OPTION;
 import static constants.Options.SALES_OPTION;
 import static constants.Regex.ANY_SPACE_REGEX;
-import static constants.Regex.AUTHOR_OPTION_REGEX;
 import static constants.Regex.DELETE_OPTION_REGEX;
 import static constants.Regex.EMPTY_REGEX;
-import static constants.Regex.MANGA_OPTION_REGEX;
-import static constants.Regex.PRICE_OPTION_REGEX;
-import static constants.Regex.QUANTITY_OPTION_REGEX;
 import static constants.Regex.SPACE_REGEX;
 
 public class Parser {
@@ -252,7 +247,6 @@ public class Parser {
 
 
     //@@author xenthm
-
     /**
      * Processes the user input to create a <code>View</code> command to either show the list of authors, or the list
      * of manga authored by a specific author. The latter allows for additional option flags to show more information
