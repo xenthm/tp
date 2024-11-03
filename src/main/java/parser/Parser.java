@@ -138,10 +138,6 @@ public class Parser {
             return new AddAuthorCommand(authorName);
         }
 
-        if (mangaName.isEmpty()) {
-            throw new NoMangaProvidedException();
-        }
-
         if (isDelete) {
             return new DeleteMangaCommand(new String[]{authorName, mangaName});
         }

@@ -4,6 +4,8 @@ import author.Author;
 import author.AuthorList;
 import exceptions.AuthorNameTooLongException;
 import exceptions.MangaNameTooLongException;
+import exceptions.NoAuthorProvidedException;
+import exceptions.NoMangaProvidedException;
 import exceptions.TantouException;
 import manga.Manga;
 import ui.Ui;
@@ -29,7 +31,13 @@ public class AddMangaCommand extends Command {
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
         // Empty user input should have been caught at the Parser level
-        assert (!authorName.isEmpty() && !mangaName.isEmpty()) : "No user input provided";
+        if (authorName == null || authorName.isEmpty()) {
+            throw new NoAuthorProvidedException();
+        }
+
+        if (mangaName == null || mangaName.isEmpty()) {
+            throw new NoMangaProvidedException();
+        }
 
         //@@author xenthm
         if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
