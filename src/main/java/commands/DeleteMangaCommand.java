@@ -84,8 +84,6 @@ public class DeleteMangaCommand extends Command {
 
         throw new TantouException("Author does not exist!");
     }
-
-
 }
 
 

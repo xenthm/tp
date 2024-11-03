@@ -1,6 +1,5 @@
 package parser;
 
-import author.AuthorList;
 import commands.AddAuthorCommand;
 import commands.AddMangaCommand;
 import commands.AddSalesCommand;
@@ -17,7 +16,6 @@ import exceptions.NoQuantityProvidedException;
 import exceptions.TantouException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ui.Ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
