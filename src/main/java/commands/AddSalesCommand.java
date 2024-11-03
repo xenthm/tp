@@ -6,6 +6,10 @@ import exceptions.AuthorDoesNotExistException;
 import exceptions.AuthorNameTooLongException;
 import exceptions.MangaDoesNotExistException;
 import exceptions.MangaNameTooLongException;
+import exceptions.NoAuthorProvidedException;
+import exceptions.NoMangaProvidedException;
+import exceptions.NoPriceProvidedException;
+import exceptions.NoQuantityProvidedException;
 import exceptions.NumberLessThanZeroException;
 import exceptions.PriceTooLargeException;
 import exceptions.QuantityTooLargeException;
@@ -55,11 +59,30 @@ public class AddSalesCommand extends Command {
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
         String authorName = argsAuthorMangaQtyPrice[AUTHOR_INDEX];
         String mangaName = argsAuthorMangaQtyPrice[MANGA_INDEX];
+        String quantityString = argsAuthorMangaQtyPrice[QUANTITY_INDEX];
+        String priceString = argsAuthorMangaQtyPrice[PRICE_INDEX];
+
+        if (authorName == null || authorName.isEmpty()) {
+            throw new NoAuthorProvidedException();
+        }
+
+        if (mangaName == null || mangaName.isEmpty()) {
+            throw new NoMangaProvidedException();
+        }
+
+        if (quantityString == null || quantityString.isEmpty()) {
+            throw new NoQuantityProvidedException();
+        }
+
+        if (priceString == null || priceString.isEmpty()) {
+            throw new NoPriceProvidedException();
+        }
+
         Integer quantitySold = null;
         Double unitPrice = null;
         try {
-            quantitySold = Integer.parseInt(argsAuthorMangaQtyPrice[QUANTITY_INDEX]);
-            unitPrice = Double.parseDouble(argsAuthorMangaQtyPrice[PRICE_INDEX]);
+            quantitySold = Integer.parseInt(quantityString);
+            unitPrice = Double.parseDouble(priceString);
         } catch (NumberFormatException e) {
             throw new TantouException("Pretty sure we taught you how to format those numbers already... Seriously...");
         }

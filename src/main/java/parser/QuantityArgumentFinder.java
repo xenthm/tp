@@ -14,7 +14,7 @@ public class QuantityArgumentFinder extends ArgumentFinder {
     @Override
     public ArgumentResult getArgumentResult(String userInput) throws TantouException {
         String quantity = null;
-        String outputString = null;
+        String outputString = userInput;
         matcher = pattern.matcher(userInput);
 
         if (matcher.find()) {

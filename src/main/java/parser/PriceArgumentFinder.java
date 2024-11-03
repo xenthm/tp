@@ -15,7 +15,7 @@ public class PriceArgumentFinder extends ArgumentFinder {
     @Override
     public ArgumentResult getArgumentResult(String userInput) throws TantouException {
         String price = null;
-        String outputString = null;
+        String outputString = userInput;
         matcher = pattern.matcher(userInput);
 
         if (matcher.find()) {
