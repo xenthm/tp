@@ -22,7 +22,7 @@ public class MangaArgumentFinder extends ArgumentFinder {
     @Override
     public ArgumentResult getArgumentResult(String userInput) {
         String mangaName = null;
-        String outputString = null;
+        String outputString = userInput;
         matcher = pattern.matcher(userInput);
 
         if (matcher.find()) {
