@@ -177,7 +177,6 @@ public class Parser {
     }
 
     //@@author sarahchow03
-
     /**
      * Parses and retrieves arguments (author name, manga name, quantity, and price) for AddSalesCommand.
      *
@@ -300,28 +299,5 @@ public class Parser {
     //@@author
     private String removeViewPrefix(String userInput) {
         return userInput.replace(VIEW_COMMAND, EMPTY_REGEX);
-    }
-
-    //@@author
-    // Argument extraction functions
-    private String extractAuthorName(String userInput, int indexOfAuthor, int indexOfManga) {
-        assert userInput.contains(AUTHOR_OPTION_REGEX) : "Must have author option";
-        return userInput.substring(indexOfAuthor, indexOfManga).replace(AUTHOR_OPTION, EMPTY_REGEX).trim();
-    }
-
-    private String extractMangaName(String userInput, int indexOfManga) {
-        return userInput.substring(indexOfManga).replace(MANGA_OPTION_REGEX, EMPTY_REGEX).trim();
-    }
-
-    private String extractMangaName(String userInput, int indexOfManga, int nextOptionIndex) {
-        return userInput.substring(indexOfManga, nextOptionIndex).replace(MANGA_OPTION_REGEX, EMPTY_REGEX).trim();
-    }
-
-    private String extractQuantity(String userInput, int indexOfQuantity, int nextOptionIndex) {
-        return userInput.substring(indexOfQuantity, nextOptionIndex).replace(QUANTITY_OPTION_REGEX, EMPTY_REGEX).trim();
-    }
-
-    private String extractPrice(String userInput, int indexOfPrice) {
-        return userInput.substring(indexOfPrice).replace(PRICE_OPTION_REGEX, EMPTY_REGEX).trim();
     }
 }
