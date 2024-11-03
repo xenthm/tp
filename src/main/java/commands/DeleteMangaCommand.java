@@ -57,7 +57,7 @@ public class DeleteMangaCommand extends Command {
         if (mangaName == null || mangaName.isEmpty()) {
             throw new NoMangaProvidedException();
         }
-        
+
         logger.log(Level.INFO, "Deleting manga... " + mangaName + " from " + authorName);
 
         Author attachedAuthor = new Author(authorName);
