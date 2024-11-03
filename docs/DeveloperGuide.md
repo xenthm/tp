@@ -26,6 +26,28 @@ The above UML class diagram shows the overall structure of author and manga data
 
 > **_NOTE:_** There is circular reference (bidirectional navigability) between `Author` and `Manga` through `MangaList`. 
 
+### Parsing Architecture
+![Parsing Architecture](/docs/uml/puml/Parser/Parser.png)
+
+
+#### Overall Structure and Flow
+As seen from the above class diagram, after obtaining user input from `Ui`, command generation first begins with the `Parser` class. `Parser` first determins the command that the user
+wishes to execute based on the first keyword provided. After which, `Parser` will employ various `ArgumentFinder`s to extract the arguments of interest. Each specific implementation of the
+abstract `ArgumentFinder` makes use of specific patterns generated in the `Regex` class to extract their respective arguments of interest. These arguments are then packaged into a container 
+`ArgumentResult` object for `Parser` to later unpack to generate the right `Command` with the required details. More information about `Command`s down below!
+
+#### Guidelines for Future Developers
+To extend the parsing system to suit various operations i.e. generate new `Command`s, the following guidelines outline the key aspects for working and expanding the parsing architecture:
+1. **Defining New Keywords**
+   - When defining new keywords as part of functionality expansions, do add the new keyword to the `Command` class in the `constants` package and update the `switch` statements under the
+     `getUserCommand` method to return the relevant `Command`.
+2. **Defining and Extracting New Arguments**
+   - While the various `ArgumentFinder`s offer great reusability, should the need to implement a custom `ArgumentFinder` not yet implemented arise, do add the new flag/option of interest 
+     to the `Options` class under the `constants` package and expand the `OPTIONS_ARRAY` accordingly to register the newly added option. After which, implement the custom extractor `Pattern`
+     under the `Regex` class and the custom `ArgumentFinder`.
+
+And with that, you've successfully expanded `Parser` to generate new `Command`s, each with their specific arguments of interest!
+
 ### Commands 
 ![Command Inheritance](/docs/uml/puml/Command/Command.png)<br/>
 The current list of viable `Commands` are as follows:
