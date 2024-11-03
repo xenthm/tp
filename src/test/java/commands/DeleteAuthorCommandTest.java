@@ -2,6 +2,7 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,6 +58,32 @@ class DeleteAuthorCommandTest {
         } catch (TantouException e) {
             // The code should not fail at this point
             fail();
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void deleteAuthorCommand_emptyAuthorName_noAuthorProvidedExceptionThrown() {
+        try {
+            String authorName = "";
+            commandUnderTest = new DeleteAuthorCommand(authorName);
+            Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void deleteAuthorCommand_nullAuthorName_noAuthorProvidedExceptionThrown() {
+        try {
+            String authorName = null;
+            commandUnderTest = new DeleteAuthorCommand(authorName);
+            Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
         } finally {
             System.setOut(standardOut);
         }
