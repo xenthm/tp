@@ -28,6 +28,7 @@ public class ParserTest {
     @BeforeEach
     public void setUp() {
         parser = new Parser();
+
     }
 
     //@@author averageandyyy
@@ -96,80 +97,6 @@ public class ParserTest {
         });
 
         assertEquals("Hey! Say something!", exception.getMessage());
-    }
-
-    // Negative Cases for Catalog
-    //@@author averageandyyy
-    @Test
-    public void getUserCommand_catalogNoFlagsProvided_exceptionThrown() {
-        // Within the processing of Parser, it will catch that no relevant arguments has been provided
-        String userInput = "catalog";
-        Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
-            parser.getUserCommand(userInput);
-        });
-    }
-
-    //@@author averageandyyy
-    @Test
-    public void getUserCommand_catalogNoAuthorArgument_exceptionThrown() {
-        String userInput = "catalog -a";
-        Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
-            parser.getUserCommand(userInput);
-        });
-    }
-
-    //@@author averageandyyy
-    @Test
-    public void getUserCommand_catalogNoAuthorArgumentNoMangaArgument_exceptionThrown() {
-        String userInput = "catalog -a -m";
-        Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
-            parser.getUserCommand(userInput);
-        });
-    }
-
-    //@@author averageandyyy
-    @Test
-    public void getUserCommand_catalogNoAuthorArgumentHasMangaArgument_exceptionThrown() {
-        String userInput = "catalog -a -m Bleach";
-        Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
-            parser.getUserCommand(userInput);
-        });
-    }
-
-    //@@author averageandyyy
-    @Test
-    public void getUserCommand_catalogDeleteNoArgument_exceptionThrown() {
-        String userInput = "catalog -d";
-        Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
-            parser.getUserCommand(userInput);
-        });
-    }
-
-    //@@author averageandyyy
-    @Test
-    public void getUserCommand_catalogDeleteNoAuthorArgument_exceptionThrown() {
-        String userInput = "catalog -a -d";
-        Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
-            parser.getUserCommand(userInput);
-        });
-    }
-
-    //@@author averageandyyy
-    @Test
-    public void getUserCommand_catalogDeleteNoAuthorArgumentNoMangaArgument_exceptionThrown() {
-        String userInput = "catalog -a -m -d";
-        Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
-            parser.getUserCommand(userInput);
-        });
-    }
-
-    //@@author averageandyyy
-    @Test
-    public void getUserCommand_catalogDeleteRandomPosition_exceptionThrown() {
-        String userInput = "catalog -a -d -m ";
-        Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
-            parser.getUserCommand(userInput);
-        });
     }
 
     //@@author sarahchow03

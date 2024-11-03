@@ -2,6 +2,7 @@ package tantou;
 
 import author.AuthorList;
 import commands.Command;
+import commands.GreetCommand;
 import exceptions.TantouException;
 import parser.Parser;
 import ui.Ui;
@@ -27,6 +28,16 @@ public class Tantou {
         this.authorList = authorList;
     }
 
+    //@@author
+    public void greetUser() {
+        Command greetCommand = new GreetCommand();
+        try {
+            greetCommand.execute(ui, authorList);
+        } catch (TantouException e) {
+            System.out.printf("Something went wrong!: %s%n", e.getMessage());
+        }
+    }
+
     /**
      * Restores <code>authorList</code> from data file in the <code>Storage</code> singleton if available. If not, it
      * remains as a newly initialized one.
@@ -42,7 +53,7 @@ public class Tantou {
         restoreDataIfAvailable();
 
         //@@author averageandyyy
-        ui.greetUser();
+        greetUser();
 
         while (!isExit) {
             try {
