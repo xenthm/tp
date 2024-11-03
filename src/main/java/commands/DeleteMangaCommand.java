@@ -2,6 +2,8 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.NoAuthorProvidedException;
+import exceptions.NoMangaProvidedException;
 import exceptions.TantouException;
 import manga.Manga;
 import ui.Ui;
@@ -48,7 +50,14 @@ public class DeleteMangaCommand extends Command {
      */
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
-        assert (!authorName.isEmpty() && !mangaName.isEmpty()) : "Author or manga name is empty";
+        if (authorName == null || authorName.isEmpty()) {
+            throw new NoAuthorProvidedException();
+        }
+
+        if (mangaName == null || mangaName.isEmpty()) {
+            throw new NoMangaProvidedException();
+        }
+        
         logger.log(Level.INFO, "Deleting manga... " + mangaName + " from " + authorName);
 
         Author attachedAuthor = new Author(authorName);
