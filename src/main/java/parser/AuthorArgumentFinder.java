@@ -1,8 +1,5 @@
 package parser;
 
-import exceptions.NoAuthorProvidedException;
-import exceptions.TantouException;
-
 import static constants.Options.AUTHOR_OPTION;
 import static constants.Regex.AUTHOR_NAME_EXTRACT0R_PATTERN;
 
@@ -10,11 +7,12 @@ import static constants.Regex.AUTHOR_NAME_EXTRACT0R_PATTERN;
  * A concrete implementation of {@link ArgumentFinder} that extracts an author's name
  * from a user input string based on a predefined pattern.
  *
- * <p>The {@code AuthorArgumentFinder} class uses a regular expression pattern to
- * locate and extract the author name within the input string. If the author's name
- * is found, it returns an {@link ArgumentResult} containing both the name and the
- * remaining portion of the input string. If no valid author name is found, or if
- * the extracted name is empty, it throws a {@link NoAuthorProvidedException}.
+ * <p>The {@code AuthorArgumentFinder} class applies a regular expression pattern to
+ * locate and extract the author name from the input string. If an author name is
+ * successfully matched, it removes the matched portion and any associated flag
+ * from the input, returning an {@link ArgumentResult} with both the extracted name
+ * and the remaining input. If no match is found, an {@code ArgumentResult} is returned
+ * with a {@code null} author name.
  */
 public class AuthorArgumentFinder extends ArgumentFinder {
     public AuthorArgumentFinder() {
