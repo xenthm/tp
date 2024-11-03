@@ -8,7 +8,7 @@ participant "storage:Storage" as st
 note over st : If Storage was already instantiated,\nits lifeline would start from here.
 participant ":Gson" as gson
 
-group sd [Get Storage Instance]
+group sd Get Storage Instance
     [-> stc : getInstance()
     opt storage is null
         stc -> st ** : new Storage()

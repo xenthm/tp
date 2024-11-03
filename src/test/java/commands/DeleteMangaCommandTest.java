@@ -2,6 +2,8 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.NoAuthorProvidedException;
+import exceptions.NoMangaProvidedException;
 import exceptions.TantouException;
 import manga.Manga;
 import org.junit.jupiter.api.BeforeEach;
@@ -85,6 +87,58 @@ class DeleteMangaCommandTest {
         } catch (TantouException e) {
             // The code should not fail at this point
             fail();
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void deleteMangaCommand_emptyAuthorName_noAuthorProvidedExceptionThrown() {
+        try {
+            String[] argsAuthorManga = {"", "Bleach"};
+            commandUnderTest = new DeleteMangaCommand(argsAuthorManga);
+            Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void deleteMangaCommand_nullAuthorName_noAuthorProvidedExceptionThrown() {
+        try {
+            String[] argsAuthorManga = {null, "Bleach"};
+            commandUnderTest = new DeleteMangaCommand(argsAuthorManga);
+            Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void deleteMangaCommand_emptyMangaName_noMangaProvidedExceptionThrown() {
+        try {
+            String[] argsAuthorManga = {"Kubo Tite", ""};
+            commandUnderTest = new DeleteMangaCommand(argsAuthorManga);
+            Exception exception = assertThrows(NoMangaProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void deleteMangaCommand_nullMangaName_noMangaProvidedExceptionThrown() {
+        try {
+            String[] argsAuthorManga = {"Kubo Tite", null};
+            commandUnderTest = new DeleteMangaCommand(argsAuthorManga);
+            Exception exception = assertThrows(NoMangaProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
         } finally {
             System.setOut(standardOut);
         }
