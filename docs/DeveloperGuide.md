@@ -1,4 +1,32 @@
 # Developer Guide for MangaTantou
+## Table of Contents
+<!-- TOC -->
+* [Developer Guide for MangaTantou](#developer-guide-for-mangatantou)
+* [Acknowledgements](#acknowledgements)
+* [Design & implementation](#design--implementation)
+  * [Overall Architecture](#overall-architecture)
+    * [Representing Data in MangaTantou](#representing-data-in-mangatantou)
+    * [Parsing Architecture](#parsing-architecture)
+    * [Commands](#commands)
+    * [Saving Data](#saving-data)
+    * [Displaying Data](#displaying-data)
+  * [Interacting with the user](#interacting-with-the-user)
+    * [AddAuthorCommand](#addauthorcommand)
+    * [AddMangaCommand](#addmangacommand)
+    * [DeleteAuthorCommand](#deleteauthorcommand)
+    * [DeleteMangaCommand](#deletemangacommand)
+    * [View Command](#view-command)
+    * [AddSalesCommand](#addsalescommand)
+    * [AddScheduleCommand](#addschedulecommand)
+    * [Interaction](#interaction-5)
+  * [Product scope](#product-scope)
+    * [Target user profile](#target-user-profile)
+    * [Value proposition](#value-proposition)
+  * [User Stories](#user-stories)
+  * [Non-Functional Requirements](#non-functional-requirements)
+  * [Glossary](#glossary)
+  * [Instructions for manual testing](#instructions-for-manual-testing)
+<!-- TOC -->
 
 # Acknowledgements
 `MangaTantou`'s structure has been greatly inspired by the team developers' respective iPs as listed below:
