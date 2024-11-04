@@ -22,7 +22,7 @@ class AuthorListDeserializer implements JsonDeserializer<AuthorList> {
             throws JsonParseException {
         // Ensure authorList is a JSON array
         if (json == null || !json.isJsonArray()) {
-            throw new JsonParseException("corrupt AuthorList object");
+            throw new JsonParseException("corrupt AuthorList array");
         }
         JsonArray authorListJsonArray = json.getAsJsonArray();
 

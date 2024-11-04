@@ -32,7 +32,7 @@ class MangaListDeserializer implements JsonDeserializer<MangaList> {
             throws JsonParseException {
         // Ensure mangaList is a JSON array
         if (json == null || !json.isJsonArray()) {
-            throw new JsonParseException("corrupt MangaList object");
+            throw new JsonParseException("corrupt MangaList array");
         }
         JsonArray mangaListJsonArray = json.getAsJsonArray();
 
@@ -44,9 +44,9 @@ class MangaListDeserializer implements JsonDeserializer<MangaList> {
                 Manga manga = new MangaDeserializer(author).deserialize(mangaJsonElement, Manga.class, context);
                 mangaList.add(manga);
             } catch (JsonParseException e) {
-                System.out.println("Author "
+                System.out.println("Author \""
                         + author.getAuthorName()
-                        + ": skipping corrupted manga entry due to "
+                        + "\": skipping corrupted manga entry due to "
                         + e.getMessage()
                 );
             }

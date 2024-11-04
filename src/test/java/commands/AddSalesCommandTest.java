@@ -2,8 +2,15 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorDoesNotExistException;
+import exceptions.AuthorNameTooLongException;
+import exceptions.MangaDoesNotExistException;
+import exceptions.MangaNameTooLongException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.NoMangaProvidedException;
+import exceptions.NoPriceProvidedException;
+import exceptions.NoQuantityProvidedException;
+import exceptions.NumberLessThanZeroException;
 import exceptions.PriceTooLargeException;
 import exceptions.QuantityTooLargeException;
 import exceptions.TantouException;
@@ -60,11 +67,11 @@ class AddSalesCommandTest {
             commandUnderTest = new AddSalesCommand(
                     userInputList
             );
-            Exception exception = assertThrows(TantouException.class, () -> {
+            Exception exception = assertThrows(NumberLessThanZeroException.class, () -> {
                 commandUnderTest.execute(ui, authorList);
             });
 
-            assertEquals("Quantity sold cannot be less than 0!", exception.getMessage());
+            assertEquals("Negative profits means you're getting fired by the way.", exception.getMessage());
         } finally {
             System.setOut(standardOut);
         }
@@ -77,45 +84,11 @@ class AddSalesCommandTest {
             commandUnderTest = new AddSalesCommand(
                     userInputList
             );
-            Exception exception = assertThrows(TantouException.class, () -> {
+            Exception exception = assertThrows(NumberLessThanZeroException.class, () -> {
                 commandUnderTest.execute(ui, authorList);
             });
 
-            assertEquals("Unit price cannot be less than 0!", exception.getMessage());
-        } finally {
-            System.setOut(standardOut);
-        }
-    }
-
-    @Test
-    public void execute_noAuthorArgumentNoMangaHasQuantityPriceArgument_exceptionThrown() {
-        try {
-            String[] userInputList = {"", "", "20", "10.90"};
-            commandUnderTest = new AddSalesCommand(
-                    userInputList
-            );
-            Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
-                commandUnderTest.execute(ui, authorList);
-            });
-
-            assertEquals("You have not provided an author argument!", exception.getMessage());
-        } finally {
-            System.setOut(standardOut);
-        }
-    }
-
-    @Test
-    public void execute_noMangaArgumentHasAuthorQuantityPriceArgument_exceptionThrown() {
-        try {
-            String[] userInputList = {"test", "", "20", "10.90"};
-            commandUnderTest = new AddSalesCommand(
-                    userInputList
-            );
-            Exception exception = assertThrows(NoMangaProvidedException.class, () -> {
-                commandUnderTest.execute(ui, authorList);
-            });
-
-            assertEquals("You have not provided a manga argument!", exception.getMessage());
+            assertEquals("Negative profits means you're getting fired by the way.", exception.getMessage());
         } finally {
             System.setOut(standardOut);
         }
@@ -124,7 +97,7 @@ class AddSalesCommandTest {
     @Test
     public void execute_quantityTooLarge_exceptionThrown() {
         try {
-            String[] userInputList = {"test", "test", "1000000000", "10.90"};
+            String[] userInputList = {"test author", "test manga", "1000000000", "10.90"};
             commandUnderTest = new AddSalesCommand(
                     userInputList
             );
@@ -140,7 +113,7 @@ class AddSalesCommandTest {
     @Test
     public void execute_priceTooLarge_exceptionThrown() {
         try {
-            String[] userInputList = {"test", "test", "10", "9999999999"};
+            String[] userInputList = {"test author", "test manga", "10", "9999999999"};
             commandUnderTest = new AddSalesCommand(
                     userInputList
             );
@@ -151,6 +124,134 @@ class AddSalesCommandTest {
         } finally {
             System.setOut(standardOut);
         }
+    }
+
+    @Test
+    public void execute_authorNameTooLong_exceptionThrown() {
+        try {
+            String[] userInputList = {"testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+                                      "test manga", "10", "10.90"};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(AuthorNameTooLongException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void execute_mangaNameTooLong_exceptionThrown() {
+        try {
+            String[] userInputList = {"test author",
+                                      "testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+                                      "10", "10.90"};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(MangaNameTooLongException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void execute_authorDoesNotExistTest_exceptionThrown() {
+        try {
+            String[] userInputList = {"test", "test manga", "10", "10.90"};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(AuthorDoesNotExistException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void execute_mangaDoesNotExistTest_exceptionThrown() {
+        try {
+            String[] userInputList = {"test author", "test", "10", "10.90"};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(MangaDoesNotExistException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    // Negative cases for sales command
+    @Test
+    public void execute_noAuthorArgumentNoMangaHasQuantityPriceArgument_exceptionThrown() {
+        try {
+            String[] userInputList = {"", "test", "10", "10.90"};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void execute_noMangaArgumentHasAuthorQuantityPriceArgument_exceptionThrown() {
+        try {
+            String[] userInputList = {"test author", "", "10", "10.90"};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(NoMangaProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void getSalesArgument_noQuantityArgumentHasAuthorPriceMangaPriceArgument_exceptionThrown() {
+        try {
+            String[] userInputList = {"test author", "test manga", "", "10.90"};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(NoQuantityProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+        } finally {
+            System.setOut(standardOut);
+        }
+
+    }
+
+    @Test
+    public void execute_noPriceArgumentHasAuthorMangaQuantityArgument_exceptionThrown() {
+        try {
+            String[] userInputList = {"test author", "test manga", "10", ""};
+            commandUnderTest = new AddSalesCommand(
+                    userInputList
+            );
+            Exception exception = assertThrows(NoPriceProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+        } finally {
+            System.setOut(standardOut);
+        }
+
     }
 
 

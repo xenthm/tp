@@ -2,6 +2,7 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
 import ui.Ui;
 
@@ -43,7 +44,10 @@ public class DeleteAuthorCommand extends Command {
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
 
-        assert !authorName.isEmpty(): "Author name is empty";
+        if (authorName == null || authorName.isEmpty()) {
+            throw new NoAuthorProvidedException();
+        }
+
         logger.log(Level.INFO, "Deleting author... " + authorName);
 
         Author deletingAuthor = new Author(authorName);
