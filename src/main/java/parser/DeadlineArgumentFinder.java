@@ -1,6 +1,5 @@
 package parser;
 
-import exceptions.NoDeadlineProvidedException;
 import exceptions.TantouException;
 
 import static constants.Options.BY_DATE_OPTION;
