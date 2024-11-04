@@ -1,6 +1,5 @@
 package parser;
 
-import exceptions.NoDeadlineProvidedException;
 import exceptions.TantouException;
 
 import static constants.Options.BY_DATE_OPTION;
@@ -14,14 +13,11 @@ public class DeadlineArgumentFinder extends ArgumentFinder {
     @Override
     public ArgumentResult getArgumentResult(String userInput) throws TantouException {
         String deadline = null;
-        String outputString = null;
+        String outputString = userInput;
         matcher = pattern.matcher(userInput);
 
         if (matcher.find()) {
             deadline = matcher.group(0).trim();
-            if (deadline.isEmpty()) {
-                throw new NoDeadlineProvidedException();
-            }
 
             outputString =
                     userInput.substring(0, matcher.start(0) - 3) + userInput.substring(matcher.end(0));

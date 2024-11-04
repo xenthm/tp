@@ -198,8 +198,8 @@ Refer to [the view command interaction](#view-command-interaction) for an exampl
 ## Interacting with the user
 ### AddAuthorCommand
 #### Overview
-The `AddAuthorCommand` is responsible for adding new `Author`s to `Tantou`. The command creates a new `Author` instance and verifies its existence. If it
-is a new and undocumented `Author`, it is then added to `Tantou`'s `AuthorList`, allowing the user to keep track
+The `AddAuthorCommand` is responsible for adding new `Author`s to `MangaTantou`. The command creates a new `Author` instance and verifies its existence. If it
+is a new and undocumented `Author`, it is then added to `MangaTantou`'s `AuthorList`, allowing the user to keep track
 of their manga authors. The `AuthorList` is saved via `Storage` for data persistency.
 #### Interaction
 The following diagram illustrates the interactions that take place when the
@@ -210,9 +210,9 @@ they are already tracking this employee.
 
 ### AddMangaCommand
 #### Overview
-The `AddMangaCommand` is responsible for adding new `Manga`s to `Author`s in `Tantou`. The command first creates a new `Author` and `Manga` instance.
-If the newly created `Author` is undocumented by `Tantou`, the `Author` is added to the `AuthorList` and the newly created `Manga` is added to
-the `Author`'s `MangaList`. If the `Author` already exists, `Tantou` will check for the existence of the newly created `Manga`. If there is an existing
+The `AddMangaCommand` is responsible for adding new `Manga`s to `Author`s in `MangaTantou`. The command first creates a new `Author` and `Manga` instance.
+If the newly created `Author` is undocumented by `MangaTantou`, the `Author` is added to the `AuthorList` and the newly created `Manga` is added to
+the `Author`'s `MangaList`. If the `Author` already exists, `MangaTantou` will check for the existence of the newly created `Manga`. If there is an existing
 association between the `Manga` and `Author`, a `TantouException` is thrown, informing the user that they are adding an existing `Manga`. Otherwise,
 the `Manga` is similary added to the `Author`'s `MangaList` and the current state of `AuthorList` is saved via `Storage` for
 data persistency.
@@ -223,7 +223,7 @@ user provides `"catalog -a Kubo Tite -m Bleach"` as an input.
 
 ### DeleteAuthorCommand
 #### Overview
-The `DeleteAuthorCommand` is responsible for removing `Author`s from `Tantou`. The command creates a new `Author` instance and verifies its existence. If it
+The `DeleteAuthorCommand` is responsible for removing `Author`s from `MangaTantou`. The command creates a new `Author` instance and verifies its existence. If it
 is a new and undocumented `Author`, a `TantouException` is thrown, informing the user that this `Author` does not exist and hence cannot be removed.
 Otherwise, the `Author` is removed from the `AuthorList`, which is then saved via `Storage` for data persistency.
 #### Interaction
@@ -233,9 +233,9 @@ user provides `"catalog -a Kubo Tite -d"` as an input.
 
 ### DeleteMangaCommand
 #### Overview
-The `DeleteMangaCommand` is responsible for removing `Manga`s from `Author`s in `Tantou`. The command first creates a new `Author` and `Manga` instance.
-If the newly created `Author` is undocumented by `Tantou`, a `TantouException` is thrown, informing the user that this `Author` does not exist and the `Manga` cannot be removed.
-If the `Author` instead exists, `Tantou` will check for the existence of the newly created `Manga`. If there is no existing
+The `DeleteMangaCommand` is responsible for removing `Manga`s from `Author`s in `MangaTantou`. The command first creates a new `Author` and `Manga` instance.
+If the newly created `Author` is undocumented by `MangaTantou`, a `TantouException` is thrown, informing the user that this `Author` does not exist and the `Manga` cannot be removed.
+If the `Author` instead exists, `MangaTantou` will check for the existence of the newly created `Manga`. If there is no existing
 association between the `Manga` and `Author`, a `TantouException` is thrown, informing the user that they are deleting a non-existing `Manga`. Otherwise,
 the `Manga` is removed from the `Author`'s `MangaList` and the current state of `AuthorList` is saved via `Storage` for
 data persistency.

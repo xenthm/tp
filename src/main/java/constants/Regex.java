@@ -80,9 +80,7 @@ public class Regex {
             regex.append("(?<=\\s)");                                       // [any of the excludedOptionFlags
             regex.append("-[");
             for (String option : OPTIONS_ARRAY) {
-                if (!option.equals(includedOptionFlag)) {
-                    regex.append(option.replace("-", EMPTY_REGEX));
-                }
+                regex.append(option.replace("-", EMPTY_REGEX));
             }
             regex.append("]");
             regex.append("(?:\\s|$)");                                      // followed by either a space or the end]
