@@ -1,6 +1,11 @@
 package commands;
 
 import author.Author;
+import exceptions.AuthorDoesNotExistException;
+import exceptions.MangaDoesNotExistException;
+import exceptions.NoAuthorProvidedException;
+import exceptions.NoDeadlineProvidedException;
+import exceptions.NoMangaProvidedException;
 import exceptions.TantouException;
 import manga.Manga;
 import ui.Ui;
@@ -34,11 +39,19 @@ public class AddDeadlineCommand extends Command {
         String mangaName = userInput[MANGA_INDEX];
         String deadline = userInput[DEADLINE_INDEX];
 
-        // This should have already been caught at the parser level
-        if (deadline.isEmpty() || mangaName.isEmpty() || authorName.isEmpty()) {
-            logger.warning("No deadline, author, or manga provided.");
-            throw new TantouException("No deadline date, author, or manga provided!");
+        if (authorName == null || authorName.isEmpty()) {
+            throw new NoAuthorProvidedException();
         }
+
+        if (mangaName == null || mangaName.isEmpty()) {
+            throw new NoMangaProvidedException();
+        }
+
+        if (deadline == null || deadline.isEmpty()) {
+            throw new NoDeadlineProvidedException();
+        }
+
+        logger.info("Valid author, manga and deadline provided");
 
         Author incomingAuthor = new Author(authorName);
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
@@ -46,7 +59,7 @@ public class AddDeadlineCommand extends Command {
         // If author doesn't exist, throw an error
         if (!authorList.hasAuthor(authorName)) {
             logger.log(Level.INFO, "Author not found!");
-            throw new TantouException("Author not found!");
+            throw new AuthorDoesNotExistException(authorName);
         }
         assert authorList.hasAuthor(incomingAuthor) : "Author is missing";
         Author existingAuthor = authorList.getAuthor(incomingAuthor);
@@ -54,7 +67,7 @@ public class AddDeadlineCommand extends Command {
         // If manga doesn't exist, throw an error
         if (!existingAuthor.hasManga(incomingManga)) {
             logger.log(Level.INFO, "Manga not found!");
-            throw new TantouException("Manga not found!");
+            throw new MangaDoesNotExistException(mangaName);
         }
         assert authorList.getAuthor(authorName).hasManga(incomingManga) : "Manga is missing";
 
