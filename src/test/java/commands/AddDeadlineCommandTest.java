@@ -1,6 +1,8 @@
 package commands;
 
 import author.AuthorList;
+import exceptions.AuthorDoesNotExistException;
+import exceptions.MangaDoesNotExistException;
 import exceptions.TantouException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -76,11 +78,10 @@ public class AddDeadlineCommandTest {
     public void addDeadlineCommand_authorNonexistent_authorNotFoundExceptionThrown() {
         String[] userInputList = {"Gege Akutami", "Jujutsu Kaisen", "September 30"};
         commandUnderTest = new AddDeadlineCommand(userInputList);
-        Exception exception = assertThrows(TantouException.class, () -> {
+        Exception exception = assertThrows(AuthorDoesNotExistException.class, () -> {
             commandUnderTest.execute(ui, authorList);
         });
 
-        assertEquals("Author not found!", exception.getMessage());
         System.setOut(standardOut);
     }
 
@@ -93,11 +94,10 @@ public class AddDeadlineCommandTest {
 
             String[] userInputList = {"Gege Akutami", "Jujutsu Kaisen", "September 30"};
             commandUnderTest = new AddDeadlineCommand(userInputList);
-            Exception exception = assertThrows(TantouException.class, () -> {
+            Exception exception = assertThrows(MangaDoesNotExistException.class, () -> {
                 commandUnderTest.execute(ui, authorList);
             });
 
-            assertEquals("Manga not found!", exception.getMessage());
         } catch (TantouException e) {
             // The code should not fail at this point
             fail();
