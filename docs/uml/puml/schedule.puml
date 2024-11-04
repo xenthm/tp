@@ -1,43 +1,77 @@
+!include .PlantUMLClass.config
+
 @startuml
 
-participant Parser
-participant "userCommand:AddScheduleCommand" as userCommand
-participant Manga
-participant Author
+actor User
+participant "tantou:Tantou" as tantou
+participant "parser:Parser" as parser
+participant "ui:Ui" as ui
+participant "userCommand:AddDeadlineCommand" as userCommand
+participant "author:Author" as author
+participant "manga:Manga" as manga
+participant "authorList:AuthorList" as authorList
 
-create userCommand
-Parser -> userCommand : new AddScheduleCommand(userInput)
-activate userCommand
-Parser <-- userCommand
+activate tantou
 
-userCommand -> userCommand: execute(ui, authorList)
-activate userCommand
-    opt Author doesn't exist
-        userCommand -> Author : new Author()
-        activate Author
-        userCommand <-- Author
-        deactivate Author
-        userCommand -> AuthorList : add(author)
-        activate AuthorList
-        userCommand <-- AuthorList
-        deactivate AuthorList
+User -> ui : "schedule -a Kubo Tite -m Bleach -b October 2 2018"
+
+tantou -> ui: getUserInput()
+activate ui
+ui --> tantou: userInput
+deactivate ui
+
+tantou -> parser:getUserCommand(userInput)
+activate parser
+parser -> parser : processScheduleCommand(userInput)
+activate parser
+alt Author name is empty
+    parser --> tantou : throws NoAuthorProvidedException()
+    tantou -> ui : showErrorMessage()
+    ui --> User : "You have not provided an author argument!"
+else Manga name is empty
+    parser --> tantou : throws NoMangaProvidedException()
+    tantou -> ui : showErrorMessage()
+    ui --> User : "You have not provided a manga argument!"
+else Arguments are in the wrong order
+    parser --> tantou : throws InvalidScheduleCommandException()
+    tantou -> ui : showErrorMessage()
+    ui --> User : "Invalid schedule command!"
+else Deadline is empty
+    parser --> tantou : throws NoDeadlineProvidedException()
+    tantou -> ui : showErrorMessage()
+    ui --> User : "You have not provided a deadline argument!"
+else
+    create userCommand
+    parser -> userCommand : new AddDeadlineCommand(userInput)
+    activate userCommand
+    alt Author doesn't exist
+        userCommand --> tantou : throws TantouException()
+        tantou -> ui : showErrorMessage()
+        ui --> User : "Author not found!"
+    else Manga doesn't exist
+        userCommand --> tantou : throws TantouException()
+        tantou -> ui : showErrorMessage()
+        ui --> User : "Manga not found!"
+    else
+        userCommand -> authorList : getAuthor(authorName)
+        activate authorList
+        authorList --> userCommand : author:Author
+        deactivate authorList
+
+        userCommand -> author : getManga(mangaName)
+        activate author
+        author --> userCommand : manga:Manga
+        deactivate author
+
+        userCommand -> manga : addDeadline(deadline)
+        activate manga
+        manga --> userCommand
+        deactivate manga
+
+        userCommand -> ui:printScheduleSuccess(deadline, manga)
+        activate ui
+        ui -> User : "Deadline [deadline] added successfully to manga [manga]"
     end
-
-    opt Manga doesn't exist
-        userCommand -> Manga : new Manga()
-        activate Manga
-        userCommand <-- Manga
-        deactivate Manga
-        userCommand -> Author : addManga(Manga)
-        activate Author
-        userCommand <-- Author
-        deactivate Author
-    end
-    userCommand -> Manga : addDeadline(deadline)
-    activate Manga
-    userCommand <-- Manga
-    deactivate Manga
-    userCommand -> userCommand: display success message
-    deactivate userCommand
+end
 
 @enduml

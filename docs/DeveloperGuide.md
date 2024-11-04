@@ -293,7 +293,8 @@ When using AddScheduleCommand, if the manga or author inputted don't exist, they
 
 ### Interaction
 
-The following sequence diagram illustrates the interactions that occur when the parser creates a new `AddScheudleCommand`.
+The following sequence diagram illustrates the interactions that occur when the user inputs 
+`schedule -a Kubo Tite -m Bleach -b October 2 2018`
 
 <br/>![schedule.png](uml/images/schedule.png)<br/>
 
