@@ -9,14 +9,14 @@ import ui.Ui;
 
 import static storage.StorageHelper.readFile;
 
-public class MangaTantou {
+public class Tantou {
     private Ui ui;
     private Parser parser;
     private boolean isExit;
     private AuthorList authorList;
 
     //@@author averageandyyy
-    public MangaTantou() {
+    public Tantou() {
         this.ui = new Ui();
         this.parser = new Parser();
         this.isExit = false;
