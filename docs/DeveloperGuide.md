@@ -279,11 +279,9 @@ command is successful, the `Sales` data is then saved via Storage.
 
 #### Interaction
 The following sequence diagram illustrates the interactions that occur when the parser creates a new `AddSalesCommand`.
-<br/>![addsalesdata.png](uml/images/addsalesdata.png)<br/>
+<br/>![AddSalesSequence.png](uml%2Fimages%2FAddSalesSequence.png)<br/>
 
-The following object diagram illustrates object structure after the above interaction is successfully run
-with the input `sales -a Kubo Tite -m Bleach -q 10000 -p 11.90`.
-<br/>![mangasales_object.png](uml/images/mangasales_object.png)<br/>
+> **_NOTE:_** The list of possible errors in parsing argument are as follows: missing arguments or flags, length of string exceeded maximum value of 40 characters, negative values for `quantitySold` or `unitPrice`, wrong number formats for `quantitySold` or `unitPrice`, and numbers exceeding the value of 1,000,000,000.<br/>
 
 ### AddScheduleCommand
 #### Overview
