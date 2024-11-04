@@ -120,7 +120,7 @@ relevant arguments from the user for their commands.
 ![StorageClass.png](uml/puml/StorageClass/StorageClass.png)<br/>
 The above UML class diagram outlines the structure of the classes related to saving data.
 
-The `Storage` class uses the Singleton design pattern, which means only a maximum of one
+The `Storage` class uses the `Singleton` design pattern, which means only a maximum of one
 `Storage` instance can exist during the program's lifespan. To access it, call the static method `Storage::getInstance`.
 
 The `StorageHelper` utility class wraps the methods to access `Storage` for ease of use.
@@ -207,11 +207,13 @@ public class Manga {
     "mangaList": [
       {
         "mangaName": "manga 1-1",
-        "deadline": "None"
+        "deadline": "None",
+        "salesData": {}
       },
       {
         "mangaName": "manga 1-2",
-        "deadline": 31415
+        "deadline": 31415,
+        "salesData": {}
       }
     ]
   }
@@ -219,7 +221,7 @@ public class Manga {
 ```
 When providing the above `catalog.json` file and inputting `view -a test1`, the following output is given.
 ```
-Author test1: skipping corrupted manga entry due to corrupt deadline
+Author "test1": skipping corrupted manga entry due to corrupt deadline
 Data restored!
 Wake up and slave~
 view -a test1
