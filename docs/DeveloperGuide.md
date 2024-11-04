@@ -438,7 +438,7 @@ Can manage author and manga information more easily than a physical ledger or a 
 
 * *glossary item* - Definition
 
-## Instructions for manual testing
+## Instructions for Manual Testing
 
 {Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
 
