@@ -19,7 +19,7 @@ public class DeadlineArgumentFinder extends ArgumentFinder {
 
         if (matcher.find()) {
             deadline = matcher.group(0).trim();
-            
+
             outputString =
                     userInput.substring(0, matcher.start(0) - 3) + userInput.substring(matcher.end(0));
         }

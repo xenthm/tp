@@ -326,24 +326,12 @@ public class Parser {
         authorName = authorResult.getArgument();
         String userInputPostAuthorExtraction = authorResult.getOutputString();
 
-        if (authorName == null || authorName.isEmpty()) {
-            throw new NoAuthorProvidedException();
-        }
-
         ArgumentResult mangaResult = mangaArgumentFinder.getArgumentResult(userInputPostAuthorExtraction);
         mangaName = mangaResult.getArgument();
         String userInputPostMangaExtraction = mangaResult.getOutputString();
 
-        if (mangaName == null || mangaName.isEmpty()) {
-            throw new NoMangaProvidedException();
-        }
-
         ArgumentResult deadlineResult = deadlineArgumentFinder.getArgumentResult(userInputPostMangaExtraction);
         deadline = deadlineResult.getArgument();
-
-        if (deadline == null || deadline.isEmpty()) {
-            throw new NoMangaProvidedException();
-        }
 
         return new AddDeadlineCommand(new String[]{authorName, mangaName, deadline});
     }
