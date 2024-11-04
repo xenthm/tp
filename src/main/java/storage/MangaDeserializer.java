@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import manga.Manga;
+import sales.Sale;
 
 import java.lang.reflect.Type;
 
@@ -38,6 +39,7 @@ class MangaDeserializer implements JsonDeserializer<Manga> {
                 || !mangaJsonObject.get("mangaName").getAsJsonPrimitive().isString()) {
             throw new JsonParseException("corrupt manga name");
         }
+        String mangaName = mangaJsonObject.get("mangaName").getAsString();
 
         // Ensure deadline is valid
         if (!mangaJsonObject.has("deadline")
@@ -45,12 +47,16 @@ class MangaDeserializer implements JsonDeserializer<Manga> {
                 || !mangaJsonObject.get("deadline").getAsJsonPrimitive().isString()) {
             throw new JsonParseException("corrupt deadline");
         }
+        String deadline = mangaJsonObject.get("deadline").getAsString();
 
-        // Assertion: manga is valid now
-        return new Manga(
-                mangaJsonObject.get("mangaName").getAsString(),
-                author,
-                mangaJsonObject.get("deadline").getAsString()
-        );
+        // Initialise without sales data
+        if (!mangaJsonObject.has("salesData")) {
+            return new Manga(mangaName, author, deadline);
+        }
+
+        JsonElement salesJsonElement = mangaJsonObject.get("salesData");
+        Sale salesData = new SaleDeserializer(author, mangaName)
+                .deserialize(salesJsonElement, Sale.class, context);
+        return new Manga(mangaName, author, deadline, salesData);
     }
 }

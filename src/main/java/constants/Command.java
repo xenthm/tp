@@ -14,4 +14,5 @@ public class Command {
     public static final int MANGA_INDEX = 1;
     public static final int QUANTITY_INDEX = 2;
     public static final int PRICE_INDEX = 3;
+    public static final int DEADLINE_INDEX = 2;
 }

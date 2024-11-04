@@ -1,0 +1,56 @@
+[
+  {
+    "authorName": "author1",
+    "mangaList": [
+      {
+        "mangaName": "manga1",
+        "deadline": "deadline1",
+        "salesData": {
+          "quantitySold": 10,
+          "unitPrice": 5.0
+        }
+      },
+      {
+        "mangaName": "manga2",
+        "deadline": "deadline2",
+        "salesData": {}
+      }
+    ]
+  },
+  {
+    "authorName": "author2",
+    "mangaList": [
+      {
+        "mangaName": "manga3",
+        "deadline": "deadline3",
+        "salesData": {
+          "quantitySold": 314,
+          "unitPrice": 15.92
+        }
+      },
+      {
+        "mangaName": "manga4",
+        "deadline": "deadline4",
+        "salesData": {}
+      }
+    ]
+  },
+  {
+    "authorName": "author3",
+    "mangaList": [
+      {
+        "mangaName": "manga5",
+        "deadline": "deadline5",
+        "salesData": {}
+      },
+      {
+        "mangaName": "manga6",
+        "deadline": "deadline6",
+        "salesData": {
+          "quantitySold": 10000,
+          "unitPrice": 2.5
+        }
+      }
+    ]
+  }
+]
