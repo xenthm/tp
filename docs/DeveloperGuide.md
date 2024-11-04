@@ -196,6 +196,11 @@ This static method should be called in the corresponding view `Command::execute`
 Refer to [the view command interaction](#view-command-interaction) for an example walkthrough of the methods mentioned in this section. 
 
 ## Interacting with the user
+### Command Processing Sequence
+All commands follow the command processing sequence shown below:
+![CommandSequence.png](uml%2Fimages%2FCommandSequence.png)
+
+The `ref` block indicates a placeholder for the individual commands and their execution below.
 ### AddAuthorCommand
 #### Overview
 The `AddAuthorCommand` is responsible for adding new `Author`s to `Tantou`. The command creates a new `Author` instance and verifies its existence. If it
