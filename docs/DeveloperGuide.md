@@ -68,6 +68,20 @@ abstract `ArgumentFinder` makes use of specific patterns generated in the
 `ArgumentResult` object for `Parser` to later unpack to generate the right
 `Command` with the required details. More information about `Command`s down below!
 
+#### ArgumentFinder Regex
+![regexDiagram.png](regexDiagram.png)
+The above diagram was generated
+on [Regex Vis](https://regex-vis.com/?r=%28%3F%3C%3D%5Cs-a%29%24%7C%28%3F%3C%3D%5Cs-a%5Cs%29.*%3F%28%3F%3D%28%3F%3C%3D%5Cs%29-%5Bsb%5D%28%3F%3A%5Cs%7C%24%29%7C%24%29).
+It visualizes the control flow of the regex engine used to extract fields from user inputs. In this case, the regex
+pattern is used to isolate the author's name, excluding anything after the flags `-s` or `-b`. In `MangaTantou`'s
+actual implementation, all valid flags in the app are excluded (including the author flag, for this case). A split
+in the diagram means that both branches are valid matches.
+
+Notice that the topmost branch matches an empty string is nothing is inputted after the `-a` flag.
+This is intended, and this case is handled outside the regex in `Parser`. The bottom branch tries to match
+everything between the `-a` author flag and any of the excluded flags, or the end of the string. Other unused flags,
+such as `-x`, are included. This allows user to be more flexible in the allowed author names
+
 #### Guidelines for Future Developers
 To extend the parsing system to suit various operations i.e. generate new
 `Command`s, the following guidelines outline the key aspects for working and expanding the parsing architecture:
