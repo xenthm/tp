@@ -10,6 +10,7 @@ import commands.DeleteAuthorCommand;
 import commands.DeleteMangaCommand;
 import commands.ViewAuthorsCommand;
 import commands.ViewMangasCommand;
+import constants.Regex;
 import exceptions.InvalidViewCommandException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.NoMangaProvidedException;
@@ -23,6 +24,7 @@ import static constants.Command.SALES_COMMAND;
 import static constants.Command.SCHEDULE_COMMAND;
 import static constants.Command.VIEW_COMMAND;
 import static constants.Command.COMMAND_INDEX;
+import static constants.Options.AUTHOR_OPTION;
 import static constants.Options.BY_DATE_OPTION;
 import static constants.Options.SALES_OPTION;
 import static constants.Regex.ANY_SPACE_REGEX;
@@ -30,6 +32,10 @@ import static constants.Regex.DELETE_OPTION_REGEX;
 import static constants.Regex.EMPTY_REGEX;
 import static constants.Regex.SPACE_REGEX;
 import static constants.Regex.BY_DATE_OPTION_REGEX;
+import static constants.Regex.MANGA_OPTION_REGEX;
+import static constants.Regex.AUTHOR_OPTION_REGEX;
+import static constants.Regex.PRICE_OPTION_REGEX;
+import static constants.Regex.QUANTITY_OPTION_REGEX;
 
 public class Parser {
     /**
