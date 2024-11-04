@@ -275,7 +275,7 @@ The AddSalesCommand is responsible for adding sales data to a Manga. The Sale da
 
 For the AddSalesCommand to be successful, the manga that the sales data is associated with must exist. If the `sales`
 command is successful, the `Sales` data is then saved via Storage.
-<br/>![mangasales_class.png](uml/images/mangasales_class.png)<br/>
+<br/>![MangaSalesClass.png](uml%2Fimages%2FMangaSalesClass.png)<br/>
 
 #### Interaction
 The following sequence diagram illustrates the interactions that occur when the parser creates a new `AddSalesCommand`.

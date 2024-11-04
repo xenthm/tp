@@ -1,4 +1,5 @@
 @startuml
+!include .PlantUMLClass.config
 
  class Manga {
     -mangaName: String
