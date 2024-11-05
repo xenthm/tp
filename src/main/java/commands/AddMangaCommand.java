@@ -70,12 +70,12 @@ public class AddMangaCommand extends Command {
 
         //@@author xenthm
         if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
-            logger.warning("Author name " + authorName + " exceeds maximum length");
+            COMMAND_LOGGER.warning("Author name " + authorName + " exceeds maximum length");
             throw new AuthorNameTooLongException();
         }
 
         if (mangaName.length() > MAX_MANGA_NAME_LENGTH) {
-            logger.warning("Manga name " + mangaName + " exceeds maximum length");
+            COMMAND_LOGGER.warning("Manga name " + mangaName + " exceeds maximum length");
             throw new MangaNameTooLongException();
         }
 
@@ -101,7 +101,7 @@ public class AddMangaCommand extends Command {
 
             // Exception is thrown when adding manga that already exists with author
             assert authorList.getAuthor(incomingAuthor).hasManga(incomingManga) : "Manga does not actually exist!";
-            logger.info("Manga already exists!");
+            COMMAND_LOGGER.info("Manga already exists!");
             throw new TantouException("Manga already exists!");
         }
 
