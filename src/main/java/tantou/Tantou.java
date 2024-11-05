@@ -38,13 +38,9 @@ public class Tantou {
 
         if (loggingEnabled) {
             try {
-
-                if (LOG_LOCATION.getParentFile() != null && LOG_LOCATION.getParentFile().mkdirs()) {
-                    System.out.println("Log file directory not found; created them");
-                }
-
-                if (LOG_LOCATION.createNewFile()) {
-                    System.out.println("Log file not found; created it");
+                if (LOG_LOCATION.getParentFile() != null) {
+                    LOG_LOCATION.getParentFile().mkdirs();
+                    LOG_LOCATION.createNewFile();
                 }
 
                 FileHandler fileHandler = getFileHandler();
