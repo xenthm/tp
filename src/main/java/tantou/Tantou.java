@@ -27,27 +27,31 @@ public class Tantou {
     private AuthorList authorList;
 
     //@@author averageandyyy
-    public Tantou() {
+    public Tantou(boolean loggingEnabled) {
         this.ui = new Ui();
         this.parser = new Parser();
         this.isExit = false;
         this.authorList = new AuthorList();
-        try {
-            // Remove default handlers
-            LogManager.getLogManager().reset();
 
-            if (LOG_LOCATION.getParentFile() != null && LOG_LOCATION.getParentFile().mkdirs()) {
-                System.out.println("Log file directory not found; created them");
+        // Remove default handlers
+        LogManager.getLogManager().reset();
+
+        if (loggingEnabled) {
+            try {
+
+                if (LOG_LOCATION.getParentFile() != null && LOG_LOCATION.getParentFile().mkdirs()) {
+                    System.out.println("Log file directory not found; created them");
+                }
+
+                if (LOG_LOCATION.createNewFile()) {
+                    System.out.println("Log file not found; created it");
+                }
+
+                FileHandler fileHandler = getFileHandler();
+                TANTOU_LOGGER.addHandler(fileHandler);
+            } catch (IOException e) {
+                System.out.println("Problems accessing log file!");
             }
-
-            if (LOG_LOCATION.createNewFile()) {
-                System.out.println("Log file not found; created it");
-            }
-
-            FileHandler fileHandler = getFileHandler();
-            TANTOU_LOGGER.addHandler(fileHandler);
-        } catch (IOException e) {
-            System.out.println("Problems accessing log file!");
         }
     }
 
