@@ -27,7 +27,7 @@ group sd AddAuthorCommand
         activate authorList
         authorList --> userCommand
         deactivate authorList
-        userCommand -> ui : printAddAuthorSucessMessage(incomingAuthor)
+        userCommand -> ui : printAddAuthorSuccessMessage(incomingAuthor)
         activate ui
         ui --> User : "Successfully added author!"
         ui --> userCommand

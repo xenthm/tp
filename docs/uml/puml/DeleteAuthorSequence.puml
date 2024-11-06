@@ -27,7 +27,7 @@ group sd DeleteAuthorCommand
         activate authorList
         authorList --> userCommand
         deactivate authorList
-        userCommand -> ui : printDeleteAuthorSucessMessage(deletingAuthor)
+        userCommand -> ui : printDeleteAuthorSuccessMessage(deletingAuthor)
         activate ui
         ui --> User : "Successfully deleted author!"
         ui --> userCommand

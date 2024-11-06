@@ -43,7 +43,7 @@ group sd AddMangaCommand
 
         userCommand -> ui : printAddMangaSuccessMessage(incomingManga)
         activate ui
-        ui --> User : "Manga successfuly added to author!"
+        ui --> User : "Manga successfully added to author!"
         ui --> userCommand
         deactivate ui
 
@@ -67,7 +67,7 @@ group sd AddMangaCommand
 
             userCommand -> ui : printAddMangaSuccessMessage(incomingManga)
             activate ui
-            ui --> User : "Manga successfuly added to author!"
+            ui --> User : "Manga successfully added to author!"
             ui --> userCommand
             deactivate ui
 
@@ -80,6 +80,8 @@ group sd AddMangaCommand
             userCommand --> tantou : throw new MangaExistsException()
         end
     end
+
+    deactivate userCommand
 end
 deactivate tantou
 autoactivate on
