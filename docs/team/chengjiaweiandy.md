@@ -39,6 +39,7 @@ is targetted towards editors that can type fast, allow them to quickly create an
     - Added implementation details and development guidelines regarding the `Command` class and subclasses [#88](https://github.com/AY2425S1-CS2113-T10-3/tp/pull/88/)
     - Added implementation details regarding the addition and deletion of `Author`s and `Manga`s [#92](https://github.com/AY2425S1-CS2113-T10-3/tp/pull/92)
     - Added implementation details and development guidelines regarding the general parsing architecture [#109](https://github.com/AY2425S1-CS2113-T10-3/tp/pull/109)
+    - Added details regarding testing [placeholder]()
   - **Project Management**
     - Coordinated internal milestones and tracked team progress to ensure deadlines were met
     - Organized and led team meetings to review project status, address challenges, and align on next steps
