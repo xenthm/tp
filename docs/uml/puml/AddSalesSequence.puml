@@ -7,7 +7,7 @@ title <size:30> AddSalesCommand Sequence Diagram
 participant "tantou:Tantou" as tantou
 participant "userCommand:AddSalesCommand" as userCommand
 participant "authorList:AuthorList" as authorList
-participant ":StorageHelper" as storageHelper
+participant ":StorageHelper" as storageHelper <<class>>
 participant "salesData:Sale" as salesData
 participant "existingAuthor:Author" as existingAuthor
 participant "incomingAuthor:Author" as incomingAuthor
