@@ -14,7 +14,7 @@ participant "incomingAuthor:Author" as incomingAuthor
 participant "incomingManga:Manga" as manga
 
 group sd AddSalesCommand
-    tantou -> userCommand
+    tantou -> userCommand: execute(ui, authorList)
     activate userCommand
 
     opt error in parsing arguments
@@ -53,12 +53,12 @@ group sd AddSalesCommand
             activate existingAuthor
             existingAuthor -> manga: getMangaName()
             activate manga
-            manga -> manga: addSalesData(salesData)
-            activate manga
-            manga --> manga
-            deactivate manga
             manga --> existingAuthor
             deactivate manga
+            existingAuthor -> existingAuthor: addSalesData(salesData)
+            activate existingAuthor
+            existingAuthor --> existingAuthor
+            deactivate existingAuthor
             existingAuthor --> userCommand
             deactivate existingAuthor
             userCommand -> storageHelper: saveFile(authorList)
