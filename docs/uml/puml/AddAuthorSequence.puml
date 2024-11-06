@@ -12,7 +12,6 @@ participant "userCommand:AddAuthorCommand" as userCommand
 participant "authorList:AuthorList" as authorList
 participant ":StorageHelper" as storage
 participant "incomingAuthor:Author" as author
-participant "mangaList:MangaList" as mangaList
 
 activate tantou
 group sd AddAuthorCommand
