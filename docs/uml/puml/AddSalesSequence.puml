@@ -49,12 +49,12 @@ group sd AddSalesCommand
                 opt existingAuthor does not have incomingManga
                 tantou <-- userCommand: throw MangaDoesNotExistException()
                 end
-            userCommand -> existingAuthor:getManga(incomingManga)
-            activate existingAuthor
-            existingAuthor -> manga: getMangaName()
+            userCommand -> manga: getMangaName()
             activate manga
-            manga --> existingAuthor
+            manga --> userCommand: existingManga
             deactivate manga
+            userCommand -> existingAuthor:getManga(existingManga)
+            activate existingAuthor
             existingAuthor -> existingAuthor: addSalesData(salesData)
             activate existingAuthor
             existingAuthor --> existingAuthor
