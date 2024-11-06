@@ -3,6 +3,7 @@ package commands;
 import author.Author;
 import author.AuthorList;
 import exceptions.AuthorNameTooLongException;
+import exceptions.MangaExistsException;
 import exceptions.MangaNameTooLongException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.NoMangaProvidedException;
@@ -89,8 +90,8 @@ public class AddMangaCommand extends Command {
             Author existingAuthor = authorList.getAuthor(incomingAuthor);
             if (!existingAuthor.hasManga(incomingManga)) {
                 existingAuthor.addManga(incomingManga);
-                System.out.printf("Manga %s added successfully to author %s\n",
-                        incomingManga.getMangaName(), existingAuthor.getAuthorName());
+
+                ui.printAddMangaSuccessMessage(incomingManga);
 
                 // Assert that the manga was successfully added
                 assert authorList.getAuthor(incomingAuthor).hasManga(incomingManga) : "Failed to add manga";
@@ -102,15 +103,14 @@ public class AddMangaCommand extends Command {
             // Exception is thrown when adding manga that already exists with author
             assert authorList.getAuthor(incomingAuthor).hasManga(incomingManga) : "Manga does not actually exist!";
             COMMAND_LOGGER.info("Manga already exists!");
-            throw new TantouException("Manga already exists!");
+            throw new MangaExistsException();
         }
 
         // Otherwise create new Author and add Manga to it
         authorList.add(incomingAuthor);
         incomingAuthor.addManga(incomingManga);
         assert authorList.getAuthor(incomingAuthor).hasManga(incomingManga) : "Failed to add author and manga";
-        System.out.printf("Manga %s added successfully to author %s\n", incomingManga.getMangaName(),
-                incomingAuthor.getAuthorName());
+        ui.printAddMangaSuccessMessage(incomingManga);
         saveFile(authorList);
     }
 }

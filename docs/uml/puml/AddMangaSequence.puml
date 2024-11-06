@@ -21,13 +21,13 @@ group sd AddMangaCommand
     create author
     userCommand -> author : new Author(authorName)
     activate author
-    author --> userCommand
+    author --> userCommand : incomingAuthor
     deactivate author
 
     create manga
     userCommand -> manga : new Manga(mangaName, incomingAuthor)
     activate manga
-    manga --> userCommand
+    manga --> userCommand : incomingManga
     deactivate manga
 
     alt incomingAuthor not in authorList

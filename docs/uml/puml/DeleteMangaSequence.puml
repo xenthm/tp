@@ -1,120 +1,65 @@
 @startuml
+autoactivate off
+title <size:30> AddMangaCommand Sequence Diagram
+
 actor User
 participant "tantou:Tantou" as tantou
 participant "ui:Ui" as ui
-participant "parser:Parser" as parser
 participant "userCommand:AddMangaCommand" as userCommand
 participant "authorList:AuthorList" as authorList
-participant ":Storage" as storage
-participant "deletingAuthor:Author" as deletingAuthor
-participant "mangaList:MangaList" as mangaList
-participant "deletingManga:Manga" as deletingManga
+participant ":StorageHelper" as storage
+participant "attachedAuthor:Author" as author
 participant "existingAuthor:Author" as existingAuthor
-participant "existingMangaList:MangaList" as existingMangaList
+participant "deletingManga:Manga" as manga
 
-' Simulate command with "catalog -a Kubo Tite -m Bleach -d"
 activate tantou
-User -> ui: "catalog -a Kubo Tite -m Bleach -d"
+group sd AddMangaCommand
 
-' Get userInput
-tantou -> ui: getUserInput()
-activate ui
-ui --> tantou: userInput
-deactivate ui
+    tantou -> userCommand : execute(ui, authorList)
+    activate userCommand
 
-' Get userCommand (AddAuthorCommand)
-tantou -> parser: getUserCommand(userInput)
-activate parser
+    create author
+    userCommand -> author : new Author(authorName)
+    activate author
+    author --> userCommand : attachedAuthor
+    deactivate author
 
-' Self call to process userInput
-parser -> parser: processCatalogCommand(userInput)
+    create manga
+    userCommand -> manga : new Manga(mangaName, attachedAuthor)
+    activate manga
+    manga --> userCommand : deletingManga
+    deactivate manga
 
-' Parser invokes constructor of AddMangaCommand
-activate parser
+    alt attachedAuthor in authorList
+        userCommand -> authorList : getAuthor(attachedAuthor)
+        activate authorList
+        authorList --> userCommand : existingAuthor
+        deactivate authorList
+        alt deletingManga in existingAuthor
+            userCommand -> existingAuthor : deleteManga(deletingManga)
+            activate existingAuthor
+            existingAuthor --> userCommand
+            deactivate existingAuthor
 
-' Construction
-create userCommand
-parser -> userCommand : new AddMangaCommand(argsAuthorManga)
-activate userCommand
-userCommand --> parser: userCommand
-deactivate userCommand
+            userCommand -> ui : printDeleteMangaSuccessMessage(deletingManga)
+            activate ui
+            ui --> User : "Manga successfully removed from author!"
+            ui --> userCommand
+            deactivate ui
 
-' More like a return control situation since it is a self call
-parser --> parser
-deactivate parser
-parser --> tantou: userCommand
-deactivate parser
-
-' Execute command
-tantou -> userCommand: execute(ui, authorList)
-activate userCommand
-
-' Create author
-create deletingAuthor
-userCommand -> deletingAuthor: new Author(authorName)
-activate deletingAuthor
-create mangaList
-deletingAuthor -> mangaList: new MangaList()
-activate mangaList
-mangaList --> deletingAuthor
-deactivate mangaList
-deletingAuthor --> userCommand: deletingAuthor
-deactivate deletingAuthor
-
-' Create Manga
-create deletingManga
-userCommand -> deletingManga: new Manga(mangaName)
-activate deletingManga
-deletingManga --> userCommand: deletingManga
-deactivate deletingManga
-
-' Control flow
-alt deletingAuthor in authorList
-
-    userCommand -> authorList: getAuthor(deletingAuthor)
-    activate authorList
-    authorList --> userCommand: existingAuthor
-    deactivate authorList
-
-    alt deletingManga associated with existingAuthor
-        userCommand -> existingAuthor: deleteManga(deletingManga)
-        activate existingAuthor
-        existingAuthor -> existingMangaList: remove(deletingManga)
-        activate existingMangaList
-        existingMangaList --> existingAuthor
-        deactivate existingMangaList
-        existingAuthor --> userCommand
-        deactivate existingAuthor
-
-        userCommand -> ui: printDeleteMangaSuccess(deletingAuthor, deletingManga)
-        activate ui
-        ui -> User: "Manga Bleach successfully deleted from author Kubo Tite"
-        ui --> userCommand
-        deactivate ui
-
-        userCommand -> storage: saveAuthorListToDataFile(authorList)
-        activate storage
-        storage --> userCommand
-        deactivate storage
-        userCommand --> tantou
-
-    else deletingManga not associated with existingAuthor
-        userCommand --> tantou: throws TantouException("Manga does not exist!")
-        tantou -> ui: showErrorMessage()
-        activate ui
-        ui --> User: "Manga does not exist!"
-        ui --> tantou
-        deactivate ui
+            userCommand -> storage : saveFile(authorList)
+            activate storage
+            storage --> userCommand
+            deactivate storage
+            userCommand --> tantou
+        else deletingManga not in existingAuthor
+            userCommand --> tantou : throw new MangaDoesNotExistException()
+        end
+    else attachedAuthor not in authorList
+        userCommand --> tantou : throw new AuthorDoesNotExistException()
     end
-
-else deletingAuthor not in authorList
-    userCommand --> tantou: throws TantouException("Author does not exist!")
-    tantou -> ui: showErrorMessage()
-    activate ui
-    ui --> User: "Author does not exist!"
-    ui --> tantou
-    deactivate ui
+    deactivate userCommand
 end
-deactivate userCommand
 deactivate tantou
+autoactivate on
 @enduml

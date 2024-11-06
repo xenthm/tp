@@ -2,6 +2,7 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorExistsException;
 import exceptions.AuthorNameTooLongException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
@@ -64,7 +65,7 @@ public class AddAuthorCommand extends Command {
         if (!authorList.hasAuthor(incomingAuthor)) {
 
             authorList.add(incomingAuthor);
-            System.out.printf("Successfully added author: %s\n", incomingAuthor.getAuthorName());
+            ui.printAddAuthorSuccessMessage(incomingAuthor);
 
             // Assert that the addition was successfully executed
             assert authorList.hasAuthor(incomingAuthor) : "Author is missing";
@@ -80,6 +81,6 @@ public class AddAuthorCommand extends Command {
                 .equals(incomingAuthor.getAuthorName()) : "Different author recognized as equal!";
 
         COMMAND_LOGGER.info("Author already exists");
-        throw new TantouException("Author exists!");
+        throw new AuthorExistsException();
     }
 }

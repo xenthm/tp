@@ -7,7 +7,6 @@ title <size:30> DeleteAuthorCommand Sequence Diagram
 actor User
 participant "tantou:Tantou" as tantou
 participant "ui:Ui" as ui
-participant "parser:Parser" as parser
 participant "userCommand:DeleteAuthorCommand" as userCommand
 participant "authorList:AuthorList" as authorList
 participant ":StorageHelper" as storage
