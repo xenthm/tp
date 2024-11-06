@@ -14,7 +14,6 @@
  class Sale {
     -quantitySold: Int
     -unitPrice: Double
-    -totalRevenue: Double
     +Sale(quantitySold: Int, unitPrice: Double)
     +getQuantitySold(): Int
     +setQuantitySold(quantitySold: Int): void

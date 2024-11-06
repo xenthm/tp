@@ -276,7 +276,7 @@ The following UML sequence diagrams illustrate the interactions that take place 
 
 ### AddSalesCommand
 #### Overview
-The AddSalesCommand is responsible for adding sales data to a Manga. The Sale data consists of three attributes: `quantitySold`, `unitPrice` and `totalRevenue`. The `quantitySold` and `unitPrice` are inputs from the user, while `totalRevenue` is calculated by multiplying y`quantitySold` and `unitPrice`.
+The AddSalesCommand is responsible for adding sales data to a Manga. The Sale data consists of two attributes: `quantitySold` and `unitPrice`.
 
 For the AddSalesCommand to be successful, the manga that the sales data is associated with must exist. If the `sales`
 command is successful, the `Sales` data is then saved via Storage.
