@@ -40,8 +40,9 @@ group sd AddAuthorCommand
         userCommand --> tantou
     else incomingAuthor in authorList
         userCommand --> tantou : throw new AuthorExistsException()
-
+    end
     deactivate userCommand
+
 end
 deactivate tantou
 autoactivate on

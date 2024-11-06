@@ -1,82 +1,48 @@
 @startuml
+!include .PlantUMLSequence.config
+autoactivate off
+skinparam maxMessageSize 250
+title <size:30> DeleteAuthorCommand Sequence Diagram
+
 actor User
 participant "tantou:Tantou" as tantou
 participant "ui:Ui" as ui
 participant "parser:Parser" as parser
 participant "userCommand:DeleteAuthorCommand" as userCommand
 participant "authorList:AuthorList" as authorList
-participant ":Storage" as storage
+participant ":StorageHelper" as storage
 participant "deletingAuthor:Author" as author
 
 activate tantou
-User -> ui: "catalog -a Kubo Tite -d"
+group sd DeleteAuthorCommand
+    tantou -> userCommand : execute(ui, authorList)
+    activate userCommand
+    create author
+    userCommand -> author : new Author(authorName)
+    activate author
+    author --> userCommand : deletingAuthor
+    deactivate author
 
-' Get userInput
-tantou -> ui: getUserInput()
-activate ui
-ui --> tantou: userInput
-deactivate ui
-
-
-tantou -> parser: getUserCommand(userInput)
-activate parser
-
-' Self call to process userInput
-parser -> parser: processCatalogCommand(userInput)
-
-activate parser
-
-' Construction
-create userCommand
-parser -> userCommand : new DeleteAuthorCommand(authorName)
-activate userCommand
-userCommand --> parser: userCommand
-deactivate userCommand
-
-' More like a return control situation since it is a self call
-parser --> parser
-deactivate parser
-parser --> tantou: userCommand
-deactivate parser
-
-' Execution of command
-tantou -> userCommand: execute(ui, authorList)
-activate userCommand
-
-' Construction of author
-create author
-userCommand -> author
-activate author
-author --> userCommand: deletingAuthor
-deactivate author
-
-' Control flow
-alt deletingAuthor in authorList
-
-    userCommand -> authorList: remove(deletingAuthor)
-    activate authorList
-    authorList -> ui: printDeleteAuthorSuccess(deletingAuthor)
-    activate ui
-    ui -> User: "Successfully deleted author: Kubo Tite"
-    ui --> authorList
-    deactivate ui
-    authorList --> userCommand
-    deactivate authorList
-
-    userCommand -> storage: saveAuthorListToDataFile(authorList)
-    activate storage
-    storage --> userCommand
-    deactivate storage
-    userCommand --> tantou
-
-else deletingAuthor not in authorList
-    userCommand --> tantou: throws TantouException("Author does not exists!")
-    tantou -> ui: showErrorMessage()
-    activate ui
-    ui --> User: "Author does not exists!"
-    ui --> tantou
-    deactivate ui
+    alt deletingAuthor in authorList
+        userCommand -> authorList : remove(deletingAuthor)
+        activate authorList
+        authorList --> userCommand
+        deactivate authorList
+        userCommand -> ui : printDeleteAuthorSucessMessage(deletingAuthor)
+        activate ui
+        ui --> User : "Successfully deleted author!"
+        ui --> userCommand
+        deactivate ui
+        userCommand -> storage : saveFile(authorList)
+        activate storage
+        storage --> userCommand
+        deactivate storage
+        userCommand --> tantou
+    else deletingAuthor not in authorList
+        userCommand --> tantou : throw new AuthorDoesNotExistException()
+    end
+    deactivate userCommand
 end
-deactivate userCommand
 deactivate tantou
+autoactivate on
 @enduml
