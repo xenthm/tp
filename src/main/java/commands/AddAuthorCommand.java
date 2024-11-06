@@ -54,7 +54,7 @@ public class AddAuthorCommand extends Command {
 
         //@@author xenthm
         if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
-            logger.warning("Author name " + authorName + " exceeds maximum length");
+            COMMAND_LOGGER.warning("Author name " + authorName + " exceeds maximum length");
             throw new AuthorNameTooLongException();
         }
 
@@ -79,7 +79,7 @@ public class AddAuthorCommand extends Command {
         assert authorList.getAuthor(incomingAuthor).getAuthorName()
                 .equals(incomingAuthor.getAuthorName()) : "Different author recognized as equal!";
 
-        logger.info("Author already exists");
+        COMMAND_LOGGER.info("Author already exists");
         throw new TantouException("Author exists!");
     }
 }

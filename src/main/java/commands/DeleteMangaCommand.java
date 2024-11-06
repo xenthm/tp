@@ -58,7 +58,7 @@ public class DeleteMangaCommand extends Command {
             throw new NoMangaProvidedException();
         }
 
-        logger.log(Level.INFO, "Deleting manga... " + mangaName + " from " + authorName);
+        COMMAND_LOGGER.log(Level.INFO, "Deleting manga... " + mangaName + " from " + authorName);
 
         Author attachedAuthor = new Author(authorName);
         Manga deletingManga = new Manga(mangaName, attachedAuthor);
@@ -69,18 +69,18 @@ public class DeleteMangaCommand extends Command {
                 existingAuthor.deleteManga(deletingManga);
                 System.out.printf("Manga %s successfully deleted from author %s\n",
                         deletingManga.getMangaName(), existingAuthor.getAuthorName());
-                logger.log(Level.INFO, "Successfully deleted manga: " + deletingManga.getMangaName());
+                COMMAND_LOGGER.log(Level.INFO, "Successfully deleted manga: " + deletingManga.getMangaName());
 
                 saveFile(authorList);
                 return;
             }
             assert !existingAuthor.hasManga(deletingManga): "No manga found";
-            logger.log(Level.SEVERE, "Manga not found");
+            COMMAND_LOGGER.log(Level.SEVERE, "Manga not found");
 
             throw new TantouException("Manga does not exist!");
         }
         assert !authorList.hasAuthor(attachedAuthor): "Author not found";
-        logger.log(Level.SEVERE, "Author not found");
+        COMMAND_LOGGER.log(Level.SEVERE, "Author not found");
 
         throw new TantouException("Author does not exist!");
     }

@@ -51,14 +51,14 @@ public class AddDeadlineCommand extends Command {
             throw new NoDeadlineProvidedException();
         }
 
-        logger.info("Valid author, manga and deadline provided");
+        COMMAND_LOGGER.info("Valid author, manga and deadline provided");
 
         Author incomingAuthor = new Author(authorName);
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
 
         // If author doesn't exist, throw an error
         if (!authorList.hasAuthor(authorName)) {
-            logger.log(Level.INFO, "Author not found!");
+            COMMAND_LOGGER.log(Level.INFO, "Author not found!");
             throw new AuthorDoesNotExistException(authorName);
         }
         assert authorList.hasAuthor(incomingAuthor) : "Author is missing";
@@ -66,7 +66,7 @@ public class AddDeadlineCommand extends Command {
 
         // If manga doesn't exist, throw an error
         if (!existingAuthor.hasManga(incomingManga)) {
-            logger.log(Level.INFO, "Manga not found!");
+            COMMAND_LOGGER.log(Level.INFO, "Manga not found!");
             throw new MangaDoesNotExistException(mangaName);
         }
         assert authorList.getAuthor(authorName).hasManga(incomingManga) : "Manga is missing";
@@ -77,7 +77,7 @@ public class AddDeadlineCommand extends Command {
         // Assert that the addition successfully executed
         assert authorList.getAuthor(authorName).getManga(mangaName)
                 .getDeadline().equals(deadline) : "Deadline was not added";
-        logger.log(Level.INFO, "Deadline added to manga " + mangaName);
+        COMMAND_LOGGER.log(Level.INFO, "Deadline added to manga " + mangaName);
         System.out.printf("Deadline %s added successfully to manga %s\n",
                 deadline, incomingManga.getMangaName());
 
