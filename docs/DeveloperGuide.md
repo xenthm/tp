@@ -56,7 +56,7 @@ interested in.
 > **_NOTE:_** There is circular reference (bidirectional navigability) between `Author` and `Manga` through `MangaList`.
 
 ### Parsing Architecture
-![Parsing Architecture](/docs/uml/puml/Parser/Parser.png)
+![Parser.png](uml/puml/Parser/Parser.png)
 
 #### Overall Structure and Flow
 As seen from the above class diagram, after obtaining user input from `Ui`, command generation first begins with the
@@ -289,7 +289,7 @@ of their manga authors. The `AuthorList` is saved via `Storage` for data persist
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite"` as an input.
-<br/>![add author sequence diagram](/docs/uml/images/AddAuthorSequence.png)<br/>
+<br/>![add author sequence diagram](uml/images/AddAuthorSequence.png)<br/>
 If the `Author` instance already exists, a `TantouException` is thrown, informing the user that
 they are already tracking this employee.
 
@@ -309,7 +309,7 @@ data persistency.
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite -m Bleach"` as an input.
-<br/>![add manga sequence diagram](/docs/uml/images/AddMangaSequence.png)<br/>
+<br/>![add manga sequence diagram](uml/images/AddMangaSequence.png)<br/>
 
 ### DeleteAuthorCommand
 #### Overview
@@ -321,7 +321,7 @@ Otherwise, the `Author` is removed from the `AuthorList`, which is then saved vi
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite -d"` as an input.
-<br/>![delete author sequence diagram](/docs/uml/images/DeleteAuthorSequence.png)<br/>
+<br/>![delete author sequence diagram](uml/images/DeleteAuthorSequence.png)<br/>
 
 ### DeleteMangaCommand
 #### Overview
@@ -338,7 +338,7 @@ data persistency.
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite -m Bleach -d"` as an input.
-<br/>![add manga sequence diagram](/docs/uml/images/DeleteMangaSequence.png)<br/>
+<br/>![add manga sequence diagram](uml/images/DeleteMangaSequence.png)<br/>
 
 ### View Command
 #### Overview
@@ -373,11 +373,11 @@ The Sale data consists of two attributes: `quantitySold` and `unitPrice`.
 
 For the AddSalesCommand to be successful, the manga that the sales data is associated with must exist. 
 If the `sales` command is successful, the `Sales` data is then saved via Storage.
-<br/>![MangaSalesClass.png](uml%2Fimages%2FMangaSalesClass.png)<br/>
+<br/>![MangaSalesClass.png](uml/images/MangaSalesClass.png)<br/>
 
 #### Interaction
 The following sequence diagram illustrates the interactions that occur when the parser creates a new `AddSalesCommand`.
-<br/>![AddSalesSequence.png](uml%2Fimages%2FAddSalesSequence.png)<br/>
+<br/>![AddSalesSequence.png](uml/images/AddSalesSequence.png)<br/>
 
 > **_NOTE:_** The list of possible errors in parsing argument are as follows: missing arguments or flags, length of string exceeded maximum value of 40 characters, negative values for `quantitySold` or `unitPrice`, wrong number formats for `quantitySold` or `unitPrice`, and numbers exceeding the value of 1,000,000,000.<br/>
 
