@@ -1,6 +1,8 @@
 package commands;
 
 import author.AuthorList;
+import exceptions.NoAuthorProvidedException;
+import exceptions.NoMangaProvidedException;
 import exceptions.TantouException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +52,7 @@ public class AddMangaCommandTest {
                 commandUnderTest.execute(ui, authorList);
             });
 
-            assertEquals("Manga already exists!", exception.getMessage());
+            assertEquals("Manga exists!", exception.getMessage());
         } catch (TantouException e) {
             fail();
         } finally {
@@ -72,6 +74,58 @@ public class AddMangaCommandTest {
             assertEquals("Bleach", authorList.getAuthor("Kubo Tite").getMangaList().get(0).getMangaName());
         } catch (TantouException e) {
             fail();
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void addMangaCommand_emptyAuthorName_noAuthorProvidedExceptionThrown() {
+        try {
+            String[] argsAuthorManga = {"", "Bleach"};
+            commandUnderTest = new AddMangaCommand(argsAuthorManga);
+            Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void addMangaCommand_nullAuthorName_noAuthorProvidedExceptionThrown() {
+        try {
+            String[] argsAuthorManga = {null, "Bleach"};
+            commandUnderTest = new AddMangaCommand(argsAuthorManga);
+            Exception exception = assertThrows(NoAuthorProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void addMangaCommand_emptyMangaName_noMangaProvidedExceptionThrown() {
+        try {
+            String[] argsAuthorManga = {"Kubo Tite", ""};
+            commandUnderTest = new AddMangaCommand(argsAuthorManga);
+            Exception exception = assertThrows(NoMangaProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
+        } finally {
+            System.setOut(standardOut);
+        }
+    }
+
+    @Test
+    public void addMangaCommand_nullMangaName_noMangaProvidedExceptionThrown() {
+        try {
+            String[] argsAuthorManga = {"Kubo Tite", null};
+            commandUnderTest = new AddMangaCommand(argsAuthorManga);
+            Exception exception = assertThrows(NoMangaProvidedException.class, () -> {
+                commandUnderTest.execute(ui, authorList);
+            });
         } finally {
             System.setOut(standardOut);
         }

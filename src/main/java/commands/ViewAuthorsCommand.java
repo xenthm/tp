@@ -2,6 +2,7 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorListEmptyException;
 import exceptions.AuthorNameTooLongException;
 import exceptions.TantouException;
 import ui.Ui;
@@ -25,14 +26,13 @@ public class ViewAuthorsCommand extends Command {
         assert authorList != null : "authorList must not be null";
 
         if (authorList.isEmpty()) {
-            System.out.println("You have no authors under you! Maybe you are the one slacking...");
-            logger.info("authorList is empty");
-            return;
+            COMMAND_LOGGER.info("authorList is empty");
+            throw new AuthorListEmptyException();
         }
 
         for (Author author : authorList) {
             if (author.getAuthorName().length() > MAX_AUTHOR_NAME_LENGTH) {
-                logger.warning("Author name " + author.getAuthorName() + " exceeds maximum length");
+                COMMAND_LOGGER.warning("Author name " + author.getAuthorName() + " exceeds maximum length");
                 throw new AuthorNameTooLongException();
             }
         }

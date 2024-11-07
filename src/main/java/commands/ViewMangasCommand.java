@@ -2,8 +2,12 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorDoesNotExistException;
+import exceptions.AuthorListEmptyException;
 import exceptions.AuthorNameTooLongException;
+import exceptions.MangaListEmptyException;
 import exceptions.MangaNameTooLongException;
+import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
 import manga.Manga;
 import ui.Ui;
@@ -37,35 +41,35 @@ public class ViewMangasCommand extends Command {
         assert authorName != null : "An author name must be provided";
 
         if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
-            logger.warning("Author name " + authorName + " exceeds maximum length");
+            COMMAND_LOGGER.warning("Author name " + authorName + " exceeds maximum length");
             throw new AuthorNameTooLongException();
         }
 
         if (authorList.isEmpty()) {
-            System.out.println("You have no authors under you! Maybe you are the one slacking...");
-            logger.info("authorList is empty");
-            return;
+            COMMAND_LOGGER.info("authorList is empty");
+            throw new AuthorListEmptyException();
         }
 
         if (authorName.isEmpty()) {
-            logger.warning("Author argument is empty");
-            throw new TantouException("No author provided!");
+            COMMAND_LOGGER.warning("Author argument is empty");
+            throw new NoAuthorProvidedException();
         }
         Author author = authorList.getAuthor(authorName);
+
         if (author == null) {
-            logger.warning("Author " + authorName + " does not exist in authorList");
+            COMMAND_LOGGER.warning("Author " + authorName + " does not exist in authorList");
             System.out.println("Author " + authorName + " does not exist!");
-            return;
+            throw new AuthorDoesNotExistException(authorName);
         }
+
         if (author.getMangaList().isEmpty()) {
-            logger.info(authorName + " has no associated mangas");
-            System.out.println(authorName + " has no mangas... You know what has to be done.");
-            return;
+            COMMAND_LOGGER.info(authorName + " has no associated mangas");
+            throw new MangaListEmptyException(authorName);
         }
 
         for (Manga manga : author.getMangaList()) {
             if (manga.getMangaName().length() > MAX_MANGA_NAME_LENGTH) {
-                logger.warning("Manga name " + manga.getMangaName() + " exceeds maximum length");
+                COMMAND_LOGGER.warning("Manga name " + manga.getMangaName() + " exceeds maximum length");
                 throw new MangaNameTooLongException();
             }
         }

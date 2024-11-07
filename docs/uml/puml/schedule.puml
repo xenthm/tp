@@ -40,7 +40,7 @@ else Deadline is empty
     parser --> tantou : throws NoDeadlineProvidedException()
     tantou -> ui : showErrorMessage()
     ui --> User : "You have not provided a deadline argument!"
-else Else
+else
     create userCommand
     parser -> userCommand : new AddDeadlineCommand(userInput)
     activate userCommand
@@ -52,7 +52,7 @@ else Else
         userCommand --> tantou : throws TantouException()
         tantou -> ui : showErrorMessage()
         ui --> User : "Manga not found!"
-    else Else
+    else
         userCommand -> authorList : getAuthor(authorName)
         activate authorList
         authorList --> userCommand : author:Author
@@ -68,10 +68,10 @@ else Else
         manga --> userCommand
         deactivate manga
 
-         userCommand -> ui:printScheduleSuccess(deadline, manga)
-         activate ui
-            ui -> User : "Deadline [deadline] added successfully to manga [manga]"
-        end
+        userCommand -> ui:printScheduleSuccess(deadline, manga)
+        activate ui
+        ui -> User : "Deadline [deadline] added successfully to manga [manga]"
     end
+end
 
 @enduml
