@@ -21,7 +21,6 @@ import static storage.StorageHelper.saveFile;
  * This class extends the Command class and overrides the execute method to handle the delete operation.
  */
 public class DeleteAuthorCommand extends Command {
-    // private static final Logger logger = Logger.getLogger(DeleteAuthorCommand.class.getName());
     private String authorName;
 
     /**

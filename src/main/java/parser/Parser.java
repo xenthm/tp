@@ -23,7 +23,6 @@ import static constants.Command.SALES_COMMAND;
 import static constants.Command.SCHEDULE_COMMAND;
 import static constants.Command.VIEW_COMMAND;
 import static constants.Command.COMMAND_INDEX;
-import static constants.Options.AUTHOR_OPTION;
 import static constants.Options.BY_DATE_OPTION;
 import static constants.Options.SALES_OPTION;
 import static constants.Regex.ANY_SPACE_REGEX;
@@ -33,8 +32,6 @@ import static constants.Regex.SPACE_REGEX;
 import static constants.Regex.BY_DATE_OPTION_REGEX;
 import static constants.Regex.MANGA_OPTION_REGEX;
 import static constants.Regex.AUTHOR_OPTION_REGEX;
-import static constants.Regex.PRICE_OPTION_REGEX;
-import static constants.Regex.QUANTITY_OPTION_REGEX;
 
 public class Parser {
     /**
@@ -336,15 +333,6 @@ public class Parser {
         return new AddDeadlineCommand(new String[]{authorName, mangaName, deadline});
     }
 
-    private String removeSchedulePrefix(String userInput) {
-        return userInput.replace(SCHEDULE_COMMAND, EMPTY_REGEX);
-    }
-
-    private String extractDeadline(String userInput) {
-        int indexOfDeadline = userInput.indexOf(BY_DATE_OPTION_REGEX);
-        return userInput.substring(indexOfDeadline).replace(BY_DATE_OPTION_REGEX, EMPTY_REGEX).trim();
-    }
-
     /**
      * Checks that the deadline comes after the manga and author arguments.
      * The ordering of the manga and author don't matter.
@@ -362,26 +350,4 @@ public class Parser {
         return indexOfDeadline > indexOfManga && indexOfDeadline > indexOfAuthor;
     }
 
-    //@@author
-    // Argument extraction functions
-    private String extractAuthorName(String userInput, int indexOfAuthor, int indexOfManga) {
-        assert userInput.contains(AUTHOR_OPTION_REGEX) : "Must have author option";
-        return userInput.substring(indexOfAuthor, indexOfManga).replace(AUTHOR_OPTION, EMPTY_REGEX).trim();
-    }
-
-    private String extractMangaName(String userInput, int indexOfManga) {
-        return userInput.substring(indexOfManga).replace(MANGA_OPTION_REGEX, EMPTY_REGEX).trim();
-    }
-
-    private String extractMangaName(String userInput, int indexOfManga, int nextOptionIndex) {
-        return userInput.substring(indexOfManga, nextOptionIndex).replace(MANGA_OPTION_REGEX, EMPTY_REGEX).trim();
-    }
-
-    private String extractQuantity(String userInput, int indexOfQuantity, int nextOptionIndex) {
-        return userInput.substring(indexOfQuantity, nextOptionIndex).replace(QUANTITY_OPTION_REGEX, EMPTY_REGEX).trim();
-    }
-
-    private String extractPrice(String userInput, int indexOfPrice) {
-        return userInput.substring(indexOfPrice).replace(PRICE_OPTION_REGEX, EMPTY_REGEX).trim();
-    }
 }
