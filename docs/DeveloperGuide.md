@@ -17,7 +17,7 @@
     * [DeleteMangaCommand](#deletemangacommand)
     * [ViewCommand](#viewcommand)
     * [AddSalesCommand](#addsalescommand)
-    * [AddScheduleCommand](#addschedulecommand)
+    * [AddDeadlineCommand](#addschedulecommand)
 * [Product Scope](#product-sSope)
   * [Target User Profile](#target-user-profile)
   * [Value Proposition](#value-proposition)
@@ -384,12 +384,12 @@ The following sequence diagram illustrates the interactions that occur when the 
 
 > **_NOTE:_** The list of possible errors in parsing argument are as follows: missing arguments or flags, length of string exceeded maximum value of 40 characters, negative values for `quantitySold` or `unitPrice`, wrong number formats for `quantitySold` or `unitPrice`, and numbers exceeding the value of 1,000,000,000.<br/>
 
-### AddScheduleCommand
+### AddDeadlineCommand
 #### Overview
-AddScheduleCommand changes the deadline on a specified manga. The deadline is kept as a String attribute
+AddDeadlineCommand changes the deadline on a specified manga. The deadline is kept as a String attribute
 `deadline`. This is set to `"None"` by default when a manga is created.
 
-When using AddScheduleCommand, if the manga or author inputted don't exist, they are automatically created.
+When using AddDeadlineCommand, if the manga or author inputted don't exist, they are automatically created.
 
 #### Interaction
 
