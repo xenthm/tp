@@ -103,7 +103,7 @@ And with that, you've successfully expanded `Parser` to generate new
 `Command`s, each with their specific arguments of interest!
 
 ### Commands
-![Command Inheritance](/docs/uml/puml/Command/Command.png)<br/>
+![Command Inheritance](uml/puml/Command/Command.png)<br/>
 The current list of viable `Commands` are as follows:
 1. `AddAuthorCommand`
 2. `AddMangaCommand`
@@ -112,8 +112,9 @@ The current list of viable `Commands` are as follows:
 5. `ViewAuthorsCommand`
 6. `ViewMangasCommand`
 7. `AddSalesCommand`
-8. `GreetCommand`
-9. `ByeCommand`
+8. `AddDeadlineCommand`
+9`GreetCommand`
+10`ByeCommand`
 
 #### Command Structure
 All child `Command` classes must inherit from the abstract
