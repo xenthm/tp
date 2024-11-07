@@ -12,11 +12,11 @@
 
 
  class Sale {
-    -quantitySold: Int
+    -quantitySold: Integer
     -unitPrice: Double
-    +Sale(quantitySold: Int, unitPrice: Double)
-    +getQuantitySold(): Int
-    +setQuantitySold(quantitySold: Int): void
+    +Sale(quantitySold: Integer, unitPrice: Double)
+    +getQuantitySold(): Integer
+    +setQuantitySold(quantitySold: Integer): void
     +getUnitPrice(): Double
     +setUnitPrice(unitPrice: Double): void
     +getTotalRevenue(): Double
