@@ -26,13 +26,13 @@ public class ViewAuthorsCommand extends Command {
         assert authorList != null : "authorList must not be null";
 
         if (authorList.isEmpty()) {
-            logger.info("authorList is empty");
+            COMMAND_LOGGER.info("authorList is empty");
             throw new AuthorListEmptyException();
         }
 
         for (Author author : authorList) {
             if (author.getAuthorName().length() > MAX_AUTHOR_NAME_LENGTH) {
-                logger.warning("Author name " + author.getAuthorName() + " exceeds maximum length");
+                COMMAND_LOGGER.warning("Author name " + author.getAuthorName() + " exceeds maximum length");
                 throw new AuthorNameTooLongException();
             }
         }

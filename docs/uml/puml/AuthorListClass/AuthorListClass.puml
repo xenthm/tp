@@ -37,9 +37,8 @@ MangaList o-- "*" Manga : > comprises of
 MangaList "mangaList\n0..1" <-- Author : < has Mangas in
 
 class Sale {
-    - quantitySold: int
-    - unitPrice: double
-    - totalRevenue: double
+    - quantitySold: Integer
+    - unitPrice: Double
 }
 Manga --> "salesData 0..1" Sale
 

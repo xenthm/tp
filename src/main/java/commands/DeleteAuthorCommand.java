@@ -2,6 +2,7 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorDoesNotExistException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
 import ui.Ui;
@@ -48,23 +49,24 @@ public class DeleteAuthorCommand extends Command {
             throw new NoAuthorProvidedException();
         }
 
-        logger.log(Level.INFO, "Deleting author... " + authorName);
+        COMMAND_LOGGER.log(Level.INFO, "Deleting author... " + authorName);
 
         Author deletingAuthor = new Author(authorName);
 
         if (authorList.hasAuthor(deletingAuthor)) {
             authorList.remove(deletingAuthor);
-            System.out.println("Bye bye~");
-            System.out.printf("Successfully deleted author: %s\n", deletingAuthor.getAuthorName());
-            logger.log(Level.INFO, "Successfully deleted author: " + deletingAuthor.getAuthorName());
+
+            ui.printDeleteAuthorSuccessMessage(deletingAuthor);
+
+            COMMAND_LOGGER.log(Level.INFO, "Successfully deleted author: " + deletingAuthor.getAuthorName());
 
             saveFile(authorList);
             return;
         }
         assert !authorList.hasAuthor(deletingAuthor): "Author not found";
-        logger.log(Level.SEVERE, "Author not found");
+        COMMAND_LOGGER.log(Level.SEVERE, "Author not found");
 
-        throw new TantouException("Author does not exist!");
+        throw new AuthorDoesNotExistException(deletingAuthor.getAuthorName());
     }
 
 }

@@ -8,6 +8,7 @@ import static constants.Options.MANGA_OPTION;
 import static constants.Options.OPTIONS_ARRAY;
 import static constants.Options.PRICE_OPTION;
 import static constants.Options.QUANTITY_OPTION;
+import static constants.Options.BY_DATE_OPTION;
 
 public class Regex {
     public static final String SPACE_REGEX = " ";
@@ -19,6 +20,7 @@ public class Regex {
     public static final String MANGA_OPTION_REGEX = SPACE_REGEX + MANGA_OPTION + SPACE_REGEX;
     public static final String PRICE_OPTION_REGEX = SPACE_REGEX + PRICE_OPTION + SPACE_REGEX;
     public static final String QUANTITY_OPTION_REGEX = SPACE_REGEX + QUANTITY_OPTION + SPACE_REGEX;
+    public static final String BY_DATE_OPTION_REGEX = SPACE_REGEX + BY_DATE_OPTION + SPACE_REGEX;
 
     //@@author xenthm
     /**
@@ -32,6 +34,11 @@ public class Regex {
      */
     public static final Pattern MANGA_NAME_EXTRACTOR_PATTERN = generateExtractorPattern(MANGA_OPTION);
 
+    //@@author iaso1774
+    /**
+     * Regex pattern to extract the deadline out of a given input
+     */
+    public static final Pattern BY_DATE_EXTRACTOR_PATTERN = generateExtractorPattern(BY_DATE_OPTION);
     //@@author sarahchow03
     /**
      * Regex pattern to extract price per unit out of a given input
@@ -73,9 +80,7 @@ public class Regex {
             regex.append("(?<=\\s)");                                       // [any of the excludedOptionFlags
             regex.append("-[");
             for (String option : OPTIONS_ARRAY) {
-                if (!option.equals(includedOptionFlag)) {
-                    regex.append(option.replace("-", EMPTY_REGEX));
-                }
+                regex.append(option.replace("-", EMPTY_REGEX));
             }
             regex.append("]");
             regex.append("(?:\\s|$)");                                      // followed by either a space or the end]

@@ -105,12 +105,12 @@ public class AddSalesCommand extends Command {
 
         //@@author xenthm
         if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
-            logger.warning("Author name " + authorName + " exceeds maximum length");
+            COMMAND_LOGGER.warning("Author name " + authorName + " exceeds maximum length");
             throw new AuthorNameTooLongException();
         }
 
         if (mangaName.length() > MAX_MANGA_NAME_LENGTH) {
-            logger.warning("Manga name " + mangaName + " exceeds maximum length");
+            COMMAND_LOGGER.warning("Manga name " + mangaName + " exceeds maximum length");
             throw new MangaNameTooLongException();
         }
 

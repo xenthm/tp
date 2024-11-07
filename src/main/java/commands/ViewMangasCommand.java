@@ -41,35 +41,35 @@ public class ViewMangasCommand extends Command {
         assert authorName != null : "An author name must be provided";
 
         if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
-            logger.warning("Author name " + authorName + " exceeds maximum length");
+            COMMAND_LOGGER.warning("Author name " + authorName + " exceeds maximum length");
             throw new AuthorNameTooLongException();
         }
 
         if (authorList.isEmpty()) {
-            logger.info("authorList is empty");
+            COMMAND_LOGGER.info("authorList is empty");
             throw new AuthorListEmptyException();
         }
 
         if (authorName.isEmpty()) {
-            logger.warning("Author argument is empty");
+            COMMAND_LOGGER.warning("Author argument is empty");
             throw new NoAuthorProvidedException();
         }
         Author author = authorList.getAuthor(authorName);
 
         if (author == null) {
-            logger.warning("Author " + authorName + " does not exist in authorList");
+            COMMAND_LOGGER.warning("Author " + authorName + " does not exist in authorList");
             System.out.println("Author " + authorName + " does not exist!");
             throw new AuthorDoesNotExistException(authorName);
         }
 
         if (author.getMangaList().isEmpty()) {
-            logger.info(authorName + " has no associated mangas");
+            COMMAND_LOGGER.info(authorName + " has no associated mangas");
             throw new MangaListEmptyException(authorName);
         }
 
         for (Manga manga : author.getMangaList()) {
             if (manga.getMangaName().length() > MAX_MANGA_NAME_LENGTH) {
-                logger.warning("Manga name " + manga.getMangaName() + " exceeds maximum length");
+                COMMAND_LOGGER.warning("Manga name " + manga.getMangaName() + " exceeds maximum length");
                 throw new MangaNameTooLongException();
             }
         }

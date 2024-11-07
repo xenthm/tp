@@ -42,12 +42,11 @@ class Manga {
 }
 
 class Sale {
-    - quantitySold: int
-    - unitPrice: double
-    - totalRevenue: double
-    + getQuantitySold(): int
-    + getUnitPrice(): double
-    + getTotalRevenue(): double
+    - quantitySold: Integer
+    - unitPrice: Double
+    + getQuantitySold(): Integer
+    + getUnitPrice(): Double
+    + getTotalRevenue(): Double
 }
 
 class PrintColumn<T> {

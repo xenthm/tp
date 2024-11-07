@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * method to define specific command behavior.
  */
 public abstract class Command {
-    protected Logger logger;
+    protected static final Logger COMMAND_LOGGER = Logger.getLogger("Tantou.Commands");
     private String command;
     private boolean isExit;
 
@@ -24,7 +24,6 @@ public abstract class Command {
     public Command(String command) {
         this.command = command;
         this.isExit = false;
-        this.logger = Logger.getLogger(command);
     }
 
     public String getCommand() {

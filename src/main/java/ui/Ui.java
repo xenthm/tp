@@ -1,5 +1,8 @@
 package ui;
 
+import author.Author;
+import manga.Manga;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -93,5 +96,25 @@ public class Ui {
         printHeaders(columns);
         printHorizontalDivider(totalWidthOfTable);
         printEntries(arrayList, columns);
+    }
+
+    //@@author
+    public void printAddAuthorSuccessMessage(Author incomingAuthor) {
+        System.out.printf("Successfully added author: %s\n", incomingAuthor.getAuthorName());
+    }
+
+    public void printAddMangaSuccessMessage(Manga incomingManga) {
+        System.out.printf("Manga %s added successfully to author %s\n",
+                incomingManga.getMangaName(), incomingManga.getAuthor().getAuthorName());
+    }
+
+    public void printDeleteAuthorSuccessMessage(Author deletingAuthor) {
+        System.out.println("Bye bye~");
+        System.out.printf("Successfully deleted author: %s\n", deletingAuthor.getAuthorName());
+    }
+
+    public void printDeleteMangaSuccessMessage(Manga deletingManga) {
+        System.out.printf("Manga %s successfully deleted from author %s\n",
+                deletingManga.getMangaName(), deletingManga.getAuthor().getAuthorName());
     }
 }

@@ -2,6 +2,7 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
+import exceptions.AuthorDoesNotExistException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,10 +52,9 @@ class DeleteAuthorCommandTest {
             commandUnderTest = new DeleteAuthorCommand(authorName);
             commandUnderTest.execute(ui, authorList);
             // A TantouException should be thrown when an author that does not exist is deleted
-            Exception exception = assertThrows(TantouException.class, () -> commandUnderTest.execute(ui, authorList));
+            Exception exception = assertThrows(AuthorDoesNotExistException.class, () ->
+                    commandUnderTest.execute(ui, authorList));
             System.out.println(exception.getMessage());
-
-            assertEquals("Author does not exist!", exception.getMessage());
         } catch (TantouException e) {
             // The code should not fail at this point
             fail();
