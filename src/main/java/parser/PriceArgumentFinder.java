@@ -13,16 +13,13 @@ public class PriceArgumentFinder extends ArgumentFinder {
     }
 
     @Override
-    public ArgumentResult getArgumentResult(String userInput) throws TantouException {
+    public ArgumentResult getArgumentResult(String userInput) {
         String price = null;
         String outputString = userInput;
         matcher = pattern.matcher(userInput);
 
         if (matcher.find()) {
             price = matcher.group(0).trim();
-            if (price.isEmpty()) {
-                throw new NoPriceProvidedException();
-            }
 
             // Remove the argument and its matching flag
             outputString = userInput.substring(0, matcher.start(0) - 3) + userInput.substring(matcher.end(0));
