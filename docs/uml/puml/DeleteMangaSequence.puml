@@ -10,7 +10,7 @@ participant "tantou:Tantou" as tantou
 participant "ui:Ui" as ui
 participant "userCommand:AddMangaCommand" as userCommand
 participant "authorList:AuthorList" as authorList
-participant ":StorageHelper" as storage
+participant ":StorageHelper" as storage <<class>>
 participant "attachedAuthor:Author" as author
 participant "existingAuthor:Author" as existingAuthor
 participant "deletingManga:Manga" as manga
