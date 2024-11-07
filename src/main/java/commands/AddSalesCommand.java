@@ -46,15 +46,23 @@ public class AddSalesCommand extends Command {
     }
 
     /**
-     * Executes the add sales command by validating user input, checking the existence of the author
-     * and manga, and adding the sales data.
-     * If any validation fails, a TantouException is thrown with an appropriate error message.
+     * Represents the <code>AddSalesCommand</code>, a command that handles the process of adding sales data
+     * for a specified manga title. This command performs several validation steps to ensure that
+     * all required input parameters are provided, that values are within acceptable limits, and that
+     * the author and manga exist in the system. If all validations pass, it updates the sales data
+     * for the specified manga.
+     * <p>
+     * The command expects input values for the author name, manga title, quantity sold, and unit price.
+     * If any of these validations fail, a specific exception is thrown, providing detailed feedback
+     * about the cause of the error.
+     * </p>
      *
-     * @param ui The user interface for interaction.
-     * @param authorList The list of authors where the manga's author is checked.
-     * @throws TantouException if validation checks fail, such as invalid input, missing author or manga, or
-     *                         exceeding maximum allowed values.
+     * @param ui The user interface used for interacting with the user.
+     * @param authorList The list of authors against which the existence of the author and manga is verified.
+     * @throws TantouException if any validation check fails, such as missing or invalid input, non-existent
+     *                         author or manga, or values exceeding maximum limits.
      */
+
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
         String authorName = argsAuthorMangaQtyPrice[AUTHOR_INDEX];
