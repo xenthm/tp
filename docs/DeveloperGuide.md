@@ -368,10 +368,11 @@ The following UML sequence diagrams illustrate the interactions that take place 
 
 ### AddSalesCommand
 #### Overview
-The AddSalesCommand is responsible for adding sales data to a Manga. The Sale data consists of two attributes: `quantitySold` and `unitPrice`.
+The AddSalesCommand is responsible for adding sales data to a Manga. 
+The Sale data consists of two attributes: `quantitySold` and `unitPrice`.
 
-For the AddSalesCommand to be successful, the manga that the sales data is associated with must exist. If the `sales`
-command is successful, the `Sales` data is then saved via Storage.
+For the AddSalesCommand to be successful, the manga that the sales data is associated with must exist. 
+If the `sales` command is successful, the `Sales` data is then saved via Storage.
 <br/>![MangaSalesClass.png](uml%2Fimages%2FMangaSalesClass.png)<br/>
 
 #### Interaction
@@ -416,12 +417,12 @@ Can manage author and manga information more easily than a physical ledger or a 
 | v1.0    | editor                    | add mangas to their respective authors                 | keep track of what each of my authors are working on.         |
 | v1.0    | editor                    | delete authors under my charge                         | discharge under-performing authors under my charge.           |
 | v1.0    | editor                    | delete mangas under an author                          | discontinue a series that is unpopular with the audiences.    |
+| v1.0    | editor                    | delete authors under my charge                         | discharge under-performing authors under my charge.           |
 | v1.0    | editor                    | view all the authors under me                          | keep track of them.                                           |
 | v1.0    | editor                    | view all the mangas of an author under me              | keep track of their works.                                    |
 | v1.0    | editor                    | be able to save the data from the app                  | access it again in the future.                                |
 | v2.0    | business-minded editor    | add the quantity of copies sold for a manga            | track the manga's popularity amongst audiences.               |
 | v2.0    | business-minded editor    | add the unit price of each copy sold for manga         | calculate the revenue earned by the series.                   |
-| v2.0    | business-minded editor    | delete the quantity and unit price for a manga         | reset the sales data from the manga.                          |
 | v2.0    | editor                    | view the deadlines of the manga of an author under me  | monitor their progress.                                       |
 | v2.0    | business-minded editor    | view the sales data of the manga of an author under me | monitor the company's finances.                               |
 | v2.0    | business-minded editor    | be able to save the sales data from the app            | access it again in the future.                                |
