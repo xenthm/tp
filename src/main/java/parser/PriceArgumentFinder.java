@@ -1,7 +1,5 @@
 package parser;
 
-import exceptions.NoPriceProvidedException;
-import exceptions.TantouException;
 
 import static constants.Options.PRICE_OPTION;
 import static constants.Regex.PRICE_EXTRACTOR_PATTERN;
