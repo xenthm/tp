@@ -56,10 +56,6 @@ public class Manga {
         this.deadline = deadline;
     }
 
-    public void deleteDeadline() {
-        this.deadline = "None";
-    }
-
     //@@author sarahchow03
 
     public Sale getSalesData() {
