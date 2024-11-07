@@ -1,144 +1,88 @@
 @startuml
+title <size:30> AddMangaCommand Sequence Diagram
+hide footbox
+skinparam roundCorner 0
+skinparam style strictuml
+
 actor User
 participant "tantou:Tantou" as tantou
 participant "ui:Ui" as ui
-participant "parser:Parser" as parser
 participant "userCommand:AddMangaCommand" as userCommand
 participant "authorList:AuthorList" as authorList
-participant ":Storage" as storage
+participant ":StorageHelper" as storage <<class>>
 participant "incomingAuthor:Author" as author
-participant "mangaList:MangaList" as mangaList
-participant "incomingManga:Manga" as manga
 participant "existingAuthor:Author" as existingAuthor
-participant "existingMangaList" as existingMangaList
+participant "incomingManga:Manga" as manga
 
-' Simulate adding author with "catalog -a Kubo Tite -m Bleach"
 activate tantou
-User -> ui: "catalog -a Kubo Tite -m Bleach"
+group sd AddMangaCommand
 
-' Get userInput
-tantou -> ui: getUserInput()
-activate ui
-ui --> tantou: userInput
-deactivate ui
+    tantou -> userCommand : execute(ui, authorList)
+    activate userCommand
 
-' getUserCommand (AddAuthorCommand)
-tantou -> parser: getUserCommand(userInput)
-activate parser
-
-' Self call to process userInput
-parser -> parser: processCatalogCommand(userInput)
-
-' Parser invokes constructor of AddAuthorCommand
-activate parser
-
-' Construction
-create userCommand
-parser -> userCommand : new AddMangaCommand(argsAuthorManga)
-activate userCommand
-userCommand --> parser: userCommand
-deactivate userCommand
-
-' More like a return control situation since it is a self call
-parser --> parser
-deactivate parser
-parser --> tantou: userCommand
-deactivate parser
-
-' Execution of command
-tantou -> userCommand: execute(ui, authorList)
-activate userCommand
-
-' Construction of author
-create author
-userCommand -> author: new Author(authorName)
-activate author
-create mangaList
-author -> mangaList: new MangaList()
-activate mangaList
-mangaList --> author
-deactivate mangaList
-author --> userCommand: incomingAuthor
-deactivate author
-
-' Construction of Manga
-create manga
-userCommand -> manga: new Manga(mangaName)
-activate manga
-manga --> userCommand: incomingManga
-deactivate manga
-
-' Control flow
-alt incomingAuthor not in authorList
-
-    userCommand -> authorList: add(incomingAuthor)
-    activate authorList
-    authorList -> ui: printAddAuthorSuccess(incomingAuthor)
-    activate ui
-    ui -> User: "Successfully added author: Kubo Tite"
-    ui --> authorList
-    deactivate ui
-    authorList --> userCommand
-    deactivate authorList
-
-    userCommand -> author: addManga(incomingManga)
+    create author
+    userCommand -> author : new Author(authorName)
     activate author
-    author -> mangaList: add(incomingManga)
-    activate mangaList
-    mangaList --> author
-    deactivate mangaList
-    author --> userCommand
+    author --> userCommand : incomingAuthor
     deactivate author
 
-    userCommand -> ui: printAddMangaSuccess(incomingAuthor, incomingManga)
-    activate ui
-    ui --> User: "Manga Bleach added successfully to author Kubo Tite"
-    ui --> userCommand
-    deactivate ui
+    create manga
+    userCommand -> manga : new Manga(mangaName, incomingAuthor)
+    activate manga
+    manga --> userCommand : incomingManga
+    deactivate manga
 
-    userCommand -> storage: saveAuthorListToDataFile(authorList)
-    activate storage
-    storage --> userCommand
-    deactivate storage
-    userCommand --> tantou
+    alt incomingAuthor not in authorList
+        userCommand -> authorList : add(incomingAuthor)
+        activate authorList
+        authorList --> userCommand
+        deactivate authorList
 
-else incomingAuthor exists in authorList
-    userCommand -> authorList: getAuthor(incomingAuthor)
-    activate authorList
-    authorList --> userCommand: existingAuthor
-    deactivate authorList
+        userCommand -> author : addManga(incomingManga);
+        activate author
+        author --> userCommand
+        deactivate author
 
-    alt incomingManga not associated with existingAuthor
-        userCommand -> existingAuthor: addManga(incomingManga)
-        activate existingAuthor
-        existingAuthor -> existingMangaList: add(incomingManga)
-        activate existingMangaList
-        existingMangaList --> existingAuthor
-        deactivate existingMangaList
-        existingAuthor --> userCommand
-        deactivate existingAuthor
-
-        userCommand -> ui: printAddMangaSuccess(existingAuthor, incomingManga)
+        userCommand -> ui : printAddMangaSuccessMessage(incomingManga)
         activate ui
-        ui --> User: "Manga Bleach added successfully to author Kubo Tite"
+        ui --> User : "Manga successfully added to author!"
         ui --> userCommand
         deactivate ui
 
-        userCommand -> storage: saveAuthorListToDataFile(authorList)
+        userCommand -> storage : saveFile(authorList)
         activate storage
         storage --> userCommand
         deactivate storage
         userCommand --> tantou
 
-    else incomingManga associated with existingAuthor
-        userCommand --> tantou: throws TantouException("Manga exists!")
-        tantou -> ui: showErrorMessage()
-        activate ui
-        ui --> User: "Manga exists!"
-        ui --> tantou
-        deactivate ui
+    else incomingAuthor in authorList
+        userCommand -> authorList : getAuthor(incomingAuthor)
+        activate authorList
+        authorList --> userCommand : existingAuthor
+        deactivate authorList
+
+        alt incomingManga not in existingAuthor
+            userCommand -> existingAuthor : addManga(incomingManga)
+            activate existingAuthor
+            existingAuthor --> userCommand
+            deactivate existingAuthor
+
+            userCommand -> ui : printAddMangaSuccessMessage(incomingManga)
+            activate ui
+            ui --> User : "Manga successfully added to author!"
+            ui --> userCommand
+            deactivate ui
+
+            userCommand -> storage : saveFile(authorList)
+            activate storage
+            storage --> userCommand
+            deactivate storage
+            userCommand --> tantou
+        else incomingManga in existingAuthor
+            userCommand --> tantou : throw new MangaExistsException()
+            deactivate userCommand
+        end
     end
 end
-deactivate userCommand
 deactivate tantou
 @enduml

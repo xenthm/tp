@@ -436,18 +436,50 @@ Can manage author and manga information more easily than a physical ledger or a 
 
 ## Glossary
 
-* *glossary item* - Definition
+* *Author* - An author can be in charge of writing multiple mangas. Two authors are considered to be the same author
+  if they have the same name.
+* *Manga* - Every manga has only one author. Two mangas are considered to be the same if they have the same title and author.
 
-## Instructions for Manual Testing
+## Instructions for Testing
+### Manual Testing
+For a comprehensive list of all available commands, their purposes, and expected behavior, refer to the [User Guide](https://github.com/AY2425S1-CS2113-T10-3/tp/blob/master/docs/UserGuide.md). 
+This guide outlines both typical and edge cases, providing a detailed reference to support manual testing and validation.
+### Testing with JUnit
+All JUnit test cases are organized within the test directory, with tests segmented by package and class to maintain focus and 
+modularity. This structure enhances test isolation, making it easier to validate specific functionalities. Each test is designed 
+to verify the core components of the application, ensuring that key features operate as expected.
+### Text UI Testing
+All files required for Text UI testing are located in the `text-ui-test` directory. While the `input.txt` file contains limited sample input 
+due to the coverage provided by JUnit tests, future developers can freely modify `input.txt` and `EXPECTED.txt` to tailor tests for additional 
+scenarios as needed.
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+To execute the text UI test:
+- On Windows: Run the following command:
+  ```
+  ./runtest.bat
+  ```
+- On UNIX-based systems: Use this command:
+  ```
+  ./runtest.sh
+  ```
 
-Include an appendix named Instructions for Manual Testing, to give some guidance to the tester to chart a path through
-the features, and provide some important test inputs the tester can copy-paste into the app.
 
-Cover all user-testable features.
-No need to give a long list of test cases including all possible variations. It is upto the tester to come up with those
-variations.
-Information in this appendix should complement the UG. Minimize repeating information that are already mentioned in the
-UG.
-Inaccurate instructions will be considered bugs.
+[//]: # ({Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing})
+
+[//]: # ()
+[//]: # (Include an appendix named Instructions for Manual Testing, to give some guidance to the tester to chart a path through)
+
+[//]: # (the features, and provide some important test inputs the tester can copy-paste into the app.)
+
+[//]: # ()
+[//]: # (Cover all user-testable features.)
+
+[//]: # (No need to give a long list of test cases including all possible variations. It is upto the tester to come up with those)
+
+[//]: # (variations.)
+
+[//]: # (Information in this appendix should complement the UG. Minimize repeating information that are already mentioned in the)
+
+[//]: # (UG.)
+
+[//]: # (Inaccurate instructions will be considered bugs.)

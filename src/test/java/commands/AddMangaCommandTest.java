@@ -52,7 +52,7 @@ public class AddMangaCommandTest {
                 commandUnderTest.execute(ui, authorList);
             });
 
-            assertEquals("Manga already exists!", exception.getMessage());
+            assertEquals("Manga exists!", exception.getMessage());
         } catch (TantouException e) {
             fail();
         } finally {
