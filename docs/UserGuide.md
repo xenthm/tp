@@ -137,6 +137,7 @@ Advanced users can manually update data directly by editing the file.
 **A**: {your answer here}
 
 ## Command Summary
+
 | Action         | Format and Examples                                                                                                                         |
 |----------------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | Add Author     | `catalog -a <AUTHOR_NAME>` <br/> e.g. `catalog -a Kubo Tite`                                                                                |
