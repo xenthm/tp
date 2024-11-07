@@ -1,13 +1,15 @@
 @startuml
-autoactivate off
 title <size:30> AddMangaCommand Sequence Diagram
+hide footbox
+skinparam roundCorner 0
+skinparam style strictuml
 
 actor User
 participant "tantou:Tantou" as tantou
 participant "ui:Ui" as ui
 participant "userCommand:AddMangaCommand" as userCommand
 participant "authorList:AuthorList" as authorList
-participant ":StorageHelper" as storage
+participant ":StorageHelper" as storage <<class>>
 participant "incomingAuthor:Author" as author
 participant "existingAuthor:Author" as existingAuthor
 participant "incomingManga:Manga" as manga
@@ -78,11 +80,9 @@ group sd AddMangaCommand
             userCommand --> tantou
         else incomingManga in existingAuthor
             userCommand --> tantou : throw new MangaExistsException()
+            deactivate userCommand
         end
     end
-
-    deactivate userCommand
 end
 deactivate tantou
-autoactivate on
 @enduml
