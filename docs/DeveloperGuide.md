@@ -459,24 +459,3 @@ To execute the text UI test:
   ```
   ./runtest.sh
   ```
-
-
-[//]: # ({Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing})
-
-[//]: # ()
-[//]: # (Include an appendix named Instructions for Manual Testing, to give some guidance to the tester to chart a path through)
-
-[//]: # (the features, and provide some important test inputs the tester can copy-paste into the app.)
-
-[//]: # ()
-[//]: # (Cover all user-testable features.)
-
-[//]: # (No need to give a long list of test cases including all possible variations. It is upto the tester to come up with those)
-
-[//]: # (variations.)
-
-[//]: # (Information in this appendix should complement the UG. Minimize repeating information that are already mentioned in the)
-
-[//]: # (UG.)
-
-[//]: # (Inaccurate instructions will be considered bugs.)
