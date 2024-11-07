@@ -368,21 +368,18 @@ The following UML sequence diagrams illustrate the interactions that take place 
 
 ### AddSalesCommand
 #### Overview
-The AddSalesCommand is responsible for adding sales data to a Manga. The Sale data consists of three attributes:
-`quantitySold`, `unitPrice` and `totalRevenue`. The `quantitySold` and `unitPrice` are inputs from the user, while
-`totalRevenue` is calculated by multiplying y`quantitySold` and `unitPrice`.
+The AddSalesCommand is responsible for adding sales data to a Manga. 
+The Sale data consists of two attributes: `quantitySold` and `unitPrice`.
 
-For the AddSalesCommand to be successful, the manga that the sales data is associated with must exist. If the `sales`
-command is successful, the `Sales` data is then saved via Storage.
-<br/>![mangasales_class.png](uml/images/mangasales_class.png)<br/>
+For the AddSalesCommand to be successful, the manga that the sales data is associated with must exist. 
+If the `sales` command is successful, the `Sales` data is then saved via Storage.
+<br/>![MangaSalesClass.png](uml%2Fimages%2FMangaSalesClass.png)<br/>
 
 #### Interaction
 The following sequence diagram illustrates the interactions that occur when the parser creates a new `AddSalesCommand`.
-<br/>![addsalesdata.png](uml/images/addsalesdata.png)<br/>
+<br/>![AddSalesSequence.png](uml%2Fimages%2FAddSalesSequence.png)<br/>
 
-The following object diagram illustrates object structure after the above interaction is successfully run
-with the input `sales -a Kubo Tite -m Bleach -q 10000 -p 11.90`.
-<br/>![mangasales_object.png](uml/images/mangasales_object.png)<br/>
+> **_NOTE:_** The list of possible errors in parsing argument are as follows: missing arguments or flags, length of string exceeded maximum value of 40 characters, negative values for `quantitySold` or `unitPrice`, wrong number formats for `quantitySold` or `unitPrice`, and numbers exceeding the value of 1,000,000,000.<br/>
 
 ### AddScheduleCommand
 #### Overview
@@ -420,12 +417,12 @@ Can manage author and manga information more easily than a physical ledger or a 
 | v1.0    | editor                    | add mangas to their respective authors                 | keep track of what each of my authors are working on.         |
 | v1.0    | editor                    | delete authors under my charge                         | discharge under-performing authors under my charge.           |
 | v1.0    | editor                    | delete mangas under an author                          | discontinue a series that is unpopular with the audiences.    |
+| v1.0    | editor                    | delete authors under my charge                         | discharge under-performing authors under my charge.           |
 | v1.0    | editor                    | view all the authors under me                          | keep track of them.                                           |
 | v1.0    | editor                    | view all the mangas of an author under me              | keep track of their works.                                    |
 | v1.0    | editor                    | be able to save the data from the app                  | access it again in the future.                                |
 | v2.0    | business-minded editor    | add the quantity of copies sold for a manga            | track the manga's popularity amongst audiences.               |
 | v2.0    | business-minded editor    | add the unit price of each copy sold for manga         | calculate the revenue earned by the series.                   |
-| v2.0    | business-minded editor    | delete the quantity and unit price for a manga         | reset the sales data from the manga.                          |
 | v2.0    | editor                    | view the deadlines of the manga of an author under me  | monitor their progress.                                       |
 | v2.0    | business-minded editor    | view the sales data of the manga of an author under me | monitor the company's finances.                               |
 | v2.0    | business-minded editor    | be able to save the sales data from the app            | access it again in the future.                                |
