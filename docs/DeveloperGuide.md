@@ -3,29 +3,31 @@
 <!-- TOC -->
 * [Developer Guide for MangaTantou](#developer-guide-for-mangatantou)
 * [Acknowledgements](#acknowledgements)
-* [Design & implementation](#design--implementation)
-    * [Overall Architecture](#overall-architecture)
-        * [Representing Data in MangaTantou](#representing-data-in-mangatantou)
-        * [Parsing Architecture](#parsing-architecture)
-        * [Commands](#commands)
-        * [Saving Data](#saving-data)
-        * [Displaying Data](#displaying-data)
-    * [Interacting with the user](#interacting-with-the-user)
-        * [AddAuthorCommand](#addauthorcommand)
-        * [AddMangaCommand](#addmangacommand)
-        * [DeleteAuthorCommand](#deleteauthorcommand)
-        * [DeleteMangaCommand](#deletemangacommand)
-        * [View Command](#view-command)
-        * [AddSalesCommand](#addsalescommand)
-        * [AddScheduleCommand](#addschedulecommand)
-        * [Interaction](#interaction-5)
-    * [Product scope](#product-scope)
-        * [Target user profile](#target-user-profile)
-        * [Value proposition](#value-proposition)
-    * [User Stories](#user-stories)
-    * [Non-Functional Requirements](#non-functional-requirements)
-    * [Glossary](#glossary)
-    * [Instructions for manual testing](#instructions-for-manual-testing)
+* [Design & Implementation](#design--implementation)
+  * [Overall Architecture](#overall-architecture)
+    * [Representing Data in MangaTantou](#representing-data-in-mangatantou)
+    * [Parsing Architecture](#parsing-architecture)
+    * [Commands](#commands)
+    * [Saving Data](#saving-data)
+    * [Displaying Data](#displaying-data)
+  * [Interacting with the User](#interacting-with-the-user)
+    * [AddAuthorCommand](#addauthorcommand)
+    * [AddMangaCommand](#addmangacommand)
+    * [DeleteAuthorCommand](#deleteauthorcommand)
+    * [DeleteMangaCommand](#deletemangacommand)
+    * [ViewCommand](#viewcommand)
+    * [AddSalesCommand](#addsalescommand)
+    * [AddScheduleCommand](#addschedulecommand)
+* [Product Scope](#product-sSope)
+  * [Target User Profile](#target-user-profile)
+  * [Value Proposition](#value-proposition)
+* [User Stories](#user-stories)
+* [Non-Functional Requirements](#non-functional-requirements)
+* [Glossary](#glossary)
+* [Instructions for Testing](#instructions-for-testing)
+  * [Manual Testing](#manual-testing)
+  * [Testing with JUnit](#testing-with-junit)
+  * [Text UI Testing](#text-ui-testing)
 <!-- TOC -->
 
 # Acknowledgements
@@ -46,7 +48,7 @@ Additionally, the following resources/websites were heavily used (they are amazi
 - [Ashley's PlantUML Doc](https://plantuml-documentation.readthedocs.io/): Documentation about how to use the commands,
   keywords, options, and other information needed to produce diagrams with PlantUML.
 
-# Design & implementation
+# Design & Implementation
 ## Overall Architecture
 ### Representing Data in MangaTantou
 ![AuthorListClass.png](uml/puml/AuthorListClass/AuthorListClass.png)<br/>
@@ -56,7 +58,7 @@ interested in.
 > **_NOTE:_** There is circular reference (bidirectional navigability) between `Author` and `Manga` through `MangaList`.
 
 ### Parsing Architecture
-![Parsing Architecture](/docs/uml/puml/Parser/Parser.png)
+![Parser.png](uml/puml/Parser/Parser.png)
 
 #### Overall Structure and Flow
 As seen from the above class diagram, after obtaining user input from `Ui`, command generation first begins with the
@@ -279,7 +281,7 @@ This static method should be called in the corresponding view `Command::execute`
 Refer to the [view command interaction](#view-command-interaction) for an example walkthrough of the methods mentioned
 in this section.
 
-## Interacting with the user
+## Interacting with the User
 ### AddAuthorCommand
 #### Overview
 The `AddAuthorCommand` is responsible for adding new `Author`s to `MangaTantou`. The command creates a new
@@ -289,7 +291,7 @@ of their manga authors. The `AuthorList` is saved via `Storage` for data persist
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite"` as an input.
-<br/>![add author sequence diagram](/docs/uml/images/AddAuthorSequence.png)<br/>
+<br/>![add author sequence diagram](uml/images/AddAuthorSequence.png)<br/>
 If the `Author` instance already exists, a `TantouException` is thrown, informing the user that
 they are already tracking this employee.
 
@@ -309,7 +311,7 @@ data persistency.
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite -m Bleach"` as an input.
-<br/>![add manga sequence diagram](/docs/uml/images/AddMangaSequence.png)<br/>
+<br/>![add manga sequence diagram](uml/images/AddMangaSequence.png)<br/>
 
 ### DeleteAuthorCommand
 #### Overview
@@ -321,7 +323,7 @@ Otherwise, the `Author` is removed from the `AuthorList`, which is then saved vi
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite -d"` as an input.
-<br/>![delete author sequence diagram](/docs/uml/images/DeleteAuthorSequence.png)<br/>
+<br/>![delete author sequence diagram](uml/images/DeleteAuthorSequence.png)<br/>
 
 ### DeleteMangaCommand
 #### Overview
@@ -338,9 +340,9 @@ data persistency.
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite -m Bleach -d"` as an input.
-<br/>![add manga sequence diagram](/docs/uml/images/DeleteMangaSequence.png)<br/>
+<br/>![add manga sequence diagram](uml/images/DeleteMangaSequence.png)<br/>
 
-### View Command
+### ViewCommand
 #### Overview
 The `ViewAuthorsCommand` and `ViewMangasCommand` are responsible for displaying a list of the various data entries in
 `AuthorList`. Using the [`Ui` class](#displaying-data), it formats the data into a table.
@@ -373,11 +375,11 @@ The Sale data consists of two attributes: `quantitySold` and `unitPrice`.
 
 For the AddSalesCommand to be successful, the manga that the sales data is associated with must exist. 
 If the `sales` command is successful, the `Sales` data is then saved via Storage.
-<br/>![MangaSalesClass.png](uml%2Fimages%2FMangaSalesClass.png)<br/>
+<br/>![MangaSalesClass.png](uml/images/MangaSalesClass.png)<br/>
 
 #### Interaction
 The following sequence diagram illustrates the interactions that occur when the parser creates a new `AddSalesCommand`.
-<br/>![AddSalesSequence.png](uml%2Fimages%2FAddSalesSequence.png)<br/>
+<br/>![AddSalesSequence.png](uml/images/AddSalesSequence.png)<br/>
 
 > **_NOTE:_** The list of possible errors in parsing argument are as follows: missing arguments or flags, length of string exceeded maximum value of 40 characters, negative values for `quantitySold` or `unitPrice`, wrong number formats for `quantitySold` or `unitPrice`, and numbers exceeding the value of 1,000,000,000.<br/>
 
@@ -388,7 +390,7 @@ AddScheduleCommand changes the deadline on a specified manga. The deadline is ke
 
 When using AddScheduleCommand, if the manga or author inputted don't exist, they are automatically created.
 
-### Interaction
+#### Interaction
 
 The following sequence diagram illustrates the interactions that occur when the user inputs
 `schedule -a Kubo Tite -m Bleach -b October 2 2018`
@@ -399,17 +401,17 @@ The following object diagram illustrates object structure after the above intera
 with the input `schedule -a Kubo Tite -m Bleach -b October 2 2018`.
 <br/>![scheduleobject.png](uml/images/scheduleobject.png)<br/>
 
-## Product scope
-### Target user profile
+# Product Scope
+## Target User Profile
 `MangaTantou`'s target users are mainly chief editors at manga publishing companies. They are usually in charge of
 monitoring the work of multiple authors under them, as well as deadlines and financial information. These editors should
 also have a non-trivial amount of authors to keep track of, leading to tedious work if it were to be done manually.
 Additionally, they are reasonably quick at typing and are competent with CLI apps.
 
-### Value proposition
+## Value Proposition
 Can manage author and manga information more easily than a physical ledger or a mouse-oriented GUI app.
 
-## User Stories
+# User Stories
 
 | Version | As a ...                  | I want to ...                                          | So that I can ...                                             |
 |---------|---------------------------|--------------------------------------------------------|---------------------------------------------------------------|
@@ -427,25 +429,25 @@ Can manage author and manga information more easily than a physical ledger or a 
 | v2.0    | business-minded editor    | view the sales data of the manga of an author under me | monitor the company's finances.                               |
 | v2.0    | business-minded editor    | be able to save the sales data from the app            | access it again in the future.                                |
 
-## Non-Functional Requirements
+# Non-Functional Requirements
 1. `MangaTantou` should work on any mainstream OS with Java 17 or above installed.
 2. Commands should take no longer than 1s to respond.
 
-## Glossary
+# Glossary
 
 * *Author* - An author can be in charge of writing multiple mangas. Two authors are considered to be the same author
   if they have the same name.
 * *Manga* - Every manga has only one author. Two mangas are considered to be the same if they have the same title and author.
 
-## Instructions for Testing
-### Manual Testing
+# Instructions for Testing
+## Manual Testing
 For a comprehensive list of all available commands, their purposes, and expected behavior, refer to the [User Guide](https://github.com/AY2425S1-CS2113-T10-3/tp/blob/master/docs/UserGuide.md). 
 This guide outlines both typical and edge cases, providing a detailed reference to support manual testing and validation.
-### Testing with JUnit
+## Testing with JUnit
 All JUnit test cases are organized within the test directory, with tests segmented by package and class to maintain focus and 
 modularity. This structure enhances test isolation, making it easier to validate specific functionalities. Each test is designed 
 to verify the core components of the application, ensuring that key features operate as expected.
-### Text UI Testing
+## Text UI Testing
 All files required for Text UI testing are located in the `text-ui-test` directory. While the `input.txt` file contains limited sample input 
 due to the coverage provided by JUnit tests, future developers can freely modify `input.txt` and `EXPECTED.txt` to tailor tests for additional 
 scenarios as needed.
@@ -459,24 +461,3 @@ To execute the text UI test:
   ```
   ./runtest.sh
   ```
-
-
-[//]: # ({Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing})
-
-[//]: # ()
-[//]: # (Include an appendix named Instructions for Manual Testing, to give some guidance to the tester to chart a path through)
-
-[//]: # (the features, and provide some important test inputs the tester can copy-paste into the app.)
-
-[//]: # ()
-[//]: # (Cover all user-testable features.)
-
-[//]: # (No need to give a long list of test cases including all possible variations. It is upto the tester to come up with those)
-
-[//]: # (variations.)
-
-[//]: # (Information in this appendix should complement the UG. Minimize repeating information that are already mentioned in the)
-
-[//]: # (UG.)
-
-[//]: # (Inaccurate instructions will be considered bugs.)
