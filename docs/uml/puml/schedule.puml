@@ -6,7 +6,6 @@ title <size:30> AddDeadlineCommand Sequence Diagram
 
 actor User
 participant "tantou:Tantou" as tantou
-participant "ui:Ui" as ui
 participant "userCommand:AddDeadlineCommand" as userCommand
 participant "authorList:AuthorList" as authorList
 participant ":StorageHelper" as storage <<class>>
@@ -35,7 +34,7 @@ group sd AddDeadlineCommand
     authorList --> userCommand: boolean
     deactivate authorList
 
-    alt author exists
+    alt author in authorList
         userCommand -> authorList: getAuthor(incomingAuthor)
         activate authorList
         authorList --> userCommand: existingAuthor
@@ -46,7 +45,7 @@ group sd AddDeadlineCommand
         author --> userCommand: boolean
         deactivate author
 
-        alt author has manga
+        alt incomingManga in existingAuthor
             userCommand -> author: getManga
             activate author
             author -> manga: addDeadline
@@ -55,10 +54,15 @@ group sd AddDeadlineCommand
             deactivate manga
             author --> userCommand
             deactivate author
-        else author does not have manga
+
+            userCommand -> storage : saveFile(authorList)
+            activate storage
+            storage --> userCommand
+            deactivate storage
+        else incomingManga not in existingAuthor
             tantou <-- userCommand: throw MangaDoesNotExistException()
         end
-    else author does not exist
+    else author not in authorList
     tantou <-- userCommand: throw AuthorDoesNotExistException()
     deactivate userCommand
     end
