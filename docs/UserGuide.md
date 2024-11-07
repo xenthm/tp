@@ -134,7 +134,7 @@ Advanced users can manually update data directly by editing the file.
 ## FAQ
 **Q**: How do I transfer my data to another computer?
 <br>
-**A**: {your answer here}
+**A**: Copy the `data` folder (located in the same folder as the `.jar` file) into the new location of the `.jar` file. 
 
 ## Command Summary
 
