@@ -1,7 +1,6 @@
 @startuml
 !include .PlantUMLSequence.config
 autoactivate off
-skinparam maxMessageSize 250
 title <size:30> DeleteAuthorCommand Sequence Diagram
 
 actor User
@@ -9,7 +8,7 @@ participant "tantou:Tantou" as tantou
 participant "ui:Ui" as ui
 participant "userCommand:DeleteAuthorCommand" as userCommand
 participant "authorList:AuthorList" as authorList
-participant ":StorageHelper" as storage
+participant ":StorageHelper" as storage <<class>>
 participant "deletingAuthor:Author" as author
 
 activate tantou
@@ -39,8 +38,8 @@ group sd DeleteAuthorCommand
         userCommand --> tantou
     else deletingAuthor not in authorList
         userCommand --> tantou : throw new AuthorDoesNotExistException()
+        deactivate userCommand
     end
-    deactivate userCommand
 end
 deactivate tantou
 autoactivate on
