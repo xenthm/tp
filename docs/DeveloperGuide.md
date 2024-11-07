@@ -10,7 +10,7 @@
     * [Commands](#commands)
     * [Saving Data](#saving-data)
     * [Displaying Data](#displaying-data)
-  * [Interacting with the user](#interacting-with-the-user)
+  * [Interacting with the User](#interacting-with-the-user)
     * [AddAuthorCommand](#addauthorcommand)
     * [AddMangaCommand](#addmangacommand)
     * [DeleteAuthorCommand](#deleteauthorcommand)
@@ -18,9 +18,9 @@
     * [ViewCommand](#viewcommand)
     * [AddSalesCommand](#addsalescommand)
     * [AddScheduleCommand](#addschedulecommand)
-* [Product scope](#product-scope)
-  * [Target user profile](#target-user-profile)
-  * [Value proposition](#value-proposition)
+* [Product Scope](#product-sSope)
+  * [Target User Profile](#target-user-profile)
+  * [Value Proposition](#value-proposition)
 * [User Stories](#user-stories)
 * [Non-Functional Requirements](#non-functional-requirements)
 * [Glossary](#glossary)
@@ -281,7 +281,7 @@ This static method should be called in the corresponding view `Command::execute`
 Refer to the [view command interaction](#view-command-interaction) for an example walkthrough of the methods mentioned
 in this section.
 
-## Interacting with the user
+## Interacting with the User
 ### AddAuthorCommand
 #### Overview
 The `AddAuthorCommand` is responsible for adding new `Author`s to `MangaTantou`. The command creates a new
@@ -401,14 +401,14 @@ The following object diagram illustrates object structure after the above intera
 with the input `schedule -a Kubo Tite -m Bleach -b October 2 2018`.
 <br/>![scheduleobject.png](uml/images/scheduleobject.png)<br/>
 
-# Product scope
-## Target user profile
+# Product Scope
+## Target User Profile
 `MangaTantou`'s target users are mainly chief editors at manga publishing companies. They are usually in charge of
 monitoring the work of multiple authors under them, as well as deadlines and financial information. These editors should
 also have a non-trivial amount of authors to keep track of, leading to tedious work if it were to be done manually.
 Additionally, they are reasonably quick at typing and are competent with CLI apps.
 
-## Value proposition
+## Value Proposition
 Can manage author and manga information more easily than a physical ledger or a mouse-oriented GUI app.
 
 # User Stories
