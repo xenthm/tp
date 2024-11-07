@@ -9,7 +9,7 @@ participant "tantou:Tantou" as tantou
 participant "ui:Ui" as ui
 participant "userCommand:AddAuthorCommand" as userCommand
 participant "authorList:AuthorList" as authorList
-participant ":StorageHelper" as storage
+participant ":StorageHelper" as storage <<class>>
 participant "incomingAuthor:Author" as author
 
 activate tantou
@@ -39,6 +39,7 @@ group sd AddAuthorCommand
         userCommand --> tantou
     else incomingAuthor in authorList
         userCommand --> tantou : throw new AuthorExistsException()
+        deactivate userCommand
     end
     deactivate userCommand
 
