@@ -71,11 +71,24 @@ Format: `sales -a <AUTHOR_NAME> -m <MANGA_NAME> -q <QUANTITY_SOLD> -p <PRICE_PER
 * The `QUANTITY_SOLD` must be a positive Integer less than 1000000000.
 * The `PRICE_PER_UNIT` must be a Double less than 1000000000.
 
-Example of usage:
+Examples of usage:
 
 `sales -a Kubo Tite -m Bleach -q 10000 -p 11.90`
 
 `sales -a Izumi Tsubaki -m Gekkan Shoujo Nozaki-kun -q 1700 -p 12.90`
+
+### Add Deadline to a Manga: `schedule`
+Adds a deadline to an existing manga. `-b` stands for by-date (in case you are wondering why it is not `-d`, which is used for deleting in other commands). 
+
+Format: `schedule -a <AUTHOR_NAME> -m <MANGA_NAME> -b <DEADLINE>`
+
+* The `DEADLINE` must be a String.
+
+Examples of usage:
+
+`schedule -a Hirohiko Araki -m Phantom Blood -b January 1, 1987`
+
+`schedule -a Hirohiko Araki -m Stone Ocean -b December 7, 1999`
 
 ### Viewing Authors: `view`
 The `view` command allows you to view all the `Author`s in your catalog in a nicely formatted table.
