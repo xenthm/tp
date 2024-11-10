@@ -131,4 +131,8 @@ public class Ui {
     public void printPreAuthorListMessage(AuthorList authorList) {
         System.out.println("Here are the sla-I mean authors under you! Total: " + authorList.size());
     }
+
+    public void printPreMangaListMessage(Author author) {
+        System.out.println("Mangas authored by " + author.getAuthorName() + ", Total: " + author.getMangaList().size());
+    }
 }
