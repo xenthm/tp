@@ -17,7 +17,7 @@
     * [DeleteMangaCommand](#deletemangacommand)
     * [ViewCommand](#viewcommand)
     * [AddSalesCommand](#addsalescommand)
-    * [AddDeadlineCommand](#addschedulecommand)
+    * [AddDeadlineCommand](#adddeadlinecommand)
 * [Product Scope](#product-sSope)
   * [Target User Profile](#target-user-profile)
   * [Value Proposition](#value-proposition)
