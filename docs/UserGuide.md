@@ -10,14 +10,15 @@ many copies have been sold by each of the mangas under your charge and calculate
 efficiency at work.
 
 ## Quick Start
-{Give steps to get started quickly}
 1. Ensure that you have Java 17 or above installed.
 2. Download the latest version of `MangaTantou` from [here](https://github.com/AY2425S1-CS2113-T10-3/tp/releases).
 
 ## Features
 > **_NOTE:_**
 > - Command flags can be specified in any order. If the flag requires a field, ensure that it is placed right after the flag after a space (e.g. `catalog -d -a Kubo Tite` and `catalog -a Kubo Tite -d` both delete the author `Kubo Tite` from the catalog).
+> - `MangaTantou`'s parser is designed to look for its valid flags (i.e. ` -a `, ` -d `, ` -s `) and will stop at each flag and process the inputs between the valid flags as arguments for the preceding flag (i.e. `catalog -a Kubo Tite -a Bleach` will give just `Kubo Tite`). In other words, the parser is <ins>**smart enough**</ins> to ignore duplicate flags where it is not expecting them and will only <ins>**take the first**</ins> valid input it encounters. Should the user require an input that contains a flag (i.e. `Kubo -a Tite` is the author's name), we recommend that the user prepends the offending part of the name with an additional dash (i.e. `Kubo --a Tite`). This is a tradeoff that `MangaTantou`'s parser takes for flexibility in argument inputs.
 > - Whenever you encounter `AUTHOR_NAME` or `MANGA_NAME`, ensure that they are not longer than 40 characters long.
+> - Names of authors and mangas are <ins>**case-sensitive**</ins>. For instance `Attack on Titan` and `ATTACK on Titan` will be considered as two different mangas. This is due to the unique use case of names in publishing houses, where copyright and branding through stylization of names is extremely important in the industry. 
 
 ### Adding Authors: `catalog -a`
 The `catalog -a` command allows you to add `Author`s to your catalog so that `MangaTantou` can keep track of all the manga created 
@@ -44,6 +45,8 @@ Examples of usage:
 * `catalog -a Kubo Tite -m Bleach`
 * `catalog -m One Piece -a Oda Eiichiro`
 
+
+
 ### Deleting Authors and Mangas: `catalog -a -d` and `catalog -a -m -d`
 The `catalog -a -d` and `catalog -a -m -d` commands allow you to remove authors and mangas from your catalog in `MangaTantou`. 
 This feature is useful for managing your catalog by removing inactive authors or discontinued manga titles.
@@ -62,14 +65,15 @@ Examples of usage:
 * `catalog -d -a Kubo Tite -m Bleach`
 
 ### Add Sales Data to a Manga: `sales`
-Adds sales data to an existing manga. Sales data consists of quantity of manga sold, the unit price per manga, and the 
+Adds sales data to an existing manga. This command will overwrite the previous sales data if ran again.
+Sales data consists of quantity of manga sold, the unit price per manga, and the 
 total revenue. The total revenue is calculated by `MangaTantou`, through the multiplication of the manga's `unitPrice` and
 `quantitySold`.
 
 Format: `sales -a <AUTHOR_NAME> -m <MANGA_NAME> -q <QUANTITY_SOLD> -p <PRICE_PER_UNIT>`
 
-* The `QUANTITY_SOLD` must be a positive Integer less than 1000000000.
-* The `PRICE_PER_UNIT` must be a Double less than 1000000000.
+* The `QUANTITY_SOLD` must be a non-negative Integer less than 1000000000.
+* The `PRICE_PER_UNIT` must be a non-negative Double less than 1000000000.
 
 Examples of usage:
 
@@ -144,10 +148,17 @@ Advanced users can manually update data directly by editing the file.
 > `MangaTantou` checks for formatting and value errors and tries to discard the corrupted entry while keeping valid information if possible. 
 > If that fails, the catalog will be deleted and a new empty one will be used instead.
 
+> **_LIMITATION:_**
+> If you decide to manually edit the data file such that an entry contains a field that is impossible to add via normal commands (i.e. authorName `Kubo -a Tite` instead of `Kubo --a Tite`), you <ins>**will not be**</ins> able to access this entry in via normal commands in the future unless this change is corrected.
+
 ## FAQ
 **Q**: How do I transfer my data to another computer?
 <br>
 **A**: Copy the `data` folder (located in the same folder as the `.jar` file) into the new location of the `.jar` file. 
+
+**Q**: Why does `MangaTantou` not have an edit function?
+<br>
+**A**: Published authors and mangas in `MangaTantou` are generally not required to change their names due to potential confusion that could be generated with audiences. If the editor still has strong wishes to change the names of authors or mangas, they can do so by editing the `catalog.json` file directly, while following our naming conventions and guidelines.
 
 ## Command Summary
 
@@ -160,3 +171,4 @@ Advanced users can manually update data directly by editing the file.
 | Add Sales Data | `sales -a <AUTHOR_NAME> -m <MANGA_NAME> -q <QUANTITY_SOLD> -p <PRICE_PER_UNIT>` <br/> e.g. `sales -a Kubo Tite -m Bleach -q 10000 -p 11.90` | 
 | View Authors   | `view`                                                                                                                                      |
 | View Mangas    | `view -a <AUTHOR_NAME> [-b] [-s]` <br/> e.g. `view -a Hirohiko Araki -s -b`                                                                 |
+| Exit           | `bye`                                                                                                                                        |
