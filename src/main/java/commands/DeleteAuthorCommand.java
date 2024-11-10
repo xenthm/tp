@@ -5,8 +5,6 @@ import author.AuthorList;
 import exceptions.TantouException;
 import ui.Ui;
 
-import java.util.logging.Level;
-
 import static constants.Command.DELETE_COMMAND;
 import static storage.StorageHelper.saveFile;
 

@@ -2,11 +2,6 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
-import exceptions.NumberLessThanZeroException;
-import exceptions.PriceTooLargeException;
-import exceptions.PriceWrongFormatException;
-import exceptions.QuantityTooLargeException;
-import exceptions.QuantityWrongFormatException;
 import exceptions.TantouException;
 import manga.Manga;
 import sales.Sale;

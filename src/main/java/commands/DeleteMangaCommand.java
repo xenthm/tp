@@ -6,8 +6,6 @@ import exceptions.TantouException;
 import manga.Manga;
 import ui.Ui;
 
-import java.util.logging.Level;
-
 import static constants.Command.AUTHOR_INDEX;
 import static constants.Command.DELETE_COMMAND;
 import static constants.Command.MANGA_INDEX;

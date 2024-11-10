@@ -1,6 +1,10 @@
 package constants;
 
-import static constants.Options.*;
+import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
+import static constants.Options.MAX_DEADLINE_LENGTH;
+import static constants.Options.MAX_MANGA_NAME_LENGTH;
+import static constants.Options.MAX_QUANTITY_VALUE;
+import static constants.Options.MAX_UNIT_PRICE_VALUE;
 
 public class PrintFormat {
     public static final String DATA_NOT_AVAILABLE = "N/A";

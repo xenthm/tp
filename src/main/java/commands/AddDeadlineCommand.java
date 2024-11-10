@@ -11,8 +11,6 @@ import static constants.Command.MANGA_INDEX;
 import static constants.Command.DEADLINE_INDEX;
 import static storage.StorageHelper.saveFile;
 
-import java.util.logging.Level;
-
 import static constants.Command.SCHEDULE_COMMAND;
 
 public class AddDeadlineCommand extends Command {
