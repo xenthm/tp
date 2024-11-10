@@ -1,8 +1,6 @@
 package constants;
 
-import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
-import static constants.Options.MAX_DEADLINE_LENGTH;
-import static constants.Options.MAX_MANGA_NAME_LENGTH;
+import static constants.Options.*;
 
 public class PrintFormat {
     public static final String DATA_NOT_AVAILABLE = "N/A";
@@ -20,11 +18,11 @@ public class PrintFormat {
     public static final int DEADLINE_COLUMN_WIDTH = MAX_DEADLINE_LENGTH;
 
     public static final String UNIT_PRICE_COLUMN_HEADER = "Unit Price";
-    public static final int UNIT_PRICE_COLUMN_WIDTH = 10;
+    public static final int UNIT_PRICE_COLUMN_WIDTH = String.valueOf(MAX_UNIT_PRICE_VALUE).length();
 
     public static final String UNITS_SOLD_COLUMN_HEADER = "Units Sold";
-    public static final int UNITS_SOLD_COLUMN_WIDTH = 10;
+    public static final int UNITS_SOLD_COLUMN_WIDTH = String.valueOf(MAX_QUANTITY_VALUE).length();
 
     public static final String REVENUE_COLUMN_HEADER = "Revenue";
-    public static final int REVENUE_COLUMN_WIDTH = 15;
+    public static final int REVENUE_COLUMN_WIDTH = UNIT_PRICE_COLUMN_WIDTH + UNITS_SOLD_COLUMN_WIDTH;
 }
