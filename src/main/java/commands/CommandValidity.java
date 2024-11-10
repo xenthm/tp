@@ -16,11 +16,18 @@ import exceptions.NoDeadlineProvidedException;
 import exceptions.NoMangaProvidedException;
 import exceptions.NoPriceProvidedException;
 import exceptions.NoQuantityProvidedException;
+import exceptions.NumberLessThanZeroException;
+import exceptions.PriceTooLargeException;
+import exceptions.PriceWrongFormatException;
+import exceptions.QuantityTooLargeException;
+import exceptions.QuantityWrongFormatException;
 
 import static commands.Command.COMMAND_LOGGER;
 import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
 import static constants.Options.MAX_DEADLINE_LENGTH;
 import static constants.Options.MAX_MANGA_NAME_LENGTH;
+import static constants.Options.MAX_QUANTITY_VALUE;
+import static constants.Options.MAX_UNIT_PRICE_VALUE;
 
 //@@author xenthm
 /**
@@ -71,6 +78,27 @@ public class CommandValidity {
         ensureDeadlineWithinLength(deadlineString);
     }
 
+    /**
+     * Checks if the provided sales data is valid.
+     *
+     * @param quantitySoldString The quantity sold <code>String</code> to be checked.
+     * @param unitPriceString    The unit price <code>String</code> to be checked.
+     * @throws NoQuantityProvidedException  If the quantity sold <code>String</code> is <code>null</code> or empty.
+     * @throws NoPriceProvidedException     If the unit price <code>String</code> is <code>null</code> or empty.
+     * @throws QuantityWrongFormatException If the quantity sold <code>String</code> is not an <code>Integer</code>
+     * @throws PriceWrongFormatException    If the unit price <code>String</code> is not a <code>Double</code>
+     * @throws QuantityTooLargeException    If the quantity sold exceeds <code>MAX_QUANTITY_VALUE</code>
+     * @throws PriceTooLargeException       If the quantity sold exceeds <code>MAX_UNIT_PRICE_VALUE</code>
+     * @throws NumberLessThanZeroException  If either the quantity sold or unit price is negative
+     */
+    public static void ensureValidSalesData(String quantitySoldString, String unitPriceString)
+            throws NoQuantityProvidedException, NoPriceProvidedException, QuantityWrongFormatException,
+            PriceWrongFormatException, QuantityTooLargeException, PriceTooLargeException, NumberLessThanZeroException {
+        ensureQuantityIsProvided(quantitySoldString);
+        ensurePriceIsProvided(unitPriceString);
+        ensureValidSalesDataNumbers(quantitySoldString, unitPriceString);
+    }
+
     private static void ensureAuthorIsProvided(String authorName) throws NoAuthorProvidedException {
         if (authorName == null || authorName.isEmpty()) {
             if (authorName == null) {
@@ -104,12 +132,7 @@ public class CommandValidity {
         }
     }
 
-    /**
-     * Throws <code>NoQuantityProvidedException</code> if quantity is <code>null</code> or is empty.
-     *
-     * @param quantityString The quantity <code>String</code> to be checked.
-     */
-    public static void ensureQuantityIsProvided(String quantityString) throws NoQuantityProvidedException {
+    private static void ensureQuantityIsProvided(String quantityString) throws NoQuantityProvidedException {
         if (quantityString == null || quantityString.isEmpty()) {
             if (quantityString == null) {
                 COMMAND_LOGGER.warning("Provided quantity is null");
@@ -120,12 +143,7 @@ public class CommandValidity {
         }
     }
 
-    /**
-     * Throws <code>NoPriceProvidedException</code> if price is <code>null</code> or is empty.
-     *
-     * @param priceString The price <code>String</code> to be checked.
-     */
-    public static void ensurePriceIsProvided(String priceString) throws NoPriceProvidedException {
+    private static void ensurePriceIsProvided(String priceString) throws NoPriceProvidedException {
         if (priceString == null || priceString.isEmpty()) {
             if (priceString == null) {
                 COMMAND_LOGGER.warning("Provided price is null");
@@ -157,6 +175,36 @@ public class CommandValidity {
             COMMAND_LOGGER.warning("Provided deadline \"" + deadline + "\" exceeds maximum length at "
                     + deadline.length());
             throw new DeadlineTooLongException();
+        }
+    }
+
+    private static void ensureValidSalesDataNumbers(String quantitySoldString, String unitPriceString)
+            throws QuantityWrongFormatException, PriceWrongFormatException, QuantityTooLargeException,
+            PriceTooLargeException, NumberLessThanZeroException {
+        Integer quantitySold = null;
+        try {
+            quantitySold = Integer.parseInt(quantitySoldString);
+        } catch (NumberFormatException e) {
+            throw new QuantityWrongFormatException();
+        }
+        if (quantitySold >= MAX_QUANTITY_VALUE) {
+            throw new QuantityTooLargeException();
+        }
+        if (quantitySold < 0) {
+            throw new NumberLessThanZeroException();
+        }
+
+        Double unitPrice = null;
+        try {
+            unitPrice = Double.parseDouble(unitPriceString);
+        } catch (NumberFormatException e) {
+            throw new PriceWrongFormatException();
+        }
+        if (unitPrice >= MAX_UNIT_PRICE_VALUE) {
+            throw new PriceTooLargeException();
+        }
+        if (unitPrice < 0) {
+            throw new NumberLessThanZeroException();
         }
     }
 

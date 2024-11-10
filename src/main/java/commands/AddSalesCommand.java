@@ -63,37 +63,10 @@ public class AddSalesCommand extends Command {
 
         CommandValidity.ensureValidAuthorName(authorName);
         CommandValidity.ensureValidMangaName(mangaName);
-        CommandValidity.ensureQuantityIsProvided(quantityString);
-        CommandValidity.ensurePriceIsProvided(priceString);
+        CommandValidity.ensureValidSalesData(quantityString, priceString);
 
-        Integer quantitySold = null;
-        try {
-            quantitySold = Integer.parseInt(quantityString);
-        } catch (NumberFormatException e) {
-            throw new QuantityWrongFormatException();
-        }
-        Double unitPrice = null;
-        try {
-            unitPrice = Double.parseDouble(priceString);
-        } catch (NumberFormatException e) {
-            throw new PriceWrongFormatException();
-        }
-
-        if (quantitySold >= QUANTITY_MAX_VALUE) {
-            throw new QuantityTooLargeException();
-        }
-
-        if (quantitySold < 0) {
-            throw new NumberLessThanZeroException();
-        }
-
-        if (unitPrice >= UNIT_PRICE_MAX_VALUE) {
-            throw new PriceTooLargeException();
-        }
-
-        if (unitPrice < 0) {
-            throw new NumberLessThanZeroException();
-        }
+        Integer quantitySold = Integer.parseInt(quantityString);
+        Double unitPrice = Double.parseDouble(priceString);
 
         //@@author sarahchow03
         Sale salesData = new Sale(quantitySold, unitPrice);
