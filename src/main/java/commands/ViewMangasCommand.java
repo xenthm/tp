@@ -58,7 +58,6 @@ public class ViewMangasCommand extends Command {
 
         if (author == null) {
             COMMAND_LOGGER.warning("Author " + authorName + " does not exist in authorList");
-            System.out.println("Author " + authorName + " does not exist!");
             throw new AuthorDoesNotExistException(authorName);
         }
 
