@@ -8,6 +8,8 @@ public class Options {
     public static final int MAX_MANGA_NAME_LENGTH = 40;
 
     public static final String BY_DATE_OPTION = "-b";
+    public static final int MAX_DEADLINE_LENGTH = 20;
+
     public static final String DELETE_OPTION = "-d";
     public static final String SALES_OPTION = "-s";
     public static final String QUANTITY_OPTION = "-q";

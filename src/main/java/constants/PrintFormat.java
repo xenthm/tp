@@ -1,6 +1,7 @@
 package constants;
 
 import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
+import static constants.Options.MAX_DEADLINE_LENGTH;
 import static constants.Options.MAX_MANGA_NAME_LENGTH;
 
 public class PrintFormat {
@@ -16,7 +17,7 @@ public class PrintFormat {
     public static final int MANGA_NAME_COLUMN_WIDTH = MAX_MANGA_NAME_LENGTH;
 
     public static final String DEADLINE_COLUMN_HEADER = "Deadline";
-    public static final int DEADLINE_COLUMN_WIDTH = 20;
+    public static final int DEADLINE_COLUMN_WIDTH = MAX_DEADLINE_LENGTH;
 
     public static final String UNIT_PRICE_COLUMN_HEADER = "Unit Price";
     public static final int UNIT_PRICE_COLUMN_WIDTH = 10;
