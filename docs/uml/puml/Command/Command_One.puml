@@ -42,27 +42,12 @@ class DeleteAuthorCommand {
     + execute(ui: Ui, authorList: AuthorList): void
 }
 
-class AddMangaCommand {
-    - authorName: String
-    - mangaName: String
-    + AddMangaCommand(argsAuthorManga: String[]): AddMangaCommand
-    + execute(ui: Ui, authorList: AuthorList): void
-}
-
-class DeleteMangaCommand {
-    - authorName: String
-    - mangaName: String
-    + DeleteMangaCommand(argsAuthorManga: String[]): DeleteMangaCommand
-    + execute(ui: Ui, authorList: AuthorList): void
-}
-
 
 
 Command <|-- GreetCommand
 Command <|-- ByeCommand
 Command <|-- AddAuthorCommand
 Command <|-- DeleteAuthorCommand
-Command <|-- AddMangaCommand
-Command <|-- DeleteMangaCommand
+
 
 @enduml
