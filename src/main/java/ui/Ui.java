@@ -122,4 +122,8 @@ public class Ui {
         System.out.printf("Deadline %s added successfully to manga %s\n",
                 incomingManga.getDeadline(), incomingManga.getMangaName());
     }
+
+    public void printAddSalesDataSuccessMessage(Manga incomingManga) {
+        System.out.printf("Sales data added for %s %s\n", incomingManga.getMangaName(), incomingManga.getSalesData());
+    }
 }

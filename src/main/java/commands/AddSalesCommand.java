@@ -138,7 +138,8 @@ public class AddSalesCommand extends Command {
         }
 
         existingAuthor.getManga(incomingManga.getMangaName()).addSalesData(salesData);
-        System.out.printf("Sales data added for %s %s\n", incomingManga.getMangaName(), salesData);
+
+        ui.printAddSalesDataSuccessMessage(incomingManga);
         saveFile(authorList);
     }
 }
