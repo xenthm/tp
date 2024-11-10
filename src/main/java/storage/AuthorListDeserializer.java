@@ -7,6 +7,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import ui.Ui;
 
 import java.lang.reflect.Type;
 
@@ -20,6 +21,7 @@ class AuthorListDeserializer implements JsonDeserializer<AuthorList> {
     @Override
     public AuthorList deserialize(JsonElement json, Type typeOfAuthorList, JsonDeserializationContext context)
             throws JsonParseException {
+        Ui ui = new Ui();
         // Ensure authorList is a JSON array
         if (json == null || !json.isJsonArray()) {
             throw new JsonParseException("corrupt AuthorList array");
@@ -33,13 +35,16 @@ class AuthorListDeserializer implements JsonDeserializer<AuthorList> {
                 Author author = context.deserialize(authorJsonElement, Author.class);
                 authorList.add(author);
             } catch (JsonParseException e) {
-                System.out.println("Skipping corrupted author entry due to "
-                        + e.getMessage()
-                );
+                ui.printString(generateErrorMessage(e));
             }
         }
 
         // Assertion: authorList is either empty, or contains only valid authors
         return authorList;
+    }
+
+    private String generateErrorMessage(JsonParseException e) {
+        return "Skipping corrupted author entry due to "
+                + e.getMessage();
     }
 }
