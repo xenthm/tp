@@ -36,7 +36,8 @@ public class CommandValidity {
      * @throws NoAuthorProvidedException  If the author name is <code>null</code> or empty.
      * @throws AuthorNameTooLongException If the author name is longer than <code>MAX_AUTHOR_NAME_LENGTH</code>.
      */
-    public static void ensureValidAuthorName(String authorName) throws NoAuthorProvidedException, AuthorNameTooLongException {
+    public static void ensureValidAuthorName(String authorName)
+            throws NoAuthorProvidedException, AuthorNameTooLongException {
         ensureAuthorIsProvided(authorName);
         ensureAuthorNameWithinLength(authorName);
     }
@@ -49,7 +50,8 @@ public class CommandValidity {
      * @throws NoMangaProvidedException  If the manga name is <code>null</code> or empty.
      * @throws MangaNameTooLongException If the manga name is longer than <code>MAX_MANGA_NAME_LENGTH</code>.
      */
-    public static void ensureValidMangaName(String mangaName) throws NoMangaProvidedException, MangaNameTooLongException {
+    public static void ensureValidMangaName(String mangaName)
+            throws NoMangaProvidedException, MangaNameTooLongException {
         ensureMangaIsProvided(mangaName);
         ensureMangaNameWithinLength(mangaName);
     }
