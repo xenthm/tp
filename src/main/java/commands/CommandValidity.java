@@ -2,10 +2,25 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
-import exceptions.*;
+import exceptions.AuthorDoesNotExistException;
+import exceptions.AuthorExistsException;
+import exceptions.AuthorListEmptyException;
+import exceptions.AuthorNameTooLongException;
+import exceptions.DeadlineTooLongException;
+import exceptions.MangaDoesNotExistException;
+import exceptions.MangaExistsException;
+import exceptions.MangaListEmptyException;
+import exceptions.MangaNameTooLongException;
+import exceptions.NoAuthorProvidedException;
+import exceptions.NoDeadlineProvidedException;
+import exceptions.NoMangaProvidedException;
+import exceptions.NoPriceProvidedException;
+import exceptions.NoQuantityProvidedException;
 
 import static commands.Command.COMMAND_LOGGER;
-import static constants.Options.*;
+import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
+import static constants.Options.MAX_DEADLINE_LENGTH;
+import static constants.Options.MAX_MANGA_NAME_LENGTH;
 
 //@@author xenthm
 /**
@@ -165,7 +180,8 @@ public class CommandValidity {
      * @param authorName The author name <code>String</code> to be checked.
      * @param authorList The <code>AuthorList</code> to search.
      */
-    public static void checkAuthorDoesNotExist(String authorName, AuthorList authorList) throws AuthorDoesNotExistException {
+    public static void checkAuthorDoesNotExist(String authorName, AuthorList authorList)
+            throws AuthorDoesNotExistException {
         if (!authorList.hasAuthor(authorName)) {
             COMMAND_LOGGER.warning("\"" + authorName + "\" does not exist in the author list");
             throw new AuthorDoesNotExistException(authorName);
