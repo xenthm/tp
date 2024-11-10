@@ -168,7 +168,7 @@ public class CommandValidity {
      */
     public static void ensureNoDuplicateAuthor(String authorName, AuthorList authorList) throws AuthorExistsException {
         if (authorList.hasAuthor(authorName)) {
-            COMMAND_LOGGER.warning("\"" + authorName + "\" already exists in the author list");
+            COMMAND_LOGGER.warning("Author \"" + authorName + "\" already exists in the author list");
             throw new AuthorExistsException();
         }
     }
@@ -181,7 +181,7 @@ public class CommandValidity {
      */
     public static void ensureNoDuplicateManga(String mangaName, Author author) throws MangaExistsException {
         if (author.hasManga(mangaName)) {
-            COMMAND_LOGGER.warning("\"" + mangaName + "\" already exists in the manga list of \""
+            COMMAND_LOGGER.warning("Manga \"" + mangaName + "\" already exists in the manga list of \""
                     + author.getAuthorName() + "\"");
             throw new MangaExistsException();
         }
@@ -196,7 +196,7 @@ public class CommandValidity {
     public static void ensureAuthorExists(String authorName, AuthorList authorList)
             throws AuthorDoesNotExistException {
         if (!authorList.hasAuthor(authorName)) {
-            COMMAND_LOGGER.warning("\"" + authorName + "\" does not exist in the author list");
+            COMMAND_LOGGER.warning("Author \"" + authorName + "\" does not exist in the author list");
             throw new AuthorDoesNotExistException(authorName);
         }
     }
@@ -210,7 +210,7 @@ public class CommandValidity {
      */
     public static void ensureMangaExists(String mangaName, Author author) throws MangaDoesNotExistException {
         if (!author.hasManga(mangaName)) {
-            COMMAND_LOGGER.warning("\"" + mangaName + "\" does not exist in the manga list of \""
+            COMMAND_LOGGER.warning("Manga \"" + mangaName + "\" does not exist in the manga list of \""
                     + author.getAuthorName() + "\"");
             throw new MangaDoesNotExistException(mangaName);
         }

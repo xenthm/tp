@@ -50,8 +50,6 @@ public class DeleteMangaCommand extends Command {
         CommandValidity.ensureValidAuthorName(authorName);
         CommandValidity.ensureValidMangaName(mangaName);
 
-        COMMAND_LOGGER.log(Level.INFO, "Deleting manga... " + mangaName + " from " + authorName);
-
         Author attachedAuthor = new Author(authorName);
         Manga deletingManga = new Manga(mangaName, attachedAuthor);
         CommandValidity.ensureAuthorExists(attachedAuthor.getAuthorName(), authorList);
@@ -61,7 +59,6 @@ public class DeleteMangaCommand extends Command {
 
         existingAuthor.deleteManga(deletingManga);
         ui.printDeleteMangaSuccessMessage(deletingManga);
-        COMMAND_LOGGER.log(Level.INFO, "Successfully deleted manga: " + deletingManga.getMangaName());
         saveFile(authorList);
     }
 }

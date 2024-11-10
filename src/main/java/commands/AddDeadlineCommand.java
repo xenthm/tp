@@ -34,13 +34,9 @@ public class AddDeadlineCommand extends Command {
         String mangaName = userInput[MANGA_INDEX];
         String deadline = userInput[DEADLINE_INDEX];
 
-
         CommandValidity.ensureValidAuthorName(authorName);
         CommandValidity.ensureValidMangaName(mangaName);
         CommandValidity.ensureValidDeadline(deadline);
-
-        COMMAND_LOGGER.info("Valid author, manga and deadline provided");
-
         Author incomingAuthor = new Author(authorName);
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
 
@@ -59,10 +55,8 @@ public class AddDeadlineCommand extends Command {
         // Assert that the addition successfully executed
         assert authorList.getAuthor(authorName).getManga(mangaName)
                 .getDeadline().equals(deadline) : "Deadline was not added";
-        COMMAND_LOGGER.log(Level.INFO, "Deadline added to manga " + mangaName);
         System.out.printf("Deadline %s added successfully to manga %s\n",
                 deadline, incomingManga.getMangaName());
-
         saveFile(authorList);
     }
 }
