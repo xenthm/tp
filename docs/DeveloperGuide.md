@@ -103,7 +103,7 @@ And with that, you've successfully expanded `Parser` to generate new
 `Command`s, each with their specific arguments of interest!
 
 ### Commands
-![Command Inheritance](uml/puml/Command/Command.png)<br/>
+![Command Inheritance](uml/puml/Command/Command_One.png)<br/>
 The current list of viable `Commands` are as follows:
 1. `AddAuthorCommand`
 2. `AddMangaCommand`
