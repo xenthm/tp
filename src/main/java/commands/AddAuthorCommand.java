@@ -2,13 +2,11 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
-import exceptions.AuthorExistsException;
 import exceptions.AuthorNameTooLongException;
 import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
 import ui.Ui;
 
-import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
 import static storage.StorageHelper.saveFile;
 import static constants.Command.CATALOG_COMMAND;
 
@@ -17,9 +15,8 @@ import static constants.Command.CATALOG_COMMAND;
  * Represents a command to add a new author to the author's list.
  *
  * <p>The {@code AddAuthorCommand} class extends the {@link Command} class and
- * defines the behavior for adding an author. It checks for validity of the author
- * name and ensures that no duplicate authors are added to the list. If successful,
- * it updates the author list and logs the action.
+ * defines the behavior for adding an author. It checks for validity of the author name and ensures that no duplicate
+ * authors are added to the list. If successful, it updates the author list and logs the action.
  */
 public class AddAuthorCommand extends Command {
     private String authorName;
@@ -48,39 +45,21 @@ public class AddAuthorCommand extends Command {
      */
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
-
-        if (authorName == null || authorName.isEmpty()) {
-            throw new NoAuthorProvidedException();
-        }
-
         //@@author xenthm
-        if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
-            COMMAND_LOGGER.warning("Author name " + authorName + " exceeds maximum length");
-            throw new AuthorNameTooLongException();
-        }
+        CommandValidity.checkAuthorProvided(authorName);
+        CommandValidity.checkAuthorNameLength(authorName);
+        CommandValidity.checkDuplicateAuthor(authorName, authorList);
 
-        //@@author
+        //@@author averageandyyy
         Author incomingAuthor = new Author(authorName);
+        authorList.add(incomingAuthor);
+        ui.printAddAuthorSuccessMessage(incomingAuthor);
 
-        if (!authorList.hasAuthor(incomingAuthor)) {
-
-            authorList.add(incomingAuthor);
-            ui.printAddAuthorSuccessMessage(incomingAuthor);
-
-            // Assert that the addition was successfully executed
-            assert authorList.hasAuthor(incomingAuthor) : "Author is missing";
-            assert authorList.getAuthor(incomingAuthor).getAuthorName()
-                    .equals(incomingAuthor.getAuthorName()) : "Author was not added";
-
-            saveFile(authorList);
-            return;
-        }
-
-        // The existing author must have the same name for the duplicate to be recognized
+        // Assert that the addition was successfully executed
+        assert authorList.hasAuthor(incomingAuthor) : "Author is missing";
         assert authorList.getAuthor(incomingAuthor).getAuthorName()
-                .equals(incomingAuthor.getAuthorName()) : "Different author recognized as equal!";
+                .equals(incomingAuthor.getAuthorName()) : "Author was not added";
 
-        COMMAND_LOGGER.info("Author already exists");
-        throw new AuthorExistsException();
+        saveFile(authorList);
     }
 }
