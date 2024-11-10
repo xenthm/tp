@@ -1,11 +1,6 @@
 package commands;
 
 import author.Author;
-import exceptions.AuthorDoesNotExistException;
-import exceptions.MangaDoesNotExistException;
-import exceptions.NoAuthorProvidedException;
-import exceptions.NoDeadlineProvidedException;
-import exceptions.NoMangaProvidedException;
 import exceptions.TantouException;
 import manga.Manga;
 import ui.Ui;
@@ -50,12 +45,12 @@ public class AddDeadlineCommand extends Command {
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
 
         // If author doesn't exist, throw an error
-        CommandValidity.checkAuthorDoesNotExist(authorName, authorList);
+        CommandValidity.checkIfAuthorDoesNotExist(authorName, authorList);
         assert authorList.hasAuthor(incomingAuthor) : "Author is missing";
         Author existingAuthor = authorList.getAuthor(incomingAuthor);
 
         // If manga doesn't exist, throw an error
-        CommandValidity.checkMangaDoesNotExist(mangaName, existingAuthor);
+        CommandValidity.checkIfMangaDoesNotExist(mangaName, existingAuthor);
         assert authorList.getAuthor(authorName).hasManga(incomingManga) : "Manga is missing";
 
         // Change the deadline for the specified manga
