@@ -78,11 +78,7 @@ Examples of usage:
 `sales -a Izumi Tsubaki -m Gekkan Shoujo Nozaki-kun -q 1700 -p 12.90`
 
 ### Add Deadline to a Manga: `schedule`
-Adds a deadline to an existing manga. `-b` stands for by-date (in case you are wondering why it is not `-d`, which is used for deleting in other commands). 
-
-It should be noted that the deadline does not need to follow any set format.
-This allows for greater flexibility in setting deadlines (e.g. `20 Jan 2024`, `Tuesday`, `After Mum's bday`, `in 2 days`).
-It is up to the user to define what is valid.
+Adds a deadline to an existing manga. `-b` stands for by-date (in case you are wondering why it is not `-d`, which is used for deleting in other commands).
 
 Format: `schedule -a <AUTHOR_NAME> -m <MANGA_NAME> -b <DEADLINE>`
 
@@ -93,6 +89,12 @@ Examples of usage:
 `schedule -a Hirohiko Araki -m Phantom Blood -b January 1, 1987`
 
 `schedule -a Hirohiko Araki -m Stone Ocean -b December 7, 1999`
+
+> **_NOTE:_**
+The deadline does not need to follow any set format.
+This allows for greater flexibility in setting deadlines (e.g. `20 Jan 2024`, `Tuesday`, `After Mum's bday`, `in 2 days`).
+It is up to the user to define what is valid.
+
 
 ### Viewing Authors: `view`
 The `view` command allows you to view all the `Author`s in your catalog in a nicely formatted table.
