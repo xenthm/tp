@@ -101,6 +101,11 @@ public class Ui {
     }
 
     //@@author
+    public void printString(String string) {
+        System.out.println(string);
+    }
+
+
     public void printAddAuthorSuccessMessage(Author incomingAuthor) {
         System.out.printf("Successfully added author: %s\n", incomingAuthor.getAuthorName());
     }
