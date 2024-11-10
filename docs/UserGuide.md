@@ -154,7 +154,7 @@ Advanced users can manually update data directly by editing the file.
 ## FAQ
 **Q**: How do I transfer my data to another computer?
 <br>
-**A**: Copy the `data` folder (located in the same folder as the `.jar` file) into the new location of the `.jar` file. 
+**A**: First, exit from `MangaTantou`. Then, copy the `data` and `logs` folder (located in the same folder as the `.jar` file) into the new location of the `.jar` file.  
 
 **Q**: Why does `MangaTantou` not have an edit function?
 <br>

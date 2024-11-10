@@ -23,3 +23,5 @@ logs/
 
 # UML png diagrams
 docs/uml/*.png
+
+src/main/META-INF/
