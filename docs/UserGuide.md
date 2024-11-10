@@ -10,7 +10,6 @@ many copies have been sold by each of the mangas under your charge and calculate
 efficiency at work.
 
 ## Quick Start
-{Give steps to get started quickly}
 1. Ensure that you have Java 17 or above installed.
 2. Download the latest version of `MangaTantou` from [here](https://github.com/AY2425S1-CS2113-T10-3/tp/releases).
 
