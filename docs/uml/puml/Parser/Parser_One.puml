@@ -1,0 +1,56 @@
+@startuml
+!include ../.PlantUMLClass.config
+class Parser {
+    + getUserCommand(userInput: String): Command
+    - processCatalogCommand(userInput: String): Command
+    - processAuthorMangaCommand(userInput: String, isDelete: boolean): Command
+    - isValidDeleteCommand(userInput:String): boolean
+    - processViewCommand(userInput: String): Command
+    - processSalesCommand(userInput: String): Command
+}
+
+Parser ..> ArgumentFinder : extracts arguments using >
+
+abstract class ArgumentFinder as "{abstract}\n ArgumentFinder" {
+    # pattern: Pattern
+    # matcher: Matcher
+    # option: String
+    + ArgumentFinder(pattern: Pattern, option: String): ArgumentFinder
+    + getArgumentResult(userInput: String): ArgumentResult ABSTRACT_DECORATOR
+}
+
+ArgumentFinder ..> ArgumentResult : generates >
+ArgumentResult ..> Parser : provides arguments for >
+
+class Regex {
+    + {static} AUTHOR_NAME_EXTRACTOR_PATTERN: Pattern
+    + {static} MANGA_NAME_EXTRACTOR_PATTERN: Pattern
+    + {static} PRICE_EXTRACTOR_PATTERN: Pattern
+    + {static} QUANTITY_EXTRACTOR_PATTERN: Pattern
+    + {static} BY_DATE_EXTRACTOR_PATTERN: Pattern
+    - {static} generateExtractorPattern(includedOptionFlag: String): Pattern
+}
+
+ArgumentFinder ..> Regex : uses patterns from >
+
+class ArgumentResult {
+    - argument: String
+    - outputString: String
+    + ArgumentResult(argument: String, outputString: String): ArgumentResult
+    + getArgument(): String
+    + getOutputString(): String
+}
+
+abstract class Command as "{abstract}\n Command" {
+    # logger: Logger
+    - command: String
+    - isExit: boolean
+    + Command(command: String): Command
+    + setExit(exit: boolean): void
+    + isExit(): boolean
+    + execute(ui: Ui, authorList: AuthorList): void ABSTRACT_DECORATOR
+}
+
+Parser ..> Command : generates and provides arguments for various >
+
+@enduml
