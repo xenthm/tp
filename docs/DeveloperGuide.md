@@ -113,8 +113,8 @@ The current list of viable `Commands` are as follows:
 6. `ViewMangasCommand`
 7. `AddSalesCommand`
 8. `AddDeadlineCommand`
-9`GreetCommand`
-10`ByeCommand`
+9. `GreetCommand`
+10. `ByeCommand`
 
 #### Command Structure
 All child `Command` classes must inherit from the abstract
@@ -283,6 +283,11 @@ Refer to the [view command interaction](#view-command-interaction) for an exampl
 in this section.
 
 ## Interacting with the User
+### Command Processing Sequence
+All commands follow the command processing sequence shown below:
+![CommandSequence.png](uml/images/CommandSequence.png)
+
+The `ref` block indicates a placeholder for the individual commands and their execution below.
 ### AddAuthorCommand
 #### Overview
 The `AddAuthorCommand` is responsible for adding new `Author`s to `MangaTantou`. The command creates a new
@@ -371,7 +376,7 @@ The following UML sequence diagrams illustrate the interactions that take place 
 
 ### AddSalesCommand
 #### Overview
-The AddSalesCommand is responsible for adding sales data to a Manga. 
+The AddSalesCommand is responsible for adding sales data to a Manga. The command replaces the current sales values with the newly-entered values.
 The Sale data consists of two attributes: `quantitySold` and `unitPrice`.
 
 For the AddSalesCommand to be successful, the manga that the sales data is associated with must exist. 
@@ -420,7 +425,6 @@ Can manage author and manga information more easily than a physical ledger or a 
 | v1.0    | editor                    | add mangas to their respective authors                 | keep track of what each of my authors are working on.         |
 | v1.0    | editor                    | delete authors under my charge                         | discharge under-performing authors under my charge.           |
 | v1.0    | editor                    | delete mangas under an author                          | discontinue a series that is unpopular with the audiences.    |
-| v1.0    | editor                    | delete authors under my charge                         | discharge under-performing authors under my charge.           |
 | v1.0    | editor                    | view all the authors under me                          | keep track of them.                                           |
 | v1.0    | editor                    | view all the mangas of an author under me              | keep track of their works.                                    |
 | v1.0    | editor                    | be able to save the data from the app                  | access it again in the future.                                |

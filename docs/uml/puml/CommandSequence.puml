@@ -49,7 +49,7 @@ activate tantou
             alt successful execution
             userCommand -> ui: showCommandSuccessMessage()
             activate ui
-            ui -> User: "<success message>"
+            ui --> User: "<success message>"
             ui --> userCommand
             deactivate ui
             userCommand --> tantou
@@ -58,12 +58,11 @@ activate tantou
             deactivate userCommand
             tantou -> ui: showErrorMessage()
             activate ui
-            ui -> User: "<exception message>"
+            ui --> User: "<exception message>"
             ui --> tantou
             deactivate ui
     deactivate userCommand
     end
-deactivate tantou
 end
 autoactivate on
 @enduml
