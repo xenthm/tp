@@ -25,6 +25,8 @@ import static constants.Command.QUANTITY_INDEX;
 import static constants.Command.SALES_COMMAND;
 import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
 import static constants.Options.MAX_MANGA_NAME_LENGTH;
+import static constants.Options.QUANTITY_MAX_VALUE;
+import static constants.Options.UNIT_PRICE_MAX_VALUE;
 import static storage.StorageHelper.saveFile;
 
 //@@author sarahchow03
@@ -36,8 +38,6 @@ import static storage.StorageHelper.saveFile;
  */
 public class AddSalesCommand extends Command {
     // Maximum allowed values for unit price and quantity
-    public static final int UNIT_PRICE_MAX_VALUE = 1000000000;
-    public static final int QUANTITY_MAX_VALUE = 1000000000;
     private String[] argsAuthorMangaQtyPrice;
 
     public AddSalesCommand(String[] argsAuthorMangaQtyPrice) {
