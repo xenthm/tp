@@ -84,10 +84,10 @@ public class CommandValidity {
      * @param quantitySoldString The quantity sold <code>String</code> to be checked.
      * @param unitPriceString    The unit price <code>String</code> to be checked.
      * @throws NoQuantityProvidedException  If the quantity sold <code>String</code> is <code>null</code> or empty.
-     * @throws NoPriceProvidedException     If the unit price <code>String</code> is <code>null</code> or empty.
      * @throws QuantityWrongFormatException If the quantity sold <code>String</code> is not an <code>Integer</code>
-     * @throws PriceWrongFormatException    If the unit price <code>String</code> is not a <code>Double</code>
      * @throws QuantityTooLargeException    If the quantity sold exceeds <code>MAX_QUANTITY_VALUE</code>
+     * @throws NoPriceProvidedException     If the unit price <code>String</code> is <code>null</code> or empty.
+     * @throws PriceWrongFormatException    If the unit price <code>String</code> is not a <code>Double</code>
      * @throws PriceTooLargeException       If the quantity sold exceeds <code>MAX_UNIT_PRICE_VALUE</code>
      * @throws NumberLessThanZeroException  If either the quantity sold or unit price is negative
      */
@@ -95,8 +95,9 @@ public class CommandValidity {
             throws NoQuantityProvidedException, NoPriceProvidedException, QuantityWrongFormatException,
             PriceWrongFormatException, QuantityTooLargeException, PriceTooLargeException, NumberLessThanZeroException {
         ensureQuantityIsProvided(quantitySoldString);
+        ensureValidQuantityNumber(quantitySoldString);
         ensurePriceIsProvided(unitPriceString);
-        ensureValidSalesDataNumbers(quantitySoldString, unitPriceString);
+        ensureValidUnitPriceNumber(unitPriceString);
     }
 
     private static void ensureAuthorIsProvided(String authorName) throws NoAuthorProvidedException {
@@ -178,9 +179,24 @@ public class CommandValidity {
         }
     }
 
-    private static void ensureValidSalesDataNumbers(String quantitySoldString, String unitPriceString)
-            throws QuantityWrongFormatException, PriceWrongFormatException, QuantityTooLargeException,
-            PriceTooLargeException, NumberLessThanZeroException {
+    private static void ensureValidUnitPriceNumber(String unitPriceString)
+            throws PriceWrongFormatException, PriceTooLargeException, NumberLessThanZeroException {
+        Double unitPrice = null;
+        try {
+            unitPrice = Double.parseDouble(unitPriceString);
+        } catch (NumberFormatException e) {
+            throw new PriceWrongFormatException();
+        }
+        if (unitPrice >= MAX_UNIT_PRICE_VALUE) {
+            throw new PriceTooLargeException();
+        }
+        if (unitPrice < 0) {
+            throw new NumberLessThanZeroException();
+        }
+    }
+
+    private static void ensureValidQuantityNumber(String quantitySoldString)
+            throws QuantityWrongFormatException, QuantityTooLargeException, NumberLessThanZeroException {
         Integer quantitySold = null;
         try {
             quantitySold = Integer.parseInt(quantitySoldString);
@@ -194,18 +210,6 @@ public class CommandValidity {
             throw new NumberLessThanZeroException();
         }
 
-        Double unitPrice = null;
-        try {
-            unitPrice = Double.parseDouble(unitPriceString);
-        } catch (NumberFormatException e) {
-            throw new PriceWrongFormatException();
-        }
-        if (unitPrice >= MAX_UNIT_PRICE_VALUE) {
-            throw new PriceTooLargeException();
-        }
-        if (unitPrice < 0) {
-            throw new NumberLessThanZeroException();
-        }
     }
 
     /**
