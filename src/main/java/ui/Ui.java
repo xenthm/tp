@@ -1,6 +1,7 @@
 package ui;
 
 import author.Author;
+import author.AuthorList;
 import manga.Manga;
 
 import java.util.ArrayList;
@@ -125,5 +126,9 @@ public class Ui {
 
     public void printAddSalesDataSuccessMessage(Manga incomingManga) {
         System.out.printf("Sales data added for %s %s\n", incomingManga.getMangaName(), incomingManga.getSalesData());
+    }
+
+    public void printPreAuthorListMessage(AuthorList authorList) {
+        System.out.println("Here are the sla-I mean authors under you! Total: " + authorList.size());
     }
 }
