@@ -58,7 +58,7 @@ interested in.
 > **_NOTE:_** There is circular reference (bidirectional navigability) between `Author` and `Manga` through `MangaList`.
 
 ### Parsing Architecture
-![Parser.png](uml/puml/Parser/Parser.png)
+![Parser.png](uml/puml/Parser/img.png)
 
 #### Overall Structure and Flow
 Command generation first begins with the
