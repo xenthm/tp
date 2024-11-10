@@ -39,17 +39,10 @@ public class AddDeadlineCommand extends Command {
         String mangaName = userInput[MANGA_INDEX];
         String deadline = userInput[DEADLINE_INDEX];
 
-        if (authorName == null || authorName.isEmpty()) {
-            throw new NoAuthorProvidedException();
-        }
 
-        if (mangaName == null || mangaName.isEmpty()) {
-            throw new NoMangaProvidedException();
-        }
-
-        if (deadline == null || deadline.isEmpty()) {
-            throw new NoDeadlineProvidedException();
-        }
+        CommandValidity.checkAuthorName(authorName);
+        CommandValidity.checkMangaName(mangaName);
+        CommandValidity.checkDeadline(deadline);
 
         COMMAND_LOGGER.info("Valid author, manga and deadline provided");
 
@@ -57,18 +50,12 @@ public class AddDeadlineCommand extends Command {
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
 
         // If author doesn't exist, throw an error
-        if (!authorList.hasAuthor(authorName)) {
-            COMMAND_LOGGER.log(Level.INFO, "Author not found!");
-            throw new AuthorDoesNotExistException(authorName);
-        }
+        CommandValidity.checkAuthorDoesNotExist(authorName, authorList);
         assert authorList.hasAuthor(incomingAuthor) : "Author is missing";
         Author existingAuthor = authorList.getAuthor(incomingAuthor);
 
         // If manga doesn't exist, throw an error
-        if (!existingAuthor.hasManga(incomingManga)) {
-            COMMAND_LOGGER.log(Level.INFO, "Manga not found!");
-            throw new MangaDoesNotExistException(mangaName);
-        }
+        CommandValidity.checkMangaDoesNotExist(mangaName, existingAuthor);
         assert authorList.getAuthor(authorName).hasManga(incomingManga) : "Manga is missing";
 
         // Change the deadline for the specified manga
