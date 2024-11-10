@@ -132,7 +132,7 @@ public class Tantou {
         this.authorList = authorList;
     }
 
-    //@@author
+    //@@author averageandyyy
     public void greetUser() {
         Command greetCommand = new GreetCommand();
         try {
@@ -142,6 +142,7 @@ public class Tantou {
         }
     }
 
+    //@@author xenthm
     /**
      * Restores <code>authorList</code> from data file in the <code>Storage</code> singleton if available. If not, it
      * remains as a newly initialized one.
