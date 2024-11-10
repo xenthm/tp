@@ -4,7 +4,6 @@
  */
 package storage;
 
-import author.Author;
 import author.AuthorList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -57,7 +56,6 @@ public class Storage {
                 .setExclusionStrategies(new ExcludeInSerializationAnnotationExclusionStrategy())
                 .setPrettyPrinting()
                 .registerTypeAdapter(AUTHOR_LIST_TYPE, new AuthorListDeserializer())
-                .registerTypeAdapter(Author.class, new AuthorDeserializer())
                 .setStrictness(Strictness.LENIENT)
                 .create();
     }
