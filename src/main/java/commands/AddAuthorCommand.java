@@ -46,8 +46,8 @@ public class AddAuthorCommand extends Command {
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
         //@@author xenthm
-        CommandValidity.checkAuthorName(authorName);
-        CommandValidity.checkForDuplicateAuthor(authorName, authorList);
+        CommandValidity.ensureValidAuthorName(authorName);
+        CommandValidity.ensureNoDuplicateAuthor(authorName, authorList);
 
         //@@author averageandyyy
         Author incomingAuthor = new Author(authorName);

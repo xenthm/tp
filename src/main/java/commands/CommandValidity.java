@@ -36,9 +36,9 @@ public class CommandValidity {
      * @throws NoAuthorProvidedException  If the author name is <code>null</code> or empty.
      * @throws AuthorNameTooLongException If the author name is longer than <code>MAX_AUTHOR_NAME_LENGTH</code>.
      */
-    public static void checkAuthorName(String authorName) throws NoAuthorProvidedException, AuthorNameTooLongException {
-        checkAuthorIsProvided(authorName);
-        checkAuthorNameLength(authorName);
+    public static void ensureValidAuthorName(String authorName) throws NoAuthorProvidedException, AuthorNameTooLongException {
+        ensureAuthorIsProvided(authorName);
+        ensureAuthorNameWithinLength(authorName);
     }
 
     /**
@@ -49,9 +49,9 @@ public class CommandValidity {
      * @throws NoMangaProvidedException  If the manga name is <code>null</code> or empty.
      * @throws MangaNameTooLongException If the manga name is longer than <code>MAX_MANGA_NAME_LENGTH</code>.
      */
-    public static void checkMangaName(String mangaName) throws NoMangaProvidedException, MangaNameTooLongException {
-        checkMangaIsProvided(mangaName);
-        checkMangaNameLength(mangaName);
+    public static void ensureValidMangaName(String mangaName) throws NoMangaProvidedException, MangaNameTooLongException {
+        ensureMangaIsProvided(mangaName);
+        ensureMangaNameWithinLength(mangaName);
     }
 
     /**
@@ -63,13 +63,13 @@ public class CommandValidity {
      * @throws DeadlineTooLongException    If the deadline <code>String</code> is longer than
      *                                     <code>MAX_DEADLINE_LENGTH</code>
      */
-    public static void checkDeadline(String deadlineString)
+    public static void ensureValidDeadline(String deadlineString)
             throws NoDeadlineProvidedException, DeadlineTooLongException {
-        checkDeadlineIsProvided(deadlineString);
-        checkDeadlineLength(deadlineString);
+        ensureDeadlineIsProvided(deadlineString);
+        ensureDeadlineWithinLength(deadlineString);
     }
 
-    private static void checkAuthorIsProvided(String authorName) throws NoAuthorProvidedException {
+    private static void ensureAuthorIsProvided(String authorName) throws NoAuthorProvidedException {
         if (authorName == null || authorName.isEmpty()) {
             if (authorName == null) {
                 COMMAND_LOGGER.warning("Provided author name is null");
@@ -80,7 +80,7 @@ public class CommandValidity {
         }
     }
 
-    private static void checkMangaIsProvided(String mangaName) throws NoMangaProvidedException {
+    private static void ensureMangaIsProvided(String mangaName) throws NoMangaProvidedException {
         if (mangaName == null || mangaName.isEmpty()) {
             if (mangaName == null) {
                 COMMAND_LOGGER.warning("Provided manga name is null");
@@ -91,7 +91,7 @@ public class CommandValidity {
         }
     }
 
-    private static void checkDeadlineIsProvided(String deadlineString) throws NoDeadlineProvidedException {
+    private static void ensureDeadlineIsProvided(String deadlineString) throws NoDeadlineProvidedException {
         if (deadlineString == null || deadlineString.isEmpty()) {
             if (deadlineString == null) {
                 COMMAND_LOGGER.warning("Provided deadline is null");
@@ -107,7 +107,7 @@ public class CommandValidity {
      *
      * @param quantityString The quantity <code>String</code> to be checked.
      */
-    public static void checkQuantityIsProvided(String quantityString) throws NoQuantityProvidedException {
+    public static void ensureQuantityIsProvided(String quantityString) throws NoQuantityProvidedException {
         if (quantityString == null || quantityString.isEmpty()) {
             if (quantityString == null) {
                 COMMAND_LOGGER.warning("Provided quantity is null");
@@ -123,7 +123,7 @@ public class CommandValidity {
      *
      * @param priceString The price <code>String</code> to be checked.
      */
-    public static void checkPriceIsProvided(String priceString) throws NoPriceProvidedException {
+    public static void ensurePriceIsProvided(String priceString) throws NoPriceProvidedException {
         if (priceString == null || priceString.isEmpty()) {
             if (priceString == null) {
                 COMMAND_LOGGER.warning("Provided price is null");
@@ -134,7 +134,7 @@ public class CommandValidity {
         }
     }
 
-    private static void checkAuthorNameLength(String authorName) throws AuthorNameTooLongException {
+    private static void ensureAuthorNameWithinLength(String authorName) throws AuthorNameTooLongException {
         if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
             COMMAND_LOGGER.warning("Provided author name \"" + authorName + "\" exceeds maximum length at "
                     + authorName.length());
@@ -142,7 +142,7 @@ public class CommandValidity {
         }
     }
 
-    private static void checkMangaNameLength(String mangaName) throws MangaNameTooLongException {
+    private static void ensureMangaNameWithinLength(String mangaName) throws MangaNameTooLongException {
         if (mangaName.length() > MAX_MANGA_NAME_LENGTH) {
             COMMAND_LOGGER.warning("Provided manga name \"" + mangaName + "\" exceeds maximum length at "
                     + mangaName.length());
@@ -150,7 +150,7 @@ public class CommandValidity {
         }
     }
 
-    private static void checkDeadlineLength(String deadline) throws DeadlineTooLongException {
+    private static void ensureDeadlineWithinLength(String deadline) throws DeadlineTooLongException {
         if (deadline.length() > MAX_DEADLINE_LENGTH) {
             COMMAND_LOGGER.warning("Provided deadline \"" + deadline + "\" exceeds maximum length at "
                     + deadline.length());
@@ -164,7 +164,7 @@ public class CommandValidity {
      * @param authorName The author name <code>String</code> to be checked.
      * @param authorList The <code>AuthorList</code> to search.
      */
-    public static void checkForDuplicateAuthor(String authorName, AuthorList authorList) throws AuthorExistsException {
+    public static void ensureNoDuplicateAuthor(String authorName, AuthorList authorList) throws AuthorExistsException {
         if (authorList.hasAuthor(authorName)) {
             COMMAND_LOGGER.warning("\"" + authorName + "\" already exists in the author list");
             throw new AuthorExistsException();
@@ -177,7 +177,7 @@ public class CommandValidity {
      * @param mangaName The manga name <code>String</code> to be checked.
      * @param author    The <code>Author</code> whose <code>mangaList</code> to search.
      */
-    public static void checkForDuplicateManga(String mangaName, Author author) throws MangaExistsException {
+    public static void ensureNoDuplicateManga(String mangaName, Author author) throws MangaExistsException {
         if (author.hasManga(mangaName)) {
             COMMAND_LOGGER.warning("\"" + mangaName + "\" already exists in the manga list of \""
                     + author.getAuthorName() + "\"");
@@ -191,7 +191,7 @@ public class CommandValidity {
      * @param authorName The author name <code>String</code> to be checked.
      * @param authorList The <code>AuthorList</code> to search.
      */
-    public static void checkIfAuthorDoesNotExist(String authorName, AuthorList authorList)
+    public static void ensureAuthorExists(String authorName, AuthorList authorList)
             throws AuthorDoesNotExistException {
         if (!authorList.hasAuthor(authorName)) {
             COMMAND_LOGGER.warning("\"" + authorName + "\" does not exist in the author list");
@@ -206,7 +206,7 @@ public class CommandValidity {
      * @param mangaName The manga name <code>String</code> to be checked.
      * @param author    The <code>Author</code> whose <code>mangaList</code> to search.
      */
-    public static void checkIfMangaDoesNotExist(String mangaName, Author author) throws MangaDoesNotExistException {
+    public static void ensureMangaExists(String mangaName, Author author) throws MangaDoesNotExistException {
         if (!author.hasManga(mangaName)) {
             COMMAND_LOGGER.warning("\"" + mangaName + "\" does not exist in the manga list of \""
                     + author.getAuthorName() + "\"");
@@ -219,7 +219,7 @@ public class CommandValidity {
      *
      * @param authorList The <code>AuthorList</code> to be checked.
      */
-    public static void checkIfAuthorListNotEmpty(AuthorList authorList) throws AuthorListEmptyException {
+    public static void ensureAuthorListNotEmpty(AuthorList authorList) throws AuthorListEmptyException {
         if (authorList.isEmpty()) {
             COMMAND_LOGGER.info("The author list is empty");
             throw new AuthorListEmptyException();
@@ -231,7 +231,7 @@ public class CommandValidity {
      *
      * @param author The <code>Author</code> whose <code>mangaList</code> is to be checked.
      */
-    public static void checkIfMangaListNotEmpty(Author author) throws MangaListEmptyException {
+    public static void ensureMangaListNotEmpty(Author author) throws MangaListEmptyException {
         if (author.getMangaList().isEmpty()) {
             COMMAND_LOGGER.info("The author list is empty");
             throw new MangaListEmptyException(author.getAuthorName());

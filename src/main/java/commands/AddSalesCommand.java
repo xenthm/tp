@@ -59,10 +59,10 @@ public class AddSalesCommand extends Command {
         String quantityString = argsAuthorMangaQtyPrice[QUANTITY_INDEX];
         String priceString = argsAuthorMangaQtyPrice[PRICE_INDEX];
 
-        CommandValidity.checkAuthorName(authorName);
-        CommandValidity.checkMangaName(mangaName);
-        CommandValidity.checkQuantityIsProvided(quantityString);
-        CommandValidity.checkPriceIsProvided(priceString);
+        CommandValidity.ensureValidAuthorName(authorName);
+        CommandValidity.ensureValidMangaName(mangaName);
+        CommandValidity.ensureQuantityIsProvided(quantityString);
+        CommandValidity.ensurePriceIsProvided(priceString);
 
         Integer quantitySold = null;
         Double unitPrice = null;
@@ -94,10 +94,10 @@ public class AddSalesCommand extends Command {
         Author incomingAuthor = new Author(authorName);
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
 
-        CommandValidity.checkIfAuthorDoesNotExist(incomingAuthor.getAuthorName(), authorList);
+        CommandValidity.ensureAuthorExists(incomingAuthor.getAuthorName(), authorList);
         Author existingAuthor = authorList.getAuthor(incomingAuthor);
 
-        CommandValidity.checkIfMangaDoesNotExist(incomingManga.getMangaName(), existingAuthor);
+        CommandValidity.ensureMangaExists(incomingManga.getMangaName(), existingAuthor);
 
         existingAuthor.getManga(incomingManga.getMangaName()).addSalesData(salesData);
         System.out.printf("Sales data added for %s %s\n", incomingManga.getMangaName(), salesData);

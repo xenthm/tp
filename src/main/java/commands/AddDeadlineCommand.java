@@ -35,9 +35,9 @@ public class AddDeadlineCommand extends Command {
         String deadline = userInput[DEADLINE_INDEX];
 
 
-        CommandValidity.checkAuthorName(authorName);
-        CommandValidity.checkMangaName(mangaName);
-        CommandValidity.checkDeadline(deadline);
+        CommandValidity.ensureValidAuthorName(authorName);
+        CommandValidity.ensureValidMangaName(mangaName);
+        CommandValidity.ensureValidDeadline(deadline);
 
         COMMAND_LOGGER.info("Valid author, manga and deadline provided");
 
@@ -45,12 +45,12 @@ public class AddDeadlineCommand extends Command {
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
 
         // If author doesn't exist, throw an error
-        CommandValidity.checkIfAuthorDoesNotExist(authorName, authorList);
+        CommandValidity.ensureAuthorExists(authorName, authorList);
         assert authorList.hasAuthor(incomingAuthor) : "Author is missing";
         Author existingAuthor = authorList.getAuthor(incomingAuthor);
 
         // If manga doesn't exist, throw an error
-        CommandValidity.checkIfMangaDoesNotExist(mangaName, existingAuthor);
+        CommandValidity.ensureMangaExists(mangaName, existingAuthor);
         assert authorList.getAuthor(authorName).hasManga(incomingManga) : "Manga is missing";
 
         // Change the deadline for the specified manga

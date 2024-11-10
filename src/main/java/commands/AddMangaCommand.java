@@ -58,8 +58,8 @@ public class AddMangaCommand extends Command {
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
         //@@author xenthm
-        CommandValidity.checkAuthorName(authorName);
-        CommandValidity.checkMangaName(mangaName);
+        CommandValidity.ensureValidAuthorName(authorName);
+        CommandValidity.ensureValidMangaName(mangaName);
 
         //@@author averageandyyy
         Author incomingAuthor = new Author(authorName);
@@ -70,7 +70,7 @@ public class AddMangaCommand extends Command {
             // Obtain the same Author object in authorList
             Author existingAuthor = authorList.getAuthor(incomingAuthor);
 
-            CommandValidity.checkForDuplicateManga(mangaName, existingAuthor);
+            CommandValidity.ensureNoDuplicateManga(mangaName, existingAuthor);
 
             existingAuthor.addManga(incomingManga);
             ui.printAddMangaSuccessMessage(incomingManga);
