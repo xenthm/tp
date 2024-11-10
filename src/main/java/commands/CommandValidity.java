@@ -94,9 +94,39 @@ public class CommandValidity {
     public static void ensureValidSalesData(String quantitySoldString, String unitPriceString)
             throws NoQuantityProvidedException, NoPriceProvidedException, QuantityWrongFormatException,
             PriceWrongFormatException, QuantityTooLargeException, PriceTooLargeException, NumberLessThanZeroException {
-        ensureQuantityIsProvided(quantitySoldString);
-        ensureValidQuantityNumber(quantitySoldString);
-        ensurePriceIsProvided(unitPriceString);
+        ensureValidQuantitySold(quantitySoldString);
+        ensureValidUnitPrice(unitPriceString);
+    }
+
+    /**
+     * Checks if the provided quantity sold <code>String</code> is valid.
+     *
+     * @param quantitySoldString The quantity sold <code>String</code> to be checked.
+     * @throws NoQuantityProvidedException  If the quantity sold <code>String</code> is <code>null</code> or empty.
+     * @throws QuantityWrongFormatException If the quantity sold <code>String</code> is not an <code>Integer</code>
+     * @throws QuantityTooLargeException    If the quantity sold exceeds <code>MAX_QUANTITY_VALUE</code>
+     * @throws NumberLessThanZeroException  If either the quantity sold or unit price is negative
+     */
+    public static void ensureValidQuantitySold(String quantitySoldString)
+            throws NoQuantityProvidedException, QuantityTooLargeException, QuantityWrongFormatException,
+            NumberLessThanZeroException {
+        ensureQuantitySoldIsProvided(quantitySoldString);
+        ensureValidQuantitySoldNumber(quantitySoldString);
+    }
+
+    /**
+     * Checks if the provided unit price <code>String</code> is valid.
+     *
+     * @param unitPriceString The unit price <code>String</code> to be checked.
+     * @throws NoPriceProvidedException     If the unit price <code>String</code> is <code>null</code> or empty.
+     * @throws PriceWrongFormatException    If the unit price <code>String</code> is not a <code>Double</code>
+     * @throws PriceTooLargeException       If the quantity sold exceeds <code>MAX_UNIT_PRICE_VALUE</code>
+     * @throws NumberLessThanZeroException  If either the quantity sold or unit price is negative
+     */
+    public static void ensureValidUnitPrice(String unitPriceString)
+            throws NoPriceProvidedException, PriceWrongFormatException, PriceTooLargeException,
+            NumberLessThanZeroException {
+        ensureUnitPriceIsProvided(unitPriceString);
         ensureValidUnitPriceNumber(unitPriceString);
     }
 
@@ -133,7 +163,7 @@ public class CommandValidity {
         }
     }
 
-    private static void ensureQuantityIsProvided(String quantityString) throws NoQuantityProvidedException {
+    private static void ensureQuantitySoldIsProvided(String quantityString) throws NoQuantityProvidedException {
         if (quantityString == null || quantityString.isEmpty()) {
             if (quantityString == null) {
                 COMMAND_LOGGER.warning("Provided quantity is null");
@@ -144,7 +174,7 @@ public class CommandValidity {
         }
     }
 
-    private static void ensurePriceIsProvided(String priceString) throws NoPriceProvidedException {
+    private static void ensureUnitPriceIsProvided(String priceString) throws NoPriceProvidedException {
         if (priceString == null || priceString.isEmpty()) {
             if (priceString == null) {
                 COMMAND_LOGGER.warning("Provided price is null");
@@ -195,7 +225,7 @@ public class CommandValidity {
         }
     }
 
-    private static void ensureValidQuantityNumber(String quantitySoldString)
+    private static void ensureValidQuantitySoldNumber(String quantitySoldString)
             throws QuantityWrongFormatException, QuantityTooLargeException, NumberLessThanZeroException {
         Integer quantitySold = null;
         try {
