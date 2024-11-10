@@ -29,11 +29,47 @@ import static constants.Options.MAX_MANGA_NAME_LENGTH;
  */
 public class CommandValidity {
     /**
-     * Throws <code>NoAuthorProvidedException</code> if author is <code>null</code> or is empty.
+     * Checks if the author name is <code>null</code> or is empty, then if it is longer than
+     * <code>MAX_AUTHOR_NAME_LENGTH</code>.
      *
      * @param authorName The author name <code>String</code> to be checked.
+     * @throws NoAuthorProvidedException  If the author name is <code>null</code> or empty.
+     * @throws AuthorNameTooLongException If the author name is longer than <code>MAX_AUTHOR_NAME_LENGTH</code>.
      */
-    public static void checkAuthorProvided(String authorName) throws NoAuthorProvidedException {
+    public static void checkAuthorName(String authorName) throws NoAuthorProvidedException, AuthorNameTooLongException {
+        checkAuthorProvided(authorName);
+        checkAuthorNameLength(authorName);
+    }
+
+    /**
+     * Checks if the manga name is <code>null</code> or is empty, then if it is longer than
+     * <code>MAX_MANGA_NAME_LENGTH</code>.
+     *
+     * @param mangaName The manga name <code>String</code> to be checked.
+     * @throws NoMangaProvidedException  If the manga name is <code>null</code> or empty.
+     * @throws MangaNameTooLongException If the manga name is longer than <code>MAX_MANGA_NAME_LENGTH</code>.
+     */
+    public static void checkMangaName(String mangaName) throws NoMangaProvidedException, MangaNameTooLongException {
+        checkMangaProvided(mangaName);
+        checkMangaNameLength(mangaName);
+    }
+
+    /**
+     * Checks if the deadline <code>String</code> is <code>null</code> or is empty, then if it is longer than
+     * <code>MAX_DEADLINE_LENGTH</code>.
+     *
+     * @param deadlineString The deadline <code>String</code> to be checked.
+     * @throws NoDeadlineProvidedException If the deadline <code>String</code> is <code>null</code> or empty.
+     * @throws DeadlineTooLongException    If the deadline <code>String</code> is longer than
+     *                                     <code>MAX_DEADLINE_LENGTH</code>
+     */
+    public static void checkDeadline(String deadlineString)
+            throws NoDeadlineProvidedException, DeadlineTooLongException {
+        checkDeadlineProvided(deadlineString);
+        checkDeadlineLength(deadlineString);
+    }
+
+    private static void checkAuthorProvided(String authorName) throws NoAuthorProvidedException {
         if (authorName == null || authorName.isEmpty()) {
             if (authorName == null) {
                 COMMAND_LOGGER.warning("Provided author name is null");
@@ -44,12 +80,7 @@ public class CommandValidity {
         }
     }
 
-    /**
-     * Throws <code>NoMangaProvidedException</code> if manga is <code>null</code> or is empty.
-     *
-     * @param mangaName The manga name <code>String</code> to be checked.
-     */
-    public static void checkMangaProvided(String mangaName) throws NoMangaProvidedException {
+    private static void checkMangaProvided(String mangaName) throws NoMangaProvidedException {
         if (mangaName == null || mangaName.isEmpty()) {
             if (mangaName == null) {
                 COMMAND_LOGGER.warning("Provided manga name is null");
@@ -60,12 +91,7 @@ public class CommandValidity {
         }
     }
 
-    /**
-     * Throws <code>NoDeadlineProvidedException</code> if deadline is <code>null</code> or is empty.
-     *
-     * @param deadlineString The deadline <code>String</code> to be checked.
-     */
-    public static void checkDeadlineProvided(String deadlineString) throws NoDeadlineProvidedException {
+    private static void checkDeadlineProvided(String deadlineString) throws NoDeadlineProvidedException {
         if (deadlineString == null || deadlineString.isEmpty()) {
             if (deadlineString == null) {
                 COMMAND_LOGGER.warning("Provided deadline is null");
@@ -108,12 +134,7 @@ public class CommandValidity {
         }
     }
 
-    /**
-     * Throws <code>AuthorNameTooLongException</code> if author name is longer than MAX_AUTHOR_NAME_LENGTH.
-     *
-     * @param authorName The manga name <code>String</code> to be checked.
-     */
-    public static void checkAuthorNameLength(String authorName) throws AuthorNameTooLongException {
+    private static void checkAuthorNameLength(String authorName) throws AuthorNameTooLongException {
         if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
             COMMAND_LOGGER.warning("Provided author name \"" + authorName + "\" exceeds maximum length at "
                     + authorName.length());
@@ -121,12 +142,7 @@ public class CommandValidity {
         }
     }
 
-    /**
-     * Throws <code>MangaNameTooLongException</code> if manga name is longer than MAX_MANGA_NAME_LENGTH.
-     *
-     * @param mangaName The manga name <code>String</code> to be checked.
-     */
-    public static void checkMangaNameLength(String mangaName) throws MangaNameTooLongException {
+    private static void checkMangaNameLength(String mangaName) throws MangaNameTooLongException {
         if (mangaName.length() > MAX_MANGA_NAME_LENGTH) {
             COMMAND_LOGGER.warning("Provided manga name \"" + mangaName + "\" exceeds maximum length at "
                     + mangaName.length());
@@ -134,12 +150,7 @@ public class CommandValidity {
         }
     }
 
-    /**
-     * Throws <code>DeadlineTooLongException</code> if deadline is longer than MAX_DEADLINE_LENGTH.
-     *
-     * @param deadline The deadline <code>String</code> to be checked.
-     */
-    public static void checkDeadlineLength(String deadline) throws DeadlineTooLongException {
+    private static void checkDeadlineLength(String deadline) throws DeadlineTooLongException {
         if (deadline.length() > MAX_DEADLINE_LENGTH) {
             COMMAND_LOGGER.warning("Provided deadline \"" + deadline + "\" exceeds maximum length at "
                     + deadline.length());
@@ -195,7 +206,7 @@ public class CommandValidity {
      * @param mangaName The manga name <code>String</code> to be checked.
      * @param author    The <code>Author</code> whose <code>mangaList</code> to search.
      */
-    public static void checkAuthorDoesNotExist(String mangaName, Author author) throws MangaDoesNotExistException {
+    public static void checkMangaDoesNotExist(String mangaName, Author author) throws MangaDoesNotExistException {
         if (!author.hasManga(mangaName)) {
             COMMAND_LOGGER.warning("\"" + mangaName + "\" does not exist in the manga list of \""
                     + author.getAuthorName() + "\"");
