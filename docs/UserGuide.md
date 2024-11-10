@@ -45,7 +45,6 @@ Examples of usage:
 * `catalog -a Kubo Tite -m Bleach`
 * `catalog -m One Piece -a Oda Eiichiro`
 
-> **_NOTE:_**
 
 
 ### Deleting Authors and Mangas: `catalog -a -d` and `catalog -a -m -d`
@@ -152,6 +151,10 @@ Advanced users can manually update data directly by editing the file.
 **Q**: How do I transfer my data to another computer?
 <br>
 **A**: Copy the `data` folder (located in the same folder as the `.jar` file) into the new location of the `.jar` file. 
+
+**Q**: Why does `MangaTantou` not have an edit function?
+<br>
+**A**: Published authors and mangas in `MangaTantou` are generally not required to change their names due to potential confusion that could be generated with audiences. If the editor still has strong wishes to change the names of authors or mangas, they can do so by editing the `catalog.json` file directly.
 
 ## Command Summary
 
