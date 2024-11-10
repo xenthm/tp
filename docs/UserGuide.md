@@ -66,14 +66,15 @@ Examples of usage:
 * `catalog -d -a Kubo Tite -m Bleach`
 
 ### Add Sales Data to a Manga: `sales`
-Adds sales data to an existing manga. Sales data consists of quantity of manga sold, the unit price per manga, and the 
+Adds sales data to an existing manga. This command will overwrite the previous sales data if ran again.
+Sales data consists of quantity of manga sold, the unit price per manga, and the 
 total revenue. The total revenue is calculated by `MangaTantou`, through the multiplication of the manga's `unitPrice` and
 `quantitySold`.
 
 Format: `sales -a <AUTHOR_NAME> -m <MANGA_NAME> -q <QUANTITY_SOLD> -p <PRICE_PER_UNIT>`
 
-* The `QUANTITY_SOLD` must be a positive Integer less than 1000000000.
-* The `PRICE_PER_UNIT` must be a Double less than 1000000000.
+* The `QUANTITY_SOLD` must be a non-negative Integer less than 1000000000.
+* The `PRICE_PER_UNIT` must be a non-negative Double less than 1000000000.
 
 Examples of usage:
 
