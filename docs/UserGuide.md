@@ -17,6 +17,7 @@ efficiency at work.
 ## Features
 > **_NOTE:_**
 > - Command flags can be specified in any order. If the flag requires a field, ensure that it is placed right after the flag after a space (e.g. `catalog -d -a Kubo Tite` and `catalog -a Kubo Tite -d` both delete the author `Kubo Tite` from the catalog).
+> - `MangaTantou`'s parser is designed to look for its valid flags (i.e. ` -a `, ` -d `, ` -s `) and will stop at each flag and process the inputs between the valid flags as arguments for the preceding flag (i.e. `catalog -a Kubo Tite -a Bleach` will give just `Kubo Tite`). In other words, the parser is <ins>**smart enough**</ins> to ignore duplicate flags where it is not expecting them and will only <ins>**take the first**</ins> valid input it encounters. Should the user require an input that contains a flag (i.e. `Kubo -a Tite` is the author's name), we recommend that the user prepends the offending part of the name with an additional dash (i.e. `Kubo --a Tite`). This is a tradeoff that `MangaTantou`'s parser takes for flexibility in argument inputs.
 > - Whenever you encounter `AUTHOR_NAME` or `MANGA_NAME`, ensure that they are not longer than 40 characters long.
 > - Names of authors and mangas are case-sensitive. For instance `Kubo Tite` and `kubo tite` will be considered as two different authors. This is to allow for authors to maintain the unique stylization of their pen names and works, and to differentiate themselves from other authors that may have similar names.
 
@@ -146,6 +147,9 @@ Advanced users can manually update data directly by editing the file.
 > To avoid the risk of your data not being restored, exercise caution when editing the file. 
 > `MangaTantou` checks for formatting and value errors and tries to discard the corrupted entry while keeping valid information if possible. 
 > If that fails, the catalog will be deleted and a new empty one will be used instead.
+
+> **_LIMITATION:_**
+> If you decide to manually edit the data file such that an entry contains a field that is impossible to add via normal commands (i.e. authorName `Kubo -a Tite` instead of `Kubo --a Tite`), you <ins>**will not be**</ins> able to access this entry in via normal commands in the future unless this change is corrected.
 
 ## FAQ
 **Q**: How do I transfer my data to another computer?
