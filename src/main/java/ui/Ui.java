@@ -117,4 +117,9 @@ public class Ui {
         System.out.printf("Manga %s successfully deleted from author %s\n",
                 deletingManga.getMangaName(), deletingManga.getAuthor().getAuthorName());
     }
+
+    public void printAddDeadlineSuccessMessage(Manga incomingManga) {
+        System.out.printf("Deadline %s added successfully to manga %s\n",
+                incomingManga.getDeadline(), incomingManga.getMangaName());
+    }
 }
