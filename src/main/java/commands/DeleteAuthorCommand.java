@@ -2,8 +2,6 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
-import exceptions.AuthorDoesNotExistException;
-import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
 import ui.Ui;
 
@@ -43,29 +41,17 @@ public class DeleteAuthorCommand extends Command {
      */
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
-
-        if (authorName == null || authorName.isEmpty()) {
-            throw new NoAuthorProvidedException();
-        }
+        CommandValidity.checkAuthorName(authorName);
 
         COMMAND_LOGGER.log(Level.INFO, "Deleting author... " + authorName);
 
         Author deletingAuthor = new Author(authorName);
+        CommandValidity.checkIfAuthorDoesNotExist(deletingAuthor.getAuthorName(), authorList);
 
-        if (authorList.hasAuthor(deletingAuthor)) {
-            authorList.remove(deletingAuthor);
-
-            ui.printDeleteAuthorSuccessMessage(deletingAuthor);
-
-            COMMAND_LOGGER.log(Level.INFO, "Successfully deleted author: " + deletingAuthor.getAuthorName());
-
-            saveFile(authorList);
-            return;
-        }
-        assert !authorList.hasAuthor(deletingAuthor): "Author not found";
-        COMMAND_LOGGER.log(Level.SEVERE, "Author not found");
-
-        throw new AuthorDoesNotExistException(deletingAuthor.getAuthorName());
+        authorList.remove(deletingAuthor);
+        ui.printDeleteAuthorSuccessMessage(deletingAuthor);
+        COMMAND_LOGGER.log(Level.INFO, "Successfully deleted author: " + deletingAuthor.getAuthorName());
+        saveFile(authorList);
     }
 
 }
