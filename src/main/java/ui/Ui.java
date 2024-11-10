@@ -4,6 +4,7 @@ import author.Author;
 import author.AuthorList;
 import manga.Manga;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -134,5 +135,18 @@ public class Ui {
 
     public void printPreMangaListMessage(Author author) {
         System.out.println("Mangas authored by " + author.getAuthorName() + ", Total: " + author.getMangaList().size());
+    }
+
+    public void printAccessLogFileFailureMessage() {
+        System.out.println("Problems accessing log file!");
+    }
+
+    public static void printResolveURIFailureMessage(URISyntaxException e) {
+        System.out.println("Cannot resolve URI of jar file!" + e.getMessage());
+        System.out.println("Continuing with the working directory set to be the path you ran the jar file in.");
+    }
+
+    public void printErrorMessage(Exception e) {
+        System.out.println(e.getMessage());
     }
 }

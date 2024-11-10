@@ -52,7 +52,7 @@ public class Tantou {
                 FileHandler fileHandler = getFileHandler();
                 TANTOU_LOGGER.addHandler(fileHandler);
             } catch (IOException e) {
-                System.out.println("Problems accessing log file!");
+                ui.printAccessLogFileFailureMessage();
             }
         }
     }
@@ -71,8 +71,7 @@ public class Tantou {
                 return jarPath.getParent();
             }
         } catch (URISyntaxException e) {
-            System.out.println("Cannot resolve URI of jar file!" + e.getMessage());
-            System.out.println("Continuing with the working directory set to be the path you ran the jar file in.");
+            Ui.printResolveURIFailureMessage(e);
         }
         return Paths.get("").toAbsolutePath();  // Fallback to current directory
     }
@@ -101,13 +100,9 @@ public class Tantou {
     }
 
     //@@author
-    public void greetUser() {
+    public void greetUser() throws TantouException {
         Command greetCommand = new GreetCommand();
-        try {
-            greetCommand.execute(ui, authorList);
-        } catch (TantouException e) {
-            System.out.printf("Something went wrong!: %s%n", e.getMessage());
-        }
+        greetCommand.execute(ui, authorList);
     }
 
     /**
@@ -125,7 +120,11 @@ public class Tantou {
         restoreDataIfAvailable();
 
         //@@author averageandyyy
-        greetUser();
+        try {
+            greetUser();
+        } catch (TantouException e) {
+            ui.printErrorMessage(e);
+        }
 
         while (!isExit) {
             try {
@@ -134,7 +133,7 @@ public class Tantou {
                 userCommand.execute(ui, authorList);
                 isExit = userCommand.isExit();
             } catch (TantouException e) {
-                System.out.println(e.getMessage());
+                ui.printErrorMessage(e);
             }
         }
     }
