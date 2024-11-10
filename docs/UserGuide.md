@@ -172,3 +172,4 @@ Advanced users can manually update data directly by editing the file.
 | Add Sales Data | `sales -a <AUTHOR_NAME> -m <MANGA_NAME> -q <QUANTITY_SOLD> -p <PRICE_PER_UNIT>` <br/> e.g. `sales -a Kubo Tite -m Bleach -q 10000 -p 11.90` | 
 | View Authors   | `view`                                                                                                                                      |
 | View Mangas    | `view -a <AUTHOR_NAME> [-b] [-s]` <br/> e.g. `view -a Hirohiko Araki -s -b`                                                                 |
+| Exit           | `bye`                                                                                                                                        |
