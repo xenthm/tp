@@ -13,6 +13,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.Strictness;
 import com.google.gson.reflect.TypeToken;
 import tantou.Tantou;
+import ui.Ui;
 
 import java.io.File;
 import java.io.FileReader;
@@ -40,6 +41,8 @@ public class Storage {
     private static File dataFile;
     private static Gson gson;
 
+    private final Ui ui;
+
     /**
      * Private default constructor for the <code>Storage</code> singleton. Sets up the STORAGE_LOGGER, data storage
      * file, and <code>Gson</code> object.
@@ -61,6 +64,8 @@ public class Storage {
                 .registerTypeAdapter(Author.class, new AuthorDeserializer())
                 .setStrictness(Strictness.LENIENT)
                 .create();
+
+        ui = new Ui();
     }
 
     public Gson getGson() {
@@ -105,24 +110,17 @@ public class Storage {
         try (FileReader reader = new FileReader(dataFile)) {
             AuthorList authorList = gson.fromJson(reader, AUTHOR_LIST_TYPE);
             STORAGE_LOGGER.info("Data restored");
-            System.out.println("Data restored!");
+            ui.printStorageDataRestoredMessage();
             return authorList;
         } catch (IOException e) {
             STORAGE_LOGGER.warning("Problems accessing file: " + e.getMessage());
-            System.out.println("Problems accessing file, data was not restored! Continuing with an empty list.");
+            ui.printStorageDataNotRestoredMessage();
         } catch (JsonSyntaxException e) {
             STORAGE_LOGGER.warning("JSON from file is malformed: " + e.getMessage());
-            System.out.println(
-                    "JSON from file is malformed, data was not restored! Continuing with an empty list."
-            );
-            System.out.println(
-                    "If you want to try and manually fix this, CTRL-C out of the program and check catalog.json!"
-            );
+            ui.printMalformedJSONMessage();
         } catch (JsonParseException e) {
             STORAGE_LOGGER.warning(e.getMessage());
-            System.out.println(
-                    "Corrupted AuthorList object. Continuing with an empty list."
-            );
+            ui.printCorruptedAuthorListMessage();
         }
         return null;
     }
@@ -150,7 +148,7 @@ public class Storage {
             return false;
         } catch (IOException | SecurityException e) {
             STORAGE_LOGGER.warning("Problems creating data file, data will not be saved!" + e.getMessage());
-            System.out.println("Problems creating data file, data will not be saved!");
+            ui.printCreateDataFileFailureMessage();
             return true;
         }
     }
@@ -170,7 +168,7 @@ public class Storage {
                 STORAGE_LOGGER.info("Data saved");
             } catch (IOException e) {
                 STORAGE_LOGGER.warning("Problems saving file, data will not be saved!" + e.getMessage());
-                System.out.println("Problems saving file, data will not be saved!");
+                ui.printSaveDataFileFailureMessage();
             }
         }
     }

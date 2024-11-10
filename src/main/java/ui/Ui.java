@@ -149,4 +149,35 @@ public class Ui {
     public void printErrorMessage(Exception e) {
         System.out.println(e.getMessage());
     }
+
+    public void printStorageDataRestoredMessage() {
+        System.out.println("Data restored!");
+    }
+
+    public void printStorageDataNotRestoredMessage() {
+        System.out.println("Problems accessing file, data was not restored! Continuing with an empty list.");
+    }
+
+    public void printMalformedJSONMessage() {
+        System.out.println(
+                "JSON from file is malformed, data was not restored! Continuing with an empty list."
+        );
+        System.out.println(
+                "If you want to try and manually fix this, CTRL-C out of the program and check catalog.json!"
+        );
+    }
+
+    public void printCorruptedAuthorListMessage() {
+        System.out.println(
+                "Corrupted AuthorList object. Continuing with an empty list."
+        );
+    }
+
+    public void printCreateDataFileFailureMessage() {
+        System.out.println("Problems creating data file, data will not be saved!");
+    }
+
+    public void printSaveDataFileFailureMessage() {
+        System.out.println("Problems saving file, data will not be saved!");
+    }
 }
