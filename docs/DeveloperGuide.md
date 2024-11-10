@@ -283,6 +283,11 @@ Refer to the [view command interaction](#view-command-interaction) for an exampl
 in this section.
 
 ## Interacting with the User
+### Command Processing Sequence
+All commands follow the command processing sequence shown below:
+![CommandSequence.png](uml/images/CommandSequence.png)
+
+The `ref` block indicates a placeholder for the individual commands and their execution below.
 ### AddAuthorCommand
 #### Overview
 The `AddAuthorCommand` is responsible for adding new `Author`s to `MangaTantou`. The command creates a new
