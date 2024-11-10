@@ -1,14 +1,7 @@
-# Sarah Chow - Project Portfolio Page
+# Sarah Chow Wan Xuan - Project Portfolio Page
 ## Overview of Project
-`MangaTantou` is a desktop Command Line Interface (CLI) application intended for editors of manga publishing companies.
-It aims to provide a one-stop-shop for all their author and manga management needs.
-
-`MangaTantou` boasts these main functionalities:
-1. Managing a team of authors by adding and deleting entries.
-2. Managing the manga written by these authors.
-3. Managing the deadlines of the manga written by these authors
-4. Managing the profits earned by the manga by editing the sales data of each manga.
-5. Viewing the above details in a well-formatted table.
+`MangaTantou` is a desktop Command Line Interface (CLI) application that serves editors in Manga Publishing Houses! 
+Its job is to keep track of authors and their works (known as mangas), monitoring each of the mangas' deadlines and profits.
 
 ## Summary of Contributions
 ### Code Contribution
@@ -17,26 +10,39 @@ this [link](https://nus-cs2113-ay2425s1.github.io/tp-dashboard/?search=t10-3&sor
 for my code and documentation contributions.
 
 ### Enhancements Implemented
+#### Implementation of Deletion for Manga and Author
+In the first iteration [v1.0] of `MangaTantou`, I was in charge of handling the deletion of authors and mangas. My task was to ensure that the command was properly formed by the user and checks for the necessary fields were made, before the command can be run successfully. I also wrote JUnit tests for the delete commands.
+> **_NOTE:_**
+>- The delete functionality in **v1.0** was `delete -a <AUTHOR_NAME> -m <MANGA_NAME>`, for the deletion of a manga.
+>- This functionality has been updated to `catalog -a <AUTHOR_NAME> -m <MANGA_NAME> -d` from **v2.0** onwards.
 #### Implementation of Sales Data
+From **v2.0** onwards, I was in charge of all tasks related to the adding of sales data. My task was to ensure that the sales command is parsed correctly, performing all the checks necessary. A unique aspect of handling numerical data is having to handle potential overflow of numbers, negative numbers, and even number format errors.
+
+Through this assignment, I was able to exercise most topics taught by the CS2113 course including but not limited to: object-oriented programming, documentation of User and Developer Guide and test creation.
 
 ### Contributions to the UG
 I wrote the:
 - Introduction
+- Part of the notes in the Features section
+- Part of the FAQ, explaining the lack of an edit function
+- Part of the Command Summary section
 - `sales` command sections
 
 ### Contributions to the DG
 I worked on the:
 - Command processing sequence diagram
 - Sales command section
-- Part of the user stories section
+- User stories, specifically on deletion and sales data functions
 
 ### Contributions to Team-Based Tasks
 - Testing and identifying major bugs in the project
 - Sending out reminders on critical tasks from the course website
 - Reviewed and commented on my groupmate's PRs
+- Organized issues from the PE Dry Run
+- Took charge of writing-heavy tasks
 
 ### Review/Mentoring Contributions
-Teams PRs I reviewed:
+`MangaTantou` PRs I reviewed (with non-trivial comments): [#99](https://github.com/AY2425S1-CS2113-T10-3/tp/pull/99), [#73](https://github.com/AY2425S1-CS2113-T10-3/tp/pull/73) and [#24](https://github.com/AY2425S1-CS2113-T10-3/tp/pull/24)
 
 ### Contributions Beyond the Project Team
-As a course exercise, I also reviewed other team's PRs: 
+As a course exercise, I also reviewed other team's PRs: [TutorLink](https://github.com/nus-cs2113-AY2425S1/tp/pull/13)
