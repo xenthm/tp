@@ -2,19 +2,11 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
-import exceptions.AuthorDoesNotExistException;
-import exceptions.AuthorListEmptyException;
-import exceptions.AuthorNameTooLongException;
-import exceptions.MangaListEmptyException;
-import exceptions.MangaNameTooLongException;
-import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
 import manga.Manga;
 import ui.Ui;
 
 import static constants.Command.VIEW_COMMAND;
-import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
-import static constants.Options.MAX_MANGA_NAME_LENGTH;
 import static manga.MangaList.mangaColumnsToPrint;
 
 //@@author xenthm
@@ -40,37 +32,14 @@ public class ViewMangasCommand extends Command {
         assert authorList != null : "authorList must not be null";
         assert authorName != null : "An author name must be provided";
 
-        if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
-            COMMAND_LOGGER.warning("Author name " + authorName + " exceeds maximum length");
-            throw new AuthorNameTooLongException();
-        }
-
-        if (authorList.isEmpty()) {
-            COMMAND_LOGGER.info("authorList is empty");
-            throw new AuthorListEmptyException();
-        }
-
-        if (authorName.isEmpty()) {
-            COMMAND_LOGGER.warning("Author argument is empty");
-            throw new NoAuthorProvidedException();
-        }
+        CommandValidity.checkAuthorName(authorName);
+        CommandValidity.checkIfAuthorListNotEmpty(authorList);
+        CommandValidity.checkIfAuthorDoesNotExist(authorName, authorList);
         Author author = authorList.getAuthor(authorName);
 
-        if (author == null) {
-            COMMAND_LOGGER.warning("Author " + authorName + " does not exist in authorList");
-            throw new AuthorDoesNotExistException(authorName);
-        }
-
-        if (author.getMangaList().isEmpty()) {
-            COMMAND_LOGGER.info(authorName + " has no associated mangas");
-            throw new MangaListEmptyException(authorName);
-        }
-
+        CommandValidity.checkIfMangaListNotEmpty(author);
         for (Manga manga : author.getMangaList()) {
-            if (manga.getMangaName().length() > MAX_MANGA_NAME_LENGTH) {
-                COMMAND_LOGGER.warning("Manga name " + manga.getMangaName() + " exceeds maximum length");
-                throw new MangaNameTooLongException();
-            }
+            CommandValidity.checkMangaName(manga.getMangaName());
         }
 
         System.out.println("Mangas authored by " + authorName + ", Total: " + author.getMangaList().size());
