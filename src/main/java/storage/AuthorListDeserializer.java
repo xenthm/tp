@@ -29,14 +29,15 @@ class AuthorListDeserializer implements JsonDeserializer<AuthorList> {
         JsonArray authorListJsonArray = json.getAsJsonArray();
 
         AuthorList authorList = new AuthorList();
-        for (JsonElement authorJsonElement : authorListJsonArray) {
+        for (int i = 0; i < authorListJsonArray.size(); i++) {
+            JsonElement authorJsonElement = authorListJsonArray.get(i);
             // Ensure author is valid, skipping if not
             try {
-                Author author = context.deserialize(authorJsonElement, Author.class);
+                Author author = new AuthorDeserializer().deserialize(authorJsonElement, Author.class, context);
                 CommandValidity.ensureValidAuthorName(author.getAuthorName());
                 authorList.add(author);
             } catch (JsonParseException e) {
-                System.out.println("Skipping corrupted author entry due to "
+                System.out.println("Skipping corrupted author entry at index " + i + " due to "
                         + e.getMessage()
                 );
             } catch (TantouException e) {

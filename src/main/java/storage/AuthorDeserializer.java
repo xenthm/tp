@@ -22,7 +22,7 @@ class AuthorDeserializer implements JsonDeserializer<Author> {
     public Author deserialize(JsonElement json, Type typeOfAuthor, JsonDeserializationContext context)
             throws JsonParseException {
         if (json == null || !json.isJsonObject()) {
-            throw new JsonParseException("corrupt Author object");
+            throw new JsonParseException("redundant comma or corrupt Author object");
         }
         JsonObject authorJsonObject = json.getAsJsonObject();
 
