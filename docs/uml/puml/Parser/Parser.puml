@@ -1,5 +1,6 @@
 @startuml
 !include ../.PlantUMLClass.config
+scale 2
 class Parser {
     + getUserCommand(userInput: String): Command
     - processCatalogCommand(userInput: String): Command
