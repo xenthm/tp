@@ -18,6 +18,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import static commands.Command.COMMAND_LOGGER;
 import static storage.StorageHelper.readFile;
 
 public class Tantou {
@@ -82,14 +83,45 @@ public class Tantou {
         fileHandler.setFormatter(new SimpleFormatter() {
             @Override
             public synchronized String format(LogRecord record) {
+                /* Change log message format based on if the command logger is being used.
+                 * This allows the log message to contain the caller's (i.e. the command's) name, instead of the
+                 * CommandValidity utility class.
+                 */
+                if (record.getLoggerName().equals(COMMAND_LOGGER.getName())) {
+                    String callerClassName = "";
+                    StackTraceElement[] stackTrace = new Throwable().getStackTrace();
+
+                    String executeMethodName = "execute";
+                    try {
+                        Command.class.getMethod(executeMethodName, Ui.class, AuthorList.class);
+                    } catch (NoSuchMethodException e) {
+                        assert false : "Command class does not have an execute method that has Ui and AuthorList as " +
+                                "parameters.";
+                    }
+
+                    for (StackTraceElement element : stackTrace) {
+                        if (element.getMethodName().equals(executeMethodName)) {
+                            callerClassName = element.getClassName();
+                            break;
+                        }
+                    }
+                    return String.format(
+                            "%1$tF %1$tT %2$s [%3$s - %4$s] %n%5$s%n",
+                            record.getMillis(),     // Timestamp
+                            record.getLevel(),      // Log level
+                            record.getLoggerName(), // Logger name
+                            callerClassName,        // Caller's class name
+                            record.getMessage()     // Log message
+                    );
+                }
                 return String.format(
-                        "%1$tF %1$tT %5$s [%2$s - %3$s::%4$s] %n%6$s%n",
-                        record.getMillis(),               // Timestamp
-                        record.getLoggerName(),           // Logger name
-                        record.getSourceClassName(),      // Class name
-                        record.getSourceMethodName(),     // Method name
-                        record.getLevel(),                // Log level
-                        record.getMessage()               // Log message
+                        "%1$tF %1$tT %2$s [%3$s - %4$s::%5$s] %n%6$s%n",
+                        record.getMillis(),                     // Timestamp
+                        record.getLevel(),                      // Log level
+                        record.getLoggerName(),                 // Logger name
+                        record.getSourceClassName(),            // Class name
+                        record.getSourceMethodName(),           // Method name
+                        record.getMessage()                     // Log message
                 );
             }
         });
