@@ -18,6 +18,7 @@ efficiency at work.
 > **_NOTE:_**
 > - Command flags can be specified in any order. If the flag requires a field, ensure that it is placed right after the flag after a space (e.g. `catalog -d -a Kubo Tite` and `catalog -a Kubo Tite -d` both delete the author `Kubo Tite` from the catalog).
 > - Whenever you encounter `AUTHOR_NAME` or `MANGA_NAME`, ensure that they are not longer than 40 characters long.
+> - Names of authors and mangas are case-sensitive. For instance `Kubo Tite` and `kubo tite` will be considered as two different authors. This is to allow for authors to maintain the unique stylization of their pen names and works, and to differentiate themselves from other authors that may have similar names.
 
 ### Adding Authors: `catalog -a`
 The `catalog -a` command allows you to add `Author`s to your catalog so that `MangaTantou` can keep track of all the manga created 
@@ -43,6 +44,9 @@ Format: `catalog -a <AUTHOR_NAME> -m <MANGA_NAME>`
 Examples of usage:
 * `catalog -a Kubo Tite -m Bleach`
 * `catalog -m One Piece -a Oda Eiichiro`
+
+> **_NOTE:_**
+
 
 ### Deleting Authors and Mangas: `catalog -a -d` and `catalog -a -m -d`
 The `catalog -a -d` and `catalog -a -m -d` commands allow you to remove authors and mangas from your catalog in `MangaTantou`. 
