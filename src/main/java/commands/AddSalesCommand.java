@@ -4,7 +4,9 @@ import author.Author;
 import author.AuthorList;
 import exceptions.NumberLessThanZeroException;
 import exceptions.PriceTooLargeException;
+import exceptions.PriceWrongFormatException;
 import exceptions.QuantityTooLargeException;
+import exceptions.QuantityWrongFormatException;
 import exceptions.TantouException;
 import manga.Manga;
 import sales.Sale;
@@ -65,12 +67,16 @@ public class AddSalesCommand extends Command {
         CommandValidity.ensurePriceIsProvided(priceString);
 
         Integer quantitySold = null;
-        Double unitPrice = null;
         try {
             quantitySold = Integer.parseInt(quantityString);
+        } catch (NumberFormatException e) {
+            throw new QuantityWrongFormatException();
+        }
+        Double unitPrice = null;
+        try {
             unitPrice = Double.parseDouble(priceString);
         } catch (NumberFormatException e) {
-            throw new TantouException("Pretty sure we taught you how to format those numbers already... Seriously...");
+            throw new PriceWrongFormatException();
         }
 
         if (quantitySold >= QUANTITY_MAX_VALUE) {
