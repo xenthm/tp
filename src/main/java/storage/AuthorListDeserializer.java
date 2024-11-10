@@ -7,6 +7,8 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import commands.CommandValidity;
+import exceptions.TantouException;
 
 import java.lang.reflect.Type;
 
@@ -31,11 +33,14 @@ class AuthorListDeserializer implements JsonDeserializer<AuthorList> {
             // Ensure author is valid, skipping if not
             try {
                 Author author = context.deserialize(authorJsonElement, Author.class);
+                CommandValidity.ensureValidAuthorName(author.getAuthorName());
                 authorList.add(author);
             } catch (JsonParseException e) {
                 System.out.println("Skipping corrupted author entry due to "
                         + e.getMessage()
                 );
+            } catch (TantouException e) {
+                System.out.println(e.getMessage());
             }
         }
 
