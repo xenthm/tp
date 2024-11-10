@@ -2,22 +2,10 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
-import exceptions.AuthorDoesNotExistException;
-import exceptions.AuthorExistsException;
-import exceptions.AuthorListEmptyException;
-import exceptions.AuthorNameTooLongException;
-import exceptions.MangaDoesNotExistException;
-import exceptions.MangaExistsException;
-import exceptions.MangaListEmptyException;
-import exceptions.MangaNameTooLongException;
-import exceptions.NoAuthorProvidedException;
-import exceptions.NoMangaProvidedException;
-import exceptions.NoPriceProvidedException;
-import exceptions.NoQuantityProvidedException;
+import exceptions.*;
 
 import static commands.Command.COMMAND_LOGGER;
-import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
-import static constants.Options.MAX_MANGA_NAME_LENGTH;
+import static constants.Options.*;
 
 //@@author xenthm
 /**
@@ -54,6 +42,22 @@ public class CommandValidity {
                 COMMAND_LOGGER.warning("Provided manga name is empty");
             }
             throw new NoMangaProvidedException();
+        }
+    }
+
+    /**
+     * Throws <code>NoDeadlineProvidedException</code> if deadline is <code>null</code> or is empty.
+     *
+     * @param deadlineString The deadline <code>String</code> to be checked.
+     */
+    public static void checkDeadlineProvided(String deadlineString) throws NoDeadlineProvidedException {
+        if (deadlineString == null || deadlineString.isEmpty()) {
+            if (deadlineString == null) {
+                COMMAND_LOGGER.warning("Provided deadline is null");
+            } else {
+                COMMAND_LOGGER.warning("Provided deadline is empty");
+            }
+            throw new NoDeadlineProvidedException();
         }
     }
 
@@ -112,6 +116,19 @@ public class CommandValidity {
             COMMAND_LOGGER.warning("Provided manga name \"" + mangaName + "\" exceeds maximum length at "
                     + mangaName.length());
             throw new MangaNameTooLongException();
+        }
+    }
+
+    /**
+     * Throws <code>DeadlineTooLongException</code> if deadline is longer than MAX_DEADLINE_LENGTH.
+     *
+     * @param deadline The deadline <code>String</code> to be checked.
+     */
+    public static void checkDeadlineLength(String deadline) throws DeadlineTooLongException {
+        if (deadline.length() > MAX_DEADLINE_LENGTH) {
+            COMMAND_LOGGER.warning("Provided deadline \"" + deadline + "\" exceeds maximum length at "
+                    + deadline.length());
+            throw new DeadlineTooLongException();
         }
     }
 
