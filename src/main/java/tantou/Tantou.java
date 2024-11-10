@@ -9,6 +9,9 @@ import ui.Ui;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.FileHandler;
 import java.util.logging.LogManager;
 import java.util.logging.LogRecord;
@@ -18,7 +21,9 @@ import java.util.logging.SimpleFormatter;
 import static storage.StorageHelper.readFile;
 
 public class Tantou {
-    public static final File LOG_LOCATION = new File("logs/tantou.log");
+    public static final File BASE_LOCATION = getBaseDirectory().toFile();
+    public static final File LOG_LOCATION = new File(BASE_LOCATION, "logs/tantou.log");
+
     private static final Logger TANTOU_LOGGER = Logger.getLogger("Tantou");
 
     private Ui ui;
@@ -49,6 +54,25 @@ public class Tantou {
                 System.out.println("Problems accessing log file!");
             }
         }
+    }
+
+    /**
+     * This method tries to get the directory the jar file is located for a more consistent data and log directory
+     * location.
+     *
+     * @return The jar file directory, or if the program was not run from a jar file, an empty {@code Path}.
+     */
+    private static Path getBaseDirectory() {
+        try {
+            Path jarPath = Paths.get(Tantou.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+            if (jarPath.toString().endsWith(".jar")) {
+                System.out.println("jar file detected!");
+                return jarPath.getParent();
+            }
+        } catch (URISyntaxException e) {
+            System.out.println("Cannot resolve URI of jar file!" + e.getMessage());
+        }
+        return Paths.get("").toAbsolutePath();  // Fallback to current directory
     }
 
     private static FileHandler getFileHandler() throws IOException {
