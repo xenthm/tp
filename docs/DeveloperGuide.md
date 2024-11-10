@@ -61,7 +61,7 @@ interested in.
 ![Parser.png](uml/puml/Parser/Parser.png)
 
 #### Overall Structure and Flow
-As seen from the above class diagram, after obtaining user input from `Ui`, command generation first begins with the
+Command generation first begins with the
 `Parser` class. `Parser` first determines the command that the user
 wishes to execute based on the first keyword provided. After which, `Parser` will employ various
 `ArgumentFinder`s to extract the arguments of interest. Each specific implementation of the
