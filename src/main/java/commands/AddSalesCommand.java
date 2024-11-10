@@ -2,14 +2,6 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
-import exceptions.AuthorDoesNotExistException;
-import exceptions.AuthorNameTooLongException;
-import exceptions.MangaDoesNotExistException;
-import exceptions.MangaNameTooLongException;
-import exceptions.NoAuthorProvidedException;
-import exceptions.NoMangaProvidedException;
-import exceptions.NoPriceProvidedException;
-import exceptions.NoQuantityProvidedException;
 import exceptions.NumberLessThanZeroException;
 import exceptions.PriceTooLargeException;
 import exceptions.QuantityTooLargeException;
@@ -23,16 +15,13 @@ import static constants.Command.MANGA_INDEX;
 import static constants.Command.PRICE_INDEX;
 import static constants.Command.QUANTITY_INDEX;
 import static constants.Command.SALES_COMMAND;
-import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
-import static constants.Options.MAX_MANGA_NAME_LENGTH;
 import static storage.StorageHelper.saveFile;
 
 //@@author sarahchow03
-
 /**
- * Represents the <code>sales</code> command that handles adding sales data to a manga.
- * This command validates the user input, checks if the author and manga exist,
- * and adds sales data (quantity sold and unit price) to the specified manga.
+ * Represents the <code>Sale</code> command that handles adding sales data to a manga. This command validates the user
+ * input, checks if the author and manga exist, and adds sales data (quantity sold and unit price) to the specified
+ * manga.
  */
 public class AddSalesCommand extends Command {
     // Maximum allowed values for unit price and quantity
@@ -70,21 +59,10 @@ public class AddSalesCommand extends Command {
         String quantityString = argsAuthorMangaQtyPrice[QUANTITY_INDEX];
         String priceString = argsAuthorMangaQtyPrice[PRICE_INDEX];
 
-        if (authorName == null || authorName.isEmpty()) {
-            throw new NoAuthorProvidedException();
-        }
-
-        if (mangaName == null || mangaName.isEmpty()) {
-            throw new NoMangaProvidedException();
-        }
-
-        if (quantityString == null || quantityString.isEmpty()) {
-            throw new NoQuantityProvidedException();
-        }
-
-        if (priceString == null || priceString.isEmpty()) {
-            throw new NoPriceProvidedException();
-        }
+        CommandValidity.checkAuthorName(authorName);
+        CommandValidity.checkMangaName(mangaName);
+        CommandValidity.checkQuantityIsProvided(quantityString);
+        CommandValidity.checkPriceIsProvided(priceString);
 
         Integer quantitySold = null;
         Double unitPrice = null;
@@ -111,31 +89,15 @@ public class AddSalesCommand extends Command {
             throw new NumberLessThanZeroException();
         }
 
-        //@@author xenthm
-        if (authorName.length() > MAX_AUTHOR_NAME_LENGTH) {
-            COMMAND_LOGGER.warning("Author name " + authorName + " exceeds maximum length");
-            throw new AuthorNameTooLongException();
-        }
-
-        if (mangaName.length() > MAX_MANGA_NAME_LENGTH) {
-            COMMAND_LOGGER.warning("Manga name " + mangaName + " exceeds maximum length");
-            throw new MangaNameTooLongException();
-        }
-
         //@@author sarahchow03
         Sale salesData = new Sale(quantitySold, unitPrice);
         Author incomingAuthor = new Author(authorName);
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
 
-        if (!authorList.hasAuthor(incomingAuthor)) {
-            throw new AuthorDoesNotExistException(authorName);
-        }
-
+        CommandValidity.checkIfAuthorDoesNotExist(incomingAuthor.getAuthorName(), authorList);
         Author existingAuthor = authorList.getAuthor(incomingAuthor);
 
-        if (!existingAuthor.hasManga(incomingManga)) {
-            throw new MangaDoesNotExistException(mangaName);
-        }
+        CommandValidity.checkIfMangaDoesNotExist(incomingManga.getMangaName(), existingAuthor);
 
         existingAuthor.getManga(incomingManga.getMangaName()).addSalesData(salesData);
         System.out.printf("Sales data added for %s %s\n", incomingManga.getMangaName(), salesData);
