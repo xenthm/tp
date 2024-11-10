@@ -104,6 +104,7 @@ And with that, you've successfully expanded `Parser` to generate new
 
 ### Commands
 ![Command Inheritance](uml/puml/Command/Command_One.png)<br/>
+![Command Inheritance](uml/puml/Command/Command_Two.png)<br/>
 The current list of viable `Commands` are as follows:
 1. `AddAuthorCommand`
 2. `AddMangaCommand`

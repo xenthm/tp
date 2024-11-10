@@ -10,6 +10,7 @@ abstract class Command as "{abstract}\n Command" {
     + isExit(): boolean
     + execute(ui: Ui, authorList: AuthorList): void ABSTRACT_DECORATOR
 }
+
 class Ui {
 }
 

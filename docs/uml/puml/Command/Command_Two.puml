@@ -1,14 +1,14 @@
 @startuml
 !include ../.PlantUMLClass.config
 
-abstract class Command <<abstract>> {
+abstract class Command as "{abstract}\n Command" {
     # logger: Logger
     - command: String
     - isExit: boolean
     + Command(command: String): Command
     + setExit(exit: boolean): void
     + isExit(): boolean
-    + <<abstract>> execute(ui: Ui, authorList: AuthorList): void
+    + execute(ui: Ui, authorList: AuthorList): void ABSTRACT_DECORATOR
 }
 class Ui {
 }
@@ -20,27 +20,6 @@ class AuthorList {
 
 Command ..> AuthorList : alters >
 
-class GreetCommand {
-    + GreetCommand(): GreetCommand
-    + execute(ui: Ui, authorList: AuthorList): void
-}
-
-class ByeCommand {
-    + ByeCommand(): ByeCommand
-    + execute(ui: Ui, authorList: AuthorList): void
-}
-
-class AddAuthorCommand {
-    - authorName: String
-    + AddAuthorCommand(authorName: String): AddAuthorCommand
-    + execute(ui: Ui, authorList: AuthorList): void
-}
-
-class DeleteAuthorCommand {
-    - authorName: String
-    + DeleteAuthorCommand(authorName: String): DeleteAuthorCommand
-    + execute(ui: Ui, authorList: AuthorList): void
-}
 
 class AddMangaCommand {
     - authorName: String
@@ -62,29 +41,17 @@ class AddSalesCommand {
     + execute(ui:Ui, authorList: AuthorList): void
 }
 
-class ViewAuthorsCommand {
-    + ViewAuthorsCommand(): ViewAuthorsCommand
-    + execute(ui: Ui, authorList: AuthorList): void
-}
-
-class ViewMangasCommand {
-    - authorName: String
-    - includeDeadline: boolean
-    - includeSales: boolean
-    + ViewMangasCommand(authorName: String, includeDeadline: boolean, includeSales: boolean): ViewMangasCommand
-    + execute(ui: Ui, authorList: AuthorList): void
+class AddDeadlineCommand {
+    - argsAuthorMangaDeadline: String[]
+    + AddDeadlineCommand(argsAuthorMangaDeadline: String[]): AddDeadlineCommand
+    + execute(ui:Ui, authorList: AuthorList): void
 }
 
 
 
-Command <|-- GreetCommand
-Command <|-- ByeCommand
-Command <|-- AddAuthorCommand
-Command <|-- DeleteAuthorCommand
 Command <|-- AddMangaCommand
 Command <|-- DeleteMangaCommand
 Command <|-- AddSalesCommand
-Command <|-- ViewAuthorsCommand
-Command <|-- ViewMangasCommand
+Command <|-- AddDeadlineCommand
 
 @enduml
