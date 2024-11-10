@@ -22,8 +22,6 @@ import static storage.StorageHelper.saveFile;
  */
 public class AddSalesCommand extends Command {
     // Maximum allowed values for unit price and quantity
-    public static final int UNIT_PRICE_MAX_VALUE = 1000000000;
-    public static final int QUANTITY_MAX_VALUE = 1000000000;
     private String[] argsAuthorMangaQtyPrice;
 
     public AddSalesCommand(String[] argsAuthorMangaQtyPrice) {
