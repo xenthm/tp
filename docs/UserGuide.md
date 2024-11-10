@@ -159,7 +159,7 @@ Advanced users can manually update data directly by editing the file.
 
 **Q**: Why does `MangaTantou` not have an edit function?
 <br>
-**A**: Published authors and mangas in `MangaTantou` are generally not required to change their names due to potential confusion that could be generated with audiences. If the editor still has strong wishes to change the names of authors or mangas, they can do so by editing the `catalog.json` file directly.
+**A**: Published authors and mangas in `MangaTantou` are generally not required to change their names due to potential confusion that could be generated with audiences. If the editor still has strong wishes to change the names of authors or mangas, they can do so by editing the `catalog.json` file directly while following our naming conventions and guidelines.
 
 ## Command Summary
 
