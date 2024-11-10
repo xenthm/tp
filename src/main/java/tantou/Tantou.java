@@ -38,6 +38,7 @@ public class Tantou {
         this.isExit = false;
         this.authorList = new AuthorList();
 
+        //@@author xenthm
         // Remove default handlers
         LogManager.getLogManager().reset();
 
@@ -56,6 +57,7 @@ public class Tantou {
         }
     }
 
+    //@@author xenthm
     /**
      * This method tries to get the directory the jar file is located for a more consistent data and log directory
      * location.
@@ -66,11 +68,11 @@ public class Tantou {
         try {
             Path jarPath = Paths.get(Tantou.class.getProtectionDomain().getCodeSource().getLocation().toURI());
             if (jarPath.toString().endsWith(".jar")) {
-                System.out.println("jar file detected!");
                 return jarPath.getParent();
             }
         } catch (URISyntaxException e) {
             System.out.println("Cannot resolve URI of jar file!" + e.getMessage());
+            System.out.println("Continuing with the working directory set to be the path you ran the jar file in.");
         }
         return Paths.get("").toAbsolutePath();  // Fallback to current directory
     }
@@ -94,7 +96,6 @@ public class Tantou {
         return fileHandler;
     }
 
-    //@@author xenthm
     public void setAuthorList(AuthorList authorList) {
         this.authorList = authorList;
     }
