@@ -12,6 +12,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.Strictness;
 import com.google.gson.reflect.TypeToken;
+import tantou.Tantou;
 
 import java.io.File;
 import java.io.FileReader;
@@ -51,8 +52,8 @@ public class Storage {
      */
     private Storage() {
         assert DATA_PATH.endsWith(".json") : "data file path should be of type .json";
-        dataFile = new File(DATA_PATH);
-        STORAGE_LOGGER.info("Data file path initialized to: " + dataFile.getAbsolutePath());
+        File dataFile = new File(Tantou.BASE_LOCATION, DATA_PATH);
+        setDataFile(dataFile);
         gson = new GsonBuilder()
                 .setExclusionStrategies(new ExcludeInSerializationAnnotationExclusionStrategy())
                 .setPrettyPrinting()
@@ -70,9 +71,14 @@ public class Storage {
         return dataFile;
     }
 
-    public void setDataFile(File dataFile) {
-        Storage.dataFile = dataFile;
-        STORAGE_LOGGER.info("Data file path changed to: " + dataFile.getAbsolutePath());
+    public static void setDataFile(File dataFile) {
+        if (Storage.dataFile == null) {
+            Storage.dataFile = dataFile;
+            STORAGE_LOGGER.info("Data file path initialized to: " + dataFile.getAbsolutePath());
+        } else {
+            Storage.dataFile = dataFile;
+            STORAGE_LOGGER.info("Data file path changed to: " + dataFile.getAbsolutePath());
+        }
     }
 
     /**
@@ -84,7 +90,6 @@ public class Storage {
     public static Storage getInstance() {
         if (storage == null) {
             storage = new Storage();
-            STORAGE_LOGGER.info("Singleton Storage first initialized");
         }
         return storage;
     }
