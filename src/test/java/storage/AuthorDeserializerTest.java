@@ -1,6 +1,7 @@
 package storage;
 
 import author.Author;
+import author.AuthorList;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -16,10 +17,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 //@@author xenthm
 class AuthorDeserializerTest {
     private AuthorDeserializer authorDeserializer;
+    private final AuthorList testAuthorList = new AuthorList();
 
     @BeforeEach
     void setUp() {
-        authorDeserializer = new AuthorDeserializer();
+        authorDeserializer = new AuthorDeserializer(testAuthorList);
     }
 
     @Test

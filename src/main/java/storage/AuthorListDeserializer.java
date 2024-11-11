@@ -7,8 +7,6 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import commands.CommandValidity;
-import exceptions.TantouException;
 
 import java.lang.reflect.Type;
 
@@ -16,7 +14,9 @@ import java.lang.reflect.Type;
 /**
  * This package private class defines a custom <code>Gson</code> deserializer for the top-level <code>AuthorList</code>
  * class. It provides informative errors messages as feedback for users who manually edit the data file, and allows
- * for skipping of corrupted <code>Author</code> elements while allowing valid ones to still be restored.
+ * for skipping of invalid <code>Author</code> elements while allowing valid ones to still be restored. The
+ * <code>AuthorList</code> reference is passed to the <code>AuthorDeserializer</code> to allow for duplicate manga
+ * checking.
  */
 class AuthorListDeserializer implements JsonDeserializer<AuthorList> {
     @Override
@@ -24,7 +24,7 @@ class AuthorListDeserializer implements JsonDeserializer<AuthorList> {
             throws JsonParseException {
         // Ensure authorList is a JSON array
         if (json == null || !json.isJsonArray()) {
-            throw new JsonParseException("corrupt AuthorList array");
+            throw new JsonParseException("invalid AuthorList array");
         }
         JsonArray authorListJsonArray = json.getAsJsonArray();
 
@@ -33,15 +33,13 @@ class AuthorListDeserializer implements JsonDeserializer<AuthorList> {
             JsonElement authorJsonElement = authorListJsonArray.get(i);
             // Ensure author is valid, skipping if not
             try {
-                Author author = new AuthorDeserializer().deserialize(authorJsonElement, Author.class, context);
-                CommandValidity.ensureValidAuthorName(author.getAuthorName());
+                Author author = new AuthorDeserializer(authorList)
+                        .deserialize(authorJsonElement, Author.class, context);
                 authorList.add(author);
             } catch (JsonParseException e) {
-                System.out.println("Skipping corrupted author entry at index " + i + " due to "
+                System.out.println("Skipping invalid author entry at index " + i + " due to "
                         + e.getMessage()
                 );
-            } catch (TantouException e) {
-                System.out.println(e.getMessage());
             }
         }
 
