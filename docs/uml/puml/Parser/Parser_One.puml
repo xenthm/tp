@@ -7,6 +7,7 @@ class Parser {
     - isValidDeleteCommand(userInput:String): boolean
     - processViewCommand(userInput: String): Command
     - processSalesCommand(userInput: String): Command
+    - processDeadlineCommand(userInput: String): Command
 }
 
 Parser ..> ArgumentFinder : extracts arguments using >

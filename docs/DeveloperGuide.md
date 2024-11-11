@@ -132,7 +132,8 @@ When adding new command classes, developers must follow the same method of imple
 inheriting from the abstract `Command` class. Ensure that each new command class includes
 an implementation of the `execute` method and appropriately interacts with the `Ui` class
 for user feedback. Additionally, developers should update the `Parser` class to gather the
-relevant arguments from the user for their commands.
+relevant arguments from the user for their commands. Lastly, it is important that developers expand the static `CommandValidator` and use it to
+verify the correctness of the arguments provided and to throw the relevant exceptions otherwise.
 
 ### Saving Data
 `AuthorList` data accumulated by the user can be saved with the provided `Storage` and `StorageHelper` classes.

@@ -11,6 +11,11 @@ abstract class Command as "{abstract}\n Command" {
     + execute(ui: Ui, authorList: AuthorList): void ABSTRACT_DECORATOR
 }
 
+class CommandValidator {
+}
+
+Command ..> CommandValidator : uses to validate Command values >
+
 class Ui {
 }
 
