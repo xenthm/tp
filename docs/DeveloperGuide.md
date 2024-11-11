@@ -60,7 +60,9 @@ interested in.
 
 ### Parsing Architecture
 ![Parser.png](uml/puml/Parser/Parser_One.png)
-___
+
+---
+
 ![Parser.png](uml/puml/Parser/Parser_Two.png)
 
 #### Overall Structure and Flow
@@ -107,9 +109,13 @@ And with that, you've successfully expanded `Parser` to generate new
 
 ### Commands
 ![Command Inheritance](uml/puml/Command/Command_One.png)<br/>
-___
+
+---
+
 ![Command Inheritance](uml/puml/Command/Command_Two.png)<br/>
-___
+
+---
+
 ![Command Inheritance](uml/puml/Command/Command_Three.png)<br/>
 The current list of viable `Commands` are as follows:
 1. `AddAuthorCommand`
@@ -168,7 +174,9 @@ the
 `AuthorList`.
 <br/>
 ![SavingDataSequence.png](uml/puml/SavingDataSequence/SavingDataSequence.png)<br/>
-___
+
+---
+
 ![refGetStorageInstanceSequence.png](uml/puml/SavingDataSequence/refGetStorageInstanceSequence.png)<br/>
 
 #### Gson De/serialization
@@ -377,9 +385,13 @@ Interaction
 The following UML sequence diagrams illustrate the interactions that take place when the user provides a valid
 `ViewMangasCommand` command (e.g. `view -a test1 -b -s`, where `test1` is an author that already wrote some manga).
 <br/>![ViewMangaSequence.png](uml/puml/ViewMangaSequence/ViewMangaSequence.png)<br/>
-___
+
+---
+
 ![refGetColumnsToPrintSequence.png](uml/puml/ViewMangaSequence/refGetColumnsToPrintSequence.png)<br/>
-___
+
+---
+
 ![refPrintRowsSequence.png](uml/puml/ViewMangaSequence/refPrintRowsSequence.png)<br/>
 `ViewAuthorsCommand` works similarly, but with only 2 required columns to print (row number and author name).
 
