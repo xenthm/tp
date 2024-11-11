@@ -15,6 +15,7 @@ In the first iteration [v1.0] of `MangaTantou`, I was in charge of handling the 
 > **_NOTE:_**
 >- The delete functionality in **v1.0** was `delete -a <AUTHOR_NAME> -m <MANGA_NAME>`, for the deletion of a manga.
 >- This functionality has been updated to `catalog -a <AUTHOR_NAME> -m <MANGA_NAME> -d` from **v2.0** onwards.
+
 #### Implementation of Sales Data
 From **v2.0** onwards, I was in charge of all tasks related to the adding of sales data. My task was to ensure that the sales command is parsed correctly, performing all the checks necessary. A unique aspect of handling numerical data is having to handle potential overflow of numbers, negative numbers, and even number format errors.
 
