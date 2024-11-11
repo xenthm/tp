@@ -176,23 +176,21 @@ public MangaList deserialize(JsonElement json, Type typeOfMangaList, JsonDeseria
         throws JsonParseException {
     // Ensure mangaList is a JSON array
     if (json == null || !json.isJsonArray()) {
-        throw new JsonParseException("corrupt MangaList object");
+        throw new JsonParseException("invalid MangaList array");
     }
     JsonArray mangaListJsonArray = json.getAsJsonArray();
 
     MangaList mangaList = new MangaList();
-    for (JsonElement mangaJsonElement : mangaListJsonArray) {
+    for (int i = 0; i < mangaListJsonArray.size(); i++) {
+        JsonElement mangaJsonElement = mangaListJsonArray.get(i);
         // Ensure manga is valid, skipping if not
         try {
             // pass Author reference
-            Manga manga = new MangaDeserializer(author).deserialize(mangaJsonElement, Manga.class, context);
+            Manga manga = new MangaDeserializer(author, mangaList)
+                    .deserialize(mangaJsonElement, Manga.class, context);
             mangaList.add(manga);
         } catch (JsonParseException e) {
-            System.out.println("Author "
-                    + author.getAuthorName()
-                    + ": skipping corrupted manga entry due to "
-                    + e.getMessage()
-            );
+            Ui.printString(generateErrorMessage(e, i));
         }
     }
 
@@ -242,11 +240,11 @@ public class Manga {
 ```
 When providing the above `catalog.json` file and inputting `view -a test1`, the following output is given.
 ```
-Author "test1": skipping corrupted manga entry due to corrupt deadline
+Author "test1": skipping invalid manga entry at index 1 due to invalid deadline
 Data restored!
 Wake up and slave~
 view -a test1
-Mangas authored by test1, Total: 1
+Mangas authored by "test1", Total: 1
 no. | Manga Name
 ----------------------------------------------
   1 | manga 1-1
@@ -360,7 +358,7 @@ The `ViewAuthorsCommand` and `ViewMangasCommand` are responsible for displaying 
 For example, `view -a test1 -b -s` gives the following output (`b` for by-date/deadline, `s` for sales data).
 ```
 view -a test1 -b -s
-Mangas authored by test1, Total: 2
+Mangas authored by "test1", Total: 2
 no. | Manga Name                               | Deadline             | Unit Price | Units Sold | Revenue
 -----------------------------------------------------------------------------------------------------------------
   1 | manga 1-1                                | None                 | N/A        | N/A        | N/A
