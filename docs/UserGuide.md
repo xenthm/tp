@@ -45,8 +45,6 @@ Examples of usage:
 * `catalog -a Kubo Tite -m Bleach`
 * `catalog -m One Piece -a Oda Eiichiro`
 
-
-
 ### Deleting Authors and Mangas: `catalog -a -d` and `catalog -a -m -d`
 The `catalog -a -d` and `catalog -a -m -d` commands allow you to remove authors and mangas from your catalog in `MangaTantou`. 
 This feature is useful for managing your catalog by removing inactive authors or discontinued manga titles.
@@ -132,7 +130,7 @@ Example output:
 view -a Hirohiko Araki -s -b
 Mangas authored by Hirohiko Araki, Total: 2
 no. | Manga Name                               | Deadline             | Unit Price | Units Sold | Revenue
------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
   1 | Phantom Blood                            | January 1, 1987      | 2.50       | 10         | 25.00
   2 | Stone Ocean                              | December 7, 1999     | 9.00       | 50         | 450.00
 
@@ -155,8 +153,16 @@ Advanced users can manually update data directly by editing the file.
 > `MangaTantou` checks for formatting and value errors and tries to discard the corrupted entry while keeping valid information if possible. 
 > If that fails, the catalog will be deleted and a new empty one will be used instead.
 
-> **_LIMITATION:_**
-> If you decide to manually edit the data file such that an entry contains a field that is impossible to add via normal commands (i.e. authorName `Kubo -a Tite` instead of `Kubo --a Tite`), you <ins>**will not be**</ins> able to access this entry in via normal commands in the future unless this change is corrected.
+> **_LIMITATIONS:_**
+> - If you decide to manually edit the data file such that an entry contains a field that is impossible to add via normal commands (i.e. authorName `Kubo -a Tite` instead of `Kubo --a Tite`), you <ins>**will not be**</ins> able to access this entry in via normal commands in the future unless this change is corrected.
+> - Specifying duplicate key-value pairs in the data file will cause the pair closest to the end of the file to be taken. This is a limitation of the Gson 2.11.0 library. The following snippet will create an author with name "Hirohiko Araki".  
+> ```
+> {
+>   "authorName": "Kubo Tite",
+>   "authorName": "Hirohiko Araki",
+>   "mangaList": []
+> }
+> ```
 
 ## FAQ
 **Q**: How do I transfer my data to another computer?
