@@ -30,7 +30,7 @@ class AuthorDeserializerTest {
                 JsonParseException.class,
                 () -> authorDeserializer.deserialize(null, Author.class, null)
         );
-        assertEquals("redundant comma or corrupt Author object", exception.getMessage());
+        assertEquals("redundant comma or invalid Author object", exception.getMessage());
     }
 
     @Test
@@ -40,7 +40,7 @@ class AuthorDeserializerTest {
                 JsonParseException.class,
                 () -> authorDeserializer.deserialize(jsonElement, Author.class, null)
         );
-        assertEquals("redundant comma or corrupt Author object", exception.getMessage());
+        assertEquals("redundant comma or invalid Author object", exception.getMessage());
     }
 
     @Test
@@ -51,7 +51,7 @@ class AuthorDeserializerTest {
                 JsonParseException.class,
                 () -> authorDeserializer.deserialize(authorJson, Author.class, null)
         );
-        assertEquals("corrupt author name", exception.getMessage());
+        assertEquals("invalid author name", exception.getMessage());
     }
 
     @Test
@@ -63,7 +63,7 @@ class AuthorDeserializerTest {
                 JsonParseException.class,
                 () -> authorDeserializer.deserialize(authorJson, Author.class, null)
         );
-        assertEquals("corrupt author name", exception.getMessage());
+        assertEquals("invalid author name", exception.getMessage());
     }
 
     @Test
