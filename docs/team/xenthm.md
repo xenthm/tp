@@ -33,11 +33,21 @@ Initially, we had a simple `view` system in which every item in the list was pri
 #### Data Storage
 I used the Gson JSON de/serializer to store data to standardize the way the information is presented in the data file. It decouples the reading of data from our parser. Gson's default settings initially did not work with the way our project stores data (due to circular references between `Author` and `Manga`). Additionally, the default deserializers did not provide the user with enough details about errors in the data file. Therefore, I implemented a custom class attribute exclusion strategy to ignore the reference causing issues. I also wrote custom deserializers for the different data classes used in `MangaTantou` so that error messages could be shown to the user, allowing them to pinpoint where they went wrong in manually editing their data file. 
 
-### Contributions to the UG
-I wrote the sections on: `view` command; Saving Data; Manually Editing Data; File; and Command Summary table.
+### Contributions to the UG 
+- `view` command
+- Saving Data
+- Manually Editing Data File
+- Command Summary table
 
-### Contributions to the DG
-I wrote the sections on: Acknowledgements; Overall data structure of `MangaTantou` including diagrams; ArgumentFinder RegEx; Saving Data including Storage Structure and diagrams, Storage Behaviour, Gson De/serialization, and Errors in Data File; Displaying data including the Ui Structure and diagrams; View command; Product Scope; and Some of the User Stories table
+### Contributions to the DG 
+- Acknowledgements
+- Overall data structure of `MangaTantou`, including diagrams
+- ArgumentFinder RegEx
+- Saving Data, including Storage Structure and diagrams, Storage Behaviour, Gson De/serialization, and Errors in Data File subsections
+- Displaying Data, including the Ui Structure and diagrams
+- View command
+- Product Scope
+- Some entries of the User Stories table
 
 ### Contributions to Team-Based Tasks
 - Set up the project GitHub repository. 
