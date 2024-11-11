@@ -42,7 +42,10 @@ public class ViewMangasCommand extends Command {
             CommandValidity.ensureValidMangaName(manga.getMangaName());
         }
 
+        assert false : "todo";
         System.out.println("Mangas authored by \"" + authorName + "\", Total: " + author.getMangaList().size());
+        ui.printPreMangaListMessage(author);
+
         Ui.printList(author.getMangaList(), mangaColumnsToPrint(includeDeadline, includeSales));
     }
 }

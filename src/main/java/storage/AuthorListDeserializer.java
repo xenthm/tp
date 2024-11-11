@@ -7,6 +7,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import ui.Ui;
 
 import java.lang.reflect.Type;
 
@@ -19,6 +20,11 @@ import java.lang.reflect.Type;
  * checking.
  */
 class AuthorListDeserializer implements JsonDeserializer<AuthorList> {
+    private String generateErrorMessage(JsonParseException e, int index) {
+        return "Skipping invalid author entry at index " + index + " due to "
+                + e.getMessage();
+    }
+
     @Override
     public AuthorList deserialize(JsonElement json, Type typeOfAuthorList, JsonDeserializationContext context)
             throws JsonParseException {
@@ -37,9 +43,7 @@ class AuthorListDeserializer implements JsonDeserializer<AuthorList> {
                         .deserialize(authorJsonElement, Author.class, context);
                 authorList.add(author);
             } catch (JsonParseException e) {
-                System.out.println("Skipping invalid author entry at index " + i + " due to "
-                        + e.getMessage()
-                );
+                Ui.printString(generateErrorMessage(e, i));
             }
         }
 

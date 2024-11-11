@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import commands.CommandValidity;
 import exceptions.TantouException;
 import sales.Sale;
+import ui.Ui;
 
 import java.lang.reflect.Type;
 
@@ -26,22 +27,21 @@ class SaleDeserializer implements JsonDeserializer<Sale> {
         this.mangaName = mangaName;
     }
 
-    private void printErrorMessage(String message) {
-        System.out.println("Author \""
+    private String generateErrorMessage(String message) {
+        return "Author \""
                 + author.getAuthorName()
                 + "\": "
                 + message
                 + " for manga \""
                 + mangaName
                 + "\", "
-                + "continuing with an empty field"
-        );
+                + "continuing with an empty field";
     }
 
     @Override
     public Sale deserialize(JsonElement json, Type typeOfSale, JsonDeserializationContext context) {
         if (json == null || !json.isJsonObject()) {
-            printErrorMessage("invalid Sales object");
+            Ui.printString(generateErrorMessage("invalid Sales object"));
             return new Sale();
         }
         JsonObject saleJsonObject = json.getAsJsonObject();
@@ -54,7 +54,7 @@ class SaleDeserializer implements JsonDeserializer<Sale> {
                 CommandValidity.ensureValidQuantitySold(quantitySoldString);
                 quantitySold = Integer.parseInt(quantitySoldString);
             } catch (TantouException e) {
-                printErrorMessage("invalid quantity sold");
+                Ui.printString(generateErrorMessage("invalid quantity sold"));
             }
         }
 
@@ -66,7 +66,7 @@ class SaleDeserializer implements JsonDeserializer<Sale> {
                 CommandValidity.ensureValidUnitPrice(unitPriceString);
                 unitPrice = Double.parseDouble(unitPriceString);
             } catch (TantouException e) {
-                printErrorMessage("invalid unit price");
+                Ui.printString(generateErrorMessage("invalid unit price"));
             }
         }
 
