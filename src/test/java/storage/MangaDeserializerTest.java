@@ -21,7 +21,7 @@ class MangaDeserializerTest {
 
     @BeforeEach
     void setUp() {
-        mangaDeserializer = new MangaDeserializer(testAuthor);
+        mangaDeserializer = new MangaDeserializer(testAuthor, testAuthor.getMangaList());
     }
 
     @Test
@@ -30,7 +30,7 @@ class MangaDeserializerTest {
                 JsonParseException.class,
                 () -> mangaDeserializer.deserialize(null, Manga.class, null)
         );
-        assertEquals("redundant comma or corrupt Manga object", exception.getMessage());
+        assertEquals("redundant comma or invalid Manga object", exception.getMessage());
     }
 
     @Test
@@ -40,7 +40,7 @@ class MangaDeserializerTest {
                 JsonParseException.class,
                 () -> mangaDeserializer.deserialize(jsonElement, Manga.class, null)
         );
-        assertEquals("redundant comma or corrupt Manga object", exception.getMessage());
+        assertEquals("redundant comma or invalid Manga object", exception.getMessage());
     }
 
     @Test
@@ -50,7 +50,7 @@ class MangaDeserializerTest {
                 JsonParseException.class,
                 () -> mangaDeserializer.deserialize(mangaJson, Manga.class, null)
         );
-        assertEquals("corrupt manga name", exception.getMessage());
+        assertEquals("invalid manga name", exception.getMessage());
     }
 
     @Test
@@ -61,7 +61,7 @@ class MangaDeserializerTest {
                 JsonParseException.class,
                 () -> mangaDeserializer.deserialize(authorJson, Manga.class, null)
         );
-        assertEquals("corrupt manga name", exception.getMessage());
+        assertEquals("invalid manga name", exception.getMessage());
     }
 
     @Test
@@ -72,7 +72,7 @@ class MangaDeserializerTest {
                 JsonParseException.class,
                 () -> mangaDeserializer.deserialize(mangaJson, Manga.class, null)
         );
-        assertEquals("corrupt deadline", exception.getMessage());
+        assertEquals("invalid deadline", exception.getMessage());
     }
 
     @Test
@@ -84,7 +84,7 @@ class MangaDeserializerTest {
                 JsonParseException.class,
                 () -> mangaDeserializer.deserialize(mangaJson, Manga.class, null)
         );
-        assertEquals("corrupt deadline", exception.getMessage());
+        assertEquals("invalid deadline", exception.getMessage());
     }
 
     @Test

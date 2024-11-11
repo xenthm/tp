@@ -21,6 +21,8 @@ import exceptions.PriceTooLargeException;
 import exceptions.PriceWrongFormatException;
 import exceptions.QuantityTooLargeException;
 import exceptions.QuantityWrongFormatException;
+import manga.Manga;
+import manga.MangaList;
 
 import static commands.Command.COMMAND_LOGGER;
 import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
@@ -266,6 +268,25 @@ public class CommandValidity {
             COMMAND_LOGGER.warning("Manga \"" + mangaName + "\" already exists in the manga list of \""
                     + author.getAuthorName() + "\"");
             throw new MangaExistsException();
+        }
+    }
+
+    /**
+     * The overloaded method is for deserialization. It throws <code>MangaExistsException</code> if manga already exists
+     * in the <code>mangaList</code> while deserializing the author.
+     *
+     * @param mangaName The manga name <code>String</code> to be checked.
+     * @param author    The <code>Author</code> currently being checked.
+     * @param mangaList The <code>MangaList</code> which has not yet been added to the author
+     */
+    public static void ensureNoDuplicateManga(String mangaName, Author author, MangaList mangaList)
+            throws MangaExistsException {
+        for (Manga manga : mangaList) {
+            if (manga.getMangaName().equals(mangaName)) {
+                COMMAND_LOGGER.warning("Manga \"" + mangaName + "\" already exists in the manga list of \""
+                        + author.getAuthorName() + "\"");
+                throw new MangaExistsException();
+            }
         }
     }
 

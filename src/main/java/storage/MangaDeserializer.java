@@ -7,25 +7,30 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import commands.CommandValidity;
-import constants.Command;
-import exceptions.TantouException;
+import exceptions.DeadlineTooLongException;
+import exceptions.MangaExistsException;
+import exceptions.MangaNameTooLongException;
+import exceptions.NoDeadlineProvidedException;
+import exceptions.NoMangaProvidedException;
 import manga.Manga;
+import manga.MangaList;
 import sales.Sale;
-import tantou.Tantou;
 
 import java.lang.reflect.Type;
 
 //@@author xenthm
 /**
  * This package private class defines a custom <code>Gson</code> deserializer for the <code>Manga</code> class. It
- * contains a reference to its <code>Author</code>. It provides informative errors messages as feedback for users who
- * manually edit the data file.
+ * contains a reference to its <code>Author</code> and the <code>MangaList</code> currently being deserialized. It
+ * provides informative errors messages as feedback for users who manually edit the data file.
  */
 class MangaDeserializer implements JsonDeserializer<Manga> {
     private final Author author;
+    private final MangaList mangaList;
 
-    public MangaDeserializer(Author author) {
+    public MangaDeserializer(Author author, MangaList mangaList) {
         this.author = author;
+        this.mangaList = mangaList;
     }
 
     @Override
@@ -47,8 +52,11 @@ class MangaDeserializer implements JsonDeserializer<Manga> {
         mangaName = mangaJsonObject.get("mangaName").getAsString();
         try {
             CommandValidity.ensureValidMangaName(mangaName);
-        } catch (TantouException e) {
+            CommandValidity.ensureNoDuplicateManga(mangaName, author, mangaList);
+        } catch (NoMangaProvidedException | MangaNameTooLongException e) {
             throw new JsonParseException("invalid manga name");
+        } catch (MangaExistsException e) {
+            throw new JsonParseException("duplicate manga found");
         }
 
         // Ensure deadline is valid
@@ -61,7 +69,7 @@ class MangaDeserializer implements JsonDeserializer<Manga> {
         deadlineString = mangaJsonObject.get("deadline").getAsString();
         try {
             CommandValidity.ensureValidDeadline(deadlineString);
-        } catch (TantouException e) {
+        } catch (NoDeadlineProvidedException | DeadlineTooLongException e) {
             throw new JsonParseException("invalid deadline");
         }
 
