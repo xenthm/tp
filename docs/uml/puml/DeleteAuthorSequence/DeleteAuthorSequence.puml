@@ -1,35 +1,34 @@
 @startuml
-!include .PlantUMLSequence.config
+!include ../.PlantUMLSequence.config
 autoactivate off
-skinparam maxMessageSize 250
-title <size:30> AddAuthorCommand Sequence Diagram
+title <size:30> DeleteAuthorCommand Sequence Diagram
 
 actor User
 participant "tantou:Tantou" as tantou
 participant "ui:Ui" as ui
-participant "userCommand:AddAuthorCommand" as userCommand
+participant "userCommand:DeleteAuthorCommand" as userCommand
 participant "authorList:AuthorList" as authorList
 participant ":StorageHelper" as storage <<class>>
-participant "incomingAuthor:Author" as author
+participant "deletingAuthor:Author" as author
 
 activate tantou
-group sd AddAuthorCommand
+group sd DeleteAuthorCommand
     tantou -> userCommand : execute(ui, authorList)
     activate userCommand
     create author
     userCommand -> author : new Author(authorName)
     activate author
-    author --> userCommand : incomingAuthor
+    author --> userCommand : deletingAuthor
     deactivate author
 
-    alt incomingAuthor not in authorList
-        userCommand -> authorList : add(incomingAuthor)
+    alt deletingAuthor in authorList
+        userCommand -> authorList : remove(deletingAuthor)
         activate authorList
         authorList --> userCommand
         deactivate authorList
-        userCommand -> ui : printAddAuthorSuccessMessage(incomingAuthor)
+        userCommand -> ui : printDeleteAuthorSuccessMessage(deletingAuthor)
         activate ui
-        ui --> User : "Successfully added author!"
+        ui --> User : "Successfully deleted author!"
         ui --> userCommand
         deactivate ui
         userCommand -> storage : saveFile(authorList)
@@ -37,12 +36,10 @@ group sd AddAuthorCommand
         storage --> userCommand
         deactivate storage
         userCommand --> tantou
-    else incomingAuthor in authorList
-        userCommand --> tantou : throw new AuthorExistsException()
+    else deletingAuthor not in authorList
+        userCommand --> tantou : throw new AuthorDoesNotExistException()
         deactivate userCommand
     end
-    deactivate userCommand
-
 end
 deactivate tantou
 autoactivate on

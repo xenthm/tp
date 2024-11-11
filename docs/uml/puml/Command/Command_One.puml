@@ -2,7 +2,7 @@
 !include ../.PlantUMLClass.config
 
 abstract class Command as "{abstract}\n Command" {
-    # logger: Logger
+    + {static} COMMAND_LOGGER: Logger
     - command: String
     - isExit: boolean
     + Command(command: String): Command
