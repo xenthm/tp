@@ -45,7 +45,7 @@ The following third-party libraries were used:
 Additionally, the following resources/websites were heavily used (they are amazing):
 - [RegExr](https://regexr.com/): RegExr is an online tool to learn, build, & test Regular Expressions (RegEx / RegExp).
 - [Regex Vis](https://regex-vis.com/): RegEx visualizer and editor.
-- [regex101 ](https://regex101.com/): RegEx visualizer,editor, and debugger.
+- [regex101](https://regex101.com/): RegEx visualizer, editor, and debugger.
 - [Ashley's PlantUML Doc](https://plantuml-documentation.readthedocs.io/): Documentation about how to use the commands,
   keywords, options, and other information needed to produce diagrams with PlantUML.
 
