@@ -48,7 +48,11 @@ class SaleDeserializer implements JsonDeserializer<Sale> {
 
         Integer quantitySold = null;
         // Ensure quantitySold is valid
-        if (saleJsonObject.has("quantitySold")) {
+        if (!saleJsonObject.has("quantitySold")
+                || !saleJsonObject.get("quantitySold").isJsonPrimitive()
+                || !saleJsonObject.get("quantitySold").getAsJsonPrimitive().isNumber()) {
+            Ui.printString(generateErrorMessage("invalid quantity sold"));
+        } else {
             String quantitySoldString = saleJsonObject.get("quantitySold").getAsString();
             try {
                 CommandValidator.ensureValidQuantitySold(quantitySoldString);
@@ -60,7 +64,11 @@ class SaleDeserializer implements JsonDeserializer<Sale> {
 
         Double unitPrice = null;
         // Ensure unitPrice is valid
-        if (saleJsonObject.has("unitPrice")) {
+        if (!saleJsonObject.has("unitPrice")
+                || !saleJsonObject.get("unitPrice").isJsonPrimitive()
+                || !saleJsonObject.get("unitPrice").getAsJsonPrimitive().isNumber()) {
+            Ui.printString(generateErrorMessage("invalid unit price"));
+        } else {
             String unitPriceString = saleJsonObject.get("unitPrice").getAsString();
             try {
                 CommandValidator.ensureValidUnitPrice(unitPriceString);
