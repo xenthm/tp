@@ -1,4 +1,4 @@
-# Donovan Neo - Project Portfolio Page
+# Donovan Neo Jia Jie - Project Portfolio Page
 ## Overview of Project
 `MangaTantou` is a desktop Command Line Interface (CLI) application intended for editors of manga publishing companies.
 It aims to provide a one-stop-shop for all their author and manga management needs.
@@ -22,40 +22,22 @@ for my code contributions (functional and test code).
 
 ### Enhancements Implemented
 #### Argument Extraction with RegEx
-I found that the previous method of parsing user inputs was very strict (it required users to enter every single flag in
+I found that the previous method of parsing user inputs was very strict (it required users to enter flags in
 a fixed order e.g. `sales -a -m -q -p`), and it also had trouble when flags were included in the provided arguments,
-or there were redundant spaces in the input. In trying to improve this function, I had the idea of using RegEx. With the
-help of documentation and websites I found online, I came up with a pattern that can extract the relevant information
-after a specified flag. More details can be found in the codebase. Now, the user has much more flexibility in entering
-the commands, and even in the possible names of authors and manga.
+or there were redundant spaces in the input. In trying to improve this function, I had the idea of using RegEx. I came up with a pattern that can extract the relevant information
+after a specified flag. More details can be found in the codebase. Now, users have much more flexibility in entering commands and names. 
 
 #### Viewing Data with `view`
-Initially, we had a simple `view` system in which every item in the list was printed with the item number prepended. This was adequate for v1.0, when we did not have deadline or sales information for manga. When we added those, we just appended the extra information to the end. This made the lists hard to read, especially if the entries had different lengths. 
-
-As such, I looked into presenting the information in a tabular form. There are plenty of third-party libraries that can achieve this, but I wanted to try my hand at writing one from scratch. 
-
-My system allows developers to customize the order of the columns easily, with user support for selective inclusion of columns via the use of flags. It is also easily reusable for other lists, not just those utilized in `MangaTantou`.
+Initially, we had a simple `view` system in which every item in the list was printed with the item number prepended. This was adequate for v1.0, when we did not have deadline or sales information for manga. When we added those, we just appended the extra information to the end. This made the lists hard to read, especially if the entries had different lengths. As such, I looked into presenting the information in a tabular form. There are plenty of third-party libraries that can achieve this, but I wanted to try my hand at writing one from scratch. My system allows developers to customize the order of the columns easily, with user support for selective inclusion of columns via the use of flags. It is also easily reusable for other lists, not just those utilized in `MangaTantou`.
 
 #### Data Storage
-I used the third-party Gson JSON de/serializer to store data to better standardize the way the information is presented in the data file. It decouples the reading of data from our parser. Gson's default settings initially did not work with the way our project stores data (due to circular references between `Author` and `Manga`). Additionally, the default deserializers did not provide the user with enough details about errors in the data file. Therefore, I implemented a custom class attribute exclusion strategy to ignore the reference causing issues. I also wrote custom deserializers for the different data classes used in `MangaTantou` so that error messages could be shown to the user, allowing them to pinpoint where they went wrong in manually editing their data file. 
+I used the Gson JSON de/serializer to store data to standardize the way the information is presented in the data file. It decouples the reading of data from our parser. Gson's default settings initially did not work with the way our project stores data (due to circular references between `Author` and `Manga`). Additionally, the default deserializers did not provide the user with enough details about errors in the data file. Therefore, I implemented a custom class attribute exclusion strategy to ignore the reference causing issues. I also wrote custom deserializers for the different data classes used in `MangaTantou` so that error messages could be shown to the user, allowing them to pinpoint where they went wrong in manually editing their data file. 
 
 ### Contributions to the UG
-I wrote the: 
-- `view` command sections
-- Saving Data section
-- Manually Editing Data File section
-- Command Summary table
+I wrote the sections on: `view` command; Saving Data; Manually Editing Data; File; and Command Summary table.
 
 ### Contributions to the DG
-I wrote the:
-- Acknowledgements
-- Overall data structure of `MangaTantou` section, including diagrams
-- ArgumentFinder RegEx section
-- Saving Data section, including Storage Structure (and diagrams), Storage Behaviour, Gson De/serialization, and Erros in Data File subsections
-- Displaying data section, including the Ui Structure (and diagrams) subsection
-- View command section
-- Product Scope section
-- Some of the User Stories table
+I wrote the sections on: Acknowledgements; Overall data structure of `MangaTantou` including diagrams; ArgumentFinder RegEx; Saving Data including Storage Structure and diagrams, Storage Behaviour, Gson De/serialization, and Errors in Data File; Displaying data including the Ui Structure and diagrams; View command; Product Scope; and Some of the User Stories table
 
 ### Contributions to Team-Based Tasks
 - Set up the project GitHub repository. 
