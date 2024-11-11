@@ -10,6 +10,12 @@ abstract class Command as "{abstract}\n Command" {
     + isExit(): boolean
     + execute(ui: Ui, authorList: AuthorList): void ABSTRACT_DECORATOR
 }
+
+class CommandValidator <<utility>> {
+}
+
+Command ..> CommandValidator : uses to validate Command values >
+
 class Ui {
 }
 
