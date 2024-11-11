@@ -73,7 +73,7 @@ public class AddSalesCommand extends Command {
 
         existingAuthor.getManga(incomingManga.getMangaName()).addSalesData(salesData);
 
-        ui.printAddSalesDataSuccessMessage(incomingManga);
+        ui.printAddSalesDataSuccessMessage(existingAuthor.getManga(incomingManga.getMangaName()));
         saveFile(authorList);
     }
 }
