@@ -456,7 +456,7 @@ Can manage author and manga information more easily than a physical ledger or a 
 # Instructions for Testing
 ## Manual Testing
 For a comprehensive list of all available commands, their purposes, and expected behavior, refer to
-the [User Guide](https://github.com/AY2425S1-CS2113-T10-3/tp/blob/master/docs/UserGuide.md).
+the [User Guide](UserGuide.md).
 This guide outlines both typical and edge cases, providing a detailed reference to support manual testing and
 validation.
 ## Testing with JUnit
