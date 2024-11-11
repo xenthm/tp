@@ -40,7 +40,6 @@ public class Storage {
     private static File dataFile;
     private static Gson gson;
 
-    private final Ui ui;
 
     /**
      * Private default constructor for the <code>Storage</code> singleton. Sets up the STORAGE_LOGGER, data storage
@@ -62,8 +61,6 @@ public class Storage {
                 .registerTypeAdapter(AUTHOR_LIST_TYPE, new AuthorListDeserializer())
                 .setStrictness(Strictness.LENIENT)
                 .create();
-
-        ui = new Ui();
     }
 
     public Gson getGson() {
@@ -108,17 +105,17 @@ public class Storage {
         try (FileReader reader = new FileReader(dataFile)) {
             AuthorList authorList = gson.fromJson(reader, AUTHOR_LIST_TYPE);
             STORAGE_LOGGER.info("Data restored");
-            ui.printStorageDataRestoredMessage();
+            Ui.printStorageDataRestoredMessage();
             return authorList;
         } catch (IOException e) {
             STORAGE_LOGGER.warning("Problems accessing file: " + e.getMessage());
-            ui.printStorageDataNotRestoredMessage();
+            Ui.printStorageDataNotRestoredMessage();
         } catch (JsonSyntaxException e) {
             STORAGE_LOGGER.warning("JSON from file is malformed: " + e.getMessage());
-            ui.printMalformedJSONMessage();
+            Ui.printMalformedJSONMessage();
         } catch (JsonParseException e) {
             STORAGE_LOGGER.warning(e.getMessage());
-            ui.printCorruptedAuthorListMessage();
+            Ui.printCorruptedAuthorListMessage();
         }
         return null;
     }
@@ -146,7 +143,7 @@ public class Storage {
             return false;
         } catch (IOException | SecurityException e) {
             STORAGE_LOGGER.warning("Problems creating data file, data will not be saved!" + e.getMessage());
-            ui.printCreateDataFileFailureMessage();
+            Ui.printCreateDataFileFailureMessage();
             return true;
         }
     }
@@ -166,7 +163,7 @@ public class Storage {
                 STORAGE_LOGGER.info("Data saved");
             } catch (IOException e) {
                 STORAGE_LOGGER.warning("Problems saving file, data will not be saved!" + e.getMessage());
-                ui.printSaveDataFileFailureMessage();
+                Ui.printSaveDataFileFailureMessage();
             }
         }
     }

@@ -101,7 +101,7 @@ public class Ui {
     }
 
     //@@author
-    public void printString(String string) {
+    public static void printString(String string) {
         System.out.println(string);
     }
 
@@ -155,15 +155,15 @@ public class Ui {
         System.out.println(e.getMessage());
     }
 
-    public void printStorageDataRestoredMessage() {
+    public static void printStorageDataRestoredMessage() {
         System.out.println("Data restored!");
     }
 
-    public void printStorageDataNotRestoredMessage() {
+    public static void printStorageDataNotRestoredMessage() {
         System.out.println("Problems accessing file, data was not restored! Continuing with an empty list.");
     }
 
-    public void printMalformedJSONMessage() {
+    public static void printMalformedJSONMessage() {
         System.out.println(
                 "JSON from file is malformed, data was not restored! Continuing with an empty list."
         );
@@ -172,17 +172,17 @@ public class Ui {
         );
     }
 
-    public void printCorruptedAuthorListMessage() {
+    public static void printCorruptedAuthorListMessage() {
         System.out.println(
                 "Corrupted AuthorList object. Continuing with an empty list."
         );
     }
 
-    public void printCreateDataFileFailureMessage() {
+    public static void printCreateDataFileFailureMessage() {
         System.out.println("Problems creating data file, data will not be saved!");
     }
 
-    public void printSaveDataFileFailureMessage() {
+    public static void printSaveDataFileFailureMessage() {
         System.out.println("Problems saving file, data will not be saved!");
     }
 }

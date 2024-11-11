@@ -20,12 +20,10 @@ import java.lang.reflect.Type;
 class SaleDeserializer implements JsonDeserializer<Sale> {
     private final Author author;
     private final String mangaName;
-    private final Ui ui;
 
     public SaleDeserializer(Author author, String mangaName) {
         this.author = author;
         this.mangaName = mangaName;
-        this.ui = new Ui();
     }
 
     private String generateErrorMessage(String message) {
@@ -41,7 +39,7 @@ class SaleDeserializer implements JsonDeserializer<Sale> {
     @Override
     public Sale deserialize(JsonElement json, Type typeOfSale, JsonDeserializationContext context) {
         if (json == null || !json.isJsonObject()) {
-            ui.printString(generateErrorMessage("corrupted Sales object"));
+            Ui.printString(generateErrorMessage("corrupted Sales object"));
             return null;
         }
         JsonObject saleJsonObject = json.getAsJsonObject();
@@ -56,7 +54,7 @@ class SaleDeserializer implements JsonDeserializer<Sale> {
                 }
                 quantitySold = Integer.valueOf(saleJsonObject.get("quantitySold").getAsString());
             } catch (JsonParseException | NumberFormatException e) {
-                ui.printString(generateErrorMessage("corrupted quantity sold"));
+                Ui.printString(generateErrorMessage("corrupted quantity sold"));
             }
         }
 
@@ -71,7 +69,7 @@ class SaleDeserializer implements JsonDeserializer<Sale> {
 
                 unitPrice = Double.valueOf(saleJsonObject.get("unitPrice").getAsString());
             } catch (JsonParseException | NumberFormatException e) {
-                ui.printString(generateErrorMessage("corrupted unit price"));
+                Ui.printString(generateErrorMessage("corrupted unit price"));
             }
         }
 

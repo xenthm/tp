@@ -23,11 +23,9 @@ import java.lang.reflect.Type;
  */
 class MangaListDeserializer implements JsonDeserializer<MangaList> {
     private final Author author;
-    private final Ui ui;
 
     public MangaListDeserializer(Author author) {
         this.author = author;
-        this.ui = new Ui();
     }
 
     private String generateErrorMessage(Exception e, int index) {
@@ -55,7 +53,7 @@ class MangaListDeserializer implements JsonDeserializer<MangaList> {
                 Manga manga = new MangaDeserializer(author).deserialize(mangaJsonElement, Manga.class, context);
                 mangaList.add(manga);
             } catch (JsonParseException e) {
-                ui.printString(generateErrorMessage(e, i));
+                Ui.printString(generateErrorMessage(e, i));
             }
         }
 
