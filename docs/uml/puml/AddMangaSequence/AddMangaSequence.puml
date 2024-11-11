@@ -1,0 +1,88 @@
+@startuml
+title <size:30> AddMangaCommand Sequence Diagram
+hide footbox
+skinparam roundCorner 0
+skinparam style strictuml
+
+actor User
+participant "tantou:Tantou" as tantou
+participant "ui:Ui" as ui
+participant "userCommand:AddMangaCommand" as userCommand
+participant "authorList:AuthorList" as authorList
+participant ":StorageHelper" as storage <<class>>
+participant "incomingAuthor:Author" as author
+participant "existingAuthor:Author" as existingAuthor
+participant "incomingManga:Manga" as manga
+
+activate tantou
+group sd AddMangaCommand
+
+    tantou -> userCommand : execute(ui, authorList)
+    activate userCommand
+
+    create author
+    userCommand -> author : new Author(authorName)
+    activate author
+    author --> userCommand : incomingAuthor
+    deactivate author
+
+    create manga
+    userCommand -> manga : new Manga(mangaName, incomingAuthor)
+    activate manga
+    manga --> userCommand : incomingManga
+    deactivate manga
+
+    alt incomingAuthor not in authorList
+        userCommand -> authorList : add(incomingAuthor)
+        activate authorList
+        authorList --> userCommand
+        deactivate authorList
+
+        userCommand -> author : addManga(incomingManga);
+        activate author
+        author --> userCommand
+        deactivate author
+
+        userCommand -> ui : printAddMangaSuccessMessage(incomingManga)
+        activate ui
+        ui --> User : "Manga successfully added to author!"
+        ui --> userCommand
+        deactivate ui
+
+        userCommand -> storage : saveFile(authorList)
+        activate storage
+        storage --> userCommand
+        deactivate storage
+        userCommand --> tantou
+
+    else incomingAuthor in authorList
+        userCommand -> authorList : getAuthor(incomingAuthor)
+        activate authorList
+        authorList --> userCommand : existingAuthor
+        deactivate authorList
+
+        alt incomingManga not in existingAuthor
+            userCommand -> existingAuthor : addManga(incomingManga)
+            activate existingAuthor
+            existingAuthor --> userCommand
+            deactivate existingAuthor
+
+            userCommand -> ui : printAddMangaSuccessMessage(incomingManga)
+            activate ui
+            ui --> User : "Manga successfully added to author!"
+            ui --> userCommand
+            deactivate ui
+
+            userCommand -> storage : saveFile(authorList)
+            activate storage
+            storage --> userCommand
+            deactivate storage
+            userCommand --> tantou
+        else incomingManga in existingAuthor
+            userCommand --> tantou : throw new MangaExistsException()
+            deactivate userCommand
+        end
+    end
+end
+deactivate tantou
+@enduml

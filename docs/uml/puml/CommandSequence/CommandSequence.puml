@@ -1,0 +1,68 @@
+@startuml
+!include ../.PlantUMLSequence.config
+autoactivate off
+title <size:30> Command Processing Sequence Diagram
+
+actor User
+participant "tantou:Tantou" as tantou
+participant "ui:Ui" as ui
+participant "parser:Parser" as parser
+participant "userCommand:Command" as userCommand
+
+activate tantou
+    loop isExit is false
+    User -> ui: "<user input>"
+    ' Get userInput
+    tantou -> ui: getUserInput()
+    activate ui
+    ui --> tantou: userInput
+    deactivate ui
+
+    ' getUserCommand (AddAuthorCommand)
+    tantou -> parser: getUserCommand(userInput)
+    activate parser
+
+    ' Self call to process userInput
+    parser -> parser: processCommand(userInput)
+
+    ' Parser invokes constructor of AddAuthorCommand
+    activate parser
+
+    ' Construction
+    create userCommand
+    parser -> userCommand : userCommand
+    activate userCommand
+    userCommand --> parser
+    deactivate userCommand
+
+    ' More like a return control situation since it is a self call
+    parser --> parser: userCommand
+    deactivate parser
+    parser --> tantou: userCommand
+    deactivate parser
+
+
+    ' Execution of command
+    tantou -> userCommand: execute(ui, authorList)
+    activate userCommand
+        ref over userCommand: unique command execution
+            alt successful execution
+            userCommand -> ui: showCommandSuccessMessage()
+            activate ui
+            ui --> User: "<success message>"
+            ui --> userCommand
+            deactivate ui
+            userCommand --> tantou
+            else execution fails
+            userCommand --> tantou: throw related TantouException()
+            deactivate userCommand
+            tantou -> ui: showErrorMessage()
+            activate ui
+            ui --> User: "<exception message>"
+            ui --> tantou
+            deactivate ui
+    deactivate userCommand
+    end
+end
+autoactivate on
+@enduml

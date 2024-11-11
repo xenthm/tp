@@ -19,6 +19,9 @@ text-ui-test/EXPECTED-UNIX.TXT
 gradle.properties
 
 data/
+logs/
 
 # UML png diagrams
 docs/uml/*.png
+
+src/main/META-INF/

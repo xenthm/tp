@@ -1,0 +1,49 @@
+@startuml
+!include ../.PlantUMLSequence.config
+autoactivate off
+skinparam maxMessageSize 250
+title <size:30> AddAuthorCommand Sequence Diagram
+
+actor User
+participant "tantou:Tantou" as tantou
+participant "ui:Ui" as ui
+participant "userCommand:AddAuthorCommand" as userCommand
+participant "authorList:AuthorList" as authorList
+participant ":StorageHelper" as storage <<class>>
+participant "incomingAuthor:Author" as author
+
+activate tantou
+group sd AddAuthorCommand
+    tantou -> userCommand : execute(ui, authorList)
+    activate userCommand
+    create author
+    userCommand -> author : new Author(authorName)
+    activate author
+    author --> userCommand : incomingAuthor
+    deactivate author
+
+    alt incomingAuthor not in authorList
+        userCommand -> authorList : add(incomingAuthor)
+        activate authorList
+        authorList --> userCommand
+        deactivate authorList
+        userCommand -> ui : printAddAuthorSuccessMessage(incomingAuthor)
+        activate ui
+        ui --> User : "Successfully added author!"
+        ui --> userCommand
+        deactivate ui
+        userCommand -> storage : saveFile(authorList)
+        activate storage
+        storage --> userCommand
+        deactivate storage
+        userCommand --> tantou
+    else incomingAuthor in authorList
+        userCommand --> tantou : throw new AuthorExistsException()
+        deactivate userCommand
+    end
+    deactivate userCommand
+
+end
+deactivate tantou
+autoactivate on
+@enduml

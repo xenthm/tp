@@ -35,7 +35,7 @@ class AuthorListDeserializerTest {
                 JsonParseException.class,
                 () -> authorListDeserializer.deserialize(null, AUTHOR_LIST_TYPE, null)
         );
-        assertEquals("corrupt AuthorList array", exception.getMessage());
+        assertEquals("invalid AuthorList array", exception.getMessage());
     }
 
     @Test
@@ -45,7 +45,7 @@ class AuthorListDeserializerTest {
                 JsonParseException.class,
                 () -> authorListDeserializer.deserialize(jsonElement, AUTHOR_LIST_TYPE, null)
         );
-        assertEquals("corrupt AuthorList array", exception.getMessage());
+        assertEquals("invalid AuthorList array", exception.getMessage());
     }
 
     @Test

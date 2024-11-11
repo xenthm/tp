@@ -1,5 +1,10 @@
 package ui;
 
+import author.Author;
+import author.AuthorList;
+import manga.Manga;
+
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -93,5 +98,92 @@ public class Ui {
         printHeaders(columns);
         printHorizontalDivider(totalWidthOfTable);
         printEntries(arrayList, columns);
+    }
+
+    //@@author
+    public static void printString(String string) {
+        System.out.println(string);
+    }
+
+
+    public void printAddAuthorSuccessMessage(Author incomingAuthor) {
+        System.out.printf("Successfully added author: %s\n", incomingAuthor.getAuthorName());
+    }
+
+    public void printAddMangaSuccessMessage(Manga incomingManga) {
+        System.out.printf("Manga %s added successfully to author %s\n",
+                incomingManga.getMangaName(), incomingManga.getAuthor().getAuthorName());
+    }
+
+    public void printDeleteAuthorSuccessMessage(Author deletingAuthor) {
+        System.out.println("Bye bye~");
+        System.out.printf("Successfully deleted author: %s\n", deletingAuthor.getAuthorName());
+    }
+
+    public void printDeleteMangaSuccessMessage(Manga deletingManga) {
+        System.out.printf("Manga %s successfully deleted from author %s\n",
+                deletingManga.getMangaName(), deletingManga.getAuthor().getAuthorName());
+    }
+
+    public void printAddDeadlineSuccessMessage(Manga incomingManga) {
+        System.out.printf("Deadline %s added successfully to manga %s\n",
+                incomingManga.getDeadline(), incomingManga.getMangaName());
+    }
+
+    public void printAddSalesDataSuccessMessage(Manga incomingManga) {
+        System.out.printf("Sales data added for %s %s\n", incomingManga.getMangaName(), incomingManga.getSalesData());
+    }
+
+    public void printPreAuthorListMessage(AuthorList authorList) {
+        System.out.println("Here are the sla-I mean authors under you! Total: " + authorList.size());
+    }
+
+    public void printPreMangaListMessage(Author author) {
+        System.out.println("Mangas authored by \"" + author.getAuthorName() + "\", Total: "
+                + author.getMangaList().size());
+    }
+
+    public void printAccessLogFileFailureMessage() {
+        System.out.println("Problems accessing log file!");
+    }
+
+    public static void printResolveURIFailureMessage(URISyntaxException e) {
+        System.out.println("Cannot resolve URI of jar file!" + e.getMessage());
+        System.out.println("Continuing with the working directory set to be the path you ran the jar file in.");
+    }
+
+    public void printErrorMessage(Exception e) {
+        System.out.println(e.getMessage());
+    }
+
+    public static void printStorageDataRestoredMessage() {
+        System.out.println("Data restored!");
+    }
+
+    public static void printStorageDataNotRestoredMessage() {
+        System.out.println("Problems accessing file, data was not restored! Continuing with an empty list.");
+    }
+
+    public static void printMalformedJSONMessage() {
+        System.out.println(
+                "JSON from file is malformed, data was not restored! Continuing with an empty list."
+        );
+        System.out.println(
+                "If you want to try and manually fix this, CTRL-C out of the program and check catalog.json!"
+        );
+    }
+
+    public static void printCorruptedAuthorListMessage() {
+        System.out.println(
+                "Corrupted AuthorList object. Continuing with an empty list."
+        );
+    }
+
+    public static void printCreateDataFileFailureMessage() {
+        System.out.println("Problems creating data file, data will not be saved!");
+    }
+
+    public static void printSaveDataFileFailureMessage() {
+        System.out.println("Problems saving file, data will not be saved!");
     }
 }

@@ -1,0 +1,75 @@
+@startuml
+!include ../.PlantUMLSequence.config
+autoactivate off
+skinparam maxMessageSize 250
+
+title <size:30> AddSalesCommand Sequence Diagram
+participant "tantou:Tantou" as tantou
+participant "userCommand:AddSalesCommand" as userCommand
+participant "authorList:AuthorList" as authorList
+participant ":StorageHelper" as storageHelper <<class>>
+participant "salesData:Sale" as salesData
+participant "existingAuthor:Author" as existingAuthor
+participant "incomingAuthor:Author" as incomingAuthor
+participant "incomingManga:Manga" as manga
+
+group sd AddSalesCommand
+    tantou -> userCommand: execute(ui, authorList)
+    activate userCommand
+
+    opt error in parsing arguments
+    tantou <-- userCommand: throw related TantouException()
+    end
+
+    create salesData
+    userCommand -> salesData: new Sale(quantity, unitPrice)
+    activate salesData
+    salesData --> userCommand: salesData
+    deactivate salesData
+
+    create incomingAuthor
+    userCommand -> incomingAuthor: new Author(authorName)
+    activate incomingAuthor
+    incomingAuthor --> userCommand: incomingAuthor
+    deactivate incomingAuthor
+    create manga
+    userCommand -> manga: new Manga(mangaName, incomingAuthor)
+    activate manga
+    manga --> userCommand: incomingManga
+    deactivate manga
+    userCommand -> authorList: hasAuthor(incomingAuthor)
+    activate authorList
+    authorList --> userCommand: boolean
+    deactivate authorList
+        alt author exists
+            userCommand -> authorList: getAuthor(incomingAuthor)
+            activate authorList
+            authorList --> userCommand: existingAuthor
+            deactivate authorList
+                opt existingAuthor does not have incomingManga
+                tantou <-- userCommand: throw MangaDoesNotExistException()
+                end
+            userCommand -> manga: getMangaName()
+            activate manga
+            manga --> userCommand: existingManga
+            deactivate manga
+            userCommand -> existingAuthor:getManga(existingManga)
+            activate existingAuthor
+            existingAuthor -> existingAuthor: addSalesData(salesData)
+            activate existingAuthor
+            existingAuthor --> existingAuthor
+            deactivate existingAuthor
+            existingAuthor --> userCommand
+            deactivate existingAuthor
+            userCommand -> storageHelper: saveFile(authorList)
+            activate storageHelper
+            storageHelper --> userCommand
+            deactivate storageHelper
+            tantou <-- userCommand
+        else author does not exist
+        tantou <-- userCommand: throw AuthorDoesNotExistException()
+        deactivate userCommand
+        end
+end
+autoactivate on
+@enduml

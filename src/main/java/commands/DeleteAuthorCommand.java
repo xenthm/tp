@@ -2,11 +2,8 @@ package commands;
 
 import author.Author;
 import author.AuthorList;
-import exceptions.NoAuthorProvidedException;
 import exceptions.TantouException;
 import ui.Ui;
-
-import java.util.logging.Level;
 
 import static constants.Command.DELETE_COMMAND;
 import static storage.StorageHelper.saveFile;
@@ -20,7 +17,6 @@ import static storage.StorageHelper.saveFile;
  * This class extends the Command class and overrides the execute method to handle the delete operation.
  */
 public class DeleteAuthorCommand extends Command {
-    // private static final Logger logger = Logger.getLogger(DeleteAuthorCommand.class.getName());
     private String authorName;
 
     /**
@@ -43,28 +39,14 @@ public class DeleteAuthorCommand extends Command {
      */
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
-
-        if (authorName == null || authorName.isEmpty()) {
-            throw new NoAuthorProvidedException();
-        }
-
-        logger.log(Level.INFO, "Deleting author... " + authorName);
-
+        CommandValidator.ensureValidAuthorName(authorName);
+        
         Author deletingAuthor = new Author(authorName);
+        CommandValidator.ensureAuthorExists(deletingAuthor.getAuthorName(), authorList);
 
-        if (authorList.hasAuthor(deletingAuthor)) {
-            authorList.remove(deletingAuthor);
-            System.out.println("Bye bye~");
-            System.out.printf("Successfully deleted author: %s\n", deletingAuthor.getAuthorName());
-            logger.log(Level.INFO, "Successfully deleted author: " + deletingAuthor.getAuthorName());
-
-            saveFile(authorList);
-            return;
-        }
-        assert !authorList.hasAuthor(deletingAuthor): "Author not found";
-        logger.log(Level.SEVERE, "Author not found");
-
-        throw new TantouException("Author does not exist!");
+        authorList.remove(deletingAuthor);
+        ui.printDeleteAuthorSuccessMessage(deletingAuthor);
+        saveFile(authorList);
     }
 
 }

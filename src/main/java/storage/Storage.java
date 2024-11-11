@@ -4,7 +4,6 @@
  */
 package storage;
 
-import author.Author;
 import author.AuthorList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,6 +11,8 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.Strictness;
 import com.google.gson.reflect.TypeToken;
+import tantou.Tantou;
+import ui.Ui;
 
 import java.io.File;
 import java.io.FileReader;
@@ -34,14 +35,15 @@ public class Storage {
     // It allows us to capture the generic type information at runtime before it gets erased.
     private static final Type AUTHOR_LIST_TYPE = new TypeToken<AuthorList>() {}.getType();
 
-    private static Logger logger;
+    private static final Logger STORAGE_LOGGER = Logger.getLogger("Tantou.Storage");
     private static Storage storage = null;
     private static File dataFile;
     private static Gson gson;
 
+
     /**
-     * Private default constructor for the <code>Storage</code> singleton. Sets up the logger, data storage file, and
-     * <code>Gson</code> object.
+     * Private default constructor for the <code>Storage</code> singleton. Sets up the STORAGE_LOGGER, data storage
+     * file, and <code>Gson</code> object.
      * <p>
      * Importantly, it makes use of the <code>ExcludeInSerializationAnnotation</code> custom exclusion strategy and
      * <code>@ExcludeInSerialization</code> annotations within the data classes to specify which attributes to
@@ -51,14 +53,12 @@ public class Storage {
      */
     private Storage() {
         assert DATA_PATH.endsWith(".json") : "data file path should be of type .json";
-        logger = Logger.getLogger(this.getClass().getName());
-        dataFile = new File(DATA_PATH);
-        logger.info("Data file path initialized to: " + dataFile.getAbsolutePath());
+        File dataFile = new File(Tantou.BASE_LOCATION, DATA_PATH);
+        setDataFile(dataFile);
         gson = new GsonBuilder()
                 .setExclusionStrategies(new ExcludeInSerializationAnnotationExclusionStrategy())
                 .setPrettyPrinting()
                 .registerTypeAdapter(AUTHOR_LIST_TYPE, new AuthorListDeserializer())
-                .registerTypeAdapter(Author.class, new AuthorDeserializer())
                 .setStrictness(Strictness.LENIENT)
                 .create();
     }
@@ -71,9 +71,14 @@ public class Storage {
         return dataFile;
     }
 
-    public void setDataFile(File dataFile) {
-        Storage.dataFile = dataFile;
-        logger.info("Data file path changed to: " + dataFile.getAbsolutePath());
+    public static void setDataFile(File dataFile) {
+        if (Storage.dataFile == null) {
+            Storage.dataFile = dataFile;
+            STORAGE_LOGGER.info("Data file path initialized to: " + dataFile.getAbsolutePath());
+        } else {
+            Storage.dataFile = dataFile;
+            STORAGE_LOGGER.info("Data file path changed to: " + dataFile.getAbsolutePath());
+        }
     }
 
     /**
@@ -85,7 +90,6 @@ public class Storage {
     public static Storage getInstance() {
         if (storage == null) {
             storage = new Storage();
-            logger.info("Singleton Storage first initialized");
         }
         return storage;
     }
@@ -100,25 +104,18 @@ public class Storage {
         assert dataFile != null : "dataFile cannot be null";
         try (FileReader reader = new FileReader(dataFile)) {
             AuthorList authorList = gson.fromJson(reader, AUTHOR_LIST_TYPE);
-            logger.info("Data restored");
-            System.out.println("Data restored!");
+            STORAGE_LOGGER.info("Data restored");
+            Ui.printStorageDataRestoredMessage();
             return authorList;
         } catch (IOException e) {
-            logger.warning("Problems accessing file: " + e.getMessage());
-            System.out.println("Problems accessing file, data was not restored! Continuing with an empty list.");
+            STORAGE_LOGGER.warning("Problems accessing file: " + e.getMessage());
+            Ui.printStorageDataNotRestoredMessage();
         } catch (JsonSyntaxException e) {
-            logger.warning("JSON from file is malformed: " + e.getMessage());
-            System.out.println(
-                    "JSON from file is malformed, data was not restored! Continuing with an empty list."
-            );
-            System.out.println(
-                    "If you want to try and manually fix this, CTRL-C out of the program and check catalog.json!"
-            );
+            STORAGE_LOGGER.warning("JSON from file is malformed: " + e.getMessage());
+            Ui.printMalformedJSONMessage();
         } catch (JsonParseException e) {
-            logger.warning(e.getMessage());
-            System.out.println(
-                    "Corrupted AuthorList object. Continuing with an empty list."
-            );
+            STORAGE_LOGGER.warning(e.getMessage());
+            Ui.printCorruptedAuthorListMessage();
         }
         return null;
     }
@@ -135,18 +132,18 @@ public class Storage {
             // check with short-circuiting if path has a parent directory,
             // then if the directories were created with mkdirs()
             if (dataFile.getParentFile() != null && dataFile.getParentFile().mkdirs()) {
-                logger.info("Directories not found; created them");
+                STORAGE_LOGGER.info("Directories not found; created them");
             }
 
             // check if data file was created
             if (dataFile.createNewFile()) {
-                logger.info("Data file not found; created it");
+                STORAGE_LOGGER.info("Data file not found; created it");
             }
 
             return false;
         } catch (IOException | SecurityException e) {
-            logger.warning("Problems creating data file, data will not be saved!" + e.getMessage());
-            System.out.println("Problems creating data file, data will not be saved!");
+            STORAGE_LOGGER.warning("Problems creating data file, data will not be saved!" + e.getMessage());
+            Ui.printCreateDataFileFailureMessage();
             return true;
         }
     }
@@ -163,10 +160,10 @@ public class Storage {
         if (!hasIssuesWithDataFile) {
             try (FileWriter writer = new FileWriter(dataFile)) {
                 gson.toJson(authorList, writer);
-                logger.info("Data saved");
+                STORAGE_LOGGER.info("Data saved");
             } catch (IOException e) {
-                logger.warning("Problems saving file, data will not be saved!" + e.getMessage());
-                System.out.println("Problems saving file, data will not be saved!");
+                STORAGE_LOGGER.warning("Problems saving file, data will not be saved!" + e.getMessage());
+                Ui.printSaveDataFileFailureMessage();
             }
         }
     }

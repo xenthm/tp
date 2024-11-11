@@ -1,0 +1,46 @@
+@startuml
+!include ../.PlantUMLSequence.config
+autoactivate off
+title <size:30> DeleteAuthorCommand Sequence Diagram
+
+actor User
+participant "tantou:Tantou" as tantou
+participant "ui:Ui" as ui
+participant "userCommand:DeleteAuthorCommand" as userCommand
+participant "authorList:AuthorList" as authorList
+participant ":StorageHelper" as storage <<class>>
+participant "deletingAuthor:Author" as author
+
+activate tantou
+group sd DeleteAuthorCommand
+    tantou -> userCommand : execute(ui, authorList)
+    activate userCommand
+    create author
+    userCommand -> author : new Author(authorName)
+    activate author
+    author --> userCommand : deletingAuthor
+    deactivate author
+
+    alt deletingAuthor in authorList
+        userCommand -> authorList : remove(deletingAuthor)
+        activate authorList
+        authorList --> userCommand
+        deactivate authorList
+        userCommand -> ui : printDeleteAuthorSuccessMessage(deletingAuthor)
+        activate ui
+        ui --> User : "Successfully deleted author!"
+        ui --> userCommand
+        deactivate ui
+        userCommand -> storage : saveFile(authorList)
+        activate storage
+        storage --> userCommand
+        deactivate storage
+        userCommand --> tantou
+    else deletingAuthor not in authorList
+        userCommand --> tantou : throw new AuthorDoesNotExistException()
+        deactivate userCommand
+    end
+end
+deactivate tantou
+autoactivate on
+@enduml

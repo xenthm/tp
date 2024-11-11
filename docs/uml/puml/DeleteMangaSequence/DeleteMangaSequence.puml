@@ -1,0 +1,68 @@
+@startuml
+autoactivate off
+title <size:30> DeleteMangaCommand Sequence Diagram
+hide footbox
+skinparam roundCorner 0
+skinparam style strictuml
+
+actor User
+participant "tantou:Tantou" as tantou
+participant "ui:Ui" as ui
+participant "userCommand:AddMangaCommand" as userCommand
+participant "authorList:AuthorList" as authorList
+participant ":StorageHelper" as storage <<class>>
+participant "attachedAuthor:Author" as author
+participant "existingAuthor:Author" as existingAuthor
+participant "deletingManga:Manga" as manga
+
+activate tantou
+group sd AddMangaCommand
+
+    tantou -> userCommand : execute(ui, authorList)
+    activate userCommand
+
+    create author
+    userCommand -> author : new Author(authorName)
+    activate author
+    author --> userCommand : attachedAuthor
+    deactivate author
+
+    create manga
+    userCommand -> manga : new Manga(mangaName, attachedAuthor)
+    activate manga
+    manga --> userCommand : deletingManga
+    deactivate manga
+
+    alt attachedAuthor in authorList
+        userCommand -> authorList : getAuthor(attachedAuthor)
+        activate authorList
+        authorList --> userCommand : existingAuthor
+        deactivate authorList
+        alt deletingManga in existingAuthor
+            userCommand -> existingAuthor : deleteManga(deletingManga)
+            activate existingAuthor
+            existingAuthor --> userCommand
+            deactivate existingAuthor
+
+            userCommand -> ui : printDeleteMangaSuccessMessage(deletingManga)
+            activate ui
+            ui --> User : "Manga successfully removed from author!"
+            ui --> userCommand
+            deactivate ui
+
+            userCommand -> storage : saveFile(authorList)
+            activate storage
+            storage --> userCommand
+            deactivate storage
+            userCommand --> tantou
+        else deletingManga not in existingAuthor
+            userCommand --> tantou : throw new MangaDoesNotExistException()
+        end
+    else attachedAuthor not in authorList
+        userCommand --> tantou : throw new AuthorDoesNotExistException()
+        deactivate userCommand
+    end
+end
+deactivate tantou
+autoactivate on
+@enduml

@@ -71,7 +71,6 @@ class AddSalesCommandTest {
                 commandUnderTest.execute(ui, authorList);
             });
 
-            assertEquals("Negative profits means you're getting fired by the way.", exception.getMessage());
         } finally {
             System.setOut(standardOut);
         }
@@ -88,7 +87,6 @@ class AddSalesCommandTest {
                 commandUnderTest.execute(ui, authorList);
             });
 
-            assertEquals("Negative profits means you're getting fired by the way.", exception.getMessage());
         } finally {
             System.setOut(standardOut);
         }

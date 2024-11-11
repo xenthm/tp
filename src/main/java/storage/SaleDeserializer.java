@@ -5,8 +5,10 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import commands.CommandValidator;
+import exceptions.TantouException;
 import sales.Sale;
+import ui.Ui;
 
 import java.lang.reflect.Type;
 
@@ -14,7 +16,7 @@ import java.lang.reflect.Type;
 /**
  * This package private class defines a custom <code>Gson</code> deserializer for the <code>Sale</code> class. It
  * provides informative errors messages as feedback for users who manually edit the data file, and allows for skipping
- * of corrupted <code>Sale</code> elements while allowing valid ones to still be restored.
+ * of invalid <code>Sale</code> elements while allowing valid ones to still be restored.
  */
 class SaleDeserializer implements JsonDeserializer<Sale> {
     private final Author author;
@@ -25,51 +27,46 @@ class SaleDeserializer implements JsonDeserializer<Sale> {
         this.mangaName = mangaName;
     }
 
-    private void printErrorMessage(String message) {
-        System.out.println("Author \""
+    private String generateErrorMessage(String message) {
+        return "Author \""
                 + author.getAuthorName()
                 + "\": "
                 + message
                 + " for manga \""
                 + mangaName
-                + "\""
-        );
+                + "\", "
+                + "continuing with an empty field";
     }
 
     @Override
     public Sale deserialize(JsonElement json, Type typeOfSale, JsonDeserializationContext context) {
         if (json == null || !json.isJsonObject()) {
-            printErrorMessage("corrupted Sales object");
-            return null;
+            Ui.printString(generateErrorMessage("invalid Sales object"));
+            return new Sale();
         }
         JsonObject saleJsonObject = json.getAsJsonObject();
 
         Integer quantitySold = null;
         // Ensure quantitySold is valid
         if (saleJsonObject.has("quantitySold")) {
+            String quantitySoldString = saleJsonObject.get("quantitySold").getAsString();
             try {
-                if (!saleJsonObject.get("quantitySold").isJsonPrimitive()
-                        || !saleJsonObject.get("quantitySold").getAsJsonPrimitive().isNumber()) {
-                    throw new JsonParseException("quantitySold is not a number");
-                }
-                quantitySold = Integer.valueOf(saleJsonObject.get("quantitySold").getAsString());
-            } catch (JsonParseException | NumberFormatException e) {
-                printErrorMessage("corrupted quantity sold");
+                CommandValidator.ensureValidQuantitySold(quantitySoldString);
+                quantitySold = Integer.parseInt(quantitySoldString);
+            } catch (TantouException e) {
+                Ui.printString(generateErrorMessage("invalid quantity sold"));
             }
         }
 
         Double unitPrice = null;
         // Ensure unitPrice is valid
         if (saleJsonObject.has("unitPrice")) {
+            String unitPriceString = saleJsonObject.get("unitPrice").getAsString();
             try {
-                if (!saleJsonObject.get("unitPrice").isJsonPrimitive()
-                        || !saleJsonObject.get("unitPrice").getAsJsonPrimitive().isNumber()) {
-                    throw new JsonParseException("unitPrice is not a number");
-                }
-
-                unitPrice = Double.valueOf(saleJsonObject.get("unitPrice").getAsString());
-            } catch (JsonParseException | NumberFormatException e) {
-                printErrorMessage("corrupted unit price");
+                CommandValidator.ensureValidUnitPrice(unitPriceString);
+                unitPrice = Double.parseDouble(unitPriceString);
+            } catch (TantouException e) {
+                Ui.printString(generateErrorMessage("invalid unit price"));
             }
         }
 

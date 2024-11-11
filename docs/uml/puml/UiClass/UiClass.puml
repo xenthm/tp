@@ -19,6 +19,7 @@ class Ui {
     + getUserInput(): String
     + {static} printList(arrayList: ArrayList<T>, columns ArrayList<PrintColumn<T>>): void
 }
+note right of Ui : Also contains many methods to print a message to the user
 
 class AuthorList {
     + {static} authorColumnsToPrint(): ArrayList<PrintColumn<Author>>
@@ -42,12 +43,11 @@ class Manga {
 }
 
 class Sale {
-    - quantitySold: int
-    - unitPrice: double
-    - totalRevenue: double
-    + getQuantitySold(): int
-    + getUnitPrice(): double
-    + getTotalRevenue(): double
+    - quantitySold: Integer
+    - unitPrice: Double
+    + getQuantitySold(): Integer
+    + getUnitPrice(): Double
+    + getTotalRevenue(): Double
 }
 
 class PrintColumn<T> {
@@ -66,10 +66,10 @@ Ui ..> AuthorList : prints >
 Ui ..> MangaList : prints >
 
 MangaList o-- "*" Manga : comprises of >
-MangaList .l.> "2..6" PrintColumn: specifies print configuration for Ui >
+MangaList .l.> "\t\r2..6" PrintColumn: specifies print configuration for Ui >
 
 AuthorList o-- "*" Author : comprises of >
-AuthorList .r.> "2" PrintColumn: specifies print configuration for Ui >
+AuthorList .r.> "2\r" PrintColumn: specifies print configuration for Ui >
 
 Manga --> "salesData\n0..1" Sale
 Manga -l-> "author\n0..1" Author

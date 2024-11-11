@@ -1,0 +1,29 @@
+@startuml
+!include ../.PlantUMLClass.config
+
+ class Manga {
+    -mangaName: String
+    -author: Author
+    -deadline: String
+    +Manga(mangaName: String, author: Author)
+    +Manga(mangaName: String, author: Author, deadline: String)
+    +addSalesData(salesData: Sale): void
+ }
+
+
+ class Sale {
+    -quantitySold: Integer
+    -unitPrice: Double
+    +Sale(quantitySold: Integer, unitPrice: Double)
+    +getQuantitySold(): Integer
+    +setQuantitySold(quantitySold: Integer): void
+    +getUnitPrice(): Double
+    +setUnitPrice(unitPrice: Double): void
+    +getTotalRevenue(): Double
+    +toString(): String
+    }
+
+
+Manga --> "salesData 0..1" Sale
+
+@enduml
