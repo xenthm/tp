@@ -29,13 +29,14 @@ class AuthorListDeserializer implements JsonDeserializer<AuthorList> {
         JsonArray authorListJsonArray = json.getAsJsonArray();
 
         AuthorList authorList = new AuthorList();
-        for (JsonElement authorJsonElement : authorListJsonArray) {
+        for (int i = 0; i < authorListJsonArray.size(); i++) {
+            JsonElement authorJsonElement = authorListJsonArray.get(i);
             // Ensure author is valid, skipping if not
             try {
-                Author author = context.deserialize(authorJsonElement, Author.class);
+                Author author = new AuthorDeserializer().deserialize(authorJsonElement, Author.class, context);
                 authorList.add(author);
             } catch (JsonParseException e) {
-                ui.printString(generateErrorMessage(e));
+                ui.printString(generateErrorMessage(e, i));
             }
         }
 
@@ -43,8 +44,8 @@ class AuthorListDeserializer implements JsonDeserializer<AuthorList> {
         return authorList;
     }
 
-    private String generateErrorMessage(JsonParseException e) {
-        return "Skipping corrupted author entry due to "
+    private String generateErrorMessage(JsonParseException e, int index) {
+        return "Skipping corrupted author entry at index " + index + " due to "
                 + e.getMessage();
     }
 }

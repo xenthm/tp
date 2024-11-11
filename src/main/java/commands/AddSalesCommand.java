@@ -12,7 +12,9 @@ import exceptions.NoPriceProvidedException;
 import exceptions.NoQuantityProvidedException;
 import exceptions.NumberLessThanZeroException;
 import exceptions.PriceTooLargeException;
+import exceptions.PriceWrongFormatException;
 import exceptions.QuantityTooLargeException;
+import exceptions.QuantityWrongFormatException;
 import exceptions.TantouException;
 import manga.Manga;
 import sales.Sale;
@@ -25,6 +27,8 @@ import static constants.Command.QUANTITY_INDEX;
 import static constants.Command.SALES_COMMAND;
 import static constants.Options.MAX_AUTHOR_NAME_LENGTH;
 import static constants.Options.MAX_MANGA_NAME_LENGTH;
+import static constants.Options.QUANTITY_MAX_VALUE;
+import static constants.Options.UNIT_PRICE_MAX_VALUE;
 import static storage.StorageHelper.saveFile;
 
 //@@author sarahchow03
@@ -36,8 +40,6 @@ import static storage.StorageHelper.saveFile;
  */
 public class AddSalesCommand extends Command {
     // Maximum allowed values for unit price and quantity
-    public static final int UNIT_PRICE_MAX_VALUE = 1000000000;
-    public static final int QUANTITY_MAX_VALUE = 1000000000;
     private String[] argsAuthorMangaQtyPrice;
 
     public AddSalesCommand(String[] argsAuthorMangaQtyPrice) {
@@ -87,12 +89,16 @@ public class AddSalesCommand extends Command {
         }
 
         Integer quantitySold = null;
-        Double unitPrice = null;
         try {
             quantitySold = Integer.parseInt(quantityString);
+        } catch (NumberFormatException e) {
+            throw new QuantityWrongFormatException();
+        }
+        Double unitPrice = null;
+        try {
             unitPrice = Double.parseDouble(priceString);
         } catch (NumberFormatException e) {
-            throw new TantouException("Pretty sure we taught you how to format those numbers already... Seriously...");
+            throw new PriceWrongFormatException();
         }
 
         if (quantitySold >= QUANTITY_MAX_VALUE) {

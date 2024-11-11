@@ -30,10 +30,10 @@ class MangaListDeserializer implements JsonDeserializer<MangaList> {
         this.ui = new Ui();
     }
 
-    private String generateErrorMessage(Exception e) {
+    private String generateErrorMessage(Exception e, int index) {
         return "Author \""
                 + author.getAuthorName()
-                + "\": skipping corrupted manga entry due to "
+                + "\": skipping corrupted manga entry at index " + index + " due to "
                 + e.getMessage();
     }
 
@@ -47,14 +47,15 @@ class MangaListDeserializer implements JsonDeserializer<MangaList> {
         JsonArray mangaListJsonArray = json.getAsJsonArray();
 
         MangaList mangaList = new MangaList();
-        for (JsonElement mangaJsonElement : mangaListJsonArray) {
+        for (int i = 0; i < mangaListJsonArray.size(); i++) {
+            JsonElement mangaJsonElement = mangaListJsonArray.get(i);
             // Ensure manga is valid, skipping if not
             try {
                 // pass Author reference
                 Manga manga = new MangaDeserializer(author).deserialize(mangaJsonElement, Manga.class, context);
                 mangaList.add(manga);
             } catch (JsonParseException e) {
-                ui.printString(generateErrorMessage(e));
+                ui.printString(generateErrorMessage(e, i));
             }
         }
 
