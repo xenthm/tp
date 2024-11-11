@@ -53,11 +53,7 @@ public class AddDeadlineCommand extends Command {
         // Assert that the addition successfully executed
         assert authorList.getAuthor(authorName).getManga(mangaName)
                 .getDeadline().equals(deadline) : "Deadline was not added";
-        assert false : "todo";
         ui.printAddDeadlineSuccessMessage(incomingManga);
-        System.out.printf("Deadline %s added successfully to manga %s\n",
-                deadline, incomingManga.getMangaName());
-
         saveFile(authorList);
     }
 }
