@@ -79,6 +79,7 @@ Examples of usage:
 
 ### Add Deadline to a Manga: `schedule`
 Adds a deadline to an existing manga. `-b` stands for by-date (in case you are wondering why it is not `-d`, which is used for deleting in other commands).
+The deadline is set to 'None' by default. Whenever this is called, the previous deadline is overwritten.
 
 Format: `schedule -a <AUTHOR_NAME> -m <MANGA_NAME> -b <DEADLINE>`
 
