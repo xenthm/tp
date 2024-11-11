@@ -146,8 +146,9 @@ The `Storage` class uses the `Singleton` design pattern, which means only a maxi
 The `StorageHelper` utility class wraps the methods to access `Storage` for ease of use.
 
 Data is by default stored in a JSON file `catalog.json` in the
-`data` directory at the program root location, or if ran via a `.jar` file, the `.jar` file location. This can be
-changed via the `public static final String DATA_PATH` constant in the `Storage.java` file.
+`data` directory at the program root location, or if ran via a `.jar` file, the `.jar` file location. This is determined
+at runtime in `Tantou.BASE_LOCATION` via `Tantou::getBaseDirectory`. The location can be changed via the
+`public static final String DATA_PATH` constant in the `Storage.java` file.
 
 The class makes use of the `Gson` third-party library to de/serialize data.
 
@@ -166,9 +167,9 @@ the
 
 #### Gson De/serialization
 Instead of using the default deserializers provided by
-`Gson`, this project defines custom ones. This enables us to perform checks on the key-value pairs in the data file
+`Gson`, this project defines custom ones. This enables us to perform validity checks, via the `CommandValidator` class, on the key-value pairs in the data file
 every step of the way, providing detailed and relevant information in the event deserialization is not successful. The
-following is a code snippet showcasing the checks performed during the deserialization of data.
+following is a code snippet showcasing some of the checks performed during the deserialization of data.
 ```
 @Override
 public MangaList deserialize(JsonElement json, Type typeOfMangaList, JsonDeserializationContext context)
@@ -389,7 +390,9 @@ The following sequence diagram illustrates the interactions that occur when the 
 <br/>![AddSalesSequence.png](uml/images/AddSalesSequence.png)<br/>
 
 > **_NOTE:_
-** The list of possible errors in parsing argument are as follows: missing arguments or flags, length of `author`/`manga` name exceeded maximum value of 40 characters, length of `deadline` string exceeded maximum value of 20 characters, negative values for
+** The list of possible errors in parsing argument are as follows: missing arguments or flags, length of `author`/
+`manga` name exceeded maximum value of 40 characters, length of
+`deadline` string exceeded maximum value of 20 characters, negative values for
 `quantitySold` or `unitPrice`, wrong number formats for `quantitySold` or
 `unitPrice`, and numbers exceeding the value of 1,000,000,000.<br/>
 
