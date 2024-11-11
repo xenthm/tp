@@ -31,6 +31,10 @@ is targetted towards editors that can type fast, allow them to quickly create an
   while ensuring compatibility. This structured approach also gave team members a clearer understanding of the application’s organization and dependencies, 
   streamlining their development process by establishing a consistent pattern for adding new components. This modular design allowed for incremental feature 
   development while maintaining the cohesiveness of our codebase, resulting in a more efficient integration process.
+- **Others**:
+  - In **v1.0**, I had tried using the Apache Commons CLI Library as part of `MangaTantou`'s parsing architecture. While it worked as intended,
+    the functionalities provided by the library were not as defensive as we had liked and I led the `Parser` [rehaul](https://github.com/AY2425S1-CS2113-T10-3/tp/pull/63) to a
+    simpler but more defensive implementation.
 - **Code Contributed**: [RepoSense Link](https://nus-cs2113-ay2425s1.github.io/tp-dashboard/?search=andy&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2024-09-20&tabOpen=true&tabType=authorship&tabAuthor=averageandyyy&tabRepo=AY2425S1-CS2113-T10-3%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code~other&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false)
 - **Documentation**:
   - **User Guide**
