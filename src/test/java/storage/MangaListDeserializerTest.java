@@ -36,7 +36,7 @@ class MangaListDeserializerTest {
                 JsonParseException.class,
                 () -> mangaListDeserializer.deserialize(null, MANGA_LIST_TYPE, null)
         );
-        assertEquals("corrupt MangaList array", exception.getMessage());
+        assertEquals("invalid MangaList array", exception.getMessage());
     }
 
     @Test
@@ -46,7 +46,7 @@ class MangaListDeserializerTest {
                 JsonParseException.class,
                 () -> mangaListDeserializer.deserialize(jsonElement, MANGA_LIST_TYPE, null)
         );
-        assertEquals("corrupt MangaList array", exception.getMessage());
+        assertEquals("invalid MangaList array", exception.getMessage());
     }
 
     @Test

@@ -16,10 +16,10 @@ import java.lang.reflect.Type;
 /**
  * This package private class defines a custom <code>Gson</code> deserializer for the <code>MangaList</code> class. It
  * contains a reference to the <code>Author</code>. It provides informative errors messages as feedback for users who
- * manually edit the data file, and allows for skipping of corrupted <code>Manga</code> elements while allowing valid
+ * manually edit the data file, and allows for skipping of invalid <code>Manga</code> elements while allowing valid
  * ones to still be restored. The <code>Author</code> reference is passed to the <code>MangaDeserializer</code> so that
  * circular reference (bidirectional navigability) between an <code>Author</code> and their <code>Manga</code> can be
- * maintained.
+ * maintained. The <code>MangaList</code> itself is also passed down to allow for duplicate manga checking.
  */
 class MangaListDeserializer implements JsonDeserializer<MangaList> {
     private final Author author;
@@ -31,7 +31,7 @@ class MangaListDeserializer implements JsonDeserializer<MangaList> {
     private String generateErrorMessage(Exception e, int index) {
         return "Author \""
                 + author.getAuthorName()
-                + "\": skipping corrupted manga entry at index " + index + " due to "
+                + "\": skipping invalid manga entry at index " + index + " due to "
                 + e.getMessage();
     }
 
@@ -40,7 +40,7 @@ class MangaListDeserializer implements JsonDeserializer<MangaList> {
             throws JsonParseException {
         // Ensure mangaList is a JSON array
         if (json == null || !json.isJsonArray()) {
-            throw new JsonParseException("corrupt MangaList array");
+            throw new JsonParseException("invalid MangaList array");
         }
         JsonArray mangaListJsonArray = json.getAsJsonArray();
 
@@ -50,7 +50,8 @@ class MangaListDeserializer implements JsonDeserializer<MangaList> {
             // Ensure manga is valid, skipping if not
             try {
                 // pass Author reference
-                Manga manga = new MangaDeserializer(author).deserialize(mangaJsonElement, Manga.class, context);
+                Manga manga = new MangaDeserializer(author, mangaList)
+                        .deserialize(mangaJsonElement, Manga.class, context);
                 mangaList.add(manga);
             } catch (JsonParseException e) {
                 Ui.printString(generateErrorMessage(e, i));

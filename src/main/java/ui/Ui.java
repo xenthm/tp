@@ -139,7 +139,8 @@ public class Ui {
     }
 
     public void printPreMangaListMessage(Author author) {
-        System.out.println("Mangas authored by " + author.getAuthorName() + ", Total: " + author.getMangaList().size());
+        System.out.println("Mangas authored by \"" + author.getAuthorName() + "\", Total: "
+                + author.getMangaList().size());
     }
 
     public void printAccessLogFileFailureMessage() {
