@@ -39,10 +39,10 @@ public class DeleteAuthorCommand extends Command {
      */
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
-        CommandValidity.ensureValidAuthorName(authorName);
+        CommandValidator.ensureValidAuthorName(authorName);
         
         Author deletingAuthor = new Author(authorName);
-        CommandValidity.ensureAuthorExists(deletingAuthor.getAuthorName(), authorList);
+        CommandValidator.ensureAuthorExists(deletingAuthor.getAuthorName(), authorList);
 
         authorList.remove(deletingAuthor);
         ui.printDeleteAuthorSuccessMessage(deletingAuthor);

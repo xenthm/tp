@@ -7,7 +7,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import commands.CommandValidity;
+import commands.CommandValidator;
 import exceptions.AuthorExistsException;
 import exceptions.AuthorNameTooLongException;
 import exceptions.NoAuthorProvidedException;
@@ -46,8 +46,8 @@ class AuthorDeserializer implements JsonDeserializer<Author> {
         }
         authorName = authorJsonObject.get("authorName").getAsString();
         try {
-            CommandValidity.ensureValidAuthorName(authorName);
-            CommandValidity.ensureNoDuplicateAuthor(authorName, authorList);
+            CommandValidator.ensureValidAuthorName(authorName);
+            CommandValidator.ensureNoDuplicateAuthor(authorName, authorList);
         } catch (NoAuthorProvidedException | AuthorNameTooLongException e) {
             throw new JsonParseException("invalid author name");
         } catch (AuthorExistsException e) {

@@ -22,10 +22,10 @@ public class ViewAuthorsCommand extends Command {
         assert ui != null : "Ui must not be null";
         assert authorList != null : "authorList must not be null";
 
-        CommandValidity.ensureAuthorListNotEmpty(authorList);
+        CommandValidator.ensureAuthorListNotEmpty(authorList);
 
         for (Author author : authorList) {
-            CommandValidity.ensureValidAuthorName(author.getAuthorName());
+            CommandValidator.ensureValidAuthorName(author.getAuthorName());
         }
 
         ui.printPreAuthorListMessage(authorList);

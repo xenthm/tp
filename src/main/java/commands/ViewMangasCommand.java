@@ -32,14 +32,14 @@ public class ViewMangasCommand extends Command {
         assert authorList != null : "authorList must not be null";
         assert authorName != null : "An author name must be provided";
 
-        CommandValidity.ensureValidAuthorName(authorName);
-        CommandValidity.ensureAuthorListNotEmpty(authorList);
-        CommandValidity.ensureAuthorExists(authorName, authorList);
+        CommandValidator.ensureValidAuthorName(authorName);
+        CommandValidator.ensureAuthorListNotEmpty(authorList);
+        CommandValidator.ensureAuthorExists(authorName, authorList);
         Author author = authorList.getAuthor(authorName);
 
-        CommandValidity.ensureMangaListNotEmpty(author);
+        CommandValidator.ensureMangaListNotEmpty(author);
         for (Manga manga : author.getMangaList()) {
-            CommandValidity.ensureValidMangaName(manga.getMangaName());
+            CommandValidator.ensureValidMangaName(manga.getMangaName());
         }
         ui.printPreMangaListMessage(author);
         Ui.printList(author.getMangaList(), mangaColumnsToPrint(includeDeadline, includeSales));

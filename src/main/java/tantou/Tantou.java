@@ -84,7 +84,7 @@ public class Tantou {
             public synchronized String format(LogRecord record) {
                 /* Change log message format based on if the command logger is being used.
                  * This allows the log message to contain the caller's (i.e. the command's) name, instead of the
-                 * CommandValidity utility class.
+                 * CommandValidator utility class.
                  */
                 if (record.getLoggerName().equals(COMMAND_LOGGER.getName())) {
                     String callerClassName = "";

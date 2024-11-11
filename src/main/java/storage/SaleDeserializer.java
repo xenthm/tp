@@ -5,7 +5,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import commands.CommandValidity;
+import commands.CommandValidator;
 import exceptions.TantouException;
 import sales.Sale;
 import ui.Ui;
@@ -51,7 +51,7 @@ class SaleDeserializer implements JsonDeserializer<Sale> {
         if (saleJsonObject.has("quantitySold")) {
             String quantitySoldString = saleJsonObject.get("quantitySold").getAsString();
             try {
-                CommandValidity.ensureValidQuantitySold(quantitySoldString);
+                CommandValidator.ensureValidQuantitySold(quantitySoldString);
                 quantitySold = Integer.parseInt(quantitySoldString);
             } catch (TantouException e) {
                 Ui.printString(generateErrorMessage("invalid quantity sold"));
@@ -63,7 +63,7 @@ class SaleDeserializer implements JsonDeserializer<Sale> {
         if (saleJsonObject.has("unitPrice")) {
             String unitPriceString = saleJsonObject.get("unitPrice").getAsString();
             try {
-                CommandValidity.ensureValidUnitPrice(unitPriceString);
+                CommandValidator.ensureValidUnitPrice(unitPriceString);
                 unitPrice = Double.parseDouble(unitPriceString);
             } catch (TantouException e) {
                 Ui.printString(generateErrorMessage("invalid unit price"));

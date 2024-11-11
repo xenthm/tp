@@ -36,7 +36,7 @@ import static constants.Options.MAX_UNIT_PRICE_VALUE;
  * This utility class contains methods to check the various inputs to the defined <code>Command</code>s in
  * <code>MangaTantou</code>, throwing relevant exceptions if needed.
  */
-public class CommandValidity {
+public class CommandValidator {
     /**
      * Checks if the author name is <code>null</code> or is empty, then if it is longer than
      * <code>MAX_AUTHOR_NAME_LENGTH</code>.

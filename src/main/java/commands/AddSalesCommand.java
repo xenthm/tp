@@ -54,9 +54,9 @@ public class AddSalesCommand extends Command {
         String quantityString = argsAuthorMangaQtyPrice[QUANTITY_INDEX];
         String priceString = argsAuthorMangaQtyPrice[PRICE_INDEX];
 
-        CommandValidity.ensureValidAuthorName(authorName);
-        CommandValidity.ensureValidMangaName(mangaName);
-        CommandValidity.ensureValidSalesData(quantityString, priceString);
+        CommandValidator.ensureValidAuthorName(authorName);
+        CommandValidator.ensureValidMangaName(mangaName);
+        CommandValidator.ensureValidSalesData(quantityString, priceString);
 
         Integer quantitySold = Integer.parseInt(quantityString);
         Double unitPrice = Double.parseDouble(priceString);
@@ -66,10 +66,10 @@ public class AddSalesCommand extends Command {
         Author incomingAuthor = new Author(authorName);
         Manga incomingManga = new Manga(mangaName, incomingAuthor);
 
-        CommandValidity.ensureAuthorExists(incomingAuthor.getAuthorName(), authorList);
+        CommandValidator.ensureAuthorExists(incomingAuthor.getAuthorName(), authorList);
         Author existingAuthor = authorList.getAuthor(incomingAuthor);
 
-        CommandValidity.ensureMangaExists(incomingManga.getMangaName(), existingAuthor);
+        CommandValidator.ensureMangaExists(incomingManga.getMangaName(), existingAuthor);
 
         existingAuthor.getManga(incomingManga.getMangaName()).addSalesData(salesData);
 

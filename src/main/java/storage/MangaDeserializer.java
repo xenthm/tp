@@ -6,7 +6,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import commands.CommandValidity;
+import commands.CommandValidator;
 import exceptions.DeadlineTooLongException;
 import exceptions.MangaExistsException;
 import exceptions.MangaNameTooLongException;
@@ -51,8 +51,8 @@ class MangaDeserializer implements JsonDeserializer<Manga> {
         }
         mangaName = mangaJsonObject.get("mangaName").getAsString();
         try {
-            CommandValidity.ensureValidMangaName(mangaName);
-            CommandValidity.ensureNoDuplicateManga(mangaName, author, mangaList);
+            CommandValidator.ensureValidMangaName(mangaName);
+            CommandValidator.ensureNoDuplicateManga(mangaName, author, mangaList);
         } catch (NoMangaProvidedException | MangaNameTooLongException e) {
             throw new JsonParseException("invalid manga name");
         } catch (MangaExistsException e) {
@@ -68,7 +68,7 @@ class MangaDeserializer implements JsonDeserializer<Manga> {
         }
         deadlineString = mangaJsonObject.get("deadline").getAsString();
         try {
-            CommandValidity.ensureValidDeadline(deadlineString);
+            CommandValidator.ensureValidDeadline(deadlineString);
         } catch (NoDeadlineProvidedException | DeadlineTooLongException e) {
             throw new JsonParseException("invalid deadline");
         }

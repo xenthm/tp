@@ -45,15 +45,15 @@ public class DeleteMangaCommand extends Command {
      */
     @Override
     public void execute(Ui ui, AuthorList authorList) throws TantouException {
-        CommandValidity.ensureValidAuthorName(authorName);
-        CommandValidity.ensureValidMangaName(mangaName);
+        CommandValidator.ensureValidAuthorName(authorName);
+        CommandValidator.ensureValidMangaName(mangaName);
 
         Author attachedAuthor = new Author(authorName);
         Manga deletingManga = new Manga(mangaName, attachedAuthor);
-        CommandValidity.ensureAuthorExists(attachedAuthor.getAuthorName(), authorList);
+        CommandValidator.ensureAuthorExists(attachedAuthor.getAuthorName(), authorList);
 
         Author existingAuthor = authorList.getAuthor(attachedAuthor);
-        CommandValidity.ensureMangaExists(deletingManga.getMangaName(), existingAuthor);
+        CommandValidator.ensureMangaExists(deletingManga.getMangaName(), existingAuthor);
 
         existingAuthor.deleteManga(deletingManga);
         ui.printDeleteMangaSuccessMessage(deletingManga);
