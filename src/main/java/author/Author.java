@@ -35,6 +35,16 @@ public class Author {
         return mangaList.contains(manga);
     }
 
+    public boolean hasManga(String mangaName) {
+        assert !mangaName.isEmpty() : "manga name must not be empty";
+        for (Manga manga : this.mangaList) {
+            if (manga.getMangaName().equals(mangaName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void addManga(Manga manga) {
         assert manga != null : "manga must not be null";
         mangaList.add(manga);

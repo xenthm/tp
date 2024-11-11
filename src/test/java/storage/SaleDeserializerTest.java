@@ -11,7 +11,6 @@ import sales.Sale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 //@@author xenthm
 class SaleDeserializerTest {
@@ -26,14 +25,18 @@ class SaleDeserializerTest {
     }
 
     @Test
-    void deserialize_nullSaleObject_returnsNull() {
-        assertNull(saleDeserializer.deserialize(null, Sale.class, null));
+    void deserialize_nullSaleObject_returnsNullSaleObject() {
+        assertEquals(new Sale(),
+                saleDeserializer.deserialize(null, Sale.class, null)
+        );
     }
 
     @Test
-    void deserialize_nonJsonObject_returnsNull() {
+    void deserialize_nonJsonObject_returnsNullSaleObject() {
         JsonElement jsonElement = JsonParser.parseString("\"Not an object\"");
-        assertNull(saleDeserializer.deserialize(jsonElement, Sale.class, null));
+        assertEquals(new Sale(),
+                saleDeserializer.deserialize(jsonElement, Sale.class, null)
+        );
     }
 
     @Test

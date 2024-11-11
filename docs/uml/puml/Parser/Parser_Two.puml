@@ -1,0 +1,54 @@
+@startuml
+!include ../.PlantUMLClass.config
+
+abstract class ArgumentFinder as "{abstract}\n ArgumentFinder" {
+    # pattern: Pattern
+    # matcher: Matcher
+    # option: String
+    + ArgumentFinder(pattern: Pattern, option: String): ArgumentFinder
+    + getArgumentResult(userInput: String): ArgumentResult ABSTRACT_DECORATOR
+}
+
+class Regex {
+    + {static} AUTHOR_NAME_EXTRACTOR_PATTERN: Pattern
+    + {static} MANGA_NAME_EXTRACTOR_PATTERN: Pattern
+    + {static} PRICE_EXTRACTOR_PATTERN: Pattern
+    + {static} QUANTITY_EXTRACTOR_PATTERN: Pattern
+    + {static} BY_DATE_EXTRACTOR_PATTERN: Pattern
+    - {static} generateExtractorPattern(includedOptionFlag: String): Pattern
+}
+
+ArgumentFinder ..> Regex : uses patterns from >
+
+class AuthorArgumentFinder {
+    + AuthorArgumentFinder(): AuthorArgumentFinder
+    +getArgumentResult(userInput: String): ArgumentResult
+}
+
+class MangaArgumentFinder {
+    + MangaArgumentFinder(): MangaArgumentFinder
+    + getArgumentResult(userInput: String): ArgumentResult
+}
+
+class PriceArgumentFinder {
+    + PriceArgumentFinder(): PriceArgumentFinder
+    + getArgumentResult(userInput: String): ArgumentResult
+}
+
+class QuantityArgumentFinder {
+    + QuantityArgumentFinder(): QuantityArgumentFinder
+    + getArgumentResult(userInput: String): ArgumentResult
+}
+
+class DeadlineArgumentFinder {
+    + DeadlineArgumentFinder(): DeadlineArgumentFinder
+    + getArgumentResult(userInput: String): ArgumentResult
+}
+
+AuthorArgumentFinder --|> ArgumentFinder
+MangaArgumentFinder --|> ArgumentFinder
+PriceArgumentFinder --|> ArgumentFinder
+QuantityArgumentFinder --|> ArgumentFinder
+DeadlineArgumentFinder --|> ArgumentFinder
+
+@enduml

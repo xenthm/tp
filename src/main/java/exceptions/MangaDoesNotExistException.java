@@ -6,7 +6,7 @@ public class MangaDoesNotExistException extends TantouException {
     }
 
     private static String generateMangaDoesNotExistMessage(String mangaName) {
-        return "Manga [" + mangaName + "] does not exist! "
-                + "Manga needs to exist in our catalog first before adding their sales data!";
+        return "Manga \"" + mangaName + "\" does not exist! "
+                + "Manga needs to exist in our catalog first before performing this command!";
     }
 }

@@ -45,8 +45,6 @@ Examples of usage:
 * `catalog -a Kubo Tite -m Bleach`
 * `catalog -m One Piece -a Oda Eiichiro`
 
-
-
 ### Deleting Authors and Mangas: `catalog -a -d` and `catalog -a -m -d`
 The `catalog -a -d` and `catalog -a -m -d` commands allow you to remove authors and mangas from your catalog in `MangaTantou`. 
 This feature is useful for managing your catalog by removing inactive authors or discontinued manga titles.
@@ -82,7 +80,8 @@ Examples of usage:
 `sales -a Izumi Tsubaki -m Gekkan Shoujo Nozaki-kun -q 1700 -p 12.90`
 
 ### Add Deadline to a Manga: `schedule`
-Adds a deadline to an existing manga. `-b` stands for by-date (in case you are wondering why it is not `-d`, which is used for deleting in other commands). 
+Adds a deadline to an existing manga. `-b` stands for by-date (in case you are wondering why it is not `-d`, which is used for deleting in other commands).
+The deadline is set to 'None' by default. Whenever this is called, the previous deadline is overwritten.
 
 Format: `schedule -a <AUTHOR_NAME> -m <MANGA_NAME> -b <DEADLINE>`
 
@@ -93,6 +92,12 @@ Examples of usage:
 `schedule -a Hirohiko Araki -m Phantom Blood -b January 1, 1987`
 
 `schedule -a Hirohiko Araki -m Stone Ocean -b December 7, 1999`
+
+> **_NOTE:_**
+The deadline does not need to follow any set format.
+This allows for greater flexibility in setting deadlines (e.g. `20 Jan 2024`, `Tuesday`, `After Mum's bday`, `in 2 days`).
+It is up to the user to define what is valid.
+
 
 ### Viewing Authors: `view`
 The `view` command allows you to view all the `Author`s in your catalog in a nicely formatted table.
@@ -125,7 +130,7 @@ Example output:
 view -a Hirohiko Araki -s -b
 Mangas authored by Hirohiko Araki, Total: 2
 no. | Manga Name                               | Deadline             | Unit Price | Units Sold | Revenue
------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
   1 | Phantom Blood                            | January 1, 1987      | 2.50       | 10         | 25.00
   2 | Stone Ocean                              | December 7, 1999     | 9.00       | 50         | 450.00
 
@@ -148,8 +153,16 @@ Advanced users can manually update data directly by editing the file.
 > `MangaTantou` checks for formatting and value errors and tries to discard the corrupted entry while keeping valid information if possible. 
 > If that fails, the catalog will be deleted and a new empty one will be used instead.
 
-> **_LIMITATION:_**
-> If you decide to manually edit the data file such that an entry contains a field that is impossible to add via normal commands (i.e. authorName `Kubo -a Tite` instead of `Kubo --a Tite`), you <ins>**will not be**</ins> able to access this entry in via normal commands in the future unless this change is corrected.
+> **_LIMITATIONS:_**
+> - If you decide to manually edit the data file such that an entry contains a field that is impossible to add via normal commands (i.e. authorName `Kubo -a Tite` instead of `Kubo --a Tite`), you <ins>**will not be**</ins> able to access this entry in via normal commands in the future unless this change is corrected.
+> - Specifying duplicate key-value pairs in the data file will cause the pair closest to the end of the file to be taken. This is a limitation of the Gson 2.11.0 library. The following snippet will create an author with name "Hirohiko Araki".  
+> ```
+> {
+>   "authorName": "Kubo Tite",
+>   "authorName": "Hirohiko Araki",
+>   "mangaList": []
+> }
+> ```
 
 ## FAQ
 **Q**: How do I transfer my data to another computer?
@@ -168,7 +181,8 @@ Advanced users can manually update data directly by editing the file.
 | Add Manga      | `catalog -a <AUTHOR_NAME> -m <MANGA_NAME>` <br/> e.g. `catalog -a Kubo Tite -m Bleach`                                                      |
 | Delete Author  | `catalog -a <AUTHOR_NAME> -d` <br/> e.g. `catalog -d -a Kubo Tite`                                                                          |
 | Delete Manga   | `catalog -a <AUTHOR_NAME> -m <MANGA_NAME> -d` <br/> e.g. `catalog -d -a Kubo Tite -m Bleach`                                                |
-| Add Sales Data | `sales -a <AUTHOR_NAME> -m <MANGA_NAME> -q <QUANTITY_SOLD> -p <PRICE_PER_UNIT>` <br/> e.g. `sales -a Kubo Tite -m Bleach -q 10000 -p 11.90` | 
+| Add Sales Data | `sales -a <AUTHOR_NAME> -m <MANGA_NAME> -q <QUANTITY_SOLD> -p <PRICE_PER_UNIT>` <br/> e.g. `sales -a Kubo Tite -m Bleach -q 10000 -p 11.90` |
+| Add Deadline   | `schedule -a <AUTHOR_NAME> -m <MANGA_NAME> -b <DEADLINE>` <br/> e.g. `schedule -a Kubo Tite -m Bleach -b Monday November 11`                |
 | View Authors   | `view`                                                                                                                                      |
 | View Mangas    | `view -a <AUTHOR_NAME> [-b] [-s]` <br/> e.g. `view -a Hirohiko Araki -s -b`                                                                 |
 | Exit           | `bye`                                                                                                                                        |

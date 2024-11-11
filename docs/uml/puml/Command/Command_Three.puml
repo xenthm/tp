@@ -1,0 +1,45 @@
+@startuml
+!include ../.PlantUMLClass.config
+
+abstract class Command as "{abstract}\n Command" {
+    + {static} COMMAND_LOGGER: Logger
+    - command: String
+    - isExit: boolean
+    + Command(command: String): Command
+    + setExit(exit: boolean): void
+    + isExit(): boolean
+    + execute(ui: Ui, authorList: AuthorList): void ABSTRACT_DECORATOR
+}
+
+class CommandValidator <<utility>> {
+}
+
+Command ..> CommandValidator : uses to validate Command values >
+
+class Ui {
+}
+
+Command ..> Ui : uses to print >
+
+class AuthorList {
+}
+
+Command ..> AuthorList : alters >
+
+class ViewAuthorsCommand {
+    + ViewAuthorsCommand(): ViewAuthorsCommand
+    + execute(ui: Ui, authorList: AuthorList): void
+}
+
+class ViewMangasCommand {
+    - authorName: String
+    - includeDeadline: boolean
+    - includeSales: boolean
+    + ViewMangasCommand(authorName: String, includeDeadline: boolean, includeSales: boolean): ViewMangasCommand
+    + execute(ui: Ui, authorList: AuthorList): void
+}
+
+Command <|-- ViewAuthorsCommand
+Command <|-- ViewMangasCommand
+
+@enduml

@@ -1,11 +1,16 @@
 package storage;
 
 import author.Author;
+import author.AuthorList;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import commands.CommandValidator;
+import exceptions.AuthorExistsException;
+import exceptions.AuthorNameTooLongException;
+import exceptions.NoAuthorProvidedException;
 import manga.MangaList;
 
 import java.lang.reflect.Type;
@@ -18,21 +23,37 @@ import java.lang.reflect.Type;
  * (bidirectional navigability) between an <code>Author</code> and their <code>Manga</code> can be maintained.
  */
 class AuthorDeserializer implements JsonDeserializer<Author> {
+    private final AuthorList authorList;
+
+    public AuthorDeserializer(AuthorList authorList) {
+        this.authorList = authorList;
+    }
+
     @Override
     public Author deserialize(JsonElement json, Type typeOfAuthor, JsonDeserializationContext context)
             throws JsonParseException {
         if (json == null || !json.isJsonObject()) {
-            throw new JsonParseException("corrupt Author object");
+            throw new JsonParseException("redundant comma or invalid Author object");
         }
         JsonObject authorJsonObject = json.getAsJsonObject();
 
         // Ensure authorName is valid
+        String authorName = "";
         if (!authorJsonObject.has("authorName")
                 || !authorJsonObject.get("authorName").isJsonPrimitive()
                 || !authorJsonObject.get("authorName").getAsJsonPrimitive().isString()) {
-            throw new JsonParseException("corrupt author name");
+            throw new JsonParseException("invalid author name");
         }
-        Author author = new Author(authorJsonObject.get("authorName").getAsString());
+        authorName = authorJsonObject.get("authorName").getAsString();
+        try {
+            CommandValidator.ensureValidAuthorName(authorName);
+            CommandValidator.ensureNoDuplicateAuthor(authorName, authorList);
+        } catch (NoAuthorProvidedException | AuthorNameTooLongException e) {
+            throw new JsonParseException("invalid author name");
+        } catch (AuthorExistsException e) {
+            throw new JsonParseException("duplicate author found");
+        }
+        Author author = new Author(authorName);
 
         // Ensure mangaList is valid
         try {
@@ -44,7 +65,7 @@ class AuthorDeserializer implements JsonDeserializer<Author> {
             );
             author.setMangaList(mangaList);
         } catch (JsonParseException e) {
-            throw new JsonParseException("corrupt manga list");
+            throw new JsonParseException("invalid manga list");
         }
 
         // Assertion: author is valid now

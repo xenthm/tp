@@ -1,0 +1,63 @@
+@startuml
+!include ../.PlantUMLClass.config
+
+abstract class Command as "{abstract}\n Command" {
+    + {static} COMMAND_LOGGER: Logger
+    - command: String
+    - isExit: boolean
+    + Command(command: String): Command
+    + setExit(exit: boolean): void
+    + isExit(): boolean
+    + execute(ui: Ui, authorList: AuthorList): void ABSTRACT_DECORATOR
+}
+
+class CommandValidator <<utility>> {
+}
+
+Command ..> CommandValidator : uses to validate Command values >
+
+class Ui {
+}
+
+Command ..> Ui : uses to print >
+
+class AuthorList {
+}
+
+Command ..> AuthorList : alters >
+
+
+class AddMangaCommand {
+    - authorName: String
+    - mangaName: String
+    + AddMangaCommand(argsAuthorManga: String[]): AddMangaCommand
+    + execute(ui: Ui, authorList: AuthorList): void
+}
+
+class DeleteMangaCommand {
+    - authorName: String
+    - mangaName: String
+    + DeleteMangaCommand(argsAuthorManga: String[]): DeleteMangaCommand
+    + execute(ui: Ui, authorList: AuthorList): void
+}
+
+class AddSalesCommand {
+    - argsAuthorMangaQtyPrice: String[]
+    + AddSalesCommand(argsAuthorMangaQtyPrice: String[]): AddSalesCommand
+    + execute(ui:Ui, authorList: AuthorList): void
+}
+
+class AddDeadlineCommand {
+    - argsAuthorMangaDeadline: String[]
+    + AddDeadlineCommand(argsAuthorMangaDeadline: String[]): AddDeadlineCommand
+    + execute(ui:Ui, authorList: AuthorList): void
+}
+
+
+
+Command <|-- AddMangaCommand
+Command <|-- DeleteMangaCommand
+Command <|-- AddSalesCommand
+Command <|-- AddDeadlineCommand
+
+@enduml
