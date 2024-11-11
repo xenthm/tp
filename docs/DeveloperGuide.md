@@ -4,30 +4,31 @@
 * [Developer Guide for MangaTantou](#developer-guide-for-mangatantou)
 * [Acknowledgements](#acknowledgements)
 * [Design & Implementation](#design--implementation)
-    * [Overall Architecture](#overall-architecture)
-        * [Representing Data in MangaTantou](#representing-data-in-mangatantou)
-        * [Parsing Architecture](#parsing-architecture)
-        * [Commands](#commands)
-        * [Saving Data](#saving-data)
-        * [Displaying Data](#displaying-data)
-    * [Interacting with the User](#interacting-with-the-user)
-        * [AddAuthorCommand](#addauthorcommand)
-        * [AddMangaCommand](#addmangacommand)
-        * [DeleteAuthorCommand](#deleteauthorcommand)
-        * [DeleteMangaCommand](#deletemangacommand)
-        * [ViewCommand](#viewcommand)
-        * [AddSalesCommand](#addsalescommand)
-        * [AddDeadlineCommand](#adddeadlinecommand)
-* [Product Scope](#product-sSope)
-    * [Target User Profile](#target-user-profile)
-    * [Value Proposition](#value-proposition)
+  * [Overall Architecture](#overall-architecture)
+    * [Representing Data in MangaTantou](#representing-data-in-mangatantou)
+    * [Parsing Architecture](#parsing-architecture)
+    * [Commands](#commands)
+    * [Saving Data](#saving-data)
+    * [Displaying Data](#displaying-data)
+  * [Interacting with the User](#interacting-with-the-user)
+    * [Command Processing Sequence](#command-processing-sequence)
+    * [AddAuthorCommand](#addauthorcommand)
+    * [AddMangaCommand](#addmangacommand)
+    * [DeleteAuthorCommand](#deleteauthorcommand)
+    * [DeleteMangaCommand](#deletemangacommand)
+    * [ViewCommand](#viewcommand)
+    * [AddSalesCommand](#addsalescommand)
+    * [AddDeadlineCommand](#adddeadlinecommand)
+* [Product Scope](#product-scope)
+  * [Target User Profile](#target-user-profile)
+  * [Value Proposition](#value-proposition)
 * [User Stories](#user-stories)
 * [Non-Functional Requirements](#non-functional-requirements)
 * [Glossary](#glossary)
 * [Instructions for Testing](#instructions-for-testing)
-    * [Manual Testing](#manual-testing)
-    * [Testing with JUnit](#testing-with-junit)
-    * [Text UI Testing](#text-ui-testing)
+  * [Manual Testing](#manual-testing)
+  * [Testing with JUnit](#testing-with-junit)
+  * [Text UI Testing](#text-ui-testing)
 <!-- TOC -->
 
 # Acknowledgements
@@ -44,7 +45,7 @@ The following third-party libraries were used:
 Additionally, the following resources/websites were heavily used (they are amazing):
 - [RegExr](https://regexr.com/): RegExr is an online tool to learn, build, & test Regular Expressions (RegEx / RegExp).
 - [Regex Vis](https://regex-vis.com/): RegEx visualizer and editor.
-- [RegEx101 ](https://regex101.com/): Regex visualizer,editor, and debugger.
+- [regex101 ](https://regex101.com/): RegEx visualizer,editor, and debugger.
 - [Ashley's PlantUML Doc](https://plantuml-documentation.readthedocs.io/): Documentation about how to use the commands,
   keywords, options, and other information needed to produce diagrams with PlantUML.
 
@@ -71,17 +72,17 @@ abstract `ArgumentFinder` makes use of specific patterns generated in the
 `ArgumentResult` object for `Parser` to later unpack to generate the right
 `Command` with the required details. More information about `Command`s down below!
 
-#### ArgumentFinder Regex
+#### ArgumentFinder RegEx
 ![regexDiagram.png](regexDiagram.png)
 The above diagram was generated
 on [Regex Vis](https://regex-vis.com/?r=%28%3F%3C%3D%5Cs-a%29%24%7C%28%3F%3C%3D%5Cs-a%5Cs%29.*%3F%28%3F%3D%28%3F%3C%3D%5Cs%29-%5Bsb%5D%28%3F%3A%5Cs%7C%24%29%7C%24%29).
-It visualizes the control flow of the regex engine used to extract fields from user inputs. In this case, the regex
+It visualizes the control flow of the RegEx engine used to extract fields from user inputs. In this case, the RegEx
 pattern is used to isolate the author's name, excluding anything after the flags `-s` or `-b`. In `MangaTantou`'s
 actual implementation, all valid flags in the app are excluded (including the author flag, for this case). A split
 in the diagram means that both branches are valid matches.
 
 Notice that the topmost branch matches an empty string is nothing is inputted after the `-a` flag.
-This is intended, and this case is handled outside the regex in `Parser`. The bottom branch tries to match
+This is intended, and this case is handled outside the RegEx in `Parser`. The bottom branch tries to match
 everything between the `-a` author flag and any of the excluded flags, or the end of the string. Other unused flags,
 such as `-x`, are included. This allows user to be more flexible in the allowed author names
 
