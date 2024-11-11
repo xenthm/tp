@@ -29,7 +29,7 @@ class MangaDeserializer implements JsonDeserializer<Manga> {
             throws JsonParseException {
         // Ensure Manga is a JSON Object
         if (json == null || !json.isJsonObject()) {
-            throw new JsonParseException("corrupt Manga object");
+            throw new JsonParseException("redundant comma or corrupt Manga object");
         }
         JsonObject mangaJsonObject = json.getAsJsonObject();
 

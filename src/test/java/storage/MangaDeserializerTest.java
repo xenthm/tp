@@ -30,7 +30,7 @@ class MangaDeserializerTest {
                 JsonParseException.class,
                 () -> mangaDeserializer.deserialize(null, Manga.class, null)
         );
-        assertEquals("corrupt Manga object", exception.getMessage());
+        assertEquals("redundant comma or corrupt Manga object", exception.getMessage());
     }
 
     @Test
@@ -40,7 +40,7 @@ class MangaDeserializerTest {
                 JsonParseException.class,
                 () -> mangaDeserializer.deserialize(jsonElement, Manga.class, null)
         );
-        assertEquals("corrupt Manga object", exception.getMessage());
+        assertEquals("redundant comma or corrupt Manga object", exception.getMessage());
     }
 
     @Test
