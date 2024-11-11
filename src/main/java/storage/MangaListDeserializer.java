@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import manga.Manga;
 import manga.MangaList;
+import ui.Ui;
 
 import java.lang.reflect.Type;
 
@@ -25,6 +26,13 @@ class MangaListDeserializer implements JsonDeserializer<MangaList> {
 
     public MangaListDeserializer(Author author) {
         this.author = author;
+    }
+
+    private String generateErrorMessage(Exception e, int index) {
+        return "Author \""
+                + author.getAuthorName()
+                + "\": skipping corrupted manga entry at index " + index + " due to "
+                + e.getMessage();
     }
 
     @Override
@@ -45,11 +53,7 @@ class MangaListDeserializer implements JsonDeserializer<MangaList> {
                 Manga manga = new MangaDeserializer(author).deserialize(mangaJsonElement, Manga.class, context);
                 mangaList.add(manga);
             } catch (JsonParseException e) {
-                System.out.println("Author \""
-                        + author.getAuthorName()
-                        + "\": skipping corrupted manga entry at index " + i + " due to "
-                        + e.getMessage()
-                );
+                Ui.printString(generateErrorMessage(e, i));
             }
         }
 

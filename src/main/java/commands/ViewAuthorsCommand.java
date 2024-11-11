@@ -37,7 +37,7 @@ public class ViewAuthorsCommand extends Command {
             }
         }
 
-        System.out.println("Here are the sla-I mean authors under you! Total: " + authorList.size());
+        ui.printPreAuthorListMessage(authorList);
         Ui.printList(authorList, authorColumnsToPrint());
     }
 }
