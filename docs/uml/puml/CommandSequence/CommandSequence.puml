@@ -1,5 +1,5 @@
 @startuml
-!include .PlantUMLSequence.config
+!include ../.PlantUMLSequence.config
 autoactivate off
 title <size:30> Command Processing Sequence Diagram
 
