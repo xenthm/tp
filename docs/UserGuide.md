@@ -12,6 +12,7 @@ efficiency at work.
 ## Quick Start
 1. Ensure that you have Java 17 or above installed.
 2. Download the latest version of `MangaTantou` from [here](https://github.com/AY2425S1-CS2113-T10-3/tp/releases).
+3. Open your favourite terminal app and run `java -jar <path to MangaTantou.jar file>`
 
 ## Features
 > **_NOTE:_**
