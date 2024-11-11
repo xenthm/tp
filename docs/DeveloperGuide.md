@@ -4,30 +4,30 @@
 * [Developer Guide for MangaTantou](#developer-guide-for-mangatantou)
 * [Acknowledgements](#acknowledgements)
 * [Design & Implementation](#design--implementation)
-  * [Overall Architecture](#overall-architecture)
-    * [Representing Data in MangaTantou](#representing-data-in-mangatantou)
-    * [Parsing Architecture](#parsing-architecture)
-    * [Commands](#commands)
-    * [Saving Data](#saving-data)
-    * [Displaying Data](#displaying-data)
-  * [Interacting with the User](#interacting-with-the-user)
-    * [AddAuthorCommand](#addauthorcommand)
-    * [AddMangaCommand](#addmangacommand)
-    * [DeleteAuthorCommand](#deleteauthorcommand)
-    * [DeleteMangaCommand](#deletemangacommand)
-    * [ViewCommand](#viewcommand)
-    * [AddSalesCommand](#addsalescommand)
-    * [AddDeadlineCommand](#adddeadlinecommand)
+    * [Overall Architecture](#overall-architecture)
+        * [Representing Data in MangaTantou](#representing-data-in-mangatantou)
+        * [Parsing Architecture](#parsing-architecture)
+        * [Commands](#commands)
+        * [Saving Data](#saving-data)
+        * [Displaying Data](#displaying-data)
+    * [Interacting with the User](#interacting-with-the-user)
+        * [AddAuthorCommand](#addauthorcommand)
+        * [AddMangaCommand](#addmangacommand)
+        * [DeleteAuthorCommand](#deleteauthorcommand)
+        * [DeleteMangaCommand](#deletemangacommand)
+        * [ViewCommand](#viewcommand)
+        * [AddSalesCommand](#addsalescommand)
+        * [AddDeadlineCommand](#adddeadlinecommand)
 * [Product Scope](#product-sSope)
-  * [Target User Profile](#target-user-profile)
-  * [Value Proposition](#value-proposition)
+    * [Target User Profile](#target-user-profile)
+    * [Value Proposition](#value-proposition)
 * [User Stories](#user-stories)
 * [Non-Functional Requirements](#non-functional-requirements)
 * [Glossary](#glossary)
 * [Instructions for Testing](#instructions-for-testing)
-  * [Manual Testing](#manual-testing)
-  * [Testing with JUnit](#testing-with-junit)
-  * [Text UI Testing](#text-ui-testing)
+    * [Manual Testing](#manual-testing)
+    * [Testing with JUnit](#testing-with-junit)
+    * [Text UI Testing](#text-ui-testing)
 <!-- TOC -->
 
 # Acknowledgements
@@ -60,7 +60,6 @@ interested in.
 ### Parsing Architecture
 ![Parser.png](uml/puml/Parser/Parser_One.png)
 ![Parser.png](uml/puml/Parser/Parser_Two.png)
-
 
 #### Overall Structure and Flow
 Command generation first begins with the
@@ -147,15 +146,15 @@ The `Storage` class uses the `Singleton` design pattern, which means only a maxi
 The `StorageHelper` utility class wraps the methods to access `Storage` for ease of use.
 
 Data is by default stored in a JSON file `catalog.json` in the
-`data` directory at the program root location. This can be changed via the
-`public static final String DATA_PATH` constant in the `Storage.java` file.
+`data` directory at the program root location, or if ran via a `.jar` file, the `.jar` file location. This can be
+changed via the `public static final String DATA_PATH` constant in the `Storage.java` file.
 
 The class makes use of the `Gson` third-party library to de/serialize data.
 
 When needed, call `StorageHelper::readFile` to return the deserialized `AuthorList` from `catalog.json`.
 
 Whenever a user action that modifies the state of the `AuthorList` is performed, the corresponding overridden
-`Command::execute` method should call `StorageHelper.saveFile(authorList: AuthorList)` after modifying the data.
+`Command::execute` method should call `StorageHelper::saveFile` after modifying the data.
 
 #### Storage Behaviour
 The following UML sequence diagrams outline the behaviour of the program when the user inputs a command that modifies
@@ -295,7 +294,7 @@ The `ref` block indicates a placeholder for the individual commands and their ex
 The `AddAuthorCommand` is responsible for adding new `Author`s to `MangaTantou`. The command creates a new
 `Author` instance and verifies its existence. If it
 is a new and undocumented `Author`, it is then added to `MangaTantou`'s `AuthorList`, allowing the user to keep track
-of their manga authors. The `AuthorList` is saved via `Storage` for data persistency.
+of their manga authors. The `AuthorList` is saved via `Storage` for data persistence.
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite"` as an input.
@@ -313,9 +312,8 @@ the `Author`'s `MangaList`. If the `Author` already exists,
 `MangaTantou` will check for the existence of the newly created `Manga`. If there is an existing
 association between the `Manga` and `Author`, a
 `TantouException` is thrown, informing the user that they are adding an existing `Manga`. Otherwise,
-the `Manga` is similary added to the `Author`'s `MangaList` and the current state of `AuthorList` is saved via
-`Storage` for
-data persistency.
+the `Manga` is similarly added to the `Author`'s `MangaList` and the current state of `AuthorList` is saved via
+`Storage` for data persistence.
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite -m Bleach"` as an input.
@@ -327,7 +325,7 @@ The `DeleteAuthorCommand` is responsible for removing `Author`s from `MangaTanto
 `Author` instance and verifies its existence. If it
 is a new and undocumented `Author`, a `TantouException` is thrown, informing the user that this
 `Author` does not exist and hence cannot be removed.
-Otherwise, the `Author` is removed from the `AuthorList`, which is then saved via `Storage` for data persistency.
+Otherwise, the `Author` is removed from the `AuthorList`, which is then saved via `Storage` for data persistence.
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite -d"` as an input.
@@ -344,7 +342,7 @@ If the `Author` instead exists, `MangaTantou` will check for the existence of th
 association between the `Manga` and `Author`, a
 `TantouException` is thrown, informing the user that they are deleting a non-existing `Manga`. Otherwise,
 the `Manga` is removed from the `Author`'s `MangaList` and the current state of `AuthorList` is saved via `Storage` for
-data persistency.
+data persistence.
 #### Interaction
 The following diagram illustrates the interactions that take place when the
 user provides `"catalog -a Kubo Tite -m Bleach -d"` as an input.
@@ -378,10 +376,11 @@ The following UML sequence diagrams illustrate the interactions that take place 
 
 ### AddSalesCommand
 #### Overview
-The AddSalesCommand is responsible for adding sales data to a Manga. The command replaces the current sales values with the newly-entered values.
+The AddSalesCommand is responsible for adding sales data to a Manga. The command replaces the current sales values with
+the newly-entered values.
 The Sale data consists of two attributes: `quantitySold` and `unitPrice`.
 
-For the AddSalesCommand to be successful, the manga that the sales data is associated with must exist. 
+For the AddSalesCommand to be successful, the manga that the sales data is associated with must exist.
 If the `sales` command is successful, the `Sales` data is then saved via Storage.
 <br/>![MangaSalesClass.png](uml/images/MangaSalesClass.png)<br/>
 
@@ -389,14 +388,17 @@ If the `sales` command is successful, the `Sales` data is then saved via Storage
 The following sequence diagram illustrates the interactions that occur when the parser creates a new `AddSalesCommand`.
 <br/>![AddSalesSequence.png](uml/images/AddSalesSequence.png)<br/>
 
-> **_NOTE:_** The list of possible errors in parsing argument are as follows: missing arguments or flags, length of string exceeded maximum value of 40 characters, negative values for `quantitySold` or `unitPrice`, wrong number formats for `quantitySold` or `unitPrice`, and numbers exceeding the value of 1,000,000,000.<br/>
+> **_NOTE:_
+** The list of possible errors in parsing argument are as follows: missing arguments or flags, length of `author`/`manga` name exceeded maximum value of 40 characters, length of `deadline` string exceeded maximum value of 20 characters, negative values for
+`quantitySold` or `unitPrice`, wrong number formats for `quantitySold` or
+`unitPrice`, and numbers exceeding the value of 1,000,000,000.<br/>
 
 ### AddDeadlineCommand
 #### Overview
 AddDeadlineCommand changes the deadline on a specified manga. The deadline is kept as a String attribute
 `deadline`. This is set to `"None"` by default when a manga is created.
 
-When using AddDeadlineCommand, if the manga or author inputted don't exist, they are automatically created.
+When using `AddDeadlineCommand`, if the manga or author inputted does not exist, they are automatically created.
 
 #### Interaction
 
@@ -444,19 +446,26 @@ Can manage author and manga information more easily than a physical ledger or a 
 
 * *Author* - An author can be in charge of writing multiple mangas. Two authors are considered to be the same author
   if they have the same name.
-* *Manga* - Every manga has only one author. Two mangas are considered to be the same if they have the same title and author.
+* *Manga* - Every manga has only one author. Two mangas are considered to be the same if they have the same title and
+  author.
 
 # Instructions for Testing
 ## Manual Testing
-For a comprehensive list of all available commands, their purposes, and expected behavior, refer to the [User Guide](https://github.com/AY2425S1-CS2113-T10-3/tp/blob/master/docs/UserGuide.md). 
-This guide outlines both typical and edge cases, providing a detailed reference to support manual testing and validation.
+For a comprehensive list of all available commands, their purposes, and expected behavior, refer to
+the [User Guide](https://github.com/AY2425S1-CS2113-T10-3/tp/blob/master/docs/UserGuide.md).
+This guide outlines both typical and edge cases, providing a detailed reference to support manual testing and
+validation.
 ## Testing with JUnit
-All JUnit test cases are organized within the test directory, with tests segmented by package and class to maintain focus and 
-modularity. This structure enhances test isolation, making it easier to validate specific functionalities. Each test is designed 
+All JUnit test cases are organized within the test directory, with tests segmented by package and class to maintain
+focus and
+modularity. This structure enhances test isolation, making it easier to validate specific functionalities. Each test is
+designed
 to verify the core components of the application, ensuring that key features operate as expected.
 ## Text UI Testing
-All files required for Text UI testing are located in the `text-ui-test` directory. While the `input.txt` file contains limited sample input 
-due to the coverage provided by JUnit tests, future developers can freely modify `input.txt` and `EXPECTED.txt` to tailor tests for additional 
+All files required for Text UI testing are located in the `text-ui-test` directory. While the `input.txt` file contains
+limited sample input
+due to the coverage provided by JUnit tests, future developers can freely modify `input.txt` and `EXPECTED.txt` to
+tailor tests for additional
 scenarios as needed.
 
 To execute the text UI test:
